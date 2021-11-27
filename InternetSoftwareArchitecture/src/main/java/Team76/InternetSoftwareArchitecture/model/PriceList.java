@@ -19,12 +19,13 @@ public class PriceList {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "priceListId", unique = true, nullable = false)
 	private Long priceListId;
-	
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<PriceTag> priceTags = new HashSet<PriceTag>();
-	
-	public PriceList() { }
-	
+
+	public PriceList() {
+	}
+
 	public PriceList(Set<PriceTag> priceTags) {
 		super();
 		this.priceTags = priceTags;
@@ -45,5 +46,5 @@ public class PriceList {
 	public void setPriceTags(Set<PriceTag> priceTags) {
 		this.priceTags = priceTags;
 	}
-	
+
 }

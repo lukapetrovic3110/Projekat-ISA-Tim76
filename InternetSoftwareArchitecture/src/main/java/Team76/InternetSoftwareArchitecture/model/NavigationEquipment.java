@@ -10,17 +10,18 @@ import javax.persistence.Id;
 
 @Entity
 public class NavigationEquipment {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "navigationEquipmentId", unique = true, nullable = false)
 	private Long navigationEquipmentId;
-	
+
 	@Enumerated(EnumType.STRING)
 	private NavigationEquipmentType navigationEquipmentType;
 
-	public NavigationEquipment() { }
-	
+	public NavigationEquipment() {
+	}
+
 	public NavigationEquipment(NavigationEquipmentType navigationEquipmentType) {
 		super();
 		this.navigationEquipmentType = navigationEquipmentType;
@@ -41,5 +42,5 @@ public class NavigationEquipment {
 	public void setNavigationEquipmentType(NavigationEquipmentType navigationEquipmentType) {
 		this.navigationEquipmentType = navigationEquipmentType;
 	}
-	
+
 }

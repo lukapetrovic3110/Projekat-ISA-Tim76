@@ -19,39 +19,40 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class ReservationCottage {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "reservationCottageId", unique = true, nullable = false)
 	private Long reservationCottageId;
-	
+
 	@Column(name = "dateAndTime", nullable = false)
 	private Date dateAndTime;
-	
+
 	@Column(name = "duration", nullable = false)
 	private Integer duration;
-	
+
 	@Column(name = "maxNumberOfPersons", nullable = false)
 	private Integer maxNumberOfPersons;
-	
+
 	@Column(name = "price", nullable = false)
 	private Double price;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "cottageId", referencedColumnName = "cottageId")
 	private Cottage cottage;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "clientId", referencedColumnName = "clientId")
+	@JoinColumn(name = "clientId", referencedColumnName = "userId")
 	private Client client;
-	
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<CottageAdditionalService> cottageAdditionalServices = new HashSet<CottageAdditionalService>();
-	
+
 	@Enumerated(EnumType.STRING)
 	private ReservationStatus reservationStatus;
-	
-	public ReservationCottage() { }
+
+	public ReservationCottage() {
+	}
 
 	public ReservationCottage(Date dateAndTime, Integer duration, Integer maxNumberOfPersons, Double price,
 			Cottage cottage, Client client, Set<CottageAdditionalService> cottageAdditionalServices,

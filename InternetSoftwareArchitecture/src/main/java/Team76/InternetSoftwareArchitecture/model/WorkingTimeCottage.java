@@ -14,7 +14,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class WorkingTimeCottage {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "workingTimeCottageId", unique = true, nullable = false)
@@ -22,15 +22,16 @@ public class WorkingTimeCottage {
 
 	@Column(name = "startDate", nullable = false)
 	private Date startDate;
-	
+
 	@Column(name = "endDate", nullable = false)
 	private Date endDate;
-	
+
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "cottageId", referencedColumnName = "cottageId")
 	private Cottage cottage;
 
-	public WorkingTimeCottage() { }
+	public WorkingTimeCottage() {
+	}
 
 	public WorkingTimeCottage(Date startDate, Date endDate, Cottage cottage) {
 		super();
@@ -70,5 +71,5 @@ public class WorkingTimeCottage {
 	public void setCottage(Cottage cottage) {
 		this.cottage = cottage;
 	}
-	
+
 }

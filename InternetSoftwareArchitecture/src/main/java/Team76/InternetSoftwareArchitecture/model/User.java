@@ -19,33 +19,34 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "userId", unique = true, nullable = false)
 	private Long userId;
-	
+
 	@Column(name = "firstName", nullable = false)
 	private String firstName;
-	
+
 	@Column(name = "lastName", nullable = false)
 	private String lastName;
-	
+
 	@Column(name = "password", nullable = false)
 	private String password;
-	
+
 	@Column(name = "email", nullable = false)
 	private String email;
-	
+
 	@Column(name = "phoneNumber", nullable = false)
 	private String phoneNumber;
-	
+
 	@Column(name = "enabled", nullable = false)
 	private Boolean enabled;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "addressId", referencedColumnName = "addressId")
 	private Address address;
-	
+
 	@Enumerated(EnumType.STRING)
 	private UserType userType;
-	
-	public User() { }
+
+	public User() {
+	}
 
 	public User(String firstName, String lastName, String password, String email, String phoneNumber, Boolean enabled,
 			Address address, UserType userType) {
@@ -131,5 +132,5 @@ public class User {
 	public void setUserType(UserType userType) {
 		this.userType = userType;
 	}
-		
+
 }

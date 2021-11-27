@@ -19,58 +19,59 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Ship {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "shipId", unique = true, nullable = false)
 	private Long shipId;
-	
+
 	@Column(name = "name", nullable = false)
 	private String name;
-	
+
 	@Column(name = "description", nullable = false)
 	private String description;
-	
+
 	@Column(name = "rating")
 	private Double rating;
-	
+
 	@Column(name = "length", nullable = false)
 	private Double length;
-	
+
 	@Column(name = "engineNumber", nullable = false)
 	private Integer engineNumber;
-	
+
 	@Column(name = "enginePower", nullable = false)
 	private Integer enginePower;
-	
+
 	@Column(name = "maxSpeed", nullable = false)
 	private Integer maxSpeed;
-	
+
 	@Column(name = "capacity", nullable = false)
 	private Integer capacity;
-	
+
 	@Enumerated(EnumType.STRING)
 	private ShipType shipType;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<NavigationEquipment> navigationEquipment = new HashSet<NavigationEquipment>();
-	
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "shipOwnerId", referencedColumnName = "shipOwnerId")
+	@JoinColumn(name = "shipOwnerId", referencedColumnName = "userId")
 	private ShipOwner shipOwner;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "priceListId", referencedColumnName = "priceListId")
 	private PriceList priceList;
-	
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Rule> shipRules = new HashSet<Rule>();
-	
+
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "addressId", referencedColumnName = "addressId")
 	private Address address;
-	
-	public Ship() { }
+
+	public Ship() {
+	}
 
 	public Ship(String name, String description, Double rating, Double length, Integer engineNumber,
 			Integer enginePower, Integer maxSpeed, Integer capacity, ShipType shipType,

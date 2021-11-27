@@ -14,7 +14,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class WorkingTimeAdventure {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "workingTimeAdventureId", unique = true, nullable = false)
@@ -22,15 +22,16 @@ public class WorkingTimeAdventure {
 
 	@Column(name = "startDate", nullable = false)
 	private Date startDate;
-	
+
 	@Column(name = "endDate", nullable = false)
 	private Date endDate;
-	
+
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "adventureId", referencedColumnName = "adventureId")
 	private Adventure Adventure;
-	
-	public WorkingTimeAdventure() { }
+
+	public WorkingTimeAdventure() {
+	}
 
 	public WorkingTimeAdventure(Date startDate, Date endDate,
 			Team76.InternetSoftwareArchitecture.model.Adventure adventure) {
@@ -71,5 +72,5 @@ public class WorkingTimeAdventure {
 	public void setAdventure(Adventure adventure) {
 		Adventure = adventure;
 	}
-		
+
 }

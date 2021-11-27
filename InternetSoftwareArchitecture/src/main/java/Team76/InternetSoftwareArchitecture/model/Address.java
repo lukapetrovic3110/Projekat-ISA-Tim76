@@ -12,28 +12,29 @@ public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "addressId", unique = true, nullable = false)
-	private Long addressId;	
-	
+	private Long addressId;
+
 	@Column(name = "street", nullable = false)
 	private String street;
-	
+
 	@Column(name = "streetNumber", nullable = false)
 	private String streetNumber;
-	
+
 	@Column(name = "city", nullable = false)
 	private String city;
-	
+
 	@Column(name = "country", nullable = false)
 	private String country;
-	
+
 	@Column(name = "longitude")
 	private Double longitude;
-	
+
 	@Column(name = "latitude")
 	private Double latitude;
-	
-	public Address() { }
-	
+
+	public Address() {
+	}
+
 	public Address(String street, String streetNumber, String city, String country, Double longitude, Double latitude) {
 		super();
 		this.street = street;
@@ -99,5 +100,5 @@ public class Address {
 	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
-	
+
 }

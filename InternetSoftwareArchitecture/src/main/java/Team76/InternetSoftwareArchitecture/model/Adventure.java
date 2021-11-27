@@ -17,7 +17,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Adventure {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "adventureId", unique = true, nullable = false)
@@ -25,35 +25,36 @@ public class Adventure {
 
 	@Column(name = "name", nullable = false)
 	private String name;
-	
+
 	@Column(name = "description", nullable = false)
 	private String description;
-	
+
 	@Column(name = "rating")
 	private Double rating;
-	
+
 	@Column(name = "instructorBiography", nullable = false)
 	private String instructorBiography;
-	
+
 	@Column(name = "maxNumberOfPersons", nullable = false)
 	private Integer maxNumberOfPersons;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "fishingInstructorId", referencedColumnName = "fishingInstructorId")
+	@JoinColumn(name = "fishingInstructorId", referencedColumnName = "userId")
 	private FishingInstructor fishingInstructor;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "priceListId", referencedColumnName = "priceListId")
 	private PriceList priceList;
-	
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Rule> adventureRules = new HashSet<Rule>();
-	
+
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "addressId", referencedColumnName = "addressId")
 	private Address address;
-	
-	public Adventure() { }
+
+	public Adventure() {
+	}
 
 	public Adventure(String name, String description, Double rating, String instructorBiography,
 			Integer maxNumberOfPersons, FishingInstructor fishingInstructor, PriceList priceList,
@@ -149,5 +150,5 @@ public class Adventure {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	
+
 }

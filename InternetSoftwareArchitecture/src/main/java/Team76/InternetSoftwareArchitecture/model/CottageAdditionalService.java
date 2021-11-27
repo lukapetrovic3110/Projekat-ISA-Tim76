@@ -15,12 +15,13 @@ public class CottageAdditionalService {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "cottageAdditionalServiceId", unique = true, nullable = false)
 	private Long cottageAdditionalServiceId;
-	
+
 	@Enumerated(EnumType.STRING)
 	private CottageAdditionalServiceType cottageAdditionalServiceType;
 
-	public CottageAdditionalService() { }
-	
+	public CottageAdditionalService() {
+	}
+
 	public CottageAdditionalService(CottageAdditionalServiceType cottageAdditionalServiceType) {
 		super();
 		this.cottageAdditionalServiceType = cottageAdditionalServiceType;
@@ -41,5 +42,5 @@ public class CottageAdditionalService {
 	public void setCottageAdditionalServiceType(CottageAdditionalServiceType cottageAdditionalServiceType) {
 		this.cottageAdditionalServiceType = cottageAdditionalServiceType;
 	}
-	
+
 }

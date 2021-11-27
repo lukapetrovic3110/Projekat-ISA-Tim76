@@ -13,15 +13,16 @@ public class PriceTag {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "priceTagId", unique = true, nullable = false)
 	private Long priceTagId;
-	
+
 	@Column(name = "price", nullable = false)
 	private Double price;
-	
+
 	@Column(name = "serviceName", nullable = false)
 	private String serviceName;
-	
-	public PriceTag() { }
-	
+
+	public PriceTag() {
+	}
+
 	public PriceTag(Double price, String serviceName) {
 		super();
 		this.price = price;
@@ -51,7 +52,5 @@ public class PriceTag {
 	public void setServiceName(String serviceName) {
 		this.serviceName = serviceName;
 	}
-	
+
 }
-		
-		

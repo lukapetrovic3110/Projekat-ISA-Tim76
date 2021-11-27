@@ -22,15 +22,16 @@ public class WorkingTimeShip {
 
 	@Column(name = "startDate", nullable = false)
 	private Date startDate;
-	
+
 	@Column(name = "endDate", nullable = false)
 	private Date endDate;
-	
+
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "shipId", referencedColumnName = "shipId")
 	private Ship ship;
 
-	public WorkingTimeShip() { }
+	public WorkingTimeShip() {
+	}
 
 	public WorkingTimeShip(Date startDate, Date endDate, Ship ship) {
 		super();
@@ -70,5 +71,5 @@ public class WorkingTimeShip {
 	public void setShip(Ship ship) {
 		this.ship = ship;
 	}
-	
+
 }

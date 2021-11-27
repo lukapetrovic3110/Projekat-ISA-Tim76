@@ -8,17 +8,18 @@ import javax.persistence.Id;
 
 @Entity
 public class Rule {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ruleId", unique = true, nullable = false)
 	private Long ruleId;
-	
+
 	@Column(name = "description", unique = true, nullable = false)
 	private String description;
 
-	public Rule() { }
-	
+	public Rule() {
+	}
+
 	public Rule(String description) {
 		super();
 		this.description = description;
@@ -39,5 +40,5 @@ public class Rule {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 }
