@@ -1,5 +1,10 @@
 package Team76.InternetSoftwareArchitecture.model;
 
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,10 +15,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 @Entity
-public class User {
+public class User implements UserDetails {
+
+	private static final long serialVersionUID = 7089329998810823140L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +39,9 @@ public class User {
 
 	@Column(name = "password", nullable = false)
 	private String password;
+
+	@Column(name = "salt", unique = true, nullable = false)
+	private String salt;
 
 	@Column(name = "email", nullable = false)
 	private String email;
@@ -45,22 +59,32 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private UserType userType;
 
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Authority> authorities = new HashSet<Authority>();
+	
+	@Column(name = "lastResetPassDate")
+	protected Date lastResetPasswordDate;
+
 	public User() {
 	}
-
-	public User(String firstName, String lastName, String password, String email, String phoneNumber, Boolean enabled,
-			Address address, UserType userType) {
+	
+	public User(String firstName, String lastName, String password, String salt, String email, String phoneNumber,
+			Boolean enabled, Address address, UserType userType, Set<Authority> authorities,
+			Date lastResetPasswordDate) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.password = password;
+		this.salt = salt;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.enabled = enabled;
 		this.address = address;
 		this.userType = userType;
+		this.authorities = authorities;
+		this.lastResetPasswordDate = lastResetPasswordDate;
 	}
-
+	
 	public Long getUserId() {
 		return userId;
 	}
@@ -91,6 +115,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 
 	public String getEmail() {
@@ -131,6 +163,48 @@ public class User {
 
 	public void setUserType(UserType userType) {
 		this.userType = userType;
+	}
+	
+	public Date getLastResetPasswordDate() {
+		return lastResetPasswordDate;
+	}
+
+	public void setLastResetPasswordDate(Date lastResetPasswordDate) {
+		this.lastResetPasswordDate = lastResetPasswordDate;
+	}
+
+	public void setAuthorities(Set<Authority> authorities) {
+		this.authorities = authorities;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.authorities;
+	}
+
+	@Override
+	public String getUsername() {
+		return email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return enabled;
 	}
 
 }
