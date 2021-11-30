@@ -23,28 +23,30 @@ import Team76.InternetSoftwareArchitecture.security.auth.JwtAuthenticationReques
 public class UserService implements IUserService {
 
 	private IUserRepository userRepository;
-	
+
 	private AuthorityService authorityService;
-	
+
 	private ConfirmationTokenService confirmationTokenService;
-	
+
 	private EmailService emailService;
-	
+
 	private AddressService addressService;
 
 	@Autowired
-	public UserService(IUserRepository userRepository, AuthorityService authorityService, ConfirmationTokenService confirmationTokenService, EmailService emailService, AddressService addressService) {
+	public UserService(IUserRepository userRepository, AuthorityService authorityService,
+			ConfirmationTokenService confirmationTokenService, EmailService emailService,
+			AddressService addressService) {
 		this.userRepository = userRepository;
 		this.authorityService = authorityService;
 		this.confirmationTokenService = confirmationTokenService;
 		this.emailService = emailService;
 		this.addressService = addressService;
 	}
-	
+
 	public User findByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
-	
+
 	@Override
 	public User save(RegistrationRequestDTO userRequestDTO) {
 		Address address = new Address();
@@ -54,24 +56,24 @@ public class UserService implements IUserService {
 		byte[] salt = generateSalt();
 		String encodedSalt = Base64.getEncoder().encodeToString(salt);
 		client.setSalt(encodedSalt);
-		String passwordWithSalt = generatePasswordWithSalt(userRequestDTO.getPassword(), encodedSalt); 
- 		String securePassword = hashPassword(passwordWithSalt);
- 		client.setPassword(securePassword);
- 		client.setFirstName(userRequestDTO.getFirstName());
- 		client.setLastName(userRequestDTO.getLastName());
- 		client.setPhoneNumber(userRequestDTO.getPhoneNumber());
- 		client.setAddress(address);
- 		addressService.saveAddress(address);
- 		client.setUserType(UserType.CLIENT);
- 		client.setEnabled(false);
- 		Set<Authority> authorities = authorityService.findByName("ROLE_CLIENT");
- 		client.setAuthorities(authorities);
- 		userRepository.save(client);
- 		ConfirmationToken confirmationToken = confirmationTokenService.saveConfirmationToken(client);
+		String passwordWithSalt = generatePasswordWithSalt(userRequestDTO.getPassword(), encodedSalt);
+		String securePassword = hashPassword(passwordWithSalt);
+		client.setPassword(securePassword);
+		client.setFirstName(userRequestDTO.getFirstName());
+		client.setLastName(userRequestDTO.getLastName());
+		client.setPhoneNumber(userRequestDTO.getPhoneNumber());
+		client.setAddress(address);
+		addressService.saveAddress(address);
+		client.setUserType(UserType.CLIENT);
+		client.setEnabled(false);
+		Set<Authority> authorities = authorityService.findByName("ROLE_CLIENT");
+		client.setAuthorities(authorities);
+		userRepository.save(client);
+		ConfirmationToken confirmationToken = confirmationTokenService.saveConfirmationToken(client);
 		sendConfirmationEmail(client, confirmationToken);
- 		return client;
+		return client;
 	}
-	
+
 	@Override
 	public User login(JwtAuthenticationRequest authenticationRequest) {
 		User user = findByEmail(authenticationRequest.getEmail());
@@ -118,7 +120,7 @@ public class UserService implements IUserService {
 		} catch (Exception e) {
 			System.out.println("Error sending email: " + e.getMessage());
 		}
-		
+
 	}
 
 	public void accountConfirmation(User user) {

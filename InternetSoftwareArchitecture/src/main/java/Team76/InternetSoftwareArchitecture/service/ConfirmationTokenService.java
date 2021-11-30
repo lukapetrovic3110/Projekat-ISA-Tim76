@@ -9,10 +9,10 @@ import Team76.InternetSoftwareArchitecture.model.User;
 import Team76.InternetSoftwareArchitecture.repository.IConfirmationTokenRepository;
 
 @Service
-public class ConfirmationTokenService implements IConfirmationTokenService{
-	
+public class ConfirmationTokenService implements IConfirmationTokenService {
+
 	private final IConfirmationTokenRepository confirmationTokenRepository;
-	
+
 	@Autowired
 	public ConfirmationTokenService(IConfirmationTokenRepository confirmationTokenRepository) {
 		this.confirmationTokenRepository = confirmationTokenRepository;

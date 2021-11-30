@@ -11,10 +11,10 @@ import Team76.InternetSoftwareArchitecture.repository.IUserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-	
+
 	@Autowired
 	private IUserRepository userRepository;
-	
+
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user = userRepository.findByEmail(email);
 		if (user == null) {

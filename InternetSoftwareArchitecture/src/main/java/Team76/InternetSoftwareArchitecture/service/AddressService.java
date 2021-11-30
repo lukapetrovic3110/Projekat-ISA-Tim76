@@ -8,10 +8,10 @@ import Team76.InternetSoftwareArchitecture.model.Address;
 import Team76.InternetSoftwareArchitecture.repository.IAddressRepository;
 
 @Service
-public class AddressService implements IAddressService{
+public class AddressService implements IAddressService {
 
 	private IAddressRepository addressRepository;
-	
+
 	@Autowired
 	public AddressService(IAddressRepository addressRepository) {
 		this.addressRepository = addressRepository;
@@ -26,6 +26,5 @@ public class AddressService implements IAddressService{
 	public Address saveAddress(Address address) {
 		return addressRepository.save(address);
 	}
-
 
 }

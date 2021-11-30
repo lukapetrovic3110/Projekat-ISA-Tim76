@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
-	
+
 	private JavaMailSender javaMailSender;
-	
+
 	private Environment env;
-	
+
 	@Autowired
 	public EmailService(JavaMailSender javaMailSender, Environment env) {
 		this.javaMailSender = javaMailSender;
