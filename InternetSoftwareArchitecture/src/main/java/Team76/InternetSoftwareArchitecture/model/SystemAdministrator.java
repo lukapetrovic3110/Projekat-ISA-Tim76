@@ -8,7 +8,7 @@ public class SystemAdministrator extends User {
 
 	private static final long serialVersionUID = 9124019828806257069L;
 
-	@Column(name = "firstLoginChangePassword", nullable = false)
+	@Column(name = "firstLoginChangePassword")
 	private Boolean firstLoginChangePassword;
 
 	public SystemAdministrator(Boolean firstLoginChangePassword) {

@@ -3,10 +3,10 @@ package Team76.InternetSoftwareArchitecture.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import Team76.InternetSoftwareArchitecture.model.User;
+import Team76.InternetSoftwareArchitecture.model.Authority;
 
 @Repository
-public interface IUserRepository extends JpaRepository<User, Long>{
+public interface IAuthorityRepository extends JpaRepository<Authority, Long> {
 	
-	User findByEmail(String email);
+	Authority findByName(String name);
 }

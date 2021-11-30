@@ -2,15 +2,16 @@ package Team76.InternetSoftwareArchitecture.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import Team76.InternetSoftwareArchitecture.security.TokenUtils;
@@ -18,12 +19,10 @@ import Team76.InternetSoftwareArchitecture.security.auth.RestAuthenticationEntry
 import Team76.InternetSoftwareArchitecture.security.auth.TokenAuthenticationFilter;
 import Team76.InternetSoftwareArchitecture.service.CustomUserDetailsService;
 
+@EnableWebSecurity
+@Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 
 	@Autowired
 	private CustomUserDetailsService jwtUserDetailsService;
@@ -34,26 +33,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private TokenUtils tokenUtils;
 
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(jwtUserDetailsService);
+	}
+
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
 
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
-	}
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-			.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
-				.authorizeRequests()
-				.antMatchers("/auth/signup", "/auth/login", "/auth/verify", "/auth/confirm_account/*"
-				).permitAll()
-				.anyRequest().authenticated().and().httpBasic().and()
-				.cors().and()
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().exceptionHandling()
+				.authenticationEntryPoint(restAuthenticationEntryPoint).and().authorizeRequests()
+				.antMatchers("/auth/signup", "/auth/login", "/auth/verify", "/auth/confirm_account/").permitAll()
+				.anyRequest().authenticated().and().httpBasic().and().cors().and()
 				.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
 						BasicAuthenticationFilter.class);
 		http.cors();
@@ -62,10 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers(HttpMethod.PUT, "/users/confirm_account/*");
 		web.ignoring().antMatchers(HttpMethod.POST, "/auth/login", "/auth/logout", "/auth/signup", "/auth/verify");
-		web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico",
-				"/**/*.html", "/**/*.css", "/**/*.js");
+		web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
+				"/**/*.css", "/**/*.js");
 	}
 
 }

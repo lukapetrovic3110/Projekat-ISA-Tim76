@@ -61,13 +61,13 @@ public class User implements UserDetails {
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Authority> authorities = new HashSet<Authority>();
-	
+
 	@Column(name = "lastResetPassDate")
 	protected Date lastResetPasswordDate;
 
 	public User() {
 	}
-	
+
 	public User(String firstName, String lastName, String password, String salt, String email, String phoneNumber,
 			Boolean enabled, Address address, UserType userType, Set<Authority> authorities,
 			Date lastResetPasswordDate) {
@@ -84,7 +84,7 @@ public class User implements UserDetails {
 		this.authorities = authorities;
 		this.lastResetPasswordDate = lastResetPasswordDate;
 	}
-	
+
 	public Long getUserId() {
 		return userId;
 	}
@@ -164,7 +164,7 @@ public class User implements UserDetails {
 	public void setUserType(UserType userType) {
 		this.userType = userType;
 	}
-	
+
 	public Date getLastResetPasswordDate() {
 		return lastResetPasswordDate;
 	}

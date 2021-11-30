@@ -1,35 +1,27 @@
 package Team76.InternetSoftwareArchitecture.service;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.model.User;
 import Team76.InternetSoftwareArchitecture.repository.IUserRepository;
 
-public class CustomUserDetailsService implements UserDetailsService{
-	
-	protected final Log LOGGER = (Log) LogFactory.getLog(getClass());
-	
-	private IUserRepository userRepository;
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
 	
 	@Autowired
-	public CustomUserDetailsService(IUserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
+	private IUserRepository userRepository;
 	
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user = userRepository.findByEmail(email);
 		if (user == null) {
 			throw new UsernameNotFoundException(String.format("User with email '%s' not found.", email));
 		} else {
-			return user;	
+			return user;
 		}
 	}
-	
-	
 
 }
