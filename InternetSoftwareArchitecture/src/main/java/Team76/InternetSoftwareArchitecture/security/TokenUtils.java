@@ -40,7 +40,6 @@ public class TokenUtils {
 					.setAudience(generateAudience())
 					.setIssuedAt(new Date())
 					.setExpiration(generateExpirationDate())
-					// .claim("key", value)
 					.signWith(SIGNATURE_ALGORITHM, SECRET).compact();
 		}
 

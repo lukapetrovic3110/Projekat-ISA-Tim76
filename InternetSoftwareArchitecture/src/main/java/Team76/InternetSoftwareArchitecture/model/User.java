@@ -37,7 +37,7 @@ public class User implements UserDetails {
 	@Column(name = "lastName", nullable = false)
 	private String lastName;
 
-	@Column(name = "password", nullable = false)
+	@Column(name = "password", unique = false, nullable = false)
 	private String password;
 
 	@Column(name = "salt", unique = true, nullable = false)
@@ -64,7 +64,7 @@ public class User implements UserDetails {
 
 	@Column(name = "lastResetPassDate")
 	protected Date lastResetPasswordDate;
-
+	
 	public User() {
 	}
 

@@ -7,12 +7,11 @@ public class UserTokenState {
 	private User user;
 
 	public UserTokenState() {
-		// TODO Auto-generated constructor stub
-		this.accessToken = null;
 		this.expiresIn = null;
+		this.accessToken = null;
 	}
 
-	public UserTokenState(String accessToken, Long expiresIn, User user) {
+	public UserTokenState(String accessToken, long expiresIn, User user) {
 		super();
 		this.accessToken = accessToken;
 		this.expiresIn = expiresIn;

@@ -2,6 +2,7 @@ package Team76.InternetSoftwareArchitecture.controller;
 
 import java.time.LocalDateTime;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,10 @@ import Team76.InternetSoftwareArchitecture.security.TokenUtils;
 import Team76.InternetSoftwareArchitecture.security.auth.JwtAuthenticationRequest;
 import Team76.InternetSoftwareArchitecture.service.ConfirmationTokenService;
 import Team76.InternetSoftwareArchitecture.service.UserService;
+import Team76.InternetSoftwareArchitecture.service.CustomUserDetailsService;
 
 
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:8083")
 @RestController
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthentificationController {
@@ -45,15 +47,17 @@ public class AuthentificationController {
 	
 	private ConfirmationTokenService confirmationTokenService;
 	
+	private CustomUserDetailsService userDetailsService;
 	
 	@Autowired
 	public AuthentificationController(TokenUtils tokenUtils, UserService userService,
-			AuthenticationManager authenticationManager, ConfirmationTokenService confirmationTokenService) {
+			AuthenticationManager authenticationManager, ConfirmationTokenService confirmationTokenService, CustomUserDetailsService userDetailsService) {
 		super();
 		this.tokenUtils = tokenUtils;
 		this.userService = userService;
 		this.authenticationManager = authenticationManager;
 		this.confirmationTokenService = confirmationTokenService;
+		this.userDetailsService = userDetailsService;
 	}
 
 	@PostMapping("/signup")
@@ -77,22 +81,19 @@ public class AuthentificationController {
 			StringBuilder passwordWithSalt = new StringBuilder();
 			passwordWithSalt.append(authenticationRequest.getPassword());
 			passwordWithSalt.append(logInUser.getSalt());
-			
+
 			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 					authenticationRequest.getEmail(), passwordWithSalt.toString()));
 
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			User user = (User) authentication.getPrincipal();
 
-			System.out.println(user.getEmail());
-			
 			if (user.getEnabled()) {
 				String jwt = tokenUtils.generateToken(authenticationRequest.getEmail());
-				Long expiresIn = (long) tokenUtils.getExpiredIn();
-			
+				int expiresIn = tokenUtils.getExpiredIn();
 				return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, user));
 			}
-		} catch (Exception e) {			
+		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -104,12 +105,12 @@ public class AuthentificationController {
 		try {
 
 			ConfirmationToken confirmationToken = confirmationTokenService.findByConfirmationToken(token);
-
-			System.out.println(confirmationToken.toString());
 			if (confirmationToken != null
 					&& LocalDateTime.now().isBefore(confirmationToken.getCreatedDate().plusDays(5))) {
 				User user = userService.findByEmail(confirmationToken.getUser().getEmail());
+				System.out.println(user.toString());
 				userService.accountConfirmation(user);
+				
 				return new ResponseEntity<>(HttpStatus.OK);
 
 			} else {
@@ -120,6 +121,24 @@ public class AuthentificationController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
+	}
+	
+	@PostMapping(value = "/refresh")
+	public ResponseEntity<UserTokenState> refreshAuthenticationToken(HttpServletRequest request) {
+
+		String token = tokenUtils.getToken(request);
+		String username = this.tokenUtils.getUsernameFromToken(token);
+		User user = (User) this.userDetailsService.loadUserByUsername(username);
+
+		if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastResetPasswordDate())) {
+			String refreshedToken = tokenUtils.refreshToken(token);
+			int expiresIn = tokenUtils.getExpiredIn();
+
+			return ResponseEntity.ok(new UserTokenState(refreshedToken, expiresIn, user));
+		} else {
+			UserTokenState userTokenState = new UserTokenState();
+			return ResponseEntity.badRequest().body(userTokenState);
+		}
 	}
 
 }

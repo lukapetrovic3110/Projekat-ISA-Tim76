@@ -8,7 +8,24 @@ const routes = [{
         path: '/',
         name: 'Home',
         component: Home
-    }
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: () =>
+            import ('../views/Login.vue')
+    },
+    {
+        path: '/registerClient',
+        name: 'RegisterClient',
+        component: () =>
+            import ('../views/RegisterClient.vue')
+    },
+    {
+        path: '/confirmRegistration/:id',
+        name: 'ConfirmRegistration',
+        component: () => import('../views/ConfirmRegistration.vue')
+    },
 ]
 const router = new VueRouter({
     mode: 'history',

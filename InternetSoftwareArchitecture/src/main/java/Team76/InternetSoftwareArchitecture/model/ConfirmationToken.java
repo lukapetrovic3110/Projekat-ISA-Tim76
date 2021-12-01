@@ -37,14 +37,14 @@ public class ConfirmationToken {
 
 	}
 
-	public ConfirmationToken(String confirmationToken, LocalDateTime createdDate,
-			Team76.InternetSoftwareArchitecture.model.User user) {
+	public ConfirmationToken(Long confirmationTokenId, String confirmationToken, LocalDateTime createdDate, User user) {
 		super();
+		this.confirmationTokenId = confirmationTokenId;
 		this.confirmationToken = confirmationToken;
 		this.createdDate = createdDate;
 		this.user = user;
 	}
-
+	
 	public ConfirmationToken(User user) {
 		this.user = user;
 		createdDate = LocalDateTime.now();

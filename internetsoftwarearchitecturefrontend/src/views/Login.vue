@@ -1,0 +1,91 @@
+<template>
+  <v-card style="margin-top: 10%" width="30%" class="mx-auto">
+    <v-card-title class="justify-center">
+      <h1 class="display-1 mt-20">Login</h1>
+    </v-card-title>
+    <v-card-text>
+      <v-form class="mx-auto ml-20 mr-20">
+        <v-text-field
+          label="E-mail"
+          v-model="email"
+          :rules="[() => !!email || 'This field is required']"
+          :error-messages="errorMessages"
+          prepend-icon="mdi-account-circle"
+        />
+        <v-text-field
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="showPassword ? 'text' : 'password'"
+          label="Password"
+          v-model="password"
+          :rules="[() => !!password || 'This field is required']"
+          :error-messages="errorMessages"
+          hint="At least 8 characters"
+          prepend-icon="mdi-lock"
+          @click:append="showPassword = !showPassword"
+        ></v-text-field>
+      </v-form>
+    </v-card-text>
+    <div></div>
+    <v-card-actions>
+      <v-btn
+        class="mx-auto mb-5; color:white"
+        color="primary"
+        elevation="3"
+        x-large
+        raised
+        v-on:click="login"
+        >Log in</v-btn
+      >
+    </v-card-actions>
+  </v-card>
+</template>
+
+<script>
+export default {
+  name: "Login",
+  data: () => ({
+    showPassword: false,
+    email: "",
+    password: "",
+  }),
+  computed: {
+    user() {
+      return { email: this.email, password: this.password };
+    },
+  },
+  methods: {
+    login() {
+      this.$http
+        .post("http://localhost:8091/auth/login", {
+          email: this.email,
+          password: this.password,
+        })
+        .then((resp) => {
+          console.log(resp.data);
+          try {
+            localStorage.setItem("email", this.user.email);
+            localStorage.setItem("token", resp.data.accessToken);
+            localStorage.setItem("userId", resp.data.user.userId);
+            localStorage.setItem("userType", resp.data.user.userType);
+            localStorage.setItem("first_login", resp.data.user.firstLogin);
+
+            if (resp.data.user.userType == "CLIENT") {
+              window.location.href = "http://localhost:8083/";
+            } else{
+                  window.location.href = "http://localhost:8083/";
+            }
+          } catch (error) {
+            alert(error);
+          }
+        })
+
+        .catch((er) => {
+          alert("Invalid email and/or password! Please, try again!");
+          this.email = "";
+          this.password = "";
+          console.log(er.response.data);
+        });
+    },
+  },
+};
+</script>

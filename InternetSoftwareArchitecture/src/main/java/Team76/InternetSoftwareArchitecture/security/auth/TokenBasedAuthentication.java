@@ -25,13 +25,11 @@ public class TokenBasedAuthentication extends AbstractAuthenticationToken {
 
 	@Override
 	public Object getCredentials() {
-		// TODO Auto-generated method stub
 		return token;
 	}
 
 	@Override
 	public UserDetails getPrincipal() {
-		// TODO Auto-generated method stub
 		return principle;
 	}
 

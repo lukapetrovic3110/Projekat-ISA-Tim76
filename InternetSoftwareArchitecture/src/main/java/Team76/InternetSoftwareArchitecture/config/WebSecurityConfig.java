@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import Team76.InternetSoftwareArchitecture.security.TokenUtils;
@@ -23,7 +25,12 @@ import Team76.InternetSoftwareArchitecture.service.CustomUserDetailsService;
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
 	@Autowired
 	private CustomUserDetailsService jwtUserDetailsService;
 
@@ -35,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(jwtUserDetailsService);
+		auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
 	}
 
 	@Bean
@@ -48,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().exceptionHandling()
 				.authenticationEntryPoint(restAuthenticationEntryPoint).and().authorizeRequests()
-				.antMatchers("/auth/signup", "/auth/login", "/auth/verify", "/auth/confirm_account/").permitAll()
+				.antMatchers("/auth/signup", "/auth/login", "/auth/verify", "/auth/confirm_account/*").permitAll()
 				.anyRequest().authenticated().and().httpBasic().and().cors().and()
 				.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
 						BasicAuthenticationFilter.class);
@@ -58,6 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers(HttpMethod.PUT, "/users/confirm_account/*");
 		web.ignoring().antMatchers(HttpMethod.POST, "/auth/login", "/auth/logout", "/auth/signup", "/auth/verify");
 		web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
 				"/**/*.css", "/**/*.js");

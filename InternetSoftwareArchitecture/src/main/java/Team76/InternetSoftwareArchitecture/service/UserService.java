@@ -115,7 +115,7 @@ public class UserService implements IUserService {
 			String recipientEmail = user.getEmail();
 			String subject = "Confirm registration";
 			String message = "Please confirm your registration by clicking the link below \n\n\n"
-					+ "http://localhost:8080/confirmRegistration/" + confirmationToken.getConfirmationToken();
+					+ "http://localhost:8083/confirmRegistration/" + confirmationToken.getConfirmationToken();
 			emailService.sendNotificaitionAsync(recipientEmail, subject, message);
 		} catch (Exception e) {
 			System.out.println("Error sending email: " + e.getMessage());
@@ -125,7 +125,7 @@ public class UserService implements IUserService {
 
 	public void accountConfirmation(User user) {
 		User existing = userRepository.findById(user.getUserId()).orElse(null);
-		existing.setEnabled(user.getEnabled());
+		existing.setEnabled(true);
 		userRepository.save(existing);
 	}
 
