@@ -1,7 +1,7 @@
 <template>
   <v-card style="margin-top: 3%" width="40%" class="mx-auto">
     <v-card-title class="justify-center">
-      <h1 class="display-1 mt-20">Register</h1>
+      <h1 class="display-1 mt-20">Register as client</h1>
     </v-card-title>
     <v-card-text>
       <v-form class="mx-auto ml-20 mr-20">
@@ -128,7 +128,7 @@ export default {
   methods: {
     register() {
       this.$http
-        .post("http://localhost:8091/auth/signup", {
+        .post("http://localhost:8091/auth/signupClient", {
           email: this.email,
           password: this.password,
           firstName: this.firstName,

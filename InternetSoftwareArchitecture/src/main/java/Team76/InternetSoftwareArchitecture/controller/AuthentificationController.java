@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -59,15 +60,15 @@ public class AuthentificationController {
 		this.confirmationTokenService = confirmationTokenService;
 		this.userDetailsService = userDetailsService;
 	}
-
-	@PostMapping("/signup")
-	public ResponseEntity<?> signup(@RequestBody RegistrationRequestDTO userRequestDTO, UriComponentsBuilder uriComponentsBuilder) {
+	
+	@PostMapping("/signupClient")
+	public ResponseEntity<?> signupClient(@RequestBody RegistrationRequestDTO userRequestDTO, UriComponentsBuilder uriComponentsBuilder) {
 		try {
 			User existUser = userService.findByEmail(userRequestDTO.getEmail());
 			if (existUser != null)
 				throw new Exception( "Email already exists.");
 
-			return new ResponseEntity<>(userService.save(userRequestDTO), HttpStatus.CREATED);
+			return new ResponseEntity<>(userService.saveClient(userRequestDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}

@@ -10,6 +10,6 @@ import Team76.InternetSoftwareArchitecture.security.auth.JwtAuthenticationReques
 @Service
 public interface IUserService {
 	User login(JwtAuthenticationRequest authenticationRequest);
-	User save(RegistrationRequestDTO userRequestDTO);
+	User saveClient(RegistrationRequestDTO userRequestDTO);
 	void sendConfirmationEmail(User user, ConfirmationToken confirmationToken);
 }

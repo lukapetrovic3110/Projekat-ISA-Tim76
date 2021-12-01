@@ -12,7 +12,10 @@
         <template v-for="(item, index) in items">
           <v-list-tile :key="index">
             <v-list-tile-content>
-              <v-card height="40px" class="ma-1 pt-2 text-m-button btn-block text-center">
+              <v-card
+                height="40px"
+                class="ma-1 pt-2 text-m-button btn-block text-center"
+              >
                 <router-link class="router" :to="item.path">{{
                   item.title
                 }}</router-link>
@@ -48,10 +51,33 @@
           >Log off</v-btn
         >
       </div>
-      <div v-if="!isLogged">
-        <v-btn flat class="hidden-sm-and-down ma-1">
-          <router-link class="router" to="/registerClient">Register</router-link>
-        </v-btn>
+      <div class="text-center" id="registerDropdown" v-if="!isLogged">
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="primary" dark v-bind="attrs" v-on="on">
+              Register
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item v-for="(item, index) in itemsRegister" :key="index">
+              <v-list-item-title>
+                <v-list-tile-content>
+                  <v-container fluid fill-height>
+                    <v-layout align-center justify-center>
+                      <v-flex>
+                        <v-card height="30px" flat class="m-3 text-xs-center" >
+                          <router-link class="dropDown" :to="item.path">{{
+                            item.title
+                          }}</router-link>
+                        </v-card>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-list-tile-content>
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
     </v-toolbar>
   </span>
@@ -60,6 +86,7 @@
 <script>
 export default {
   name: "NavigationBar",
+  itemsRegister: [],
   computed: {
     isLogged: function () {
       var token = localStorage.getItem("token");
@@ -81,30 +108,24 @@ export default {
   methods: {
     init() {
       this.userType = localStorage.getItem("userType");
+      this.itemsRegister = [
+        { title: "Register as client", path: "/registerClient" },
+        { title: "Register as cottage owner", path: "/" },
+      ];
       if (this.userType === "CLIENT") {
-        this.items = [
-          {title: "Home", path: "/"},
-        ];
+        this.items = [{ title: "Home", path: "/" }];
       } else if (this.userType === "COTTAGE_OWNER") {
-        this.items = [
-          {title: "Home", path: "/"},
-        ];
+        this.items = [{ title: "Home", path: "/" }];
       } else if (this.userType === "SHIP_OWNER") {
-          this.items = [
-            {title: "Home", path: "/"},
-          ];
+        this.items = [{ title: "Home", path: "/" }];
       } else if (this.userType === "FISHING_INSTRUCTOR") {
-        this.items = [
-          {title: "Home", path: "/"},
-        ];
+        this.items = [{ title: "Home", path: "/" }];
       } else if (this.userType === "SYSTEM_ADMINISTRATOR") {
-        this.items = [
-          {title: "Home", path: "/"},
-        ];
+        this.items = [{ title: "Home", path: "/" }];
       } else {
         this.items = [
-          {title: "Browse cottage", path: "/browseCottage"},
-          {title: "Browse ship", path: "/browseShip"},
+          { title: "Browse cottage", path: "/browseCottage" },
+          { title: "Browse ship", path: "/browseShip" },
         ];
       }
     },
@@ -114,10 +135,9 @@ export default {
       localStorage.setItem("email", "");
       localStorage.setItem("userType", null);
       window.location.href = "http://localhost:8083/login";
-    }
-
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -136,5 +156,14 @@ export default {
 .router {
   text-decoration: none;
   color: white;
+}
+
+.dropDown {
+  text-decoration: none;
+  color: black;
+}
+
+#registerDropdown {
+  margin-left: 1%;
 }
 </style>

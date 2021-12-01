@@ -48,7 +48,7 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public User save(RegistrationRequestDTO userRequestDTO) {
+	public User saveClient(RegistrationRequestDTO userRequestDTO) {
 		Address address = new Address();
 		address = userRequestDTO.getAddress();
 		Client client = new Client();
