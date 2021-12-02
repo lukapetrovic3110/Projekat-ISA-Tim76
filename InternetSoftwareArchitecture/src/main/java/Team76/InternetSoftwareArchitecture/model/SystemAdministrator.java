@@ -10,6 +10,8 @@ public class SystemAdministrator extends User {
 
 	@Column(name = "firstLoginChangePassword")
 	private Boolean firstLoginChangePassword;
+	
+	public SystemAdministrator() { }
 
 	public SystemAdministrator(Boolean firstLoginChangePassword) {
 		super();

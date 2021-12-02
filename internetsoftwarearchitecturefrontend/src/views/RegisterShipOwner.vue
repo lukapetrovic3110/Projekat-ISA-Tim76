@@ -1,7 +1,7 @@
 <template>
   <v-card style="margin-top: 3%" width="40%" class="mx-auto">
     <v-card-title class="justify-center">
-      <h1 class="display-1 mt-20">Register as client</h1>
+      <h1 class="display-1 mt-20">Register as ship owner</h1>
     </v-card-title>
     <v-card-text>
       <v-form class="mx-auto ml-20 mr-20">
@@ -76,6 +76,12 @@
           hint="Password must contain minimum 8 characters, 1 uppercase, 1 lowercase and 1 number and 1 special character."
           @click:append="showPassword = !showPassword"
         />
+        <v-text-field
+          label="Explanation"
+          v-model="explanation"
+          :rules="[() => !!explanation || 'This field is required']"
+          :error-messages="errorMessages"
+        />
       </v-form>
     </v-card-text>
     <div></div>
@@ -108,6 +114,7 @@ export default {
     country: "",
     phoneNumber: "",
     repeated_password: "",
+    explanation: "",
   }),
   computed: {
     user() {
@@ -119,7 +126,8 @@ export default {
                 city: this.city,
                 country: this.country,
                 phoneNumber: this.phoneNumber,
-                repeated_password: this.repeated_password};
+                repeated_password: this.repeated_password,
+                explanation: this.explanation};
     },
     passwordConfirmationRule() {
       return () => (this.password === this.repeated_password) || 'Password must match.'
@@ -128,7 +136,7 @@ export default {
   methods: {
     register() {
       this.$http
-        .post("http://localhost:8091/auth/signupClient", {
+        .post("http://localhost:8091/auth/signupShipOwner", {
           email: this.email,
           password: this.password,
           firstName: this.firstName,
@@ -140,7 +148,8 @@ export default {
             city: this.city,
             country: this.country
           },
-          phoneNumber: this.phoneNumber
+          phoneNumber: this.phoneNumber,
+          explanation: this.explanation,
         })
         .then(() => {
           window.location.href = "http://localhost:8083/login";
@@ -156,6 +165,7 @@ export default {
           this.city = "";
           this.country = "";
           this.phoneNumber = "";
+          this.explanation = "";
           console.log(er.response.data);
         });
     },

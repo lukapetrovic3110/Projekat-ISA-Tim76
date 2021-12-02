@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import Team76.InternetSoftwareArchitecture.dto.RegistrationRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.RegistrationRequestInstructorAndOwnerDTO;
 import Team76.InternetSoftwareArchitecture.model.ConfirmationToken;
 import Team76.InternetSoftwareArchitecture.model.User;
 import Team76.InternetSoftwareArchitecture.model.UserTokenState;
@@ -69,6 +70,45 @@ public class AuthentificationController {
 				throw new Exception( "Email already exists.");
 
 			return new ResponseEntity<>(userService.saveClient(userRequestDTO), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping("/signupCottageOwner")
+	public ResponseEntity<?> signupCottageOwner(@RequestBody RegistrationRequestInstructorAndOwnerDTO userRequestDTO, UriComponentsBuilder uriComponentsBuilder) {
+		try {
+			User existUser = userService.findByEmail(userRequestDTO.getEmail());
+			if (existUser != null)
+				throw new Exception( "Email already exists.");
+
+			return new ResponseEntity<>(userService.saveCottageOwner(userRequestDTO), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping("/signupShipOwner")
+	public ResponseEntity<?> signupShipOwner(@RequestBody RegistrationRequestInstructorAndOwnerDTO userRequestDTO, UriComponentsBuilder uriComponentsBuilder) {
+		try {
+			User existUser = userService.findByEmail(userRequestDTO.getEmail());
+			if (existUser != null)
+				throw new Exception( "Email already exists.");
+
+			return new ResponseEntity<>(userService.saveShipOwner(userRequestDTO), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping("/signupFishingInstructor")
+	public ResponseEntity<?> signupFishingInstructor(@RequestBody RegistrationRequestInstructorAndOwnerDTO userRequestDTO, UriComponentsBuilder uriComponentsBuilder) {
+		try {
+			User existUser = userService.findByEmail(userRequestDTO.getEmail());
+			if (existUser != null)
+				throw new Exception( "Email already exists.");
+
+			return new ResponseEntity<>(userService.saveFishingInstructor(userRequestDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}

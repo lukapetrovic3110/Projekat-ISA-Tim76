@@ -110,7 +110,9 @@ export default {
       this.userType = localStorage.getItem("userType");
       this.itemsRegister = [
         { title: "Register as client", path: "/registerClient" },
-        { title: "Register as cottage owner", path: "/" },
+        { title: "Register as cottage owner", path: "/registerCottageOwner" },
+        { title: "Register as ship owner", path: "/registerShipOwner" },
+        { title: "Register as fishing instructor", path: "/registerFishingInstructor" },
       ];
       if (this.userType === "CLIENT") {
         this.items = [{ title: "Home", path: "/" }];
