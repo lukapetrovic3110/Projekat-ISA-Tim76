@@ -3,21 +3,21 @@ package Team76.InternetSoftwareArchitecture.dto;
 import Team76.InternetSoftwareArchitecture.model.Address;
 
 public class RegistrationRequestDTO {
-	
+
 	private String email;
-	
+
 	private String password;
-	
+
 	private String firstName;
-	
+
 	private String lastName;
-	
+
 	private Address address;
-	
+
 	private String phoneNumber;
-	
+
 	public RegistrationRequestDTO() {
-		
+
 	}
 
 	public RegistrationRequestDTO(String email, String password, String firstName, String lastName, Address address,
@@ -77,6 +77,6 @@ public class RegistrationRequestDTO {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}	
+	}
 
 }

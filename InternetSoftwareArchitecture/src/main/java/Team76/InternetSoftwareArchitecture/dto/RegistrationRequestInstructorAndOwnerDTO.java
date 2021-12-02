@@ -3,23 +3,23 @@ package Team76.InternetSoftwareArchitecture.dto;
 import Team76.InternetSoftwareArchitecture.model.Address;
 
 public class RegistrationRequestInstructorAndOwnerDTO {
-	
+
 	private String email;
-	
+
 	private String password;
-	
+
 	private String firstName;
-	
+
 	private String lastName;
-	
+
 	private Address address;
-	
+
 	private String phoneNumber;
-	
+
 	private String explanation;
-	
+
 	public RegistrationRequestInstructorAndOwnerDTO() {
-		
+
 	}
 
 	public RegistrationRequestInstructorAndOwnerDTO(String email, String password, String firstName, String lastName,
@@ -89,5 +89,5 @@ public class RegistrationRequestInstructorAndOwnerDTO {
 	public void setExplanation(String explanation) {
 		this.explanation = explanation;
 	}
-		
+
 }

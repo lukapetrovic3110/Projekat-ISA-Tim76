@@ -34,26 +34,25 @@ import Team76.InternetSoftwareArchitecture.service.ConfirmationTokenService;
 import Team76.InternetSoftwareArchitecture.service.UserService;
 import Team76.InternetSoftwareArchitecture.service.CustomUserDetailsService;
 
-
 @CrossOrigin(origins = "http://localhost:8083")
 @RestController
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthentificationController {
-	
-	
+
 	private TokenUtils tokenUtils;
-	
+
 	private UserService userService;
-	
+
 	private AuthenticationManager authenticationManager;
-	
+
 	private ConfirmationTokenService confirmationTokenService;
-	
+
 	private CustomUserDetailsService userDetailsService;
-	
+
 	@Autowired
 	public AuthentificationController(TokenUtils tokenUtils, UserService userService,
-			AuthenticationManager authenticationManager, ConfirmationTokenService confirmationTokenService, CustomUserDetailsService userDetailsService) {
+			AuthenticationManager authenticationManager, ConfirmationTokenService confirmationTokenService,
+			CustomUserDetailsService userDetailsService) {
 		super();
 		this.tokenUtils = tokenUtils;
 		this.userService = userService;
@@ -61,59 +60,64 @@ public class AuthentificationController {
 		this.confirmationTokenService = confirmationTokenService;
 		this.userDetailsService = userDetailsService;
 	}
-	
+
 	@PostMapping("/signupClient")
-	public ResponseEntity<?> signupClient(@RequestBody RegistrationRequestDTO userRequestDTO, UriComponentsBuilder uriComponentsBuilder) {
+	public ResponseEntity<?> signupClient(@RequestBody RegistrationRequestDTO userRequestDTO,
+			UriComponentsBuilder uriComponentsBuilder) {
 		try {
 			User existUser = userService.findByEmail(userRequestDTO.getEmail());
 			if (existUser != null)
-				throw new Exception( "Email already exists.");
+				throw new Exception("Email already exists.");
 
 			return new ResponseEntity<>(userService.saveClient(userRequestDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@PostMapping("/signupCottageOwner")
-	public ResponseEntity<?> signupCottageOwner(@RequestBody RegistrationRequestInstructorAndOwnerDTO userRequestDTO, UriComponentsBuilder uriComponentsBuilder) {
+	public ResponseEntity<?> signupCottageOwner(@RequestBody RegistrationRequestInstructorAndOwnerDTO userRequestDTO,
+			UriComponentsBuilder uriComponentsBuilder) {
 		try {
 			User existUser = userService.findByEmail(userRequestDTO.getEmail());
 			if (existUser != null)
-				throw new Exception( "Email already exists.");
+				throw new Exception("Email already exists.");
 
 			return new ResponseEntity<>(userService.saveCottageOwner(userRequestDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@PostMapping("/signupShipOwner")
-	public ResponseEntity<?> signupShipOwner(@RequestBody RegistrationRequestInstructorAndOwnerDTO userRequestDTO, UriComponentsBuilder uriComponentsBuilder) {
+	public ResponseEntity<?> signupShipOwner(@RequestBody RegistrationRequestInstructorAndOwnerDTO userRequestDTO,
+			UriComponentsBuilder uriComponentsBuilder) {
 		try {
 			User existUser = userService.findByEmail(userRequestDTO.getEmail());
 			if (existUser != null)
-				throw new Exception( "Email already exists.");
+				throw new Exception("Email already exists.");
 
 			return new ResponseEntity<>(userService.saveShipOwner(userRequestDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@PostMapping("/signupFishingInstructor")
-	public ResponseEntity<?> signupFishingInstructor(@RequestBody RegistrationRequestInstructorAndOwnerDTO userRequestDTO, UriComponentsBuilder uriComponentsBuilder) {
+	public ResponseEntity<?> signupFishingInstructor(
+			@RequestBody RegistrationRequestInstructorAndOwnerDTO userRequestDTO,
+			UriComponentsBuilder uriComponentsBuilder) {
 		try {
 			User existUser = userService.findByEmail(userRequestDTO.getEmail());
 			if (existUser != null)
-				throw new Exception( "Email already exists.");
+				throw new Exception("Email already exists.");
 
 			return new ResponseEntity<>(userService.saveFishingInstructor(userRequestDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@PostMapping("/login")
 	public ResponseEntity<UserTokenState> login(@RequestBody JwtAuthenticationRequest authenticationRequest,
 			HttpServletResponse response) {
@@ -139,7 +143,7 @@ public class AuthentificationController {
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@PutMapping(value = "/confirm_account/{token}", consumes = "application/json")
 	public ResponseEntity<Boolean> confirmAccount(@PathVariable String token) {
 
@@ -151,7 +155,7 @@ public class AuthentificationController {
 				User user = userService.findByEmail(confirmationToken.getUser().getEmail());
 				System.out.println(user.toString());
 				userService.accountConfirmation(user);
-				
+
 				return new ResponseEntity<>(HttpStatus.OK);
 
 			} else {
@@ -163,7 +167,7 @@ public class AuthentificationController {
 		}
 
 	}
-	
+
 	@PostMapping(value = "/refresh")
 	public ResponseEntity<UserTokenState> refreshAuthenticationToken(HttpServletRequest request) {
 
