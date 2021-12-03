@@ -11,6 +11,8 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Client extends User {
 
+	private static final long serialVersionUID = -4175962719206765628L;
+	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<User> subscriptions = new HashSet<User>();
 

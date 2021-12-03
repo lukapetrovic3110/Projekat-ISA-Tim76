@@ -65,7 +65,7 @@
                   <v-container fluid fill-height>
                     <v-layout align-center justify-center>
                       <v-flex>
-                        <v-card height="30px" flat class="m-3 text-xs-center" >
+                        <v-card height="30px" flat class="m-3 text-xs-center">
                           <router-link class="dropDown" :to="item.path">{{
                             item.title
                           }}</router-link>
@@ -110,7 +110,12 @@ export default {
       this.userType = localStorage.getItem("userType");
       this.itemsRegister = [
         { title: "Register as client", path: "/registerClient" },
-        { title: "Register as cottage owner", path: "/" },
+        { title: "Register as cottage owner", path: "/registerCottageOwner" },
+        { title: "Register as ship owner", path: "/registerShipOwner" },
+        {
+          title: "Register as fishing instructor",
+          path: "/registerFishingInstructor",
+        },
       ];
       if (this.userType === "CLIENT") {
         this.items = [{ title: "Home", path: "/" }];
@@ -121,7 +126,10 @@ export default {
       } else if (this.userType === "FISHING_INSTRUCTOR") {
         this.items = [{ title: "Home", path: "/" }];
       } else if (this.userType === "SYSTEM_ADMINISTRATOR") {
-        this.items = [{ title: "Home", path: "/" }];
+        this.items = [
+          { title: "Home", path: "/" },
+          { title: "Registration requests", path: "/registrationRequests" },
+        ];
       } else {
         this.items = [
           { title: "Browse cottage", path: "/browseCottage" },

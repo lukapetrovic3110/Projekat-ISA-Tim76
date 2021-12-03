@@ -26,6 +26,30 @@ const routes = [{
         name: 'ConfirmRegistration',
         component: () => import('../views/ConfirmRegistration.vue')
     },
+    {
+        path: '/registerCottageOwner',
+        name: 'RegisterCottageOwner',
+        component: () =>
+            import ('../views/RegisterCottageOwner.vue')
+    },
+    {
+        path: '/registerShipOwner',
+        name: 'RegisterShipOwner',
+        component: () =>
+            import ('../views/RegisterShipOwner.vue')
+    },
+    {
+        path: '/registerFishingInstructor',
+        name: 'RegisterFishingInstructor',
+        component: () =>
+            import ('../views/RegisterFishingInstructor.vue')
+    },
+    {
+        path: '/registrationRequests',
+        name: 'RegistrationRequests',
+        component: () =>
+            import ('../views/RegistrationRequests.vue')
+    },
 ]
 const router = new VueRouter({
     mode: 'history',

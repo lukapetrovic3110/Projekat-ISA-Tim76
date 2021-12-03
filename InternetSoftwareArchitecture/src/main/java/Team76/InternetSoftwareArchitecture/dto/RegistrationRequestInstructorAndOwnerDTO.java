@@ -2,7 +2,7 @@ package Team76.InternetSoftwareArchitecture.dto;
 
 import Team76.InternetSoftwareArchitecture.model.Address;
 
-public class RegistrationRequestDTO {
+public class RegistrationRequestInstructorAndOwnerDTO {
 
 	private String email;
 
@@ -16,12 +16,14 @@ public class RegistrationRequestDTO {
 
 	private String phoneNumber;
 
-	public RegistrationRequestDTO() {
+	private String explanation;
+
+	public RegistrationRequestInstructorAndOwnerDTO() {
 
 	}
 
-	public RegistrationRequestDTO(String email, String password, String firstName, String lastName, Address address,
-			String phoneNumber) {
+	public RegistrationRequestInstructorAndOwnerDTO(String email, String password, String firstName, String lastName,
+			Address address, String phoneNumber, String explanation) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -29,6 +31,7 @@ public class RegistrationRequestDTO {
 		this.lastName = lastName;
 		this.address = address;
 		this.phoneNumber = phoneNumber;
+		this.explanation = explanation;
 	}
 
 	public String getEmail() {
@@ -77,6 +80,14 @@ public class RegistrationRequestDTO {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public String getExplanation() {
+		return explanation;
+	}
+
+	public void setExplanation(String explanation) {
+		this.explanation = explanation;
 	}
 
 }

@@ -1,23 +1,26 @@
 <template>
-  <div>
-    <page-background/>
-    <h1 id = "caption">Home page</h1>
+  <div>  
+    <h1 id="homeCaption">Home</h1>
+    <page-background />
   </div>
 </template>
 
 <script>
-import PageBackground from '../components/PageBackground.vue'
-  export default {
-    name: 'Home',
-    components: {
-        PageBackground,
-    },
-  }
+import PageBackground from "../components/PageBackground.vue";
+export default {
+  name: "Home",
+  components: {
+    PageBackground,
+  },
+};
 </script>
 
 <style scoped>
-#caption {
-  margin-left: 46%;
-  color: white;
+#homeCaption {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  color: #007acc;
+  text-align: center;
+  font-weight: bold;
 }
 </style>
