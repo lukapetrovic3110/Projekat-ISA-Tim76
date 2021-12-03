@@ -12,4 +12,6 @@ import Team76.InternetSoftwareArchitecture.model.UserType;
 public interface IFishingInstructorService {
 
 	List<FishingInstructor> findAllFishingInstructorsByAccountApproval(AccountApproval accountApproval, UserType userType);
+	
+	FishingInstructor findByEmail(String email);
 }

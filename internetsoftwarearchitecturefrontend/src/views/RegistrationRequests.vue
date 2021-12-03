@@ -208,7 +208,7 @@ export default {
       this.registartionRequests.splice(this.index, 1);
       this.axios
         .post(
-          "http://localhost:8091/registartionRequests/decline",
+          "http://localhost:8091/admin/declineRegistrationRequest",
           {
             requestEmail: this.requestEmail,
             comment: this.comment,

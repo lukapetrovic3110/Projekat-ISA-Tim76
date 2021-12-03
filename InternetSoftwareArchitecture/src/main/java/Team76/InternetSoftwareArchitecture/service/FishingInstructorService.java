@@ -26,4 +26,9 @@ public class FishingInstructorService implements IFishingInstructorService {
 		return fishingInstructorRepository.findAllFishingInstructorsByAccountApproval(accountApproval, userType);
 	}
 
+	@Override
+	public FishingInstructor findByEmail(String email) {
+		return fishingInstructorRepository.findByEmail(email);
+	}
+
 }

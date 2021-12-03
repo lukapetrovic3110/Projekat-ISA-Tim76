@@ -10,18 +10,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import Team76.InternetSoftwareArchitecture.dto.DeclineRegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.WaitingRegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.model.AccountApproval;
 import Team76.InternetSoftwareArchitecture.model.CottageOwner;
 import Team76.InternetSoftwareArchitecture.model.FishingInstructor;
 import Team76.InternetSoftwareArchitecture.model.ShipOwner;
+import Team76.InternetSoftwareArchitecture.model.User;
 import Team76.InternetSoftwareArchitecture.model.UserType;
 import Team76.InternetSoftwareArchitecture.service.CottageOwnerService;
 import Team76.InternetSoftwareArchitecture.service.FishingInstructorService;
 import Team76.InternetSoftwareArchitecture.service.ShipOwnerService;
+import Team76.InternetSoftwareArchitecture.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:8083")
 @RestController
@@ -33,14 +38,17 @@ public class SystemAdministratorController {
 	private ShipOwnerService shipOwnerService;
 
 	private FishingInstructorService fishingInstructorService;
+	
+	private UserService userService;
 
 	@Autowired
 	public SystemAdministratorController(CottageOwnerService cottageOwnerService, ShipOwnerService shipOwnerService,
-			FishingInstructorService fishingInstructorService) {
+			FishingInstructorService fishingInstructorService, UserService userService) {
 		super();
 		this.cottageOwnerService = cottageOwnerService;
 		this.shipOwnerService = shipOwnerService;
 		this.fishingInstructorService = fishingInstructorService;
+		this.userService = userService;
 	}
 
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
@@ -68,4 +76,16 @@ public class SystemAdministratorController {
 		
 		return new ResponseEntity<>(waitingRegistrationRequestDTOs, HttpStatus.OK);
 	}
+	
+	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
+	@PostMapping("/declineRegistrationRequest")
+	public ResponseEntity<User> declineRegistarationRequest(@RequestBody DeclineRegistrationRequestDTO declineRegistrationRequestDTO) {
+		try {
+			return new ResponseEntity<User>(userService.declineRegistarationRequest(declineRegistrationRequestDTO),
+					HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 }

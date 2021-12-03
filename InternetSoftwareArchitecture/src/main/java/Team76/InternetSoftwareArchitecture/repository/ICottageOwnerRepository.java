@@ -15,5 +15,7 @@ public interface ICottageOwnerRepository extends JpaRepository<CottageOwner, Lon
 	
 	@Query("select u from User u where u.accountApproval = ?1 and u.userType = ?2")
 	List<CottageOwner> findAllCottageOwnersByAccountApproval(AccountApproval accountApproval, UserType userType);
+	
+	CottageOwner findByEmail(String email);
 
 }

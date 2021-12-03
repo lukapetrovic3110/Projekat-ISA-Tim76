@@ -26,4 +26,9 @@ public class ShipOwnerService implements IShipOwnerService {
 		return shipOwnerRepository.findAllShipOwnersByAccountApproval(accountApproval, userType);		
 	}
 
+	@Override
+	public ShipOwner findByEmail(String email) {
+		return shipOwnerRepository.findByEmail(email);
+	}
+
 }

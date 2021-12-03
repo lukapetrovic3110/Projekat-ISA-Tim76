@@ -2,6 +2,7 @@ package Team76.InternetSoftwareArchitecture.iservice;
 
 import org.springframework.stereotype.Service;
 
+import Team76.InternetSoftwareArchitecture.dto.DeclineRegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.RegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.RegistrationRequestInstructorAndOwnerDTO;
 import Team76.InternetSoftwareArchitecture.model.ConfirmationToken;
@@ -16,4 +17,5 @@ public interface IUserService {
 	User saveShipOwner(RegistrationRequestInstructorAndOwnerDTO userRequestDTO);
 	User saveFishingInstructor(RegistrationRequestInstructorAndOwnerDTO userRequestDTO);
 	void sendConfirmationEmail(User user, ConfirmationToken confirmationToken);
+	User declineRegistarationRequest(DeclineRegistrationRequestDTO declineRegistrationRequestDTO);
 }

@@ -15,5 +15,7 @@ public interface IFishingInstructorRepository extends JpaRepository<FishingInstr
 	
 	@Query("select u from User u where u.accountApproval = ?1 and u.userType = ?2")
 	List<FishingInstructor> findAllFishingInstructorsByAccountApproval(AccountApproval accountApproval, UserType userType);
+	
+	FishingInstructor findByEmail(String email);
 
 }

@@ -15,4 +15,6 @@ public interface IShipOwnerRepository extends JpaRepository<ShipOwner, Long> {
 	
 	@Query("select u from User u where u.accountApproval = ?1 and u.userType = ?2")
 	List<ShipOwner> findAllShipOwnersByAccountApproval(AccountApproval accountApproval, UserType userType);
+	
+	ShipOwner findByEmail(String email);
 }

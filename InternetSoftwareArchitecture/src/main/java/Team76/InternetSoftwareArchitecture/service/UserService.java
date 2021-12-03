@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import Team76.InternetSoftwareArchitecture.dto.DeclineRegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.RegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.RegistrationRequestInstructorAndOwnerDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IUserService;
@@ -35,16 +36,25 @@ public class UserService implements IUserService {
 	private EmailService emailService;
 
 	private AddressService addressService;
+	
+	private CottageOwnerService cottageOwnerService;
+	
+	private FishingInstructorService fishingInstructorService;
+	
+	private ShipOwnerService shipOwnerService;
 
 	@Autowired
 	public UserService(IUserRepository userRepository, AuthorityService authorityService,
 			ConfirmationTokenService confirmationTokenService, EmailService emailService,
-			AddressService addressService) {
+			AddressService addressService, CottageOwnerService cottageOwnerService, FishingInstructorService fishingInstructorService, ShipOwnerService shipOwnerService) {
 		this.userRepository = userRepository;
 		this.authorityService = authorityService;
 		this.confirmationTokenService = confirmationTokenService;
 		this.emailService = emailService;
 		this.addressService = addressService;
+		this.cottageOwnerService = cottageOwnerService;
+		this.fishingInstructorService = fishingInstructorService;
+		this.shipOwnerService = shipOwnerService;
 	}
 
 	public User findByEmail(String email) {
@@ -161,6 +171,37 @@ public class UserService implements IUserService {
 
 		return null;
 	}
+	
+	
+	@Override
+	public User declineRegistarationRequest(DeclineRegistrationRequestDTO declineRegistrationRequestDTO) {
+		User user = userRepository.findByEmail(declineRegistrationRequestDTO.getRequestEmail());
+		if (user.getUserType() == UserType.COTTAGE_OWNER) {
+			CottageOwner cottageOwner = cottageOwnerService.findByEmail(declineRegistrationRequestDTO.getRequestEmail());
+			cottageOwner.setAccountApproval(AccountApproval.DECLINED);
+			sendDeclinedRegistrationEmail(declineRegistrationRequestDTO);
+			return userRepository.save(cottageOwner);
+		} else if (user.getUserType() == UserType.SHIP_OWNER) {
+			ShipOwner shipOwner = shipOwnerService.findByEmail(declineRegistrationRequestDTO.getRequestEmail());
+			shipOwner.setAccountApproval(AccountApproval.DECLINED);
+			sendDeclinedRegistrationEmail(declineRegistrationRequestDTO);
+			return userRepository.save(shipOwner);
+		} else {
+			FishingInstructor fishingInstructor = fishingInstructorService.findByEmail(declineRegistrationRequestDTO.getRequestEmail());
+			fishingInstructor.setAccountApproval(AccountApproval.DECLINED);
+			sendDeclinedRegistrationEmail(declineRegistrationRequestDTO);
+			return userRepository.save(fishingInstructor);
+		}	
+	}
+
+	private void sendDeclinedRegistrationEmail(DeclineRegistrationRequestDTO declineRegistrationRequestDTO) {
+		StringBuilder text = new StringBuilder();
+		text.append("Unfortunately, we had to decline your registration request.");
+		text.append("\nExplanation:\n");
+		text.append(declineRegistrationRequestDTO.getComment());
+		emailService.sendNotificaitionAsync(declineRegistrationRequestDTO.getRequestEmail(), "Declined registration request", text.toString());
+	}
+	
 
 	private static byte[] generateSalt() {
 		SecureRandom random = new SecureRandom();
@@ -205,5 +246,7 @@ public class UserService implements IUserService {
 		existing.setEnabled(true);
 		userRepository.save(existing);
 	}
+
+	
 
 }

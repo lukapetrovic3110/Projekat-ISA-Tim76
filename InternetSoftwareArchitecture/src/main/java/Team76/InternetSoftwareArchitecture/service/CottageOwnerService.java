@@ -26,4 +26,9 @@ public class CottageOwnerService implements ICottageOwnerService {
 		return cottageOwnerRepository.findAllCottageOwnersByAccountApproval(accountApproval, userType);
 	}
 
+	@Override
+	public CottageOwner findByEmail(String email) {
+		return cottageOwnerRepository.findByEmail(email);
+	}
+
 }

@@ -12,4 +12,6 @@ import Team76.InternetSoftwareArchitecture.model.UserType;
 public interface ICottageOwnerService {
 	
 	List<CottageOwner> findAllCottageOwnersByAccountApproval(AccountApproval accountApproval, UserType userType);
+	
+	CottageOwner findByEmail(String email);
 }

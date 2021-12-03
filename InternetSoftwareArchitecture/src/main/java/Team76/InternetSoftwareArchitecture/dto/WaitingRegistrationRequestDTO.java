@@ -3,16 +3,16 @@ package Team76.InternetSoftwareArchitecture.dto;
 import Team76.InternetSoftwareArchitecture.model.AccountApproval;
 
 public class WaitingRegistrationRequestDTO {
-	
+
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String phoneNumber;
 	private AccountApproval accountApproval;
 	private String explanation;
-	
+
 	public WaitingRegistrationRequestDTO() {
-	
+
 	}
 
 	public WaitingRegistrationRequestDTO(String firstName, String lastName, String email, String phoneNumber,
@@ -73,6 +73,5 @@ public class WaitingRegistrationRequestDTO {
 	public void setExplanation(String explanation) {
 		this.explanation = explanation;
 	}
-
 
 }
