@@ -50,6 +50,12 @@ const routes = [{
         component: () =>
             import ('../views/RegistrationRequests.vue')
     },
+    {
+        path: '/clientProfile',
+        name: 'ClientProfile',
+        component: () =>
+            import ('../views/ClientProfile.vue')
+    },
 ]
 const router = new VueRouter({
     mode: 'history',

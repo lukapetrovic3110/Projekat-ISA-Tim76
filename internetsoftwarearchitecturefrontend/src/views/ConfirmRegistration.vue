@@ -20,7 +20,6 @@ export default {
       var paths = [];
       paths = href.split("/");
       this.confirmationToken = paths[4];
-      alert(this.confirmationToken);
       this.$http
         .put(
           "http://localhost:8091/auth/confirm_account/" +

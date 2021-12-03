@@ -118,7 +118,8 @@ export default {
         },
       ];
       if (this.userType === "CLIENT") {
-        this.items = [{ title: "Home", path: "/" }];
+        this.items = [{ title: "Home", path: "/" },
+        {title: "My profile", path: "/clientProfile"}];
       } else if (this.userType === "COTTAGE_OWNER") {
         this.items = [{ title: "Home", path: "/" }];
       } else if (this.userType === "SHIP_OWNER") {

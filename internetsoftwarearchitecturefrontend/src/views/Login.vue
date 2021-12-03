@@ -29,7 +29,7 @@
     <v-card-actions>
       <v-btn
         class="mx-auto mb-5; color:white"
-        color="primary"
+        color="info"
         elevation="3"
         x-large
         raised
