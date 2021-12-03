@@ -128,7 +128,7 @@ export default {
       } else if (this.userType === "SYSTEM_ADMINISTRATOR") {
         this.items = [
           { title: "Home", path: "/" },
-          { title: "Registartion requests", path: "/registrationRequests" },
+          { title: "Registration requests", path: "/registrationRequests" },
         ];
       } else {
         this.items = [

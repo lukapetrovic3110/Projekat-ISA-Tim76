@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import Team76.InternetSoftwareArchitecture.dto.AcceptRegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.DeclineRegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.RegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.RegistrationRequestInstructorAndOwnerDTO;
@@ -172,7 +173,37 @@ public class UserService implements IUserService {
 		return null;
 	}
 	
-	
+	@Override
+	public User acceptRegistrationRequest(AcceptRegistrationRequestDTO acceptRegistrationRequestDTO) {
+		User user = userRepository.findByEmail(acceptRegistrationRequestDTO.getRequestEmail());
+		if (user.getUserType() == UserType.COTTAGE_OWNER) {
+			CottageOwner cottageOwner = cottageOwnerService.findByEmail(acceptRegistrationRequestDTO.getRequestEmail());
+			cottageOwner.setAccountApproval(AccountApproval.APPROVED);
+			cottageOwner.setEnabled(true);
+			sendAcceptedRegistrationEmail(acceptRegistrationRequestDTO);
+			return userRepository.save(cottageOwner);
+		} else if (user.getUserType() == UserType.SHIP_OWNER) {
+			ShipOwner shipOwner = shipOwnerService.findByEmail(acceptRegistrationRequestDTO.getRequestEmail());
+			shipOwner.setAccountApproval(AccountApproval.APPROVED);
+			shipOwner.setEnabled(true);
+			sendAcceptedRegistrationEmail(acceptRegistrationRequestDTO);
+			return userRepository.save(shipOwner);
+		} else {
+			FishingInstructor fishingInstructor = fishingInstructorService.findByEmail(acceptRegistrationRequestDTO.getRequestEmail());
+			fishingInstructor.setAccountApproval(AccountApproval.APPROVED);
+			fishingInstructor.setEnabled(true);
+			sendAcceptedRegistrationEmail(acceptRegistrationRequestDTO);
+			return userRepository.save(fishingInstructor);
+		}	
+	}
+
+	private void sendAcceptedRegistrationEmail(AcceptRegistrationRequestDTO acceptRegistrationRequestDTO) {
+		StringBuilder text = new StringBuilder();
+		text.append("We have accepted your registration request.");
+		text.append("\nYou can log in by visiting http://localhost:8083/auth/login");
+		emailService.sendNotificaitionAsync(acceptRegistrationRequestDTO.getRequestEmail(), "Approved registration", text.toString());
+	}
+
 	@Override
 	public User declineRegistarationRequest(DeclineRegistrationRequestDTO declineRegistrationRequestDTO) {
 		User user = userRepository.findByEmail(declineRegistrationRequestDTO.getRequestEmail());
@@ -246,7 +277,5 @@ public class UserService implements IUserService {
 		existing.setEnabled(true);
 		userRepository.save(existing);
 	}
-
-	
 
 }

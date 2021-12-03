@@ -19,10 +19,9 @@
               <v-dialog v-model="dialogAcceptRequest" max-width="60%">
                 <v-card>
                   <v-spacer></v-spacer>
-                  <v-card-title class="text-h4 justify-center"
-                    >Are you sure you want to accept this registration request
-                    ?</v-card-title
-                  >
+                  <v-card-title class="text-h5 justify-center"
+                    >Are you sure you want to accept this registration request?
+                  </v-card-title>
                   <v-card-actions>
                     <v-spacer></v-spacer>
 
@@ -187,7 +186,7 @@ export default {
       this.registartionRequests.splice(this.index, 1);
       this.axios
         .post(
-          "http://localhost:8091/registartionRequests/accept",
+          "http://localhost:8091/admin/acceptRegistrationRequest",
           {
             requestEmail: this.requestEmail,
           },

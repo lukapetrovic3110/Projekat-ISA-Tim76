@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import Team76.InternetSoftwareArchitecture.dto.AcceptRegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.DeclineRegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.WaitingRegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.model.AccountApproval;
@@ -75,6 +76,17 @@ public class SystemAdministratorController {
 		}
 		
 		return new ResponseEntity<>(waitingRegistrationRequestDTOs, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
+	@PostMapping("/acceptRegistrationRequest")
+	public ResponseEntity<User> acceptRegistrationRequest(@RequestBody AcceptRegistrationRequestDTO acceptRegistrationRequestDTO) {
+		try {
+			return new ResponseEntity<User>(userService.acceptRegistrationRequest(acceptRegistrationRequestDTO),
+					HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
