@@ -5,10 +5,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.model.AccountApproval;
-import Team76.InternetSoftwareArchitecture.model.User;
+import Team76.InternetSoftwareArchitecture.model.CottageOwner;
+import Team76.InternetSoftwareArchitecture.model.UserType;
 
 @Service
 public interface ICottageOwnerService {
 	
-	List<User> findAllCottageOwnersByAccountApproval(AccountApproval accountApproval);
+	List<CottageOwner> findAllCottageOwnersByAccountApproval(AccountApproval accountApproval, UserType userType);
 }

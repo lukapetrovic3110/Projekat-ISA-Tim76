@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.iservice.IShipOwnerService;
 import Team76.InternetSoftwareArchitecture.model.AccountApproval;
-import Team76.InternetSoftwareArchitecture.model.User;
+import Team76.InternetSoftwareArchitecture.model.ShipOwner;
+import Team76.InternetSoftwareArchitecture.model.UserType;
 import Team76.InternetSoftwareArchitecture.repository.IShipOwnerRepository;
 
 @Service
@@ -21,8 +22,8 @@ public class ShipOwnerService implements IShipOwnerService {
 	}
 
 	@Override
-	public List<User> findAllShipOwnersByAccountApproval(AccountApproval accountApproval) {
-		return shipOwnerRepository.findAllShipOwnersByAccountApproval(accountApproval);		
+	public List<ShipOwner> findAllShipOwnersByAccountApproval(AccountApproval accountApproval, UserType userType) {
+		return shipOwnerRepository.findAllShipOwnersByAccountApproval(accountApproval, userType);		
 	}
 
 }

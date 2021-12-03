@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.iservice.ICottageOwnerService;
 import Team76.InternetSoftwareArchitecture.model.AccountApproval;
-import Team76.InternetSoftwareArchitecture.model.User;
+import Team76.InternetSoftwareArchitecture.model.CottageOwner;
+import Team76.InternetSoftwareArchitecture.model.UserType;
 import Team76.InternetSoftwareArchitecture.repository.ICottageOwnerRepository;
 
 @Service
@@ -21,8 +22,8 @@ public class CottageOwnerService implements ICottageOwnerService {
 	}
 
 	@Override
-	public List<User> findAllCottageOwnersByAccountApproval(AccountApproval accountApproval) {
-		return cottageOwnerRepository.findAllCottageOwnersByAccountApproval(accountApproval);
+	public List<CottageOwner> findAllCottageOwnersByAccountApproval(AccountApproval accountApproval, UserType userType) {
+		return cottageOwnerRepository.findAllCottageOwnersByAccountApproval(accountApproval, userType);
 	}
 
 }

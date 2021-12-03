@@ -44,6 +44,12 @@ const routes = [{
         component: () =>
             import ('../views/RegisterFishingInstructor.vue')
     },
+    {
+        path: '/registrationRequests',
+        name: 'RegistrationRequests',
+        component: () =>
+            import ('../views/RegistrationRequests.vue')
+    },
 ]
 const router = new VueRouter({
     mode: 'history',

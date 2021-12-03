@@ -1,6 +1,7 @@
 package Team76.InternetSoftwareArchitecture.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,8 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import Team76.InternetSoftwareArchitecture.dto.WaitingRegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.model.AccountApproval;
-import Team76.InternetSoftwareArchitecture.model.User;
+import Team76.InternetSoftwareArchitecture.model.CottageOwner;
+import Team76.InternetSoftwareArchitecture.model.FishingInstructor;
+import Team76.InternetSoftwareArchitecture.model.ShipOwner;
+import Team76.InternetSoftwareArchitecture.model.UserType;
 import Team76.InternetSoftwareArchitecture.service.CottageOwnerService;
 import Team76.InternetSoftwareArchitecture.service.FishingInstructorService;
 import Team76.InternetSoftwareArchitecture.service.ShipOwnerService;
@@ -41,26 +46,26 @@ public class SystemAdministratorController {
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
 	@GetMapping("/registrationRequests")
 	public ResponseEntity<?> registrationRequests() {
-		ArrayList<User> usersForAccountApproval = new ArrayList<User>();
-		ArrayList<User> cottageOwnersForAccountApproval = (ArrayList<User>) cottageOwnerService
-				.findAllCottageOwnersByAccountApproval(AccountApproval.WAITING);
-		ArrayList<User> shipOwnersForAccountApproval = (ArrayList<User>) shipOwnerService
-				.findAllShipOwnersByAccountApproval(AccountApproval.WAITING);
-		ArrayList<User> fishingInstructorsForAccountApproval = (ArrayList<User>) fishingInstructorService
-				.findAllFishingInstructorsByAccountApproval(AccountApproval.WAITING);
+		List<WaitingRegistrationRequestDTO> waitingRegistrationRequestDTOs = new ArrayList<WaitingRegistrationRequestDTO>();
+		List<CottageOwner> cottageOwnersForAccountApproval = cottageOwnerService
+				.findAllCottageOwnersByAccountApproval(AccountApproval.WAITING, UserType.COTTAGE_OWNER);
+		List<ShipOwner> shipOwnersForAccountApproval = shipOwnerService
+				.findAllShipOwnersByAccountApproval(AccountApproval.WAITING, UserType.SHIP_OWNER);
+		List<FishingInstructor> fishingInstructorsForAccountApproval = fishingInstructorService
+				.findAllFishingInstructorsByAccountApproval(AccountApproval.WAITING, UserType.FISHING_INSTRUCTOR);
 
-		for (User user : cottageOwnersForAccountApproval) {
-			usersForAccountApproval.add(user);
+		for (CottageOwner cottageOwner : cottageOwnersForAccountApproval) {
+			waitingRegistrationRequestDTOs.add(new WaitingRegistrationRequestDTO(cottageOwner.getFirstName(), cottageOwner.getLastName(), cottageOwner.getEmail(), cottageOwner.getPhoneNumber(), AccountApproval.WAITING, cottageOwner.getExplanation()));
 		}
 
-		for (User user : shipOwnersForAccountApproval) {
-			usersForAccountApproval.add(user);
+		for (ShipOwner shipOwner : shipOwnersForAccountApproval) {
+			waitingRegistrationRequestDTOs.add(new WaitingRegistrationRequestDTO(shipOwner.getFirstName(), shipOwner.getLastName(), shipOwner.getEmail(), shipOwner.getPhoneNumber(), AccountApproval.WAITING, shipOwner.getExplanation()));
 		}
 
-		for (User user : fishingInstructorsForAccountApproval) {
-			usersForAccountApproval.add(user);
+		for (FishingInstructor fishingInstructor : fishingInstructorsForAccountApproval) {
+			waitingRegistrationRequestDTOs.add(new WaitingRegistrationRequestDTO(fishingInstructor.getFirstName(), fishingInstructor.getLastName(), fishingInstructor.getEmail(), fishingInstructor.getPhoneNumber(), AccountApproval.WAITING, fishingInstructor.getExplanation()));
 		}
-
-		return new ResponseEntity<>(usersForAccountApproval, HttpStatus.OK);
+		
+		return new ResponseEntity<>(waitingRegistrationRequestDTOs, HttpStatus.OK);
 	}
 }

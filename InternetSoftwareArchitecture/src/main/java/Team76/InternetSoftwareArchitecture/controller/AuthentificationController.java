@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,8 +30,8 @@ import Team76.InternetSoftwareArchitecture.model.UserTokenState;
 import Team76.InternetSoftwareArchitecture.security.TokenUtils;
 import Team76.InternetSoftwareArchitecture.security.auth.JwtAuthenticationRequest;
 import Team76.InternetSoftwareArchitecture.service.ConfirmationTokenService;
-import Team76.InternetSoftwareArchitecture.service.UserService;
 import Team76.InternetSoftwareArchitecture.service.CustomUserDetailsService;
+import Team76.InternetSoftwareArchitecture.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:8083")
 @RestController

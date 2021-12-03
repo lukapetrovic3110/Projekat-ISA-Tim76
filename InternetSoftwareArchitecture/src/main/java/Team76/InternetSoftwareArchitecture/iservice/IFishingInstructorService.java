@@ -5,10 +5,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.model.AccountApproval;
-import Team76.InternetSoftwareArchitecture.model.User;
+import Team76.InternetSoftwareArchitecture.model.FishingInstructor;
+import Team76.InternetSoftwareArchitecture.model.UserType;
 
 @Service
 public interface IFishingInstructorService {
 
-	List<User> findAllFishingInstructorsByAccountApproval(AccountApproval accountApproval);
+	List<FishingInstructor> findAllFishingInstructorsByAccountApproval(AccountApproval accountApproval, UserType userType);
 }

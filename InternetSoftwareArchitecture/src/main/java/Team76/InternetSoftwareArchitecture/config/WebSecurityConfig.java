@@ -55,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().exceptionHandling()
 				.authenticationEntryPoint(restAuthenticationEntryPoint).and().authorizeRequests()
-				.antMatchers("/auth/signupClient", "/auth/signupCottageOwner", "/auth/signupShipOwner", "/auth/signupFishingInstructor", "/auth/login", "/auth/verify", "/auth/confirm_account/*").permitAll()
+				.antMatchers("/auth/signupClient", "/auth/signupCottageOwner", "/auth/signupShipOwner", "/auth/signupFishingInstructor", "/auth/login", "/auth/verify", "/auth/confirm_account/*", "/admin/registrationRequests").permitAll()
 				.anyRequest().authenticated().and().httpBasic().and().cors().and()
 				.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
 						BasicAuthenticationFilter.class);

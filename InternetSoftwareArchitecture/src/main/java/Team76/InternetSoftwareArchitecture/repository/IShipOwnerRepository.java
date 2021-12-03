@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import Team76.InternetSoftwareArchitecture.model.AccountApproval;
 import Team76.InternetSoftwareArchitecture.model.ShipOwner;
-import Team76.InternetSoftwareArchitecture.model.User;
+import Team76.InternetSoftwareArchitecture.model.UserType;
 
 @Repository
 public interface IShipOwnerRepository extends JpaRepository<ShipOwner, Long> {
 	
-	@Query("select u from User u where u.accountApproval = ?1")
-	List<User> findAllShipOwnersByAccountApproval(AccountApproval accountApproval);
+	@Query("select u from User u where u.accountApproval = ?1 and u.userType = ?2")
+	List<ShipOwner> findAllShipOwnersByAccountApproval(AccountApproval accountApproval, UserType userType);
 }

@@ -9,5 +9,4 @@ INSERT INTO public.address (city, country, street, street_number) VALUES ('Rando
 -- Password: Admin123!
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, first_login_change_password, address_id) VALUES ('SystemAdministrator', default, 'admin@email.com', true, 'Admin', 'Admin', '$2a$12$9bz1GJdLCG.Ttl/p5al5O.KZOkfhgWv.MhbivCtKvC0JXbp6vyi6W', '123123123', 'AdbMbt4t1KLF-G0SX01WPL==', 'SYSTEM_ADMINISTRATOR', true, 1);
 
-
- 
+INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALUES (1, 5);
