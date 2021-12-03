@@ -8,6 +8,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,6 +32,13 @@ public class ClientController {
 	@GetMapping(value = "/{clientId}")
 	public ResponseEntity<Client> getClient(@PathVariable Long clientId) {
 		return new ResponseEntity<Client>(clientService.findByUserId(clientId), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@PostMapping(value = "/update")
+	public ResponseEntity<Client> update(@RequestBody Client client) throws Exception {
+		return new ResponseEntity<Client>(clientService.update(client), HttpStatus.OK);
+
 	}
 
 }

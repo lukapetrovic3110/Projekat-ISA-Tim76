@@ -21,5 +21,15 @@ public class ClientService implements IClientService {
 	public Client findByUserId(Long userId) {
 		return clientRepository.findByUserId(userId);
 	}
+	
+	@Override
+	public Client update(Client client) {
+		Client existingClient = clientRepository.findByUserId(client.getUserId());
+		existingClient.setFirstName(client.getFirstName());
+		existingClient.setLastName(client.getLastName());
+		existingClient.setAddress(client.getAddress());
+		existingClient.setPhoneNumber(client.getPhoneNumber());
+		return clientRepository.save(existingClient);
+	}
 
 }

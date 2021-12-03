@@ -68,7 +68,7 @@ export default {
             localStorage.setItem("userId", resp.data.user.userId);
             localStorage.setItem("userType", resp.data.user.userType);
             localStorage.setItem("first_login", resp.data.user.firstLogin);
-
+    
             if (resp.data.user.userType == "CLIENT") {
               window.location.href = "http://localhost:8083/";
             } else{

@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.dto.AcceptRegistrationRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.ChangePasswordDTO;
 import Team76.InternetSoftwareArchitecture.dto.DeclineRegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.RegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.RegistrationRequestInstructorAndOwnerDTO;
@@ -276,6 +277,35 @@ public class UserService implements IUserService {
 		User existing = userRepository.findById(user.getUserId()).orElse(null);
 		existing.setEnabled(true);
 		userRepository.save(existing);
+	}
+	
+	@Override
+	public User changePassword(ChangePasswordDTO changePasswordDTO) {
+		User existingUser = userRepository.findByEmail(changePasswordDTO.getEmail());
+		if (changePasswordDTO.getNewPassword().equals(changePasswordDTO.getOldPassword())) {
+			throw new IllegalArgumentException("Password can not be the same as the old one.");
+		}
+		if (!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getRewritePassword())) {
+			throw new IllegalArgumentException("Passwords must match!");
+		}
+		if (changePasswordDTO.getNewPassword().isEmpty() || changePasswordDTO.getRewritePassword().isEmpty()
+				|| changePasswordDTO.getOldPassword().isEmpty()) {
+			throw new IllegalArgumentException("Fill all the required fields!");
+		}
+		
+		
+		String oldPassword = generatePasswordWithSalt(changePasswordDTO.getOldPassword(), existingUser.getSalt());
+		if(!verifyHash(oldPassword, existingUser.getPassword())) {
+			throw new IllegalArgumentException("Old password isn't correct!");
+		}
+		
+		byte[] salt = generateSalt();
+		String encodedSalt = Base64.getEncoder().encodeToString(salt);
+		existingUser.setSalt(encodedSalt);
+		String passwordWithSalt = generatePasswordWithSalt(changePasswordDTO.getNewPassword(), encodedSalt);
+		String newSecurePassword = hashPassword(passwordWithSalt);
+ 		existingUser.setPassword(newSecurePassword);
+		return userRepository.save(existingUser);
 	}
 
 }
