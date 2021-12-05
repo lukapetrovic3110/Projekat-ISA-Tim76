@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import Team76.InternetSoftwareArchitecture.dto.ChangePasswordDTO;
 import Team76.InternetSoftwareArchitecture.dto.RegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.RegistrationRequestInstructorAndOwnerDTO;
 import Team76.InternetSoftwareArchitecture.model.ConfirmationToken;
@@ -165,6 +167,12 @@ public class AuthentificationController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
+	}
+	
+	@PostMapping(value = "/changePassword")
+	@PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_COTTAGE_OWNER', 'ROLE_SHIP_OWNER', 'ROLE_FISHING_INSTRUCTOR', 'ROLE_SYSTEM_ADMINISTRATOR')")
+	public ResponseEntity<User> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
+		return new ResponseEntity<User>(userService.changePassword(changePasswordDTO), HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/refresh")

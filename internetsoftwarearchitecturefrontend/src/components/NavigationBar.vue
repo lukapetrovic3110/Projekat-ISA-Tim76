@@ -46,7 +46,12 @@
           <router-link class="router" to="/login">Login</router-link>
         </v-btn>
       </div>
-      <div v-else>
+      <div v-if="isLogged" id="myProfile">
+        <v-btn flat class="hidden-sm-and-down" v-on:click="myProfile"
+          >My profile</v-btn
+        >
+      </div>
+      <div v-if="isLogged">
         <v-btn flat class="hidden-sm-and-down" v-on:click="logOff"
           >Log off</v-btn
         >
@@ -87,6 +92,8 @@
 export default {
   name: "NavigationBar",
   itemsRegister: [],
+  firstName: "",
+  lastName: "",
   computed: {
     isLogged: function () {
       var token = localStorage.getItem("token");
@@ -97,7 +104,6 @@ export default {
     return {
       applicationTitle: "Ship, cottage and fishing",
       drawer: false,
-      isUserLogged: false,
       userType: null,
       items: [{ title: "Home", path: "/" }],
     };
@@ -118,7 +124,10 @@ export default {
         },
       ];
       if (this.userType === "CLIENT") {
-        this.items = [{ title: "Home", path: "/" }];
+        this.items = [
+          { title: "Home", path: "/" },
+          { title: "My profile", path: "/clientProfile" },
+        ];
       } else if (this.userType === "COTTAGE_OWNER") {
         this.items = [{ title: "Home", path: "/" }];
       } else if (this.userType === "SHIP_OWNER") {
@@ -136,6 +145,10 @@ export default {
           { title: "Browse ship", path: "/browseShip" },
         ];
       }
+    },
+    myProfile() {
+      if(this.userType === "CLIENT") 
+        window.location.href = "/clientProfile";
     },
     logOff() {
       localStorage.setItem("token", "");
@@ -173,5 +186,9 @@ export default {
 
 #registerDropdown {
   margin-left: 1%;
+}
+
+#myProfile {
+  margin-right: 1%;
 }
 </style>

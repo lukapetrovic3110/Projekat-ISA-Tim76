@@ -29,7 +29,7 @@
     <v-card-actions>
       <v-btn
         class="mx-auto mb-5; color:white"
-        color="primary"
+        color="info"
         elevation="3"
         x-large
         raised
@@ -68,7 +68,7 @@ export default {
             localStorage.setItem("userId", resp.data.user.userId);
             localStorage.setItem("userType", resp.data.user.userType);
             localStorage.setItem("first_login", resp.data.user.firstLogin);
-
+    
             if (resp.data.user.userType == "CLIENT") {
               window.location.href = "http://localhost:8083/";
             } else{
