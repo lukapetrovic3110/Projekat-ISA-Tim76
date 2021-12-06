@@ -1,6 +1,8 @@
 package Team76.InternetSoftwareArchitecture.model;
 
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -31,12 +33,21 @@ public class Cottage {
 
 	@Column(name = "rating")
 	private Double rating;
+	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Image> images;
 
-	@Column(name = "nanumberOfRoomsme", nullable = false)
+	@Column(name = "numberOfRooms", nullable = false)
 	private Integer numberOfRooms;
 
 	@Column(name = "numberOfBedsPerRoom", nullable = false)
 	private Integer numberOfBedsPerRoom;
+	
+	@Column(name = "availabilityStart", nullable = false)
+	private Date availabilityStart;
+
+	@Column(name = "availabilityEnd", nullable = false)
+	private Date availabilityEnd;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "cottageOwnerId", referencedColumnName = "userId")
@@ -56,14 +67,19 @@ public class Cottage {
 	public Cottage() {
 	}
 
-	public Cottage(String name, String description, Double rating, Integer numberOfRooms, Integer numberOfBedsPerRoom,
+	public Cottage(Long cottageId, String name, String description, Double rating, List<Image> images,
+			Integer numberOfRooms, Integer numberOfBedsPerRoom, Date availabilityStart, Date availabilityEnd,
 			CottageOwner cottageOwner, PriceList priceList, Set<Rule> cottageRules, Address address) {
 		super();
+		this.cottageId = cottageId;
 		this.name = name;
 		this.description = description;
 		this.rating = rating;
+		this.images = images;
 		this.numberOfRooms = numberOfRooms;
 		this.numberOfBedsPerRoom = numberOfBedsPerRoom;
+		this.availabilityStart = availabilityStart;
+		this.availabilityEnd = availabilityEnd;
 		this.cottageOwner = cottageOwner;
 		this.priceList = priceList;
 		this.cottageRules = cottageRules;
@@ -102,6 +118,14 @@ public class Cottage {
 		this.rating = rating;
 	}
 
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
+
 	public Integer getNumberOfRooms() {
 		return numberOfRooms;
 	}
@@ -116,6 +140,22 @@ public class Cottage {
 
 	public void setNumberOfBedsPerRoom(Integer numberOfBedsPerRoom) {
 		this.numberOfBedsPerRoom = numberOfBedsPerRoom;
+	}
+
+	public Date getAvailabilityStart() {
+		return availabilityStart;
+	}
+
+	public void setAvailabilityStart(Date availabilityStart) {
+		this.availabilityStart = availabilityStart;
+	}
+
+	public Date getAvailabilityEnd() {
+		return availabilityEnd;
+	}
+
+	public void setAvailabilityEnd(Date availabilityEnd) {
+		this.availabilityEnd = availabilityEnd;
 	}
 
 	public CottageOwner getCottageOwner() {
