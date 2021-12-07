@@ -60,6 +60,21 @@ const routes = [
     name: "ChangePassword",
     component: () => import("../views/ChangePassword.vue"),
   },
+  {
+    path: "/searchCottage",
+    name: "SearchCottage",
+    component: () => import("../views/SearchCottage.vue"),
+  },
+  {
+    path: "/searchShip",
+    name: "SearchShip",
+    component: () => import("../views/SearchShip.vue"),
+  },
+  {
+    path: "/searchFishingInstructor",
+    name: "SearchFishingInstructor",
+    component: () => import("../views/SearchFishingInstructor.vue"),
+  },
 ];
 const router = new VueRouter({
   mode: "history",
