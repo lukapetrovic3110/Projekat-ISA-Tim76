@@ -1,5 +1,7 @@
 package Team76.InternetSoftwareArchitecture.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,6 +40,11 @@ public class CottageController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Cottage> get(@PathVariable Long id) {
 		return new ResponseEntity<Cottage>(cottageService.findById(id), HttpStatus.OK);
+	}
+	
+	@GetMapping("/all")
+	public ResponseEntity<List<Cottage>> findAll() {
+		return new ResponseEntity<List<Cottage>>(cottageService.findAll(), HttpStatus.OK);
 	}
 
 }
