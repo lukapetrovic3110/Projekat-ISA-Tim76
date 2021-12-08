@@ -53,7 +53,7 @@ INSERT INTO public.address (city, country, street, street_number) VALUES ('Bajin
 INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_list_id)
 	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'Very nice cottage, overlooking the river. Vacation is guaranteed.', 'Cottage Zaovine', '4', '1', '4.6', '10', '3', '1');
 	
-INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Bajina Basta', 'Srbija', 'Sekulici', '8', '19.432485', '43.890245');
+INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Bajina Basta', 'Srbija', 'Sekuliceva', '8', '19.432485', '43.890245');
 
 INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_list_id)
 	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'Excellent cottag...', 'Mountain hut Exclusive', '2', '2', '4.9', '11', '4', '2');

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import Team76.InternetSoftwareArchitecture.dto.AddCottageDTO;
+import Team76.InternetSoftwareArchitecture.dto.CottageDTO;
 import Team76.InternetSoftwareArchitecture.model.Cottage;
 import Team76.InternetSoftwareArchitecture.service.CottageService;
 
@@ -43,8 +44,14 @@ public class CottageController {
 	}
 	
 	@GetMapping("/all")
-	public ResponseEntity<List<Cottage>> findAll() {
-		return new ResponseEntity<List<Cottage>>(cottageService.findAll(), HttpStatus.OK);
+	public ResponseEntity<List<Cottage>> all() {
+		return new ResponseEntity<List<Cottage>>(cottageService.all(), HttpStatus.OK);
 	}
+	
+	@GetMapping
+	public ResponseEntity<List<CottageDTO>> findAll() {
+		return new ResponseEntity<List<CottageDTO>>(cottageService.findAll(), HttpStatus.OK);
+	}
+	
 
 }

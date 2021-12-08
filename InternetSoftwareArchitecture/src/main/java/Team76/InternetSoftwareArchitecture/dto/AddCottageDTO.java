@@ -6,7 +6,7 @@ import java.util.List;
 import Team76.InternetSoftwareArchitecture.model.Address;
 
 public class AddCottageDTO {
-	
+
 	private String name;
 	private String description;
 	private Address address;
@@ -15,11 +15,11 @@ public class AddCottageDTO {
 	private Long cottageOwnerId;
 	private Date availabilityStart;
 	private Date availabilityEnd;
-	private List<String> priceList; 
+	private List<String> priceList;
 	private List<String> cottageRules;
-	
+
 	public AddCottageDTO() {
-		
+
 	}
 
 	public AddCottageDTO(String name, String description, Address address, Integer numberOfRooms,
@@ -117,5 +117,5 @@ public class AddCottageDTO {
 	public void setCottageRules(List<String> cottageRules) {
 		this.cottageRules = cottageRules;
 	}
-		
+
 }

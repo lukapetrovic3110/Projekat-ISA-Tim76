@@ -32,7 +32,6 @@
                   hide-details
                   :items="keys"
                   prepend-inner-icon="mdi-magnify"
-                  label="Sort by"
                 ></v-select>
                 <v-spacer></v-spacer>
                 <v-btn-toggle v-model="sortDesc" mandatory>
@@ -87,7 +86,7 @@
 
                     <div class="my-3 info--text">
                       <h3>
-                        {{ item.address.city }} , {{ item.address.country }}
+                        {{ item.city }} , {{ item.country }}
                       </h3>
                     </div>
 
@@ -193,8 +192,8 @@ export default {
       keys: [
         "name",
         "rating",
-        "address.city",
-        "address.country",
+        "city",
+        "country",
         "description",
       ],
       items: [],
@@ -222,7 +221,7 @@ export default {
       this.itemsPerPage = number;
     },
     displayAllCottage() {
-      this.axios.get("http://localhost:8091/cottage/all").then((response) => {
+      this.axios.get("http://localhost:8091/cottage").then((response) => {
         console.log(response.data);
         this.items = response.data;
       });
