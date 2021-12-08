@@ -12,6 +12,7 @@ import Team76.InternetSoftwareArchitecture.dto.AddCottageDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageDTO;
 import Team76.InternetSoftwareArchitecture.iservice.ICottageService;
 import Team76.InternetSoftwareArchitecture.model.Cottage;
+import Team76.InternetSoftwareArchitecture.model.Image;
 import Team76.InternetSoftwareArchitecture.model.PriceList;
 import Team76.InternetSoftwareArchitecture.model.PriceTag;
 import Team76.InternetSoftwareArchitecture.model.Rule;
@@ -83,6 +84,11 @@ public class CottageService implements ICottageService {
 		List<CottageDTO> cottageDTOs = new ArrayList<CottageDTO>();
 		
 		for (Cottage cottage : cottages) {
+			List<Image> images = cottage.getImages();
+			List<String> cottageImages = new ArrayList<String>();
+			for (Image image : images) {
+				cottageImages.add(image.getName());
+			}
 			
 			CottageDTO cottageDTO = new CottageDTO(cottage.getCottageId(), cottage.getName(), cottage.getDescription(),
 					cottage.getAddress().getStreet(), cottage.getAddress().getStreetNumber(),
@@ -91,7 +97,7 @@ public class CottageService implements ICottageService {
 					cottage.getAvailabilityStart(), cottage.getAvailabilityEnd(), cottage.getNumberOfRooms(),
 					cottage.getNumberOfBedsPerRoom(), cottage.getCottageOwner().getFirstName(),
 					cottage.getCottageOwner().getLastName(), cottage.getCottageOwner().getEmail(),
-					cottage.getCottageOwner().getPhoneNumber());
+					cottage.getCottageOwner().getPhoneNumber(), cottageImages);
 
 			cottageDTOs.add(cottageDTO);
 		}

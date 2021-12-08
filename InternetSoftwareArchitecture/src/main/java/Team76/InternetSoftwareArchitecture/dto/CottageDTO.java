@@ -26,7 +26,8 @@ public class CottageDTO {
 	private String ownerPhoneNumber;
 	private HashMap<String, Double> priceList = new HashMap<String, Double>();
 	private List<String> cottageRules;
-
+	private List<String> cottageImages;
+	
 	public CottageDTO() {
 
 	}
@@ -190,11 +191,19 @@ public class CottageDTO {
 	public void setCottageRules(List<String> cottageRules) {
 		this.cottageRules = cottageRules;
 	}
+	
+	public List<String> getCottageImages() {
+		return cottageImages;
+	}
+
+	public void setCottageImages(List<String> cottageImages) {
+		this.cottageImages = cottageImages;
+	}
 
 	public CottageDTO(Long cottageId, String name, String description, String street, String streetNumber, String city,
 			String country, Double longitude, Double latitude, Double rating, Date availabilityStart,
 			Date availabilityEnd, Integer numberOfRooms, Integer numberOfBedsPerRoom, String ownerFirstName,
-			String ownerLastName, String ownerEmail, String ownerPhoneNumber) {
+			String ownerLastName, String ownerEmail, String ownerPhoneNumber, List<String> cottageImages) {
 		super();
 		this.cottageId = cottageId;
 		this.name = name;
@@ -214,13 +223,14 @@ public class CottageDTO {
 		this.ownerLastName = ownerLastName;
 		this.ownerEmail = ownerEmail;
 		this.ownerPhoneNumber = ownerPhoneNumber;
+		this.cottageImages = cottageImages;
 	}
 
 	public CottageDTO(Long cottageId, String name, String description, String street, String streetNumber, String city,
 			String country, Double longitude, Double latitude, Double rating, Date availabilityStart,
 			Date availabilityEnd, Integer numberOfRooms, Integer numberOfBedsPerRoom, String ownerFirstName,
 			String ownerLastName, String ownerEmail, String ownerPhoneNumber, HashMap<String, Double> priceList,
-			List<String> cottageRules) {
+			List<String> cottageRules, List<String> cottageImages) {
 		super();
 		this.cottageId = cottageId;
 		this.name = name;
@@ -242,6 +252,9 @@ public class CottageDTO {
 		this.ownerPhoneNumber = ownerPhoneNumber;
 		this.priceList = priceList;
 		this.cottageRules = cottageRules;
+		this.cottageImages = cottageImages;
 	}
+	
+	
 
 }

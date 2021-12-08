@@ -45,7 +45,7 @@ public class ImageController {
 			String encodedString = Base64.getEncoder().encodeToString(fileContent);		
 			
 			String newImageName = System.currentTimeMillis() + multipartFile[i].getOriginalFilename(); 
-			File outputFile = new File("./images/" + newImageName);
+			File outputFile = new File("../internetsoftwarearchitecturefrontend/src/assets/images/" + newImageName);
 			byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
 			FileUtils.writeByteArrayToFile(outputFile, decodedBytes);
 			

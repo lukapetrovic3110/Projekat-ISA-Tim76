@@ -33,33 +33,70 @@ INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALU
 INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALUES (4, 2);
 INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALUES (5, 2);
 
-INSERT INTO public.price_tag(price, service_name) VALUES ('1600', 'sauna');
+INSERT INTO public.price_tag(price, service_name) VALUES ('2200', 'rafting');
 INSERT INTO public.price_tag(price, service_name) VALUES ('3000', 'fitness center');
 INSERT INTO public.price_tag(price, service_name) VALUES ('2000', 'swimming pool');
 INSERT INTO public.price_tag(price, service_name) VALUES ('2500', 'spa');
 
 INSERT INTO public.price_list(price_list_id) VALUES (default);
 INSERT INTO public.price_list_price_tags(price_list_price_list_id, price_tags_price_tag_id) VALUES (1, 1);
-INSERT INTO public.price_list_price_tags(price_list_price_list_id, price_tags_price_tag_id) VALUES (1, 3);
 INSERT INTO public.price_list(price_list_id) VALUES (default);
 INSERT INTO public.price_list_price_tags(price_list_price_list_id, price_tags_price_tag_id) VALUES (2, 2);
 INSERT INTO public.price_list_price_tags(price_list_price_list_id, price_tags_price_tag_id) VALUES (2, 3);
 INSERT INTO public.price_list(price_list_id) VALUES (default);
+INSERT INTO public.price_list_price_tags(price_list_price_list_id, price_tags_price_tag_id) VALUES (3, 3);
 INSERT INTO public.price_list_price_tags(price_list_price_list_id, price_tags_price_tag_id) VALUES (3, 4);
 
 
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Bajina Basta', 'Srbija', 'Bjelusa', '7');
+INSERT INTO public.image(name) VALUES ('1638982456862cottage1img1');
+INSERT INTO public.image(name) VALUES ('1638982456888cottage1img2');
+INSERT INTO public.image(name) VALUES ('1638982456902cottage1img3');
+INSERT INTO public.image(name) VALUES ('1638982456912cottage1img4');
+INSERT INTO public.image(name) VALUES ('1638982456921cottage1img5');
+INSERT INTO public.image(name) VALUES ('1638982456933cottage1img6');
+
+
+INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Bajina Basta', 'Srbija', 'Perucac', '8', '19.478483', '43.955651');
 
 INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_list_id)
-	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'Very nice cottage, overlooking the river. Vacation is guaranteed.', 'Cottage Zaovine', '4', '1', '4.6', '10', '3', '1');
-	
-INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Bajina Basta', 'Srbija', 'Sekuliceva', '8', '19.432485', '43.890245');
+	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'Very nice cottage, overlooking the river. Vacation is guaranteed.', 'Wooden cottage on Drina', '2', '2', '4.0', '10', '3', '1');
 
-INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_list_id)
-	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'Excellent cottag...', 'Mountain hut Exclusive', '2', '2', '4.9', '11', '4', '2');
+INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (1, 1);
+INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (1, 2);
+INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (1, 3);
+INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (1, 4);
+INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (1, 5);
+INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (1, 6);
+
+INSERT INTO public.image(name) VALUES ('1638983374310cottage2img1');
+INSERT INTO public.image(name) VALUES ('1638983374329cottage2img2');
+INSERT INTO public.image(name) VALUES ('1638983374337cottage2img3');
+INSERT INTO public.image(name) VALUES ('1638983374343cottage2img4');
+INSERT INTO public.image(name) VALUES ('1638983374352cottage2img5');
+INSERT INTO public.image(name) VALUES ('1638983374358cottage2img6');
 	
 INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Vrdnik', 'Srbija', 'Mikice Lesjaka', '20', '19.789300', '45.134670');
 
 INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_list_id)
-	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'This villa has a private pool, a garden, barbecue facilities, free WiFi and free private parking.', 'Mi Casa', '3', '2', '5.0', '12', '5', '3');
+	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'This villa has a private pool, a garden, barbecue facilities, free WiFi and free private parking.', 'Mi Casa', '3', '2', '5.0', '11', '5', '2');
+
+INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (2, 7);
+INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (2, 8);
+INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (2, 9);
+INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (2, 10);
+INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (2, 11);
+INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (2, 12);
+
+INSERT INTO public.image(name) VALUES ('1638984512089cottage3img1');
+INSERT INTO public.image(name) VALUES ('1638984512234cottage3img2');
+INSERT INTO public.image(name) VALUES ('1638984512259cottage3img3');
+
+INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Bajina Basta', 'Srbija', 'Sekuliceva', '8', '19.432485', '43.890245');
+
+INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_list_id)
+	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'Excellent cottag...', 'Mountain cottage Exclusive', '2', '2', '4.9', '12', '4', '3');
+	
+INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (3, 13);
+INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (3, 14);
+INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (3, 15);
 

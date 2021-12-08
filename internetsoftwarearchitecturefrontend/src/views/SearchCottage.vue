@@ -58,8 +58,9 @@
               >
                 <v-card class="itemCard">
                   <v-img
-                    height="200"
-                    src="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F24%2F2019%2F01%2F2270901_cainc0259_1-2000.jpg"
+                    height="360"
+                    alt = "cottage"
+                    v-bind:src="require('../assets/images/' + item.cottageImages[0] + '.jpg')"
                   ></v-img>
 
                   <v-card-title>
