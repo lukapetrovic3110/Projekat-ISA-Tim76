@@ -56,10 +56,10 @@ INSERT INTO public.cottage(availability_end, availability_start, description, na
 INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Bajina Basta', 'Srbija', 'Sekulici', '8', '19.432485', '43.890245');
 
 INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_list_id)
-	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'Excellent cottag...', 'Mountain hut Exclusive', '2', '2', '5.0', '11', '4', '2');
+	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'Excellent cottag...', 'Mountain hut Exclusive', '2', '2', '4.9', '11', '4', '2');
 	
 INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Vrdnik', 'Srbija', 'Mikice Lesjaka', '20', '19.789300', '45.134670');
 
 INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_list_id)
-	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'This villa has a private pool, a garden, barbecue facilities, free WiFi and free private parking.', 'Mi Casa', '3', '2', '5.0', '11', '5', '3');
+	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'This villa has a private pool, a garden, barbecue facilities, free WiFi and free private parking.', 'Mi Casa', '3', '2', '5.0', '12', '5', '3');
 
