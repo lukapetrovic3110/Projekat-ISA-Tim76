@@ -127,6 +127,9 @@ export default {
         this.items = [
           { title: "Home", path: "/" },
           { title: "My profile", path: "/clientProfile" },
+          { title: "Search cottage", path: "/searchCottage" },
+          { title: "Search ship or boat", path: "/searchShip" },
+          { title: "Search fishing instructor", path: '/searchFishingInstructor'},
         ];
       } else if (this.userType === "COTTAGE_OWNER") {
         this.items = [{ title: "Home", path: "/" }];
@@ -144,7 +147,7 @@ export default {
           { title: "Home", path: "/" },
           { title: "Search cottage", path: "/searchCottage" },
           { title: "Search ship or boat", path: "/searchShip" },
-          { title: "Search fishing instructor", path: '/searchFishingInstructor'}
+          { title: "Search fishing instructor", path: '/searchFishingInstructor'},
         ];
       }
     },

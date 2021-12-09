@@ -174,7 +174,7 @@ export default {
   font-weight: bold;
 }
 #personalInfoCard {
-  width: 40%;
+  width: 45%;
   margin: auto;
 }
 </style>

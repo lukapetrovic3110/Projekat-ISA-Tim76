@@ -59,13 +59,13 @@
                 type="text"
               />
             </v-row>
-            <v-row>
-              <v-text-field
-                class="ml-10 mr-10"
-                label="Country"
+            <v-row class="countryCombo">
+              <v-autocomplete
+                ref="country"
                 v-model="client.address.country"
-                color="blue"
-                type="text"
+                :items="countries"
+                label="Country"
+                placeholder="Select..."
               />
             </v-row>
           </v-form>
@@ -99,8 +99,9 @@
 export default {
   name: "EditClientPersonalInfo",
   data: () => ({
-      client: null,
-      clientId: "",
+    countries: ["Serbia"],
+    client: null,
+    clientId: "",
   }),
   mounted() {
     this.viewPersonalInfo();
@@ -119,19 +120,153 @@ export default {
           this.client = response.data;
         })
         .catch((err) => console.log(err));
-    }, save() {
-        this.axios
-        .post("http://localhost:8091/client/update", this.client, {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem("token"),
-            }
-        });
-        alert("Successfully modified personal information!");
-        window.location.href = "/clientProfile";
-    }, cancel() {
-        alert("Canceled change personal information!");
-        window.location.href = "/";
-    }
+    },
+    save() {
+      if (
+        !this.validateFirstName() ||
+        !this.validateLastName() ||
+        !this.validateStreet() ||
+        !this.validateStreetNumber() ||
+        !this.validateCity() ||
+        !this.validateCountry() ||
+        !this.validatePhoneNumber()
+      )
+        return;
+
+      this.axios.post("http://localhost:8091/client/update", this.client, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      alert("Successfully modified personal information!");
+      window.location.href = "/clientProfile";
+    },
+    cancel() {
+      alert("Canceled change personal information!");
+      window.location.href = "/";
+    },
+    validateFirstName() {
+      if (this.client.firstName.length < 2) {
+        alert("Your first name should contain at least 2 characters!");
+        return false;
+      } else if (this.client.firstName.length > 30) {
+        alert("Your first name shouldn't contain more than 30 characters!");
+        return false;
+      } else if (this.client.firstName.match(/[!@#$%^&*.,:'<>+-/\\"]/g)) {
+        alert("Your first name shouldn't contain special characters.");
+        return false;
+      } else if (this.client.firstName.match(/[ ]/g)) {
+        alert("Your first name shouldn't contain spaces!");
+        return false;
+      } else if (this.client.firstName.match(/\d/g)) {
+        alert("Your first name shouldn't contain numbers!");
+        return false;
+      } else if (!/^[A-Z][a-z]+$/.test(this.client.firstName)) {
+        alert("Your first name needs to have one upper letter at the start!");
+        return false;
+      }
+      return true;
+    },
+    validateLastName() {
+      if (this.client.lastName.length < 2) {
+        alert("Your last name should contain at least 2 characters!");
+        return false;
+      } else if (this.client.lastName.length > 36) {
+        alert("Your last name shouldn't contain more than 36 characters!");
+        return false;
+      } else if (this.client.lastName.match(/[!@#$%^&*.,:'<>+-/\\"]/g)) {
+        alert("Your last name shouldn't contain special characters.");
+        return false;
+      } else if (this.client.lastName.match(/\d/g)) {
+        alert("Your last name shouldn't contain numbers!");
+        return false;
+      } else if (!/^[A-Z][a-z]+[ ]?[A-Z]*[a-z]*$/.test(this.client.lastName)) {
+        alert("Your last name needs to have one upper letter at the start!");
+        return false;
+      }
+      return true;
+    },
+    validateStreet() {
+      if (this.client.address.street.match(/[!@#$%^&*.,:'<>+-/\\"]/g)) {
+        alert("Your street name shouldn't contain special characters.");
+        return false;
+      } else if (this.client.address.street.match(/\d/g)) {
+        alert("Your street name shouldn't contain numbers!");
+        return false;
+      } else if (
+        !/^[A-Z][a-z]+[ ]?[A-Z]*[a-z]*$/.test(this.client.address.street)
+      ) {
+        alert("Your street name needs to have one upper letter at the start!");
+        return false;
+      }
+      return true;
+    },
+    validateStreetNumber() {
+      if (this.client.address.streetNumber.match(/[ ]/g)) {
+        alert("Your street number shouldn't contain spaces!");
+        return false;
+      } else if (
+        this.client.address.streetNumber.match(/[!@#$%^&*.,:'<>+/\\"]/g)
+      ) {
+        alert("Your street number shouldn't contain special characters.");
+        return false;
+      } else if (this.client.address.streetNumber.length < 1) {
+        alert("Your street number should contain at least one number.");
+        return false;
+      }
+      return true;
+    },
+    validateCity() {
+      if (this.client.address.city.match(/[!@#$%^&*.,:'<>+-/\\"]/g)) {
+        alert("Your city name shouldn't contain special characters.");
+        return false;
+      } else if (this.client.address.city.match(/\d/g)) {
+        alert("Your city name shouldn't contain numbers!");
+        return false;
+      } else if (
+        !/^[A-Z][a-z]+[ ]?[A-Z]*[a-z]*$/.test(this.client.address.city)
+      ) {
+        alert("Your city name needs to have one upper letter at the start!");
+        return false;
+      }
+      return true;
+    },
+    validateCountry() {
+      if (this.client.address.country === "") {
+        alert("Please select your country.");
+        return false;
+      }
+      if (this.client.address.country.match(/[!@#$%^&*.,:'<>+-/\\"]/g)) {
+        alert("Your country name shouldn't contain special characters.");
+        return false;
+      } else if (this.client.address.country.match(/\d/g)) {
+        alert("Your country name shouldn't contain numbers!");
+        return false;
+      } else if (
+        !/^[A-Z][a-z]+[ ]?[A-Z]*[a-z]*$/.test(this.client.address.country)
+      ) {
+        alert("Your country name needs to have one upper letter at the start!");
+        return false;
+      }
+      return true;
+    },
+    validatePhoneNumber() {
+      if (this.client.phoneNumber.match(/[a-zA-Z]/g)) {
+        alert("Your phone number shouldn't contain letters.");
+        return false;
+      } else if (this.client.phoneNumber.match(/[ ]/g)) {
+        alert("Your phone number shouldn't contain spaces!");
+        return false;
+      } else if (
+        !/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\\s./0-9]*$/.test(
+          this.client.phoneNumber
+        )
+      ) {
+        alert("Your phone number is not in right form!");
+        return false;
+      }
+      return true;
+    },
   },
 };
 </script>
@@ -145,7 +280,12 @@ export default {
   font-weight: bold;
 }
 #personalInfoCard {
-  width: 40%;
+  width: 45%;
   margin: auto;
+}
+.countryCombo {
+  width: 93%;
+  margin-left: 4%;
+  cursor: pointer;
 }
 </style>
