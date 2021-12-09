@@ -125,3 +125,60 @@ INSERT INTO public.ship_images(ship_ship_id, images_image_id) VALUES (1, 16);
 INSERT INTO public.ship_images(ship_ship_id, images_image_id) VALUES (1, 17);
 INSERT INTO public.ship_images(ship_ship_id, images_image_id) VALUES (1, 18);
 
+
+INSERT INTO public.price_list(price_list_id) VALUES (default);
+
+
+INSERT INTO public.image(name) VALUES ('ship2img1');
+INSERT INTO public.image(name) VALUES ('ship2img2');
+INSERT INTO public.image(name) VALUES ('ship2img3');
+
+INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Novi Sad', 'Srbija', 'Bulevar despota Stefana', '7', '19.83781344455965', '45.23437796115102');
+
+INSERT INTO public.ship(availability_end, availability_start, capacity, description, engine_number, engine_power, length, max_speed, name, rating, ship_type, address_id, price_list_id, ship_owner_id)
+	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', '6', 'Speed boat, aggressive appearance and broken tubes. It is adorned with a deep "V" riverbed that is designed to overcome larger waves on the high seas and cross long distances on the high seas.', '2', '250', '8.5', '102', 'Advance G800', '5.0', 'SPEED_BOAT', '14', '5', '7');
+
+INSERT INTO public.ship_images(ship_ship_id, images_image_id) VALUES (2, 19);
+INSERT INTO public.ship_images(ship_ship_id, images_image_id) VALUES (2, 20);
+INSERT INTO public.ship_images(ship_ship_id, images_image_id) VALUES (2, 21);
+
+
+INSERT INTO public.price_list(price_list_id) VALUES (default);
+
+INSERT INTO public.image(name) VALUES ('instructor1img1');
+INSERT INTO public.image(name) VALUES ('instructor1img2');
+INSERT INTO public.image(name) VALUES ('instructor1img3');
+
+INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Beograd', 'Srbija', 'Obrenovacki drum', '78', '20.390636875888177', '44.782640133457626');
+
+INSERT INTO public.adventure(availability_end, availability_start, description, instructor_biography, max_number_of_persons, name, rating, address_id, fishing_instructor_id, price_list_id)
+	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', ' The first steps of fly fishing', 'Biography', '4', 'Fishing adventure', '5.0', '15', '8', '6');
+
+INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (1, 22);
+INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (1, 23);
+INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (1, 24);
+
+
+INSERT INTO public.price_list(price_list_id) VALUES (default);
+
+INSERT INTO public.image(name) VALUES ('instructor2img1');
+INSERT INTO public.image(name) VALUES ('instructor2img2');
+INSERT INTO public.image(name) VALUES ('instructor2img3');
+
+--- Google maps 44.09465613202866, 22.010111173842667
+
+INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Brestovac', 'Srbija', 'Kamp ulica', '105', '22.010111173842667', '44.09465613202866');
+
+INSERT INTO public.adventure(availability_end, availability_start, description, instructor_biography, max_number_of_persons, name, rating, address_id, fishing_instructor_id, price_list_id)
+	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', ' Fishing adventure', 'Biography', '6', 'Lake adventure', '4.6', '16', '9', '7');
+
+INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (2, 25);
+INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (2, 26);
+INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (2, 27);
+
+
+
+
+
+
+
