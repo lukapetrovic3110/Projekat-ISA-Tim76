@@ -7,9 +7,9 @@ import javax.persistence.Enumerated;
 
 @Entity
 public class CottageOwner extends User {
-
-	private static final long serialVersionUID = -6319929590934023815L;
 	
+	private static final long serialVersionUID = 5797369556253038949L;
+
 	@Column(name = "explanation")
 	private String explanation;
 	

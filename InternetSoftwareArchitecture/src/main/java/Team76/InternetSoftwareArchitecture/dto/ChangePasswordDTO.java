@@ -5,11 +5,11 @@ public class ChangePasswordDTO {
 	private String newPassword;
 	private String email;
 	private String rewritePassword;
-	
+
 	public ChangePasswordDTO() {
-		
+
 	}
-	
+
 	public ChangePasswordDTO(String oldPassword, String newPassword, String email, String rewritePassword) {
 		super();
 		this.oldPassword = oldPassword;
@@ -49,5 +49,5 @@ public class ChangePasswordDTO {
 	public void setRewritePassword(String rewritePassword) {
 		this.rewritePassword = rewritePassword;
 	}
-	
+
 }

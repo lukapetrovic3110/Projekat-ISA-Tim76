@@ -17,5 +17,7 @@ public interface ICottageOwnerRepository extends JpaRepository<CottageOwner, Lon
 	List<CottageOwner> findAllCottageOwnersByAccountApproval(AccountApproval accountApproval, UserType userType);
 	
 	CottageOwner findByEmail(String email);
+	
+	CottageOwner findByUserId(Long userId);
 
 }
