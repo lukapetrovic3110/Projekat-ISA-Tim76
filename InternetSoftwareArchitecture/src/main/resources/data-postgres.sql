@@ -12,7 +12,7 @@ INSERT INTO public.address (city, country, street, street_number) VALUES ('Temer
 INSERT INTO public.address (city, country, street, street_number) VALUES ('Beograd', 'Srbija', 'Svetog Save', '10');
 INSERT INTO public.address (city, country, street, street_number) VALUES ('Novi Sad', 'Srbija', 'Bulevar Oslobodjenja', '99');
 INSERT INTO public.address (city, country, street, street_number) VALUES ('Beograd', 'Srbija', 'Krusedolska', '31');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Beograd', 'Srbija', 'Kralja Milana', '101');
+INSERT INTO public.address (city, country, street, street_number) VALUES ('Zajecar', 'Srbija', 'Kotorska', '11');
 
 -- Admin 		Password: Admin123!
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, first_login_change_password, address_id) VALUES ('SystemAdministrator', default, 'admin@email.com', true, 'Admin', 'Admin', '$2a$12$9bz1GJdLCG.Ttl/p5al5O.KZOkfhgWv.MhbivCtKvC0JXbp6vyi6W', '0615859999', 'AdbMbt4t1KLF-G0SX01WPL==', 'SYSTEM_ADMINISTRATOR', true, 1);
@@ -24,14 +24,24 @@ INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, 
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('CottageOwner', default, 'dada97@gmail.com', true, 'Dada', 'Mesaljic', '$2a$12$VXUN7e1SiFCOVJG7Jxxm1e0h9vesimb4zpumF9ovo.ZoNafiZCwoG', '0633362476', 'd9aBVDi5sNgZYI/-7RrbYa==', 'COTTAGE_OWNER', 4);
 -- CottageOwner3	Password: Luka123! 
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('CottageOwner', default, 'luka98@gmail.com', true, 'Luka', 'Lukic', '$2a$12$qUR6ohymUgD5pHKRwDKZMO5/9QpRWGuiRMkdw1QqTulY6MErZhAzS', '0612002476', 'l1oBGDi4sHgZxXz+7aVbBS==', 'COTTAGE_OWNER', 5);
--- add 2 x ship owner
--- add 2 x instructor
+-- ShipOwner1		Password: Owner123$
+INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('ShipOwner', default, 'nikola9@gmail.com', true, 'Nikola', 'Savic', '$2a$12$6FzwVE5D3b/CXpkHaJcqtOUG.x4aGVZwuvVhvDWrnJ0QysPcPffd6', '0692002010', 'PlbLG1i4S5gTNik+7WvMBw==', 'SHIP_OWNER', 6);
+-- ShipOwner2		Password: Tara123!
+INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('ShipOwner', default, 'tara10@gmail.com', true, 'Tara', 'Gligoric', '$2a$12$KzV2OVuhv4iUhQLhs/CeOOXKBHXGAlmR3W/XAsgaAyFaLHUipbZEW', '0633003022', 'ByCrDgSvdhj1vT-5J9aVbS==', 'SHIP_OWNER', 7);
+-- Instructor1		Password: Jan3456!
+INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('FishingInstructor', default, 'jan@gmail.com', true, 'Jan', 'Jankovic', '$2a$12$nb21qrNM7.0IvUrBtqMIDOcE5qSVk.CikFQVIXlpDVY7OJg0zdhuS', '066106108', 'FibSH1iGhhvJ2n7JkVyMfL==', 'FISHING_INSTRUCTOR', 8);
+-- Instructor2		Password: Sale456!
+INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('FishingInstructor', default, 'sale@gmail.com', true, 'Sale', 'Zagorac', '$2a$12$eASTw9wd4MW8i9DOs6dKR.9cdp5kmwIDU80IsVLYqQz.lAktWSUy2', '0634001030', 'Al3sj7R4S5tT6iNc7W3mOK==', 'FISHING_INSTRUCTOR', 9);
 
 INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALUES (1, 5);
 INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALUES (2, 1);
 INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALUES (3, 2);
 INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALUES (4, 2);
 INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALUES (5, 2);
+INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALUES (6, 3);
+INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALUES (7, 3);
+INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALUES (8, 4);
+INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALUES (9, 4);
 
 INSERT INTO public.price_tag(price, service_name) VALUES ('2200', 'rafting');
 INSERT INTO public.price_tag(price, service_name) VALUES ('3000', 'fitness center');
@@ -99,4 +109,19 @@ INSERT INTO public.cottage(availability_end, availability_start, description, na
 INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (3, 13);
 INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (3, 14);
 INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (3, 15);
+
+INSERT INTO public.price_list(price_list_id) VALUES (default);
+
+INSERT INTO public.image(name) VALUES ('ship1img1');
+INSERT INTO public.image(name) VALUES ('ship1img2');
+INSERT INTO public.image(name) VALUES ('ship1img3');
+
+INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Beograd', 'Srbija', 'Zemunski Kej', '67', '20.424374184658642', '44.826341557721506');
+
+INSERT INTO public.ship(availability_end, availability_start, capacity, description, engine_number, engine_power, length, max_speed, name, rating, ship_type, address_id, price_list_id, ship_owner_id)
+	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', '6', 'Excellent cruiser, ample storage under the sun island and helm station assure that everything finds a place.', '1', '320', '8.6', '88', 'Monterey 275 SY', '4.7', 'YACHT', '13', '4', '6');
+
+INSERT INTO public.ship_images(ship_ship_id, images_image_id) VALUES (1, 16);
+INSERT INTO public.ship_images(ship_ship_id, images_image_id) VALUES (1, 17);
+INSERT INTO public.ship_images(ship_ship_id, images_image_id) VALUES (1, 18);
 

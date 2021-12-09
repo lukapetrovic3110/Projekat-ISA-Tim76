@@ -1,12 +1,13 @@
 package Team76.InternetSoftwareArchitecture.dto;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CottageDTO {
+import Team76.InternetSoftwareArchitecture.model.ShipType;
 
-	private Long cottageId;
+public class ShipDTO {
+	private Long shipId;
 	private String name;
 	private String description;
 	private String street;
@@ -16,28 +17,31 @@ public class CottageDTO {
 	private Double longitude;
 	private Double latitude;
 	private Double rating;
-	private Date availabilityStart;
-	private Date availabilityEnd;
-	private Integer numberOfRooms;
-	private Integer numberOfBedsPerRoom;
+	private Double length;
+	private Integer engineNumber;
+	private Integer enginePower;
+	private Integer maxSpeed;
+	private Integer capacity;
+	private ShipType shipType;
 	private String ownerFirstName;
 	private String ownerLastName;
 	private String ownerEmail;
 	private String ownerPhoneNumber;
+	private List<String> navigationEquipment = new ArrayList<String>();
 	private HashMap<String, Double> priceList = new HashMap<String, Double>();
-	private List<String> cottageRules;
-	private List<String> cottageImages;
+	private List<String> shipRules = new ArrayList<String>();
+	private List<String> shipImages = new ArrayList<String>();
 
-	public CottageDTO() {
+	public ShipDTO() {
 
 	}
 
-	public Long getCottageId() {
-		return cottageId;
+	public Long getShipId() {
+		return shipId;
 	}
 
-	public void setCottageId(Long cottageId) {
-		this.cottageId = cottageId;
+	public void setShipId(Long shipId) {
+		this.shipId = shipId;
 	}
 
 	public String getName() {
@@ -112,36 +116,52 @@ public class CottageDTO {
 		this.rating = rating;
 	}
 
-	public Date getAvailabilityStart() {
-		return availabilityStart;
+	public Double getLength() {
+		return length;
 	}
 
-	public void setAvailabilityStart(Date availabilityStart) {
-		this.availabilityStart = availabilityStart;
+	public void setLength(Double length) {
+		this.length = length;
 	}
 
-	public Date getAvailabilityEnd() {
-		return availabilityEnd;
+	public Integer getEngineNumber() {
+		return engineNumber;
 	}
 
-	public void setAvailabilityEnd(Date availabilityEnd) {
-		this.availabilityEnd = availabilityEnd;
+	public void setEngineNumber(Integer engineNumber) {
+		this.engineNumber = engineNumber;
 	}
 
-	public Integer getNumberOfRooms() {
-		return numberOfRooms;
+	public Integer getEnginePower() {
+		return enginePower;
 	}
 
-	public void setNumberOfRooms(Integer numberOfRooms) {
-		this.numberOfRooms = numberOfRooms;
+	public void setEnginePower(Integer enginePower) {
+		this.enginePower = enginePower;
 	}
 
-	public Integer getNumberOfBedsPerRoom() {
-		return numberOfBedsPerRoom;
+	public Integer getMaxSpeed() {
+		return maxSpeed;
 	}
 
-	public void setNumberOfBedsPerRoom(Integer numberOfBedsPerRoom) {
-		this.numberOfBedsPerRoom = numberOfBedsPerRoom;
+	public void setMaxSpeed(Integer maxSpeed) {
+		this.maxSpeed = maxSpeed;
+	}
+
+	public Integer getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(Integer capacity) {
+		this.capacity = capacity;
+	}
+
+	public ShipType getShipType() {
+		return shipType;
+	}
+
+	public void setShipType(ShipType shipType) {
+		this.shipType = shipType;
 	}
 
 	public String getOwnerFirstName() {
@@ -176,6 +196,14 @@ public class CottageDTO {
 		this.ownerPhoneNumber = ownerPhoneNumber;
 	}
 
+	public List<String> getNavigationEquipment() {
+		return navigationEquipment;
+	}
+
+	public void setNavigationEquipment(List<String> navigationEquipment) {
+		this.navigationEquipment = navigationEquipment;
+	}
+
 	public HashMap<String, Double> getPriceList() {
 		return priceList;
 	}
@@ -184,28 +212,28 @@ public class CottageDTO {
 		this.priceList = priceList;
 	}
 
-	public List<String> getCottageRules() {
-		return cottageRules;
+	public List<String> getShipRules() {
+		return shipRules;
 	}
 
-	public void setCottageRules(List<String> cottageRules) {
-		this.cottageRules = cottageRules;
+	public void setShipRules(List<String> shipRules) {
+		this.shipRules = shipRules;
 	}
 
-	public List<String> getCottageImages() {
-		return cottageImages;
+	public List<String> getShipImages() {
+		return shipImages;
 	}
 
-	public void setCottageImages(List<String> cottageImages) {
-		this.cottageImages = cottageImages;
+	public void setShipImages(List<String> shipImages) {
+		this.shipImages = shipImages;
 	}
 
-	public CottageDTO(Long cottageId, String name, String description, String street, String streetNumber, String city,
-			String country, Double longitude, Double latitude, Double rating, Date availabilityStart,
-			Date availabilityEnd, Integer numberOfRooms, Integer numberOfBedsPerRoom, String ownerFirstName,
-			String ownerLastName, String ownerEmail, String ownerPhoneNumber, List<String> cottageImages) {
+	public ShipDTO(Long shipId, String name, String description, String street, String streetNumber, String city,
+			String country, Double longitude, Double latitude, Double rating, Double length, Integer engineNumber,
+			Integer enginePower, Integer maxSpeed, Integer capacity, ShipType shipType, String ownerFirstName,
+			String ownerLastName, String ownerEmail, String ownerPhoneNumber, List<String> shipImages) {
 		super();
-		this.cottageId = cottageId;
+		this.shipId = shipId;
 		this.name = name;
 		this.description = description;
 		this.street = street;
@@ -215,24 +243,26 @@ public class CottageDTO {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.rating = rating;
-		this.availabilityStart = availabilityStart;
-		this.availabilityEnd = availabilityEnd;
-		this.numberOfRooms = numberOfRooms;
-		this.numberOfBedsPerRoom = numberOfBedsPerRoom;
+		this.length = length;
+		this.engineNumber = engineNumber;
+		this.enginePower = enginePower;
+		this.maxSpeed = maxSpeed;
+		this.capacity = capacity;
+		this.shipType = shipType;
 		this.ownerFirstName = ownerFirstName;
 		this.ownerLastName = ownerLastName;
 		this.ownerEmail = ownerEmail;
 		this.ownerPhoneNumber = ownerPhoneNumber;
-		this.cottageImages = cottageImages;
+		this.shipImages = shipImages;
 	}
 
-	public CottageDTO(Long cottageId, String name, String description, String street, String streetNumber, String city,
-			String country, Double longitude, Double latitude, Double rating, Date availabilityStart,
-			Date availabilityEnd, Integer numberOfRooms, Integer numberOfBedsPerRoom, String ownerFirstName,
-			String ownerLastName, String ownerEmail, String ownerPhoneNumber, HashMap<String, Double> priceList,
-			List<String> cottageRules, List<String> cottageImages) {
+	public ShipDTO(Long shipId, String name, String description, String street, String streetNumber, String city,
+			String country, Double longitude, Double latitude, Double rating, Double length, Integer engineNumber,
+			Integer enginePower, Integer maxSpeed, Integer capacity, ShipType shipType, String ownerFirstName,
+			String ownerLastName, String ownerEmail, String ownerPhoneNumber, List<String> navigationEquipment,
+			HashMap<String, Double> priceList, List<String> shipRules, List<String> shipImages) {
 		super();
-		this.cottageId = cottageId;
+		this.shipId = shipId;
 		this.name = name;
 		this.description = description;
 		this.street = street;
@@ -242,17 +272,20 @@ public class CottageDTO {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.rating = rating;
-		this.availabilityStart = availabilityStart;
-		this.availabilityEnd = availabilityEnd;
-		this.numberOfRooms = numberOfRooms;
-		this.numberOfBedsPerRoom = numberOfBedsPerRoom;
+		this.length = length;
+		this.engineNumber = engineNumber;
+		this.enginePower = enginePower;
+		this.maxSpeed = maxSpeed;
+		this.capacity = capacity;
+		this.shipType = shipType;
 		this.ownerFirstName = ownerFirstName;
 		this.ownerLastName = ownerLastName;
 		this.ownerEmail = ownerEmail;
 		this.ownerPhoneNumber = ownerPhoneNumber;
+		this.navigationEquipment = navigationEquipment;
 		this.priceList = priceList;
-		this.cottageRules = cottageRules;
-		this.cottageImages = cottageImages;
+		this.shipRules = shipRules;
+		this.shipImages = shipImages;
 	}
 
 }
