@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,11 +31,13 @@ public class CottageController {
 		this.cottageService = cottageService;
 	}
 
+	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")
 	@PostMapping("/add")
 	public ResponseEntity<?> add(@RequestBody AddCottageDTO addCottageDTO, UriComponentsBuilder uriComponentsBuilder) {
 		return new ResponseEntity<>(cottageService.saveCottage(addCottageDTO), HttpStatus.CREATED);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")
 	@GetMapping("/{id}")
 	public ResponseEntity<Cottage> get(@PathVariable Long id) {
 		return new ResponseEntity<Cottage>(cottageService.findById(id), HttpStatus.OK);

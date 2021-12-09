@@ -129,7 +129,10 @@ export default {
           { title: "My profile", path: "/clientProfile" },
         ];
       } else if (this.userType === "COTTAGE_OWNER") {
-        this.items = [{ title: "Home", path: "/" }];
+        this.items = [
+          { title: "Home", path: "/" },
+          { title: "Register new cottage", path: "/addCottage" },
+        ];
       } else if (this.userType === "SHIP_OWNER") {
         this.items = [{ title: "Home", path: "/" }];
       } else if (this.userType === "FISHING_INSTRUCTOR") {
