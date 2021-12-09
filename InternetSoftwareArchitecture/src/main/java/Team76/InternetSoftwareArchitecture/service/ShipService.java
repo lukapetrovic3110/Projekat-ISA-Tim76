@@ -38,7 +38,7 @@ public class ShipService implements IShipService  {
 			for (Image image : images) {
 				shipImages.add(image.getName());
 			}
-			ShipDTO shipDTO = new ShipDTO(ship.getShipId(), ship.getName(), ship.getDescription(), ship.getAddress().getStreet(), ship.getAddress().getStreetNumber(), ship.getAddress().getCity(), ship.getAddress().getCountry(), ship.getAddress().getLongitude(), ship.getAddress().getLatitude(), ship.getRating(), ship.getLength(), ship.getEngineNumber(), ship.getEnginePower(), ship.getMaxSpeed(), ship.getCapacity(), ship.getShipType(), ship.getShipOwner().getFirstName(), ship.getShipOwner().getLastName(), ship.getShipOwner().getEmail(), ship.getShipOwner().getPhoneNumber(), shipImages); 
+			ShipDTO shipDTO = new ShipDTO(ship.getShipId(), ship.getName(), ship.getDescription(), ship.getAddress().getStreet(), ship.getAddress().getStreetNumber(), ship.getAddress().getCity(), ship.getAddress().getCountry(), ship.getAddress().getLongitude(), ship.getAddress().getLatitude(), ship.getRating(), ship.getLength(), ship.getEngineNumber(), ship.getEnginePower(), ship.getMaxSpeed(), ship.getCapacity(), ship.getShipType(), ship.getShipOwner().getFirstName(), ship.getShipOwner().getLastName(), ship.getShipOwner().getEmail(), ship.getShipOwner().getPhoneNumber(), shipImages, ship.getAvailabilityStart(), ship.getAvailabilityEnd()); 
 			shipDTOs.add(shipDTO);
 		}
 		return shipDTOs;

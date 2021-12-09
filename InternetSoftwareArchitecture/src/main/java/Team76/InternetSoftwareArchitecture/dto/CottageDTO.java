@@ -32,6 +32,61 @@ public class CottageDTO {
 
 	}
 
+	public CottageDTO(Long cottageId, String name, String description, String street, String streetNumber, String city,
+			String country, Double longitude, Double latitude, Double rating, Date availabilityStart,
+			Date availabilityEnd, Integer numberOfRooms, Integer numberOfBedsPerRoom, String ownerFirstName,
+			String ownerLastName, String ownerEmail, String ownerPhoneNumber, List<String> cottageImages) {
+		super();
+		this.cottageId = cottageId;
+		this.name = name;
+		this.description = description;
+		this.street = street;
+		this.streetNumber = streetNumber;
+		this.city = city;
+		this.country = country;
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.rating = rating;
+		this.availabilityStart = availabilityStart;
+		this.availabilityEnd = availabilityEnd;
+		this.numberOfRooms = numberOfRooms;
+		this.numberOfBedsPerRoom = numberOfBedsPerRoom;
+		this.ownerFirstName = ownerFirstName;
+		this.ownerLastName = ownerLastName;
+		this.ownerEmail = ownerEmail;
+		this.ownerPhoneNumber = ownerPhoneNumber;
+		this.cottageImages = cottageImages;
+	}
+
+	public CottageDTO(Long cottageId, String name, String description, String street, String streetNumber, String city,
+			String country, Double longitude, Double latitude, Double rating, Date availabilityStart,
+			Date availabilityEnd, Integer numberOfRooms, Integer numberOfBedsPerRoom, String ownerFirstName,
+			String ownerLastName, String ownerEmail, String ownerPhoneNumber, HashMap<String, Double> priceList,
+			List<String> cottageRules, List<String> cottageImages) {
+		super();
+		this.cottageId = cottageId;
+		this.name = name;
+		this.description = description;
+		this.street = street;
+		this.streetNumber = streetNumber;
+		this.city = city;
+		this.country = country;
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.rating = rating;
+		this.availabilityStart = availabilityStart;
+		this.availabilityEnd = availabilityEnd;
+		this.numberOfRooms = numberOfRooms;
+		this.numberOfBedsPerRoom = numberOfBedsPerRoom;
+		this.ownerFirstName = ownerFirstName;
+		this.ownerLastName = ownerLastName;
+		this.ownerEmail = ownerEmail;
+		this.ownerPhoneNumber = ownerPhoneNumber;
+		this.priceList = priceList;
+		this.cottageRules = cottageRules;
+		this.cottageImages = cottageImages;
+	}
+
 	public Long getCottageId() {
 		return cottageId;
 	}
@@ -197,61 +252,6 @@ public class CottageDTO {
 	}
 
 	public void setCottageImages(List<String> cottageImages) {
-		this.cottageImages = cottageImages;
-	}
-
-	public CottageDTO(Long cottageId, String name, String description, String street, String streetNumber, String city,
-			String country, Double longitude, Double latitude, Double rating, Date availabilityStart,
-			Date availabilityEnd, Integer numberOfRooms, Integer numberOfBedsPerRoom, String ownerFirstName,
-			String ownerLastName, String ownerEmail, String ownerPhoneNumber, List<String> cottageImages) {
-		super();
-		this.cottageId = cottageId;
-		this.name = name;
-		this.description = description;
-		this.street = street;
-		this.streetNumber = streetNumber;
-		this.city = city;
-		this.country = country;
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.rating = rating;
-		this.availabilityStart = availabilityStart;
-		this.availabilityEnd = availabilityEnd;
-		this.numberOfRooms = numberOfRooms;
-		this.numberOfBedsPerRoom = numberOfBedsPerRoom;
-		this.ownerFirstName = ownerFirstName;
-		this.ownerLastName = ownerLastName;
-		this.ownerEmail = ownerEmail;
-		this.ownerPhoneNumber = ownerPhoneNumber;
-		this.cottageImages = cottageImages;
-	}
-
-	public CottageDTO(Long cottageId, String name, String description, String street, String streetNumber, String city,
-			String country, Double longitude, Double latitude, Double rating, Date availabilityStart,
-			Date availabilityEnd, Integer numberOfRooms, Integer numberOfBedsPerRoom, String ownerFirstName,
-			String ownerLastName, String ownerEmail, String ownerPhoneNumber, HashMap<String, Double> priceList,
-			List<String> cottageRules, List<String> cottageImages) {
-		super();
-		this.cottageId = cottageId;
-		this.name = name;
-		this.description = description;
-		this.street = street;
-		this.streetNumber = streetNumber;
-		this.city = city;
-		this.country = country;
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.rating = rating;
-		this.availabilityStart = availabilityStart;
-		this.availabilityEnd = availabilityEnd;
-		this.numberOfRooms = numberOfRooms;
-		this.numberOfBedsPerRoom = numberOfBedsPerRoom;
-		this.ownerFirstName = ownerFirstName;
-		this.ownerLastName = ownerLastName;
-		this.ownerEmail = ownerEmail;
-		this.ownerPhoneNumber = ownerPhoneNumber;
-		this.priceList = priceList;
-		this.cottageRules = cottageRules;
 		this.cottageImages = cottageImages;
 	}
 

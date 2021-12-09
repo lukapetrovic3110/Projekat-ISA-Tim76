@@ -1,6 +1,7 @@
 package Team76.InternetSoftwareArchitecture.dto;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class ShipDTO {
 	private Double longitude;
 	private Double latitude;
 	private Double rating;
+	private Date availabilityStart;
+	private Date availabilityEnd;
 	private Double length;
 	private Integer engineNumber;
 	private Integer enginePower;
@@ -34,6 +37,72 @@ public class ShipDTO {
 
 	public ShipDTO() {
 
+	}
+
+	public ShipDTO(Long shipId, String name, String description, String street, String streetNumber, String city,
+			String country, Double longitude, Double latitude, Double rating, Double length, Integer engineNumber,
+			Integer enginePower, Integer maxSpeed, Integer capacity, ShipType shipType, String ownerFirstName,
+			String ownerLastName, String ownerEmail, String ownerPhoneNumber, List<String> shipImages,
+			Date availabilityStart, Date availabilityEnd) {
+		super();
+		this.shipId = shipId;
+		this.name = name;
+		this.description = description;
+		this.street = street;
+		this.streetNumber = streetNumber;
+		this.city = city;
+		this.country = country;
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.rating = rating;
+		this.length = length;
+		this.engineNumber = engineNumber;
+		this.enginePower = enginePower;
+		this.maxSpeed = maxSpeed;
+		this.capacity = capacity;
+		this.shipType = shipType;
+		this.ownerFirstName = ownerFirstName;
+		this.ownerLastName = ownerLastName;
+		this.ownerEmail = ownerEmail;
+		this.ownerPhoneNumber = ownerPhoneNumber;
+		this.shipImages = shipImages;
+		this.availabilityStart = availabilityStart;
+		this.availabilityEnd = availabilityEnd;
+	}
+
+	public ShipDTO(Long shipId, String name, String description, String street, String streetNumber, String city,
+			String country, Double longitude, Double latitude, Double rating, Date availabilityStart,
+			Date availabilityEnd, Double length, Integer engineNumber, Integer enginePower, Integer maxSpeed,
+			Integer capacity, ShipType shipType, String ownerFirstName, String ownerLastName, String ownerEmail,
+			String ownerPhoneNumber, List<String> navigationEquipment, HashMap<String, Double> priceList,
+			List<String> shipRules, List<String> shipImages) {
+		super();
+		this.shipId = shipId;
+		this.name = name;
+		this.description = description;
+		this.street = street;
+		this.streetNumber = streetNumber;
+		this.city = city;
+		this.country = country;
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.rating = rating;
+		this.availabilityStart = availabilityStart;
+		this.availabilityEnd = availabilityEnd;
+		this.length = length;
+		this.engineNumber = engineNumber;
+		this.enginePower = enginePower;
+		this.maxSpeed = maxSpeed;
+		this.capacity = capacity;
+		this.shipType = shipType;
+		this.ownerFirstName = ownerFirstName;
+		this.ownerLastName = ownerLastName;
+		this.ownerEmail = ownerEmail;
+		this.ownerPhoneNumber = ownerPhoneNumber;
+		this.navigationEquipment = navigationEquipment;
+		this.priceList = priceList;
+		this.shipRules = shipRules;
+		this.shipImages = shipImages;
 	}
 
 	public Long getShipId() {
@@ -228,64 +297,20 @@ public class ShipDTO {
 		this.shipImages = shipImages;
 	}
 
-	public ShipDTO(Long shipId, String name, String description, String street, String streetNumber, String city,
-			String country, Double longitude, Double latitude, Double rating, Double length, Integer engineNumber,
-			Integer enginePower, Integer maxSpeed, Integer capacity, ShipType shipType, String ownerFirstName,
-			String ownerLastName, String ownerEmail, String ownerPhoneNumber, List<String> shipImages) {
-		super();
-		this.shipId = shipId;
-		this.name = name;
-		this.description = description;
-		this.street = street;
-		this.streetNumber = streetNumber;
-		this.city = city;
-		this.country = country;
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.rating = rating;
-		this.length = length;
-		this.engineNumber = engineNumber;
-		this.enginePower = enginePower;
-		this.maxSpeed = maxSpeed;
-		this.capacity = capacity;
-		this.shipType = shipType;
-		this.ownerFirstName = ownerFirstName;
-		this.ownerLastName = ownerLastName;
-		this.ownerEmail = ownerEmail;
-		this.ownerPhoneNumber = ownerPhoneNumber;
-		this.shipImages = shipImages;
+	public Date getAvailabilityStart() {
+		return availabilityStart;
 	}
 
-	public ShipDTO(Long shipId, String name, String description, String street, String streetNumber, String city,
-			String country, Double longitude, Double latitude, Double rating, Double length, Integer engineNumber,
-			Integer enginePower, Integer maxSpeed, Integer capacity, ShipType shipType, String ownerFirstName,
-			String ownerLastName, String ownerEmail, String ownerPhoneNumber, List<String> navigationEquipment,
-			HashMap<String, Double> priceList, List<String> shipRules, List<String> shipImages) {
-		super();
-		this.shipId = shipId;
-		this.name = name;
-		this.description = description;
-		this.street = street;
-		this.streetNumber = streetNumber;
-		this.city = city;
-		this.country = country;
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.rating = rating;
-		this.length = length;
-		this.engineNumber = engineNumber;
-		this.enginePower = enginePower;
-		this.maxSpeed = maxSpeed;
-		this.capacity = capacity;
-		this.shipType = shipType;
-		this.ownerFirstName = ownerFirstName;
-		this.ownerLastName = ownerLastName;
-		this.ownerEmail = ownerEmail;
-		this.ownerPhoneNumber = ownerPhoneNumber;
-		this.navigationEquipment = navigationEquipment;
-		this.priceList = priceList;
-		this.shipRules = shipRules;
-		this.shipImages = shipImages;
+	public void setAvailabilityStart(Date availabilityStart) {
+		this.availabilityStart = availabilityStart;
+	}
+
+	public Date getAvailabilityEnd() {
+		return availabilityEnd;
+	}
+
+	public void setAvailabilityEnd(Date availabilityEnd) {
+		this.availabilityEnd = availabilityEnd;
 	}
 
 }
