@@ -51,6 +51,11 @@ const routes = [
     component: () => import("../views/ClientProfile.vue"),
   },
   {
+    path: "/clientSubscriptions",
+    name: "ClientSubscriptions",
+    component: () => import("../views/ClientSubscriptions.vue"),
+  },
+  {
     path: "/editClientPersonalInfo",
     name: "EditClientPersonalInfo",
     component: () => import("../views/EditClientPersonalInfo.vue"),

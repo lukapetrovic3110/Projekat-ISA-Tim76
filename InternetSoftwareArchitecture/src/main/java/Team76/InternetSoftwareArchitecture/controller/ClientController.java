@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import Team76.InternetSoftwareArchitecture.dto.CancelReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.ScheduledReservationDTO;
+import Team76.InternetSoftwareArchitecture.dto.SubscriptionDTO;
 import Team76.InternetSoftwareArchitecture.model.Client;
 import Team76.InternetSoftwareArchitecture.model.ReservationAdventure;
 import Team76.InternetSoftwareArchitecture.model.ReservationCottage;
@@ -51,6 +52,13 @@ public class ClientController {
 	@GetMapping
 	public ResponseEntity<Client> getClient() {
 		return new ResponseEntity<Client>(clientService.findClient(), HttpStatus.OK);
+	}
+	
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@GetMapping(value = "/subscriptions")
+	public ResponseEntity<List<SubscriptionDTO>> getClientSubscriptions() {
+		return new ResponseEntity<List<SubscriptionDTO>>(clientService.getClientSubscriptions(), HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")

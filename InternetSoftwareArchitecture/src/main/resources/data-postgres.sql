@@ -226,6 +226,29 @@ INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_perso
 INSERT INTO public.reservation_adventure(adventure_reservation_cancel_term, date_and_time, duration, max_number_of_persons, price, reservation_status, adventure_id, client_id)
 	VALUES ('FREE','2021-12-11 14:00:00', '1', '2', '1000', 'SCHEDULED', '2', '2');
 	
+-- subscriptions 
+
+INSERT INTO public.user_subscriptions(client_user_id, subscriptions_user_id)
+	VALUES (2, 3);
+	
+INSERT INTO public.user_subscriptions(client_user_id, subscriptions_user_id)
+	VALUES (2, 4);
+
+INSERT INTO public.user_subscriptions(client_user_id, subscriptions_user_id)
+	VALUES (2, 5);
+
+INSERT INTO public.user_subscriptions(client_user_id, subscriptions_user_id)
+	VALUES (2, 6);
+	
+INSERT INTO public.user_subscriptions(client_user_id, subscriptions_user_id)
+	VALUES (2, 7);
+	
+INSERT INTO public.user_subscriptions(client_user_id, subscriptions_user_id)
+	VALUES (2, 8);
+
+INSERT INTO public.user_subscriptions(client_user_id, subscriptions_user_id)
+	VALUES (2, 9);
+	
 
 	
 	
