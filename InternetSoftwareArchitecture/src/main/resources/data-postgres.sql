@@ -136,7 +136,7 @@ INSERT INTO public.image(name) VALUES ('ship2img3');
 INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Novi Sad', 'Srbija', 'Bulevar despota Stefana', '7', '19.83781344455965', '45.23437796115102');
 
 INSERT INTO public.ship(availability_end, availability_start, capacity, description, engine_number, engine_power, length, max_speed, name, rating, ship_type, address_id, price_list_id, ship_owner_id)
-	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', '6', 'Speed boat, aggressive appearance and broken tubes. It is adorned with a deep "V" riverbed that is designed to overcome larger waves on the high seas and cross long distances on the high seas.', '2', '250', '8.5', '102', 'Advance G800', '5.0', 'SPEED_BOAT', '14', '5', '7');
+	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', '10', 'Speed boat, aggressive appearance and broken tubes. It is adorned with a deep "V" riverbed that is designed to overcome larger waves on the high seas and cross long distances on the high seas.', '2', '250', '8.5', '102', 'Advance G800', '5.0', 'SPEED_BOAT', '14', '5', '7');
 
 INSERT INTO public.ship_images(ship_ship_id, images_image_id) VALUES (2, 19);
 INSERT INTO public.ship_images(ship_ship_id, images_image_id) VALUES (2, 20);
@@ -175,6 +175,15 @@ INSERT INTO public.adventure(availability_end, availability_start, description, 
 INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (2, 25);
 INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (2, 26);
 INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (2, 27);
+
+
+-- FINISHED SHIP RESERVATION CLIENT TEST
+
+INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_persons, price, reservation_status, ship_reservation_cancel_term, client_id, ship_id)
+	VALUES ('2021-12-01 12:00:00', '2', '2', '26000', 'FINISHED', 'FREE', '2', '1');
+	
+INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_persons, price, reservation_status, ship_reservation_cancel_term, client_id, ship_id)
+	VALUES ('2021-12-09 10:00:00', '3', '4', '50000', 'FINISHED', 'FREE', '2', '2');
 
 
 
