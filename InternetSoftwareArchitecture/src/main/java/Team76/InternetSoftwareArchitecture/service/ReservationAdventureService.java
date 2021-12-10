@@ -39,5 +39,18 @@ public class ReservationAdventureService implements IReservationAdventureService
 		
 		return historyReservationDTOs;
 	}
+	
+	@Override
+	public List<ReservationAdventure> findAllScheduledReservationByClient() {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<ReservationAdventure> allScheduledReservation = reservationAdventureRepository.findByReservationStatus(ReservationStatus.SCHEDULED);
+		List<ReservationAdventure> clientScheduledReservations = new ArrayList<ReservationAdventure>();
+		
+		for (ReservationAdventure reservationAdventure : allScheduledReservation)
+			if (reservationAdventure.getClient().getUserId() == client.getUserId())
+				clientScheduledReservations.add(reservationAdventure);
+			
+		return clientScheduledReservations;
+	}
 
 }

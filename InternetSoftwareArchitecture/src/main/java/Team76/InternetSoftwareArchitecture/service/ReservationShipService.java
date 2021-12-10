@@ -38,5 +38,17 @@ public class ReservationShipService implements IReservationShipService {
 		return historyReservationDTOs; 
 	}
 	
+	@Override
+	public List<ReservationShip> findAllScheduledReservationByClient() {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<ReservationShip> allScheduledReservation = reservationShipRepository.findByReservationStatus(ReservationStatus.SCHEDULED);
+		List<ReservationShip> clientScheduledReservations = new ArrayList<ReservationShip>();
+		
+		for (ReservationShip reservationShip : allScheduledReservation)
+			if (reservationShip.getClient().getUserId() == client.getUserId())
+				clientScheduledReservations.add(reservationShip);
+			
+		return clientScheduledReservations;
+	}
 
 }

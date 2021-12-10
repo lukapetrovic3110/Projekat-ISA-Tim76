@@ -61,6 +61,11 @@ const routes = [
     component: () => import("../views/ChangePassword.vue"),
   },
   {
+    path: "/clientScheduledReservation",
+    name: "ClientScheduledReservation",
+    component: () => import("../views/ClientScheduledReservation.vue"),
+  },
+  {
     path: "/searchCottage",
     name: "SearchCottage",
     component: () => import("../views/SearchCottage.vue"),

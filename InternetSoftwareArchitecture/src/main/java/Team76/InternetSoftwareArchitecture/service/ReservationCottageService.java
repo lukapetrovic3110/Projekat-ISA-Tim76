@@ -38,4 +38,17 @@ public class ReservationCottageService implements IReservationCottageService {
 		return historyReservationDTOs;
 	}
 
+	@Override
+	public List<ReservationCottage> findAllScheduledReservationByClient() {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<ReservationCottage> allScheduledReservation = reservationCottageRepository.findByReservationStatus(ReservationStatus.SCHEDULED);
+		List<ReservationCottage> clientScheduledReservations = new ArrayList<ReservationCottage>();
+		
+		for (ReservationCottage reservationCottage : allScheduledReservation)
+			if (reservationCottage.getClient().getUserId() == client.getUserId())
+				clientScheduledReservations.add(reservationCottage);
+			
+		return clientScheduledReservations;
+	}
+
 }

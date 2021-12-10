@@ -133,6 +133,7 @@ export default {
           { title: "View reservation ship history", path: '/reservationShipHistoryByClient'},
           { title: "View reservation cottage history", path: '/reservationCottageHistoryByClient'},
           { title: "View reservation adventure history", path: '/reservationAdventureHistoryByClient'},
+          { title: "View scheduled reservations", path: '/clientScheduledReservation'},
         ];
       } else if (this.userType === "COTTAGE_OWNER") {
         this.items = [{ title: "Home", path: "/" }];

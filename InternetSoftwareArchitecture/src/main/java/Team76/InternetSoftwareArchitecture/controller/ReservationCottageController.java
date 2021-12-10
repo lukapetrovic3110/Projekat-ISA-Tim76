@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationCottageDTO;
+import Team76.InternetSoftwareArchitecture.model.ReservationCottage;
 import Team76.InternetSoftwareArchitecture.service.ReservationCottageService;
 
 @CrossOrigin(origins = "http://localhost:8083")
@@ -31,6 +32,12 @@ public class ReservationCottageController {
 	@GetMapping("/clientHistory")
 	public ResponseEntity<List<HistoryReservationCottageDTO>> findAllHistoryReservationByClient() {
 		return new ResponseEntity<List<HistoryReservationCottageDTO>>(reservationCottageService.findAllHistoryReservationByClient(), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@GetMapping("/scheduledReservation")
+	public ResponseEntity<List<ReservationCottage>> findAllScheduledReservationByClient() {
+		return new ResponseEntity<List<ReservationCottage>>(reservationCottageService.findAllScheduledReservationByClient(), HttpStatus.OK);
 	}
 	
 }
