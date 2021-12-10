@@ -322,7 +322,7 @@
 import VueUploadMultipleImage from 'vue-upload-multiple-image'
 
 export default {
-  name: "RegisterCottage",
+  name: "AddCottage",
   components: {
     VueUploadMultipleImage,
   },

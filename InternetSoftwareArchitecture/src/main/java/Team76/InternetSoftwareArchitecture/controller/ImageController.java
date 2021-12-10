@@ -40,7 +40,7 @@ public class ImageController {
 		this.cottageService = cottageService;
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_COTTAGE_OWNER', 'ROLE_SHIP_OWNER', 'ROLE_FISHING_INSTRUCTOR')")
+	//@PreAuthorize("hasAnyRole('ROLE_COTTAGE_OWNER', 'ROLE_SHIP_OWNER', 'ROLE_FISHING_INSTRUCTOR')")
 	@PostMapping("/upload/{id}/{userType}")
 	public ResponseEntity<?> upload(@RequestBody ImageUploadDTO imageUploadDTO, @PathVariable Long id, @PathVariable UserType userType) throws IOException {
 		List<String> images = imageUploadDTO.getImagesInformation();
@@ -48,7 +48,7 @@ public class ImageController {
 			String[] imageInfo = image.split(",");
 			
 			String newImageName = System.currentTimeMillis() +imageInfo[0];
-			File outputFile = new File("./images/" + newImageName);
+			File outputFile = new File("../internetsoftwarearchitecturefrontend/src/assets/images/" + newImageName);
 			byte[] decodedBytes = Base64.getDecoder().decode(imageInfo[2]);
 			FileUtils.writeByteArrayToFile(outputFile, decodedBytes);
 			Image imagedb = imageService.saveImage(new Image(newImageName));
