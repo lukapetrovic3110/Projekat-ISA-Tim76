@@ -7,46 +7,46 @@
       <v-form class="mx-auto ml-20 mr-20">
         <v-text-field
           label="Name"
-          v-model="name"
-          :rules="[() => !!name || 'This field is required']"
+          v-model="cottageInformation.name"
+          :rules="[() => !!cottageInformation.name || 'This field is required']"
           :error-messages="errorMessages"
         />
         <v-text-field
           label="Street Name"
-          v-model="streetName"
-          :rules="[() => !!streetName || 'This field is required']"
+          v-model="cottageInformation.address.street"
+          :rules="[() => !!cottageInformation.address.street || 'This field is required']"
           :error-messages="errorMessages"
         />
         <v-text-field
           label="Street Number"
-          v-model="streetNumber"
-          :rules="[() => !!streetNumber || 'This field is required']"
+          v-model="cottageInformation.address.streetNumber"
+          :rules="[() => !!cottageInformation.address.streetNumber || 'This field is required']"
           :error-messages="errorMessages"
         />
         <v-text-field
           label="City"
-          v-model="city"
-          :rules="[() => !!city || 'This field is required']"
+          v-model="cottageInformation.address.city"
+          :rules="[() => !!cottageInformation.address.city || 'This field is required']"
           :error-messages="errorMessages"
         />
         <v-autocomplete
           class="countryCombo"
           ref="country"
-          v-model="country"
-          :rules="[() => !!country || 'This field is required']"
+          v-model="cottageInformation.address.country"
+          :rules="[() => !!cottageInformation.address.country || 'This field is required']"
           :items="countries"
           label="Country"
           placeholder="Select..."
         />
         <v-text-field
           label="Description"
-          v-model="description"
-          :rules="[() => !!description || 'This field is required']"
+          v-model="cottageInformation.description"
+          :rules="[() => !!cottageInformation.description || 'This field is required']"
           :error-messages="errorMessages"
         />
         <v-text-field
           label="Number of rooms"
-          v-model="numberOfRooms"
+          v-model="cottageInformation.numberOfRooms"
           max="10"
           min="1"
           single-line
@@ -57,7 +57,7 @@
         />
         <v-text-field
           label="Number of beds per room"
-          v-model="numberOfBedsPerRoom"
+          v-model="cottageInformation.numberOfBedsPerRoom"
           max="10"
           min="1"
           single-line
@@ -73,7 +73,7 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
-              v-model="availabilityStart"
+              v-model="cottageInformation.availabilityStart"
               label="Available from"
               prepend-icon="mdi-calendar"
               readonly
@@ -81,7 +81,7 @@
               v-on="on"
             ></v-text-field>
           </template>
-          <v-date-picker v-model="availabilityStart" scrollable>
+          <v-date-picker v-model="cottageInformation.availabilityStart" scrollable>
             <v-spacer></v-spacer>
             <v-btn text color="primary" @click="dialogAvailabilityStart = false"
               >Cancel</v-btn
@@ -89,7 +89,7 @@
             <v-btn
               text
               color="primary"
-              @click="$refs.dialogAvailabilityStart.save(availabilityStart)"
+              @click="$refs.dialogAvailabilityStart.save(cottageInformation.availabilityStart)"
               >OK</v-btn
             >
           </v-date-picker>
@@ -101,7 +101,7 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
-              v-model="availabilityEnd"
+              v-model="cottageInformation.availabilityEnd"
               label="Available until"
               prepend-icon="mdi-calendar"
               readonly
@@ -109,7 +109,7 @@
               v-on="on"
             ></v-text-field>
           </template>
-          <v-date-picker v-model="availabilityEnd" scrollable>
+          <v-date-picker v-model="cottageInformation.availabilityEnd" scrollable>
             <v-spacer></v-spacer>
             <v-btn text color="primary" @click="dialogAvailabilityEnd = false"
               >Cancel</v-btn
@@ -117,7 +117,7 @@
             <v-btn
               text
               color="primary"
-              @click="$refs.dialogAvailabilityEnd.save(availabilityEnd)"
+              @click="$refs.dialogAvailabilityEnd.save(cottageInformation.availabilityEnd)"
               >OK</v-btn
             >
           </v-date-picker>
@@ -327,18 +327,26 @@ export default {
     VueUploadMultipleImage,
   },
   data: () => ({
+    cottageInformation: {
+      name: "",
+      description: "",
+      address: {
+        street: "",
+        streetNumber: "",
+        city: "",
+        country: "",
+      },
+      numberOfRooms: "",
+      numberOfBedsPerRoom: "",
+      cottageOwnerId: localStorage.getItem("userId"),
+      availabilityStart: "",
+      availabilityEnd: "",
+      priceList: [],
+      cottageRules: [],
+    },
+
     countries: ['Serbia'],
-    name: "",
-    streetName: "",
-    streetNumber: "",
-    city: "",
-    country: "",
-    description: "",
-    numberOfRooms: "",
-    numberOfBedsPerRoom: "",
     datePickerFormat: "dd.MM.yyyy.",
-    availabilityStart: "",
-    availabilityEnd: "",
     errorMessages: "",
 
     rules: [
@@ -401,7 +409,9 @@ export default {
       price: 0,
     },
 
-    images: [],
+    images: {
+      imagesInformation: [],
+    },
     imagesFileList: [],
   }),
   computed: {
@@ -433,49 +443,42 @@ export default {
 
   methods: {
     registerCottage() {
-      this.$http
-        .post("http://localhost:8091/cottage/add", {
-          name: this.name,
-          description: this.description,
-          address: {
-            street: this.streetName,
-            streetNumber: this.streetNumber,
-            city: this.city,
-            country: this.country,
-          },
-          numberOfRooms: this.numberOfRooms,
-          numberOfBedsPerRoom: this.numberOfBedsPerRoom,
-          cottageOwnerId: localStorage.getItem("userId"),
-          availabilityStart: this.availabilityStart,
-          availabilityEnd: this.availabilityEnd,
-          priceList: this.formatCottagePriceTags(),
-          cottageRules: this.formatCottageRules(),
+      this.cottageInformation.cottageRules = this.formatCottageRules();
+      this.cottageInformation.priceList = this.formatCottagePriceTags();
+      this.axios
+        .post("http://localhost:8091/cottage/add", this.cottageInformation, {
+          headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token"),
+          }
         })
         .then((response) => {
           this.uploadCottageImages(response.data);
         })
         .catch((er) => {
           alert("Error has occured!");
-          this.name = "";
-          this.description = "";
-          this.streetName = "";
-          this.streetNumber = "";
-          this.city = "";
-          this.country = "";
-          this.numberOfRooms = "";
-          this.numberOfBedsPerRoom = "";
-          this.availabilityStart = "";
-          this.availabilityEnd = "";
+          this.cottageInformation.name = "";
+          this.cottageInformation.description = "";
+          this.cottageInformation.address.street = "";
+          this.cottageInformation.address.streetNumber = "";
+          this.cottageInformation.address.city = "";
+          this.cottageInformation.address.country = "";
+          this.cottageInformation.numberOfRooms = "";
+          this.cottageInformation.numberOfBedsPerRoom = "";
+          this.cottageInformation.availabilityStart = "";
+          this.cottageInformation.availabilityEnd = "";
           this.cottageRules = [];
           this.cottagePriceTags = [];
-          console.log(er.response.data);
+          console.log(er);
         });
     },
 
     uploadCottageImages(data) {
-      this.$http
-        .post("http://localhost:8091/image/upload/" + data.cottageId.toString() + "/COTTAGE_OWNER", {
-          imagesInformation: this.formatCottageImages(),
+      this.images = this.formatCottageImages();
+      this.axios
+        .post("http://localhost:8091/image/upload/" + data.cottageId.toString() + "/COTTAGE_OWNER", this.images, {
+          headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token"),
+          }
         })
         .then((response) => {
           console.log(response.data);
@@ -490,10 +493,10 @@ export default {
     formatCottageImages() {
       for (let i = 0; i < this.imagesFileList.length; i++) {
         let imageInformation = this.imagesFileList[i].name + "," + this.imagesFileList[i].path;
-        this.images.push(imageInformation);
+        this.images.imagesInformation.push(imageInformation);
       }
 
-      return this.images;
+      return this.images
     },
 
     formatCottagePriceTags() {

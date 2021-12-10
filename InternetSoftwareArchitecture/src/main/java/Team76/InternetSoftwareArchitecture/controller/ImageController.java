@@ -40,7 +40,7 @@ public class ImageController {
 		this.cottageService = cottageService;
 	}
 	
-	//@PreAuthorize("hasAnyRole('ROLE_COTTAGE_OWNER', 'ROLE_SHIP_OWNER', 'ROLE_FISHING_INSTRUCTOR')")
+	@PreAuthorize("hasAnyRole('ROLE_COTTAGE_OWNER', 'ROLE_SHIP_OWNER', 'ROLE_FISHING_INSTRUCTOR')")
 	@PostMapping("/upload/{id}/{userType}")
 	public ResponseEntity<?> upload(@RequestBody ImageUploadDTO imageUploadDTO, @PathVariable Long id, @PathVariable UserType userType) throws IOException {
 		List<String> images = imageUploadDTO.getImagesInformation();
