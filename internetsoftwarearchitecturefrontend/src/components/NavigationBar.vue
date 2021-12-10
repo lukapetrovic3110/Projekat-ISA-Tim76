@@ -145,8 +145,10 @@ export default {
         ];
       } else {
         this.items = [
-          { title: "Browse cottage", path: "/browseCottage" },
-          { title: "Browse ship", path: "/browseShip" },
+          { title: "Home", path: "/" },
+          { title: "Search cottage", path: "/searchCottage" },
+          { title: "Search ship or boat", path: "/searchShip" },
+          { title: "Search fishing instructor", path: '/searchFishingInstructor'}
         ];
       }
     },

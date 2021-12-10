@@ -1,6 +1,8 @@
 package Team76.InternetSoftwareArchitecture.model;
 
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -34,6 +36,9 @@ public class Ship {
 	@Column(name = "rating")
 	private Double rating;
 
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Image> images;
+
 	@Column(name = "length", nullable = false)
 	private Double length;
 
@@ -51,6 +56,12 @@ public class Ship {
 
 	@Enumerated(EnumType.STRING)
 	private ShipType shipType;
+
+	@Column(name = "availabilityStart", nullable = false)
+	private Date availabilityStart;
+
+	@Column(name = "availabilityEnd", nullable = false)
+	private Date availabilityEnd;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<NavigationEquipment> navigationEquipment = new HashSet<NavigationEquipment>();
@@ -72,27 +83,32 @@ public class Ship {
 
 	public Ship() {
 	}
-
-	public Ship(String name, String description, Double rating, Double length, Integer engineNumber,
-			Integer enginePower, Integer maxSpeed, Integer capacity, ShipType shipType,
-			Set<NavigationEquipment> navigationEquipment, ShipOwner shipOwner, PriceList priceList, Set<Rule> shipRules,
-			Address address) {
+	
+	public Ship(Long shipId, String name, String description, Double rating, List<Image> images, Double length,
+			Integer engineNumber, Integer enginePower, Integer maxSpeed, Integer capacity, ShipType shipType,
+			Date availabilityStart, Date availabilityEnd, Set<NavigationEquipment> navigationEquipment,
+			ShipOwner shipOwner, PriceList priceList, Set<Rule> shipRules, Address address) {
 		super();
+		this.shipId = shipId;
 		this.name = name;
 		this.description = description;
 		this.rating = rating;
+		this.images = images;
 		this.length = length;
 		this.engineNumber = engineNumber;
 		this.enginePower = enginePower;
 		this.maxSpeed = maxSpeed;
 		this.capacity = capacity;
 		this.shipType = shipType;
+		this.availabilityStart = availabilityStart;
+		this.availabilityEnd = availabilityEnd;
 		this.navigationEquipment = navigationEquipment;
 		this.shipOwner = shipOwner;
 		this.priceList = priceList;
 		this.shipRules = shipRules;
 		this.address = address;
 	}
+
 
 	public Long getShipId() {
 		return shipId;
@@ -214,4 +230,29 @@ public class Ship {
 		this.address = address;
 	}
 
+	public Date getAvailabilityStart() {
+		return availabilityStart;
+	}
+
+	public void setAvailabilityStart(Date availabilityStart) {
+		this.availabilityStart = availabilityStart;
+	}
+
+	public Date getAvailabilityEnd() {
+		return availabilityEnd;
+	}
+
+	public void setAvailabilityEnd(Date availabilityEnd) {
+		this.availabilityEnd = availabilityEnd;
+	}
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
+	
+	
 }

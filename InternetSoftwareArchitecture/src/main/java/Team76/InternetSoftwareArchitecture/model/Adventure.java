@@ -1,6 +1,8 @@
 package Team76.InternetSoftwareArchitecture.model;
 
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -38,6 +40,12 @@ public class Adventure {
 	@Column(name = "maxNumberOfPersons", nullable = false)
 	private Integer maxNumberOfPersons;
 
+	@Column(name = "availabilityStart", nullable = false)
+	private Date availabilityStart;
+
+	@Column(name = "availabilityEnd", nullable = false)
+	private Date availabilityEnd;
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "fishingInstructorId", referencedColumnName = "userId")
 	private FishingInstructor fishingInstructor;
@@ -53,22 +61,30 @@ public class Adventure {
 	@JoinColumn(name = "addressId", referencedColumnName = "addressId")
 	private Address address;
 
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Image> images;
+
 	public Adventure() {
 	}
 
-	public Adventure(String name, String description, Double rating, String instructorBiography,
-			Integer maxNumberOfPersons, FishingInstructor fishingInstructor, PriceList priceList,
-			Set<Rule> adventureRules, Address address) {
+	public Adventure(Long adventureId, String name, String description, Double rating, String instructorBiography,
+			Integer maxNumberOfPersons, Date availabilityStart, Date availabilityEnd,
+			FishingInstructor fishingInstructor, PriceList priceList, Set<Rule> adventureRules, Address address,
+			List<Image> images) {
 		super();
+		this.adventureId = adventureId;
 		this.name = name;
 		this.description = description;
 		this.rating = rating;
 		this.instructorBiography = instructorBiography;
 		this.maxNumberOfPersons = maxNumberOfPersons;
+		this.availabilityStart = availabilityStart;
+		this.availabilityEnd = availabilityEnd;
 		this.fishingInstructor = fishingInstructor;
 		this.priceList = priceList;
 		this.adventureRules = adventureRules;
 		this.address = address;
+		this.images = images;
 	}
 
 	public Long getAdventureId() {
@@ -149,6 +165,30 @@ public class Adventure {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public Date getAvailabilityStart() {
+		return availabilityStart;
+	}
+
+	public void setAvailabilityStart(Date availabilityStart) {
+		this.availabilityStart = availabilityStart;
+	}
+
+	public Date getAvailabilityEnd() {
+		return availabilityEnd;
+	}
+
+	public void setAvailabilityEnd(Date availabilityEnd) {
+		this.availabilityEnd = availabilityEnd;
+	}
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
 	}
 
 }

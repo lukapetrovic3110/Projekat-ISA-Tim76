@@ -50,6 +50,7 @@ public class ImageController {
 			String newImageName = System.currentTimeMillis() +imageInfo[0];
 			File outputFile = new File("../internetsoftwarearchitecturefrontend/src/assets/images/" + newImageName);
 			byte[] decodedBytes = Base64.getDecoder().decode(imageInfo[2]);
+
 			FileUtils.writeByteArrayToFile(outputFile, decodedBytes);
 			Image imagedb = imageService.saveImage(new Image(newImageName));
 			
