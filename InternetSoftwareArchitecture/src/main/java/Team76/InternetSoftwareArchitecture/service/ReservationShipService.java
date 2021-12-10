@@ -30,7 +30,7 @@ public class ReservationShipService implements IReservationShipService {
 		List<ReservationShip> allFinishedReservation = reservationShipRepository.findByReservationStatus(ReservationStatus.FINISHED);
 		List<HistoryReservationShipDTO> historyReservationDTOs = new ArrayList<HistoryReservationShipDTO>();
 		
-		for(ReservationShip reservationShip : allFinishedReservation) 
+		for (ReservationShip reservationShip : allFinishedReservation) 
 			if (reservationShip.getClient().getUserId() == user.getUserId())
 				historyReservationDTOs.add(new HistoryReservationShipDTO(reservationShip.getDateAndTime().toString(),reservationShip.getDuration(), reservationShip.getPrice(), reservationShip.getMaxNumberOfPersons(), reservationShip.getShip().getName(), reservationShip.getShip().getCapacity()));
 			

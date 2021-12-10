@@ -177,13 +177,26 @@ INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VAL
 INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (2, 27);
 
 
--- FINISHED SHIP RESERVATION CLIENT TEST
+-- FINISHED RESERVATION CLIENT TEST
 
 INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_persons, price, reservation_status, ship_reservation_cancel_term, client_id, ship_id)
-	VALUES ('2021-12-01 12:00:00', '2', '2', '26000', 'FINISHED', 'FREE', '2', '1');
+	VALUES ('2021-11-11 12:00:00', '1', '2', '16000', 'FINISHED', 'FREE', '2', '1');
 	
 INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_persons, price, reservation_status, ship_reservation_cancel_term, client_id, ship_id)
-	VALUES ('2021-12-09 10:00:00', '3', '4', '50000', 'FINISHED', 'FREE', '2', '2');
+	VALUES ('2021-12-01 13:00:00', '4', '2', '60000', 'FINISHED', 'FREE', '2', '2');
+	
+INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_persons, price, reservation_status, ship_reservation_cancel_term, client_id, ship_id)
+	VALUES ('2021-12-09 10:00:00', '3', '3', '39000', 'FINISHED', 'FREE', '2', '2');
+
+INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id)
+	VALUES ('2021-09-03 11:00:00', '5', '4', '26000', 'FINISHED', '2', '1');
+
+INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id)
+	VALUES ('2021-11-07 11:00:00', '2', '2', '20000', 'FINISHED', '2', '2');
+	
+INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id)
+	VALUES ('2021-10-31 18:00:00', '3', '4', '30000', 'FINISHED', '2', '3');
+	
 
 
 

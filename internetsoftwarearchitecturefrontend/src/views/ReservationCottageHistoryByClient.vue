@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 id="capption">All reservation ship history</h1>
+    <h1 id="capption">All reservation cottage history</h1>
     <v-card id="reservationHistoryCard">
       <div>
         <v-data-table
@@ -12,7 +12,7 @@
             <v-toolbar dense dark color="light-blue darken-2">
               <v-spacer></v-spacer>
               <v-toolbar-title class="text-center">
-                History of the ship reservations
+                History of the cottage reservations
               </v-toolbar-title>
               <v-spacer></v-spacer>
             </v-toolbar>
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: "ReservationShipHistoryByClient",
+  name: "ReservationCottageHistoryByClient",
   data: () => ({
     reservationHistoryHeaders: [
       {
@@ -35,7 +35,7 @@ export default {
         sortable: true,
       },
       {
-        text: "Duration (hours)",
+        text: "Duration (days)",
         value: "duration",
         align: "center",
         sortable: true,
@@ -53,14 +53,20 @@ export default {
         sortable: true,
       },
       {
-        text: "Name of ship",
-        value: "nameOfShip",
+        text: "Name of cottage",
+        value: "nameOfCottage",
         align: "center",
         sortable: true,
       },
       {
-        text: "Maximum of person on ship",
-        value: "maxNumberOfPersons",
+        text: "Number of rooms",
+        value: "numberOfRooms",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Number of beds per room",
+        value: "numberOfBedsPerRoom",
         align: "center",
         sortable: true,
       },
@@ -73,7 +79,7 @@ export default {
   methods: {
     viewAllReservationHistory() {
       this.axios
-        .get("http://localhost:8091/reservationShip/clientHistory", {
+        .get("http://localhost:8091/reservationCottage/clientHistory", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
@@ -96,7 +102,7 @@ export default {
   font-weight: bold;
 }
 #reservationHistoryCard {
-  width: 65%;
+  width: 80%;
   text-align: center;
   margin: auto;
   margin-top: 5%;

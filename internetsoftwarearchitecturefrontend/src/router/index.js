@@ -66,6 +66,11 @@ const routes = [
     component: () => import("../views/SearchCottage.vue"),
   },
   {
+    path: "/reservationCottageHistoryByClient",
+    name: "ReservationCottageHistoryByClient",
+    component: () => import("../views/ReservationCottageHistoryByClient.vue"),
+  },
+  {
     path: "/searchShip",
     name: "SearchShip",
     component: () => import("../views/SearchShip.vue"),

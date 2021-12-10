@@ -1,7 +1,5 @@
 package Team76.InternetSoftwareArchitecture.dto;
 
-import java.util.Date;
-
 public class HistoryReservationShipDTO {
 	
 	private String dateAndTime;
