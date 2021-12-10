@@ -1,6 +1,7 @@
 package Team76.InternetSoftwareArchitecture.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.iservice.IClientService;
@@ -18,8 +19,9 @@ public class ClientService implements IClientService {
 	}
 
 	@Override
-	public Client findByUserId(Long userId) {
-		return clientRepository.findByUserId(userId);
+	public Client findClient() {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return clientRepository.findByUserId(client.getUserId());
 	}
 	
 	@Override

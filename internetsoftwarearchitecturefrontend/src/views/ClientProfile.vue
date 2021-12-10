@@ -188,7 +188,7 @@ export default {
       this.clientId = localStorage.getItem("userId");
       console.log(this.clientId);
       this.axios
-        .get("http://localhost:8091/client/" + this.clientId, {
+        .get("http://localhost:8091/client", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
@@ -205,7 +205,11 @@ export default {
           this.country = this.client.address.country;
           this.email = this.client.email;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => { 
+            window.location.href = "http://localhost:8083/login";
+            alert("401 Unauthorized - respected you are not logged in to the system.");
+            console.log(err);
+        });
     },
     editPersonalInfo() {
       window.location.href = "http://localhost:8083/editClientPersonalInfo";

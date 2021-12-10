@@ -6,6 +6,8 @@ import Team76.InternetSoftwareArchitecture.model.Client;
 
 @Service
 public interface IClientService {
-	Client findByUserId(Long userId);
+	// Client findByUserId(Long userId);
 	Client update(Client client);
+
+	Client findClient();
 }

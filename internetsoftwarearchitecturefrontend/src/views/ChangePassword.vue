@@ -99,7 +99,16 @@ export default {
       min: (v) => v.length >= 8 || "Min 8 characters",
     },
   }),
+  mounted() {
+    this.init();
+  },
   methods: {
+    init() {
+      if (this.email === "") {
+        window.location.href = "http://localhost:8083/login";
+        alert("401 Unauthorized - respected you are not logged in to the system.");
+      }
+    },
     save() {
       if (
         this.oldPass == "" ||
@@ -130,7 +139,9 @@ export default {
             console.log(resp.data);
             this.logOff();
           })
-          .catch((err) => console.log(err));
+          .catch((err) => { 
+            console.log(err);
+        });
       }
     },
     logOff() {

@@ -61,7 +61,7 @@
             </v-row>
             <v-row class="countryCombo">
               <v-autocomplete
-                ref="country"
+                ref="client.address.country"
                 v-model="client.address.country"
                 :items="countries"
                 label="Country"
@@ -101,17 +101,14 @@ export default {
   data: () => ({
     countries: ["Serbia"],
     client: null,
-    clientId: "",
   }),
   mounted() {
     this.viewPersonalInfo();
   },
   methods: {
     viewPersonalInfo() {
-      this.clientId = localStorage.getItem("userId");
-
       this.axios
-        .get("http://localhost:8091/client/" + this.clientId, {
+        .get("http://localhost:8091/client", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
@@ -119,7 +116,12 @@ export default {
         .then((response) => {
           this.client = response.data;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => { 
+            window.location.href = "http://localhost:8083/login";
+            alert("401 Unauthorized - respected you are not logged in to the system.");
+            console.log(err);
+            
+        });
     },
     save() {
       if (
