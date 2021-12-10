@@ -55,6 +55,9 @@ export default {
   },
   methods: {
     login() {
+      if (this.email === "" || this.password === "") {
+        alert("Please fill in all fields!");
+      } else { 
       this.$http
         .post("http://localhost:8091/auth/login", {
           email: this.email,
@@ -68,23 +71,18 @@ export default {
             localStorage.setItem("userId", resp.data.user.userId);
             localStorage.setItem("userType", resp.data.user.userType);
             localStorage.setItem("first_login", resp.data.user.firstLogin);
-    
-            if (resp.data.user.userType == "CLIENT") {
-              window.location.href = "http://localhost:8083/";
-            } else{
-                  window.location.href = "http://localhost:8083/";
-            }
+            window.location.href = "http://localhost:8083/";
           } catch (error) {
             alert(error);
           }
         })
-
         .catch((er) => {
           alert("Invalid email and/or password! Please, try again!");
           this.email = "";
           this.password = "";
           console.log(er.response.data);
         });
+      }
     },
   },
 };
