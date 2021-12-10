@@ -70,6 +70,7 @@ const routes = [
     name: "MyCottages",
     component: () => import("../views/MyCottages.vue"),
   },
+  {
     path: "/searchCottage",
     name: "SearchCottage",
     component: () => import("../views/SearchCottage.vue"),
@@ -83,6 +84,11 @@ const routes = [
     path: "/searchFishingInstructor",
     name: "SearchFishingInstructor",
     component: () => import("../views/SearchFishingInstructor.vue"),
+  },
+  {
+    path: "/cottageProfile",
+    name: "CottageProfile",
+    component: () => import("../views/CottageProfile.vue"),
   },
 ];
 const router = new VueRouter({

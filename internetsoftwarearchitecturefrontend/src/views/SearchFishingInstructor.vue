@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 id="capption">Search fishing instructor adventure</h1>
+    <h1 id="caption">Search fishing instructor adventure</h1>
     <v-card id="content" justify-center>
       <v-container fluid>
         <v-data-iterator
@@ -235,7 +235,7 @@ export default {
 </script>
 
 <style scoped>
-#capption {
+#caption {
   margin-top: 2%;
   margin-bottom: 2%;
   color: #007acc;

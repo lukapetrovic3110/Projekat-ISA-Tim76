@@ -48,8 +48,8 @@ public class CottageController {
 	
 	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")
 	@GetMapping("/getAll/{id}")
-	public ResponseEntity<List<Cottage>> getAll(@PathVariable Long id) {
-		return new ResponseEntity<List<Cottage>>(cottageService.getAllCottagesForCottageOwner(id), HttpStatus.OK);
+	public ResponseEntity<List<CottageDTO>> getAll(@PathVariable Long id) {
+		return new ResponseEntity<List<CottageDTO>>(cottageService.getAllCottagesForCottageOwner(id), HttpStatus.OK);
 	}
   
 	@GetMapping("/all")
