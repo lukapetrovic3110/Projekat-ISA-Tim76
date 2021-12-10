@@ -20,40 +20,40 @@
             </v-row>
             <v-row>
               <v-text-field
-                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="showPassword ? 'text' : 'password'"
+                :append-icon="showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="showPassword1 ? 'text' : 'password'"
                 v-model="oldPass"
                 :rules="[rules.required]"
                 class="ml-10 mr-10"
                 label="Old password"
                 color="blue"
-                @click:append="showPassword = !showPassword"
+                @click:append="showPassword1 = !showPassword1"
               />
             </v-row>
             <v-row>
               <v-text-field
-                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="showPassword ? 'text' : 'password'"
+                :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="showPassword2 ? 'text' : 'password'"
                 class="ml-10 mr-10"
                 label="New password"
                 v-model="newPass"
                 color="blue"
                 hint="At least 8 characters"
                 :rules="[rules.required, rules.min]"
-                @click:append="showPassword = !showPassword"
+                @click:append="showPassword2 = !showPassword2"
               />
             </v-row>
             <v-row>
               <v-text-field
-                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="showPassword ? 'text' : 'password'"
+                :append-icon="showPassword3 ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="showPassword3 ? 'text' : 'password'"
                 class="ml-10 mr-10"
                 label="Rewrite new password"
                 v-model="rewritePass"
                 color="blue"
                 hint="At least 8 characters"
                 :rules="[rules.required, rules.min]"
-                @click:append="showPassword = !showPassword"
+                @click:append="showPassword3 = !showPassword3"
               />
             </v-row>
           </v-form>
@@ -91,20 +91,31 @@ export default {
     newPass: "",
     rewritePass: "",
     email: localStorage.getItem("email"),
-    showPassword: false,
+    showPassword1: false,
+    showPassword2: false,
+    showPassword3: false,
     rules: {
       required: (value) => !!value || "Required.",
       min: (v) => v.length >= 8 || "Min 8 characters",
     },
   }),
+  mounted() {
+    this.init();
+  },
   methods: {
+    init() {
+      if (this.email === "") {
+        window.location.href = "http://localhost:8083/login";
+        alert("401 Unauthorized - respected you are not logged in to the system.");
+      }
+    },
     save() {
       if (
         this.oldPass == "" ||
         this.newPass == "" ||
         this.rewritePassword == ""
       ) {
-        alert("Fill all the required fields!");
+        alert("Please fill all the required fields!");
       } else if (this.oldPass === this.newPass) {
         alert("Password can not be the same as the old one!");
       } else if (this.rewritePass !== this.newPass) {
@@ -128,7 +139,9 @@ export default {
             console.log(resp.data);
             this.logOff();
           })
-          .catch((err) => console.log(err));
+          .catch((err) => { 
+            console.log(err);
+        });
       }
     },
     logOff() {

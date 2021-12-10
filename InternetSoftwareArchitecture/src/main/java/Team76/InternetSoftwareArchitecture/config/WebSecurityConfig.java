@@ -55,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().exceptionHandling()
 				.authenticationEntryPoint(restAuthenticationEntryPoint).and().authorizeRequests()
-				.antMatchers("/auth/*", "/admin/registrationRequests", "/admin/declineRegistrationRequest", "/admin/acceptRegistrationRequest", "/client/*", "/cottage/*", "/cottage", "/ship", "/ship/*", "/adventure", "/adventure/*" ,"/image/upload/*/*").permitAll()
+				.antMatchers("/auth/*", "/admin/registrationRequests", "/admin/declineRegistrationRequest", "/admin/acceptRegistrationRequest", "/client/*", "/deleteAccount/*", "/cottage/*", "/cottage", "/reservationCottage/*", "/ship", "/ship/*", "/reservationShip/*", "/adventure", "/reservationAdventure/*", "/adventure/*" ,"/image/upload/*/*").permitAll()
 				.anyRequest().authenticated().and().httpBasic().and().cors().and()
 				.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
 						BasicAuthenticationFilter.class);
@@ -65,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers(HttpMethod.PUT, "/users/confirm_account/*");
+		web.ignoring().antMatchers(HttpMethod.PUT, "/auth/confirm_account/*");
 		web.ignoring().antMatchers(HttpMethod.POST, "/auth/login", "/auth/logout", "/auth/signupClient", "/auth/signupCottageOwner", "/auth/signupShipOwner", "/auth/signupFishingInstructor");
 		web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
 				"/**/*.css", "/**/*.js");
