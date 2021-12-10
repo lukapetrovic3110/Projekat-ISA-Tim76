@@ -74,6 +74,10 @@ public class CottageService implements ICottageService {
 	}
 
 	@Override
+	public List<Cottage> getAllCottagesForCottageOwner(Long cottageOwnerId) {
+		return cottageRepository.getAllCottagesForCottageOwner(cottageOwnerId);
+	}
+	
 	public List<Cottage> all() {
 		return cottageRepository.findAll();
 	}
@@ -104,5 +108,5 @@ public class CottageService implements ICottageService {
 
 		return cottageDTOs;
 	}
-
+  
 }

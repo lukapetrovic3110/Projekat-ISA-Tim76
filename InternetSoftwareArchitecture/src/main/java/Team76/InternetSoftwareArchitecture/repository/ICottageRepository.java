@@ -1,5 +1,7 @@
 package Team76.InternetSoftwareArchitecture.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -22,6 +24,9 @@ public interface ICottageRepository extends JpaRepository<Cottage, Long> {
 	@Query(value = "UPDATE cottage SET cottage_owner_id=:cottageOwnerId WHERE cottage_id=:cottageId", nativeQuery = true)
 	void saveCottageOwnerForCottage(@Param("cottageId") Long cottageId, @Param("cottageOwnerId") Long cottageOwnerId);
 	
-	Cottage findByCottageId(Long id);
+	@Query(value = "SELECT * FROM cottage WHERE cottage_owner_id=:cottageOwnerId", nativeQuery = true)
+	List<Cottage> getAllCottagesForCottageOwner(Long cottageOwnerId);
 	
+	Cottage findByCottageId(Long id);
+
 }

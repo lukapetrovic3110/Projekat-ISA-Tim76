@@ -99,7 +99,7 @@
 
 <script>
 export default {
-  name: "Register",
+  name: "RegisterCottageOwner",
   data: () => ({
     countries: ['Serbia'],
     errorMessages: '',

@@ -61,6 +61,15 @@ const routes = [
     component: () => import("../views/ChangePassword.vue"),
   },
   {
+    path: "/addCottage",
+    name: "AddCottage",
+    component: () => import("../views/AddCottage.vue"),
+  },
+  {
+    path: "/myCottages",
+    name: "MyCottages",
+    component: () => import("../views/MyCottages.vue"),
+  },
     path: "/searchCottage",
     name: "SearchCottage",
     component: () => import("../views/SearchCottage.vue"),
