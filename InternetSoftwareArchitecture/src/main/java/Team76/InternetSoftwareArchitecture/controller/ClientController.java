@@ -40,5 +40,6 @@ public class ClientController {
 		return new ResponseEntity<Client>(clientService.update(client), HttpStatus.OK);
 
 	}
+	
 
 }
