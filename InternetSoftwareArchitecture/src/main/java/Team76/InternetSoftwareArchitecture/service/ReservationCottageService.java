@@ -1,6 +1,8 @@
 package Team76.InternetSoftwareArchitecture.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,23 @@ public class ReservationCottageService implements IReservationCottageService {
 				clientScheduledReservations.add(reservationCottage);
 			
 		return clientScheduledReservations;
+	}
+
+	@Override
+	public Boolean cancelReservation(Long reservationId) {
+		ReservationCottage reservationShip = reservationCottageRepository.findByReservationCottageId(reservationId);
+		Date startDate = reservationShip.getDateAndTime();
+		Date currentDate = new Date(System.currentTimeMillis());
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(currentDate);
+		calendar.add(Calendar.DAY_OF_MONTH, 3);
+
+		if (startDate.before(calendar.getTime()))
+			return false;
+		
+		reservationShip.setReservationStatus(ReservationStatus.CANCELLED);
+		reservationCottageRepository.save(reservationShip);
+		return true;
 	}
 
 }

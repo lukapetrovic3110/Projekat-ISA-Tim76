@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import Team76.InternetSoftwareArchitecture.dto.CancelReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.ScheduledReservationDTO;
 import Team76.InternetSoftwareArchitecture.model.Client;
 import Team76.InternetSoftwareArchitecture.model.ReservationAdventure;
@@ -100,6 +102,26 @@ public class ClientController {
 		}
 	
 		return new ResponseEntity<List<ScheduledReservationDTO>>(scheduledReservationDTOs, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@PutMapping(value = "/cancelReservation")
+	public ResponseEntity<Boolean> cancelReservation(@RequestBody CancelReservationDTO cancelReservationDTO) {
+		Boolean isCancelReseravation = false;
+		
+		if (cancelReservationDTO.getReservationType() == ReservationType.ADVENTURE) {
+			isCancelReseravation = reservationAdventureService.cancelReservation(cancelReservationDTO.getReservationId());
+		}
+		
+		if (cancelReservationDTO.getReservationType() == ReservationType.SHIP) {
+			isCancelReseravation = reservationShipService.cancelReservation(cancelReservationDTO.getReservationId());
+		}
+		
+		if (cancelReservationDTO.getReservationType() == ReservationType.COTTAGE) {
+			isCancelReseravation = reservationCottageService.cancelReservation(cancelReservationDTO.getReservationId());
+		}
+		
+		return new ResponseEntity<Boolean>(isCancelReseravation, HttpStatus.OK);
 	}
 
 }

@@ -10,7 +10,9 @@ import Team76.InternetSoftwareArchitecture.model.ReservationShip;
 @Service
 public interface IReservationShipService {
 	
-	public List<HistoryReservationShipDTO> findAllHistoryReservationByClient();
+	List<HistoryReservationShipDTO> findAllHistoryReservationByClient();
 	
-	public List<ReservationShip> findAllScheduledReservationByClient();
+	List<ReservationShip> findAllScheduledReservationByClient();
+
+	Boolean cancelReservation(Long reservationId);
 }

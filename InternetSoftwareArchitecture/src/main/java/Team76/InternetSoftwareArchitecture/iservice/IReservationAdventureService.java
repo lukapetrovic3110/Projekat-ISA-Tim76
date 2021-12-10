@@ -12,4 +12,6 @@ public interface IReservationAdventureService {
 	public List<HistoryReservationAdventureDTO> findAllHistoryReservationByClient();
 
 	public List<ReservationAdventure> findAllScheduledReservationByClient();
+	
+	public Boolean cancelReservation(Long reservationId);
 }

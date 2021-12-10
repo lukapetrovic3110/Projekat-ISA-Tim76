@@ -12,4 +12,6 @@ import Team76.InternetSoftwareArchitecture.model.ReservationStatus;
 public interface IReservationCottageRepository extends JpaRepository<ReservationCottage, Long> {
 	
 	List<ReservationCottage> findByReservationStatus(ReservationStatus reservationStatus);
+
+	ReservationCottage findByReservationCottageId(Long reservationId);
 }

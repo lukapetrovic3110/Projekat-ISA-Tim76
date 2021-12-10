@@ -12,4 +12,6 @@ import Team76.InternetSoftwareArchitecture.model.ReservationStatus;
 public interface IReservationShipRepository extends JpaRepository<ReservationShip, Long>{
 	
 	List<ReservationShip> findByReservationStatus(ReservationStatus reservationStatus);
+
+	ReservationShip findByReservationShipId(Long reservationShipId);
 }
