@@ -248,15 +248,4 @@ INSERT INTO public.user_subscriptions(client_user_id, subscriptions_user_id)
 
 INSERT INTO public.user_subscriptions(client_user_id, subscriptions_user_id)
 	VALUES (2, 9);
-	
-
-	
-	
-
-
-
-
-
-
-
 
