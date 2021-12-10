@@ -91,21 +91,72 @@
           <v-btn
             v-on:click="editPersonalInfo"
             color="info"
-            class="mt-2 mr-10 p-5 mb-5"
+            class="mt-2 mr-1 p-5 mb-5"
             x-medium
-            width="270px"
+            width="250px"
             height="40px"
             >Edit personal information</v-btn
           >
           <v-btn
             v-on:click="changePassword"
             color="info"
-            class="mt-2 ml-10 p-5 mb-5"
+            class="mt-2 ml-5 p-5 mb-5"
             x-medium
-            width="240px"
+            width="200px"
             height="40px"
             >Change password</v-btn
           >
+          <v-dialog max-width="600">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                color="red darken-1"
+                x-medium
+                width="200px"
+                height="40px"
+                class="mt-2 ml-6 p-5 mb-5"
+                v-bind="attrs"
+                v-on="on"
+                >Delete Account</v-btn
+              >
+            </template>
+            <template v-slot:default="dialog">
+              <v-card>
+                <v-toolbar color="info" dark>Delete account request</v-toolbar>
+                <v-spacer></v-spacer>
+                <v-card-title class="text-h4 justify-center"
+                  >Enter a reason</v-card-title
+                >
+                <v-card-text>
+                  <v-spacer></v-spacer>
+                  <v-text-field
+                    class="ml-5 mr-5"
+                    label="Reason"
+                    v-model="reason"
+                    color="info"
+                    type="text"
+                  />
+                  <v-spacer></v-spacer>
+                </v-card-text>
+
+                <v-spacer></v-spacer>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+
+                  <v-btn color="green" text @click="sendRequest">Send</v-btn>
+                  <v-spacer></v-spacer>
+
+                  <v-btn
+                    color="red"
+                    text
+                    @click="(reason = ''), (dialog.value = false)"
+                    >Cancel</v-btn
+                  >
+                  <v-spacer></v-spacer>
+                </v-card-actions>
+              </v-card>
+            </template>
+          </v-dialog>
         </v-card-actions>
       </v-card>
     </div>
@@ -126,6 +177,7 @@ export default {
     city: "",
     country: "",
     email: "",
+    reason: "",
     client: null,
   }),
   mounted() {
@@ -160,6 +212,25 @@ export default {
     },
     changePassword() {
       window.location.href = "http://localhost:8083/changePassword";
+    },
+    sendRequest() {
+      this.$http
+        .post(
+          "http://localhost:8091/deleteAccount/client",
+          {
+            reason: this.reason,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then(() => {
+          alert("Successfully send delete account request!");
+          window.location.href = "http://localhost:8083/";
+        })
+        .catch((err) => console.log(err));
     },
   },
 };
