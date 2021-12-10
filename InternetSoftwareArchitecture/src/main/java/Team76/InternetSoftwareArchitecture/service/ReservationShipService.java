@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationShipDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IReservationShipService;
+import Team76.InternetSoftwareArchitecture.model.Client;
 import Team76.InternetSoftwareArchitecture.model.ReservationShip;
 import Team76.InternetSoftwareArchitecture.model.ReservationStatus;
-import Team76.InternetSoftwareArchitecture.model.User;
 import Team76.InternetSoftwareArchitecture.repository.IReservationShipRepository;
 
 @Service
@@ -26,12 +26,12 @@ public class ReservationShipService implements IReservationShipService {
 	
 	@Override
 	public List<HistoryReservationShipDTO> findAllHistoryReservationByClient() {
-		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();		
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();	
 		List<ReservationShip> allFinishedReservation = reservationShipRepository.findByReservationStatus(ReservationStatus.FINISHED);
 		List<HistoryReservationShipDTO> historyReservationDTOs = new ArrayList<HistoryReservationShipDTO>();
 		
 		for (ReservationShip reservationShip : allFinishedReservation) 
-			if (reservationShip.getClient().getUserId() == user.getUserId())
+			if (reservationShip.getClient().getUserId() == client.getUserId())
 				historyReservationDTOs.add(new HistoryReservationShipDTO(reservationShip.getDateAndTime().toString(),reservationShip.getDuration(), reservationShip.getPrice(), reservationShip.getMaxNumberOfPersons(), reservationShip.getShip().getName(), reservationShip.getShip().getCapacity()));
 			
 	

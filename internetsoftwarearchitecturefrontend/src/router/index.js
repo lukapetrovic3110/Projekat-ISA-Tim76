@@ -85,6 +85,11 @@ const routes = [
     name: "SearchFishingInstructor",
     component: () => import("../views/SearchFishingInstructor.vue"),
   },
+  {
+    path: "/reservationAdventureHistoryByClient",
+    name: "ReservationAdventureHistoryByClient",
+    component: () => import("../views/ReservationAdventureHistoryByClient.vue"),
+  },
 ];
 const router = new VueRouter({
   mode: "history",

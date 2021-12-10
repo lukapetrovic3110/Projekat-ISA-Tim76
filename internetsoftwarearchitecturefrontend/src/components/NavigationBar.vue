@@ -132,6 +132,7 @@ export default {
           { title: "Search fishing instructor", path: '/searchFishingInstructor'},
           { title: "View reservation ship history", path: '/reservationShipHistoryByClient'},
           { title: "View reservation cottage history", path: '/reservationCottageHistoryByClient'},
+          { title: "View reservation adventure history", path: '/reservationAdventureHistoryByClient'},
         ];
       } else if (this.userType === "COTTAGE_OWNER") {
         this.items = [{ title: "Home", path: "/" }];

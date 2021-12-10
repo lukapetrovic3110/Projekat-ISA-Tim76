@@ -196,7 +196,20 @@ INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_pe
 	
 INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id)
 	VALUES ('2021-10-31 18:00:00', '3', '4', '30000', 'FINISHED', '2', '3');
+
+INSERT INTO public.reservation_adventure(adventure_reservation_cancel_term, date_and_time, duration, max_number_of_persons, price, reservation_status, adventure_id, client_id)
+	VALUES ('FREE','2021-09-15 08:00:00', '2', '2', '1800', 'FINISHED', '1', '2');
 	
+INSERT INTO public.reservation_adventure(adventure_reservation_cancel_term, date_and_time, duration, max_number_of_persons, price, reservation_status, adventure_id, client_id)
+	VALUES ('FREE','2021-10-10 14:00:00', '3', '4', '4000', 'FINISHED', '2', '2');
+	
+INSERT INTO public.reservation_adventure(adventure_reservation_cancel_term, date_and_time, duration, max_number_of_persons, price, reservation_status, adventure_id, client_id)
+	VALUES ('FREE','2021-11-10 15:00:00', '4', '4', '3000', 'FINISHED', '2', '2');
+	
+
+	
+	
+
 
 
 

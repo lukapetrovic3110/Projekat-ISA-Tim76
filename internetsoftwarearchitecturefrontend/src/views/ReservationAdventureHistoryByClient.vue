@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 id="capption">All reservation cottage history</h1>
+    <h1 id="capption">All reservation adventure history</h1>
     <v-card id="reservationHistoryCard">
       <div>
         <v-data-table
@@ -12,7 +12,7 @@
             <v-toolbar dense dark color="light-blue darken-2">
               <v-spacer></v-spacer>
               <v-toolbar-title class="text-center">
-                History of the cottage reservations
+                History of the adventure reservations
               </v-toolbar-title>
               <v-spacer></v-spacer>
             </v-toolbar>
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: "ReservationCottageHistoryByClient",
+  name: "ReservationAdventureHistoryByClient",
   data: () => ({
     reservationHistoryHeaders: [
       {
@@ -35,7 +35,7 @@ export default {
         sortable: true,
       },
       {
-        text: "Duration (days)",
+        text: "Duration (hours)",
         value: "duration",
         align: "center",
         sortable: true,
@@ -53,20 +53,26 @@ export default {
         sortable: true,
       },
       {
-        text: "Name of cottage",
-        value: "nameOfCottage",
+        text: "Name of adventure",
+        value: "nameOfAdventure",
         align: "center",
         sortable: true,
       },
       {
-        text: "Number of rooms",
-        value: "numberOfRooms",
+        text: "Fishing instructor",
+        value: "fishingInstructor",
         align: "center",
         sortable: true,
       },
       {
-        text: "Number of beds per room",
-        value: "numberOfBedsPerRoom",
+        text: "Adventure description",
+        value: "description",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "Maximum of person on the adventure",
+        value: "maxNumberOfPersons",
         align: "center",
         sortable: true,
       },
@@ -79,7 +85,7 @@ export default {
   methods: {
     viewAllReservationHistory() {
       this.axios
-        .get("http://localhost:8091/reservationCottage/clientHistory", {
+        .get("http://localhost:8091/reservationAdventure/clientHistory", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
@@ -91,7 +97,8 @@ export default {
         .catch((err) => { 
             window.location.href = "http://localhost:8083/login";
             alert("401 Unauthorized - respected you are not logged in to the system.");
-            console.log(err); // 401 Unauthorized 
+            console.log(err);
+            
         });
     },
   },

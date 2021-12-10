@@ -81,6 +81,12 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.allReservationHistory = response.data;
+        })
+        .catch((err) => { 
+            window.location.href = "http://localhost:8083/login";
+            alert("401 Unauthorized - respected you are not logged in to the system.");
+            console.log(err);
+            
         });
     },
   },
@@ -96,7 +102,7 @@ export default {
   font-weight: bold;
 }
 #reservationHistoryCard {
-  width: 65%;
+  width: 80%;
   text-align: center;
   margin: auto;
   margin-top: 5%;
