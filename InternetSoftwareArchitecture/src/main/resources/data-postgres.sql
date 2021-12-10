@@ -4,6 +4,7 @@ INSERT INTO public.authority (name) VALUES ('ROLE_SHIP_OWNER');
 INSERT INTO public.authority (name) VALUES ('ROLE_FISHING_INSTRUCTOR');
 INSERT INTO public.authority (name) VALUES ('ROLE_SYSTEM_ADMINISTRATOR');
 
+
 INSERT INTO public.address (city, country, street, street_number) VALUES ('RandomCity', 'RandomCountry', 'RandomStreet', '5');
 INSERT INTO public.address (city, country, street, street_number) VALUES ('Novi Sad', 'Srbija', 'Jevrejska', '6');
 INSERT INTO public.address (city, country, street, street_number) VALUES ('Novi Sad', 'Srbija', 'Bulevar Oslobodjenja', '10');

@@ -136,7 +136,11 @@ export default {
           { title: "View scheduled reservations", path: '/clientScheduledReservation'},
         ];
       } else if (this.userType === "COTTAGE_OWNER") {
-        this.items = [{ title: "Home", path: "/" }];
+        this.items = [
+          { title: "Home", path: "/" },
+          { title: "My cottages", path: "/myCottages" },
+          { title: "Register new cottage", path: "/addCottage" },
+        ];
       } else if (this.userType === "SHIP_OWNER") {
         this.items = [{ title: "Home", path: "/" }];
       } else if (this.userType === "FISHING_INSTRUCTOR") {
