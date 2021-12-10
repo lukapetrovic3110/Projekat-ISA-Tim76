@@ -70,6 +70,7 @@ const routes = [
     name: "MyCottages",
     component: () => import("../views/MyCottages.vue"),
   },
+  {
     path: "/searchCottage",
     name: "SearchCottage",
     component: () => import("../views/SearchCottage.vue"),
