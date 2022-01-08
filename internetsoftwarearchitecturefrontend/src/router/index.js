@@ -66,6 +66,11 @@ const routes = [
     component: () => import("../views/ChangePassword.vue"),
   },
   {
+    path: "/profileDeleteRequests",
+    name: "ProfileDeleteRequests",
+    component: () => import("../views/ProfileDeleteRequests.vue"),
+  },
+  {
     path: "/clientScheduledReservation",
     name: "ClientScheduledReservation",
     component: () => import("../views/ClientScheduledReservation.vue"),

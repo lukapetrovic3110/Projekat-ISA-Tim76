@@ -1,17 +1,21 @@
 package Team76.InternetSoftwareArchitecture.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import Team76.InternetSoftwareArchitecture.dto.UserDeleteAccountRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.WaitingProfileDeleteRequestDTO;
 import Team76.InternetSoftwareArchitecture.model.UserDeleteAccount;
 import Team76.InternetSoftwareArchitecture.service.UserDeleteAccountService;
 
@@ -31,6 +35,12 @@ public class UserDeleteAccountController {
 	@PostMapping("/client")
 	public ResponseEntity<UserDeleteAccount> sendDeleteClientAccountRequest(@RequestBody UserDeleteAccountRequestDTO userDeleteAccountDTO) {
 		return new ResponseEntity<UserDeleteAccount>(userDeleteAccountService.sendDeleteClientAccountRequest(userDeleteAccountDTO), HttpStatus.CREATED);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
+	@GetMapping("/profileDeleteRequests")
+	public ResponseEntity<List<WaitingProfileDeleteRequestDTO>> findProfileDeleteRequests() {
+		return new ResponseEntity<List<WaitingProfileDeleteRequestDTO>>(userDeleteAccountService.findProfileDeleteRequests(), HttpStatus.OK);
 	}
 	
 }

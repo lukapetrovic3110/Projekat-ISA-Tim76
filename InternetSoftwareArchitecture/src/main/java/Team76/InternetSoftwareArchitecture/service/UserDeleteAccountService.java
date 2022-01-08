@@ -1,10 +1,14 @@
 package Team76.InternetSoftwareArchitecture.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.dto.UserDeleteAccountRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.WaitingProfileDeleteRequestDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IUserDeleteAccountService;
 import Team76.InternetSoftwareArchitecture.model.User;
 import Team76.InternetSoftwareArchitecture.model.UserDeleteAccount;
@@ -31,6 +35,18 @@ public class UserDeleteAccountService implements IUserDeleteAccountService {
 		userDeleteAccount.setReason(userDeleteAccountDTO.getReason());
 		userDeleteAccount.setUser(userRepository.findByUserId(user.getUserId()));
 		return userDeleteAccountRepository.save(userDeleteAccount);
+	}
+
+	@Override
+	public List<WaitingProfileDeleteRequestDTO> findProfileDeleteRequests() {
+		List<UserDeleteAccount> userDeleteAccounts = userDeleteAccountRepository.findAll();
+		List<WaitingProfileDeleteRequestDTO> requestDTOs = new ArrayList<WaitingProfileDeleteRequestDTO>();
+		for (UserDeleteAccount userDeleteAccount : userDeleteAccounts) {
+			User u = userRepository.findByUserId(userDeleteAccount.getUser().getUserId());
+			requestDTOs.add(new WaitingProfileDeleteRequestDTO(u.getFirstName(), u.getLastName(), u.getEmail(), userDeleteAccount.getReason()));
+		}
+		
+		return requestDTOs;
 	}
 
 }

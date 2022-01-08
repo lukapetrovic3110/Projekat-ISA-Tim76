@@ -150,6 +150,7 @@ export default {
         this.items = [
           { title: "Home", path: "/" },
           { title: "Registration requests", path: "/registrationRequests" },
+          { title: "Profile delete requests", path: "/profileDeleteRequests"},
         ];
       } else {
         this.items = [
