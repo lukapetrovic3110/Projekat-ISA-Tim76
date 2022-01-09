@@ -111,6 +111,7 @@ export default {
     defaultItem: null,
     comment: null,
     requestEmail: null,
+    index: null,
     headers: [
       {
         text: "First name",

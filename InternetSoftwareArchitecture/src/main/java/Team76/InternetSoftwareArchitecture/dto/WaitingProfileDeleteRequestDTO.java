@@ -2,6 +2,7 @@ package Team76.InternetSoftwareArchitecture.dto;
 
 public class WaitingProfileDeleteRequestDTO {
 
+	private Long profileDeleteRequestId;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -11,12 +12,22 @@ public class WaitingProfileDeleteRequestDTO {
 
 	}
 
-	public WaitingProfileDeleteRequestDTO(String firstName, String lastName, String email, String reason) {
+	public WaitingProfileDeleteRequestDTO(Long profileDeleteRequestId, String firstName, String lastName, String email, String reason) {
 		super();
+		this.profileDeleteRequestId = profileDeleteRequestId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.reason = reason;
+	}
+
+	
+	public Long getProfileDeleteRequestId() {
+		return profileDeleteRequestId;
+	}
+
+	public void setProfileDeleteRequestId(Long profileDeleteRequestId) {
+		this.profileDeleteRequestId = profileDeleteRequestId;
 	}
 
 	public String getFirstName() {
