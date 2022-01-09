@@ -1,39 +1,43 @@
 <template>
   <div>
-    <h1 id="registrationRequestsCaption">Registration requests</h1>
-    <v-card id="registrationRequestsCard" justify-center>
+    <h1 id="caption">Profile delete requests</h1>
+    <v-card id="profileDeleteRequestsCard" justify-center>
       <div>
-        <v-data-table
-          :headers="headers"
-          :items="registartionRequests"
-          class="elevation-1"
-        >
+        <v-data-table :headers="headers" :items="requests" class="elevation-1">
           <template v-slot:top>
             <v-toolbar dense dark color="light-blue darken-2">
               <v-spacer></v-spacer>
-              <v-toolbar-title class="text-center"
-                >Waiting registration requests</v-toolbar-title
-              >
+              <v-toolbar-title class="text-center">
+                Waiting profile delete requests
+              </v-toolbar-title>
               <v-spacer></v-spacer>
 
               <v-dialog v-model="dialogAcceptRequest" max-width="60%">
                 <v-card>
                   <v-spacer></v-spacer>
-                  <v-card-title class="text-h5 justify-center"
-                    >Are you sure you want to accept this registration request?
+                  <v-card-title class="text-h4 justify-center">
+                    Enter a comment
                   </v-card-title>
+                  <v-card-text>
+                    <v-spacer></v-spacer>
+                    <v-text-field
+                      class="ml-5 mr-5"
+                      label="Comment"
+                      v-model="comment"
+                      color="blue"
+                      type="text"
+                    />
+                    <v-spacer></v-spacer>
+                  </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-
-                    <v-btn color="green" text @click="acceptRequest"
-                      >Accept</v-btn
+                    <v-btn color="green" text @click="acceptProfileDeleteRequest">
+                      Accept</v-btn
                     >
                     <v-spacer></v-spacer>
-
-                    <v-btn color="red" text @click="closeAcceptRequest"
-                      >Cancel</v-btn
+                    <v-btn color="red" text @click="closeAcceptRequest">
+                      Cancel</v-btn
                     >
-
                     <v-spacer></v-spacer>
                   </v-card-actions>
                 </v-card>
@@ -62,7 +66,7 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
 
-                    <v-btn color="green" text @click="declineRequest"
+                    <v-btn color="green" text @click="declineProfileDeleteRequest"
                       >Decline</v-btn
                     >
                     <v-spacer></v-spacer>
@@ -70,7 +74,6 @@
                     <v-btn color="red" text @click="closeDeclineRequest"
                       >Cancel</v-btn
                     >
-
                     <v-spacer></v-spacer>
                   </v-card-actions>
                 </v-card>
@@ -80,15 +83,11 @@
           <template v-slot:[`item.actions`]="{ item }">
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn
-                color="green"
-                text
-                @click="acceptRegistrationRequest(item)"
-              >
+              <v-btn color="green" text @click="acceptRequest(item)">
                 ACCEPT
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn color="red" text @click="declineRegistrationRequest(item)">
+              <v-btn color="red" text @click="declineRequest(item)">
                 DECLINE
               </v-btn>
               <v-spacer></v-spacer>
@@ -102,15 +101,16 @@
 
 <script>
 export default {
-  name: "RegistrationRequests",
+  name: "ProfileDeleteRequests",
   data: () => ({
-    registartionRequests: [],
+    requests: [],
     dialogDeclineRequest: false,
     dialogAcceptRequest: false,
     requestItem: null,
     defaultItem: null,
+    profileDeleteRequestId: null,
     comment: null,
-    requestEmail: null,
+    email: null,
     index: null,
     headers: [
       {
@@ -129,18 +129,8 @@ export default {
         align: "center",
       },
       {
-        text: "Phone number",
-        value: "phoneNumber",
-        align: "center",
-      },
-      {
-        text: "Account approval status",
-        value: "accountApproval",
-        align: "center",
-      },
-      {
-        text: "Explanation",
-        value: "explanation",
+        text: "Reason",
+        value: "reason",
         align: "center",
         sortable: false,
       },
@@ -158,102 +148,112 @@ export default {
   methods: {
     init() {
       this.axios
-        .get("http://localhost:8091/admin/registrationRequests", {
+        .get("http://localhost:8091/deleteAccount/profileDeleteRequests", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         })
         .then((response) => {
           console.log(response.data);
-          this.registartionRequests = response.data;
+          this.requests = response.data;
+        })
+        .catch((err) => {
+          window.location.href = "http://localhost:8083/login";
+          alert(
+            "401 Unauthorized - respected you are not logged in to the system."
+          );
+          console.log(err);
         });
     },
 
-    declineRegistrationRequest(item) {
-      this.index = this.registartionRequests.indexOf(item);
-      this.requestItem = Object.assign({}, item);
-      this.dialogDeclineRequest = true;
-      this.requestEmail = this.requestItem.email;
-    },
-
-    acceptRegistrationRequest(item) {
-      this.index = this.registartionRequests.indexOf(item);
+    acceptRequest(item) {
+      this.index = this.requests.indexOf(item);
       this.requestItem = Object.assign({}, item);
       this.dialogAcceptRequest = true;
-      this.requestEmail = this.requestItem.email;
+      this.email = this.requestItem.email;
+      this.profileDeleteRequestId = this.requestItem.profileDeleteRequestId;
     },
 
-    acceptRequest() {
-      this.registartionRequests.splice(this.index, 1);
-      this.axios
-        .post(
-          "http://localhost:8091/admin/acceptRegistrationRequest",
-          {
-            requestEmail: this.requestEmail,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          }
-        )
-        .then((response) => {
-          console.log(response.data);
-          alert("The registartion request was successfully accepted!");
-        });
-      this.closeAcceptRequest();
-    },
-
-    declineRequest() {
-      this.registartionRequests.splice(this.index, 1);
-      this.axios
-        .post(
-          "http://localhost:8091/admin/declineRegistrationRequest",
-          {
-            requestEmail: this.requestEmail,
-            comment: this.comment,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          }
-        )
-        .then((response) => {
-          console.log(response.data);
-          alert("The registartion request was declined!");
-        });
-      this.closeDeclineRequest();
-    },
-    closeDeclineRequest() {
-      this.comment = "";
-      this.dialogDeclineRequest = false;
-      this.$nextTick(() => {
-        this.requestItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
+    declineRequest(item) {
+      this.index = this.requests.indexOf(item);
+      this.requestItem = Object.assign({}, item);
+      this.dialogDeclineRequest = true;
+      this.email = this.requestItem.email;
+      this.profileDeleteRequestId = this.requestItem.profileDeleteRequestId;
     },
 
     closeAcceptRequest() {
       this.dialogAcceptRequest = false;
+      this.closeRequest();
+    },
+
+    closeDeclineRequest() {
+      this.dialogDeclineRequest = false;
+      this.closeRequest();
+    },
+
+    closeRequest() {
+      this.comment = "";
       this.$nextTick(() => {
         this.requestItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
+        this.index = -1;
       });
+    },
+
+    acceptProfileDeleteRequest() {
+      this.requests.splice(this.index, 1);
+      this.axios
+      .put("http://localhost:8091/deleteAccount/acceptRequest", 
+      {
+        profileDeleteRequestId: this.profileDeleteRequestId,
+        email: this.email,
+        comment: this.comment,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        alert("The profile delete request was successfully accepted.");
+      });
+      this.closeAcceptRequest();
+    },
+
+    declineProfileDeleteRequest() {
+      this.requests.splice(this.index, 1);
+      this.axios
+      .put("http://localhost:8091/deleteAccount/declineRequest", 
+      {
+        profileDeleteRequestId: this.profileDeleteRequestId,
+        email: this.email,
+        comment: this.comment,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        alert("The profile delete request was successfully declined.");
+      });
+      this.closeDeclineRequest();
     },
   },
 };
 </script>
 
 <style scoped>
-#registrationRequestsCaption {
+#caption {
   margin-top: 2%;
   margin-bottom: 2%;
   color: #007acc;
   text-align: center;
   font-weight: bold;
 }
-#registrationRequestsCard {
+#profileDeleteRequestsCard {
   width: 80%;
   text-align: center;
   margin: auto;

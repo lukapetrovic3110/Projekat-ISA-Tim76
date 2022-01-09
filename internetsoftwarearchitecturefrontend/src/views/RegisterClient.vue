@@ -256,7 +256,7 @@ export default {
       } else if (this.city.match(/\d/g)) {
         alert("Your city name shouldn't contain numbers!");
         return false;
-      } else if (!/^[A-Z][a-z]+$/.test(this.city)) {
+      } else if (!/^[A-Z][a-z]+[ ]?[A-Z]*[a-z]*$/.test(this.city)) {
         alert("Your city name needs to have one upper letter at the start!");
         return false;
       }

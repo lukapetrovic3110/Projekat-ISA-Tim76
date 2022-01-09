@@ -3,6 +3,8 @@ package Team76.InternetSoftwareArchitecture.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,14 +27,18 @@ public class UserDeleteAccount {
 	@Column(name = "reason", nullable = false)
 	private String reason; 
 	
+	@Enumerated(EnumType.STRING)
+	private UserDeleteAccountStatus userDeleteAccountStatus;
+	
 	public UserDeleteAccount() {
 		
 	}
 
-	public UserDeleteAccount(Long userDeleteAccountId, User user, String reason) {
+	public UserDeleteAccount(Long userDeleteAccountId, User user, String reason, UserDeleteAccountStatus userDeleteAccountStatus) {
 		this.userDeleteAccountId = userDeleteAccountId;
 		this.user = user;
 		this.reason = reason;
+		this.userDeleteAccountStatus = userDeleteAccountStatus;
 	}
 
 	public Long getUserDeleteAccountId() {
@@ -58,5 +64,15 @@ public class UserDeleteAccount {
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
+
+	public UserDeleteAccountStatus getUserDeleteAccountStatus() {
+		return userDeleteAccountStatus;
+	}
+
+	public void setUserDeleteAccountStatus(UserDeleteAccountStatus userDeleteAccountStatus) {
+		this.userDeleteAccountStatus = userDeleteAccountStatus;
+	}
+	
+	
 
 }
