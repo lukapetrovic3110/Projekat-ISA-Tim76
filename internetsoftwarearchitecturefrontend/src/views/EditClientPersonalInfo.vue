@@ -55,6 +55,7 @@
                 class="ml-10 mr-10"
                 label="City"
                 v-model="client.address.city"
+                auto-select-first
                 color="blue"
                 type="text"
               />
@@ -63,6 +64,7 @@
               <v-autocomplete
                 ref="client.address.country"
                 v-model="client.address.country"
+                item-text="client.address.country"
                 :items="countries"
                 label="Country"
                 placeholder="Select..."
@@ -234,10 +236,6 @@ export default {
       return true;
     },
     validateCountry() {
-      if (this.client.address.country === "") {
-        alert("Please select your country.");
-        return false;
-      }
       if (this.client.address.country.match(/[!@#$%^&*.,:'<>+-/\\"]/g)) {
         alert("Your country name shouldn't contain special characters.");
         return false;
