@@ -51,6 +51,11 @@ const routes = [
     component: () => import("../views/RegistrationRequests.vue"),
   },
   {
+    path: "/systemAdministratorProfile",
+    name: "SystemAdministratorProfile",
+    component: () => import("../views/SystemAdministratorProfile.vue"),
+  },
+  {
     path: "/clientProfile",
     name: "ClientProfile",
     component: () => import("../views/ClientProfile.vue"),
