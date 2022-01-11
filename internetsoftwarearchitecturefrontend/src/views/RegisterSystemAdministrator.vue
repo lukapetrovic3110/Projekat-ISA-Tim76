@@ -1,7 +1,7 @@
 <template>
   <v-card style="margin-top: 3%" width="40%" class="mx-auto">
     <v-card-title class="justify-center">
-      <h1 class="display-1 mt-20">Register as client</h1>
+      <h1 class="display-1 mt-20">Register new system administrator</h1>
     </v-card-title>
     <v-card-text>
       <v-form class="mx-auto ml-20 mr-20" ref="form">
@@ -98,7 +98,7 @@
 
 <script>
 export default {
-  name: "RegisterClient",
+  name: "RegisterSystemAdministrator",
   data: () => ({
     countries: ["Serbia"],
     errorMessages: "",
@@ -115,6 +115,9 @@ export default {
     phoneNumber: "",
     repeatedPassword: "",
   }),
+  mounted(){
+    this.init();
+  },
   computed: {
     user() {
       return {
@@ -135,6 +138,22 @@ export default {
     },
   },
   methods: {
+    init() {
+        this.axios
+        .get("http://localhost:8091/admin", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          this.client = response.data;
+        })
+        .catch((err) => { 
+            alert("401 Unauthorized - respected you are not logged as system administrator.");
+            window.location.href = "http://localhost:8083/login";
+            console.log(err);
+        });
+    },
     register() {
       if (
         !this.validateFirstName() ||
@@ -150,7 +169,7 @@ export default {
         return;
 
       this.$http
-        .post("http://localhost:8091/auth/signupClient", {
+        .post("http://localhost:8091/auth/registerSystemAdministrator", {
           email: this.email,
           password: this.password,
           firstName: this.firstName,
@@ -163,10 +182,14 @@ export default {
             country: this.country,
           },
           phoneNumber: this.phoneNumber,
+        },
+        {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            },
         })
         .then(() => {
-          alert("Check email and confirm the registration!");
-          window.location.href = "http://localhost:8083/login";
+          window.location.href = "/";
         })
         .catch((er) => {
           alert("Email already exists!");

@@ -151,6 +151,7 @@ export default {
           { title: "Home", path: "/" },
           { title: "Registration requests", path: "/registrationRequests" },
           { title: "Profile delete requests", path: "/profileDeleteRequests"},
+          { title: "Register new adminstrator", path: "/registerSystemAdministrator"},
         ];
       } else {
         this.items = [

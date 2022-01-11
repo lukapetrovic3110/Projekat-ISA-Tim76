@@ -66,23 +66,36 @@ public class AuthentificationController {
 	public ResponseEntity<?> signupClient(@RequestBody RegistrationRequestDTO userRequestDTO,
 			UriComponentsBuilder uriComponentsBuilder) {
 		try {
-			User existUser = userService.findByEmail(userRequestDTO.getEmail());
-			if (existUser != null)
-				throw new Exception("Email already exists.");
+			if (userService.findByEmail(userRequestDTO.getEmail()) != null)
+				throw new Exception("There is already a user with the given e-mail.");
 
 			return new ResponseEntity<>(userService.saveClient(userRequestDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
+	@PostMapping("/registerSystemAdministrator")
+	public ResponseEntity<?> registerSystemAdministrator(@RequestBody RegistrationRequestDTO registrationRequestDTO, 
+			UriComponentsBuilder uriComponentsBuilder) {
+		try {
+			if(userService.findByEmail(registrationRequestDTO.getEmail()) != null)
+				throw new Exception("There is already a user with the given e-mail.");
+			
+			return new ResponseEntity<>(userService.saveSystemAdministrator(registrationRequestDTO), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+	}
 
 	@PostMapping("/signupCottageOwner")
 	public ResponseEntity<?> signupCottageOwner(@RequestBody RegistrationRequestInstructorAndOwnerDTO userRequestDTO,
 			UriComponentsBuilder uriComponentsBuilder) {
 		try {
-			User existUser = userService.findByEmail(userRequestDTO.getEmail());
-			if (existUser != null)
-				throw new Exception("Email already exists.");
+			if (userService.findByEmail(userRequestDTO.getEmail()) != null)
+				throw new Exception("There is already a user with the given e-mail.");
 
 			return new ResponseEntity<>(userService.saveCottageOwner(userRequestDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -94,9 +107,8 @@ public class AuthentificationController {
 	public ResponseEntity<?> signupShipOwner(@RequestBody RegistrationRequestInstructorAndOwnerDTO userRequestDTO,
 			UriComponentsBuilder uriComponentsBuilder) {
 		try {
-			User existUser = userService.findByEmail(userRequestDTO.getEmail());
-			if (existUser != null)
-				throw new Exception("Email already exists.");
+			if (userService.findByEmail(userRequestDTO.getEmail()) != null)
+				throw new Exception("There is already a user with the given e-mail.");
 
 			return new ResponseEntity<>(userService.saveShipOwner(userRequestDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -109,9 +121,8 @@ public class AuthentificationController {
 			@RequestBody RegistrationRequestInstructorAndOwnerDTO userRequestDTO,
 			UriComponentsBuilder uriComponentsBuilder) {
 		try {
-			User existUser = userService.findByEmail(userRequestDTO.getEmail());
-			if (existUser != null)
-				throw new Exception("Email already exists.");
+			if (userService.findByEmail(userRequestDTO.getEmail()) != null)
+				throw new Exception("There is already a user with the given e-mail.");
 
 			return new ResponseEntity<>(userService.saveFishingInstructor(userRequestDTO), HttpStatus.CREATED);
 		} catch (Exception e) {

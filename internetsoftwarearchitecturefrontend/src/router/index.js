@@ -41,6 +41,11 @@ const routes = [
     component: () => import("../views/RegisterFishingInstructor.vue"),
   },
   {
+    path: "/registerSystemAdministrator",
+    name: "RegisterSystemAdministrator",
+    component: () => import("../views/RegisterSystemAdministrator.vue"),
+  },
+  {
     path: "/registrationRequests",
     name: "RegistrationRequests",
     component: () => import("../views/RegistrationRequests.vue"),
