@@ -21,6 +21,7 @@ import Team76.InternetSoftwareArchitecture.model.ConfirmationToken;
 import Team76.InternetSoftwareArchitecture.model.CottageOwner;
 import Team76.InternetSoftwareArchitecture.model.FishingInstructor;
 import Team76.InternetSoftwareArchitecture.model.ShipOwner;
+import Team76.InternetSoftwareArchitecture.model.SystemAdministrator;
 import Team76.InternetSoftwareArchitecture.model.User;
 import Team76.InternetSoftwareArchitecture.model.UserType;
 import Team76.InternetSoftwareArchitecture.repository.IUserRepository;
@@ -36,8 +37,6 @@ public class UserService implements IUserService {
 	private ConfirmationTokenService confirmationTokenService;
 
 	private EmailService emailService;
-
-	private AddressService addressService;
 	
 	private CottageOwnerService cottageOwnerService;
 	
@@ -47,13 +46,11 @@ public class UserService implements IUserService {
 
 	@Autowired
 	public UserService(IUserRepository userRepository, AuthorityService authorityService,
-			ConfirmationTokenService confirmationTokenService, EmailService emailService,
-			AddressService addressService, CottageOwnerService cottageOwnerService, FishingInstructorService fishingInstructorService, ShipOwnerService shipOwnerService) {
+			ConfirmationTokenService confirmationTokenService, EmailService emailService, CottageOwnerService cottageOwnerService, FishingInstructorService fishingInstructorService, ShipOwnerService shipOwnerService) {
 		this.userRepository = userRepository;
 		this.authorityService = authorityService;
 		this.confirmationTokenService = confirmationTokenService;
 		this.emailService = emailService;
-		this.addressService = addressService;
 		this.cottageOwnerService = cottageOwnerService;
 		this.fishingInstructorService = fishingInstructorService;
 		this.shipOwnerService = shipOwnerService;
@@ -77,7 +74,6 @@ public class UserService implements IUserService {
 		client.setLastName(userRequestDTO.getLastName());
 		client.setPhoneNumber(userRequestDTO.getPhoneNumber());
 		client.setAddress(userRequestDTO.getAddress());
-		addressService.saveAddress(userRequestDTO.getAddress());
 		client.setUserType(UserType.CLIENT);
 		client.setEnabled(false);
 		Set<Authority> authorities = authorityService.findByName("ROLE_CLIENT");
@@ -86,6 +82,28 @@ public class UserService implements IUserService {
 		ConfirmationToken confirmationToken = confirmationTokenService.saveConfirmationToken(client);
 		sendConfirmationEmail(client, confirmationToken);
 		return client;
+	}
+	
+	@Override
+	public User saveSystemAdministrator(RegistrationRequestDTO registrationRequestDTO) {
+		SystemAdministrator systemAdministrator = new SystemAdministrator();
+		systemAdministrator.setEmail(registrationRequestDTO.getEmail());
+		systemAdministrator.setFirstLoginChangePassword(false);
+		byte[] salt = generateSalt();
+		String encodedSalt = Base64.getEncoder().encodeToString(salt);
+		systemAdministrator.setSalt(encodedSalt);
+		String passwordWithSalt = generatePasswordWithSalt(registrationRequestDTO.getPassword(), encodedSalt);
+		String securePassword = hashPassword(passwordWithSalt);
+		systemAdministrator.setPassword(securePassword);
+		systemAdministrator.setFirstName(registrationRequestDTO.getFirstName());
+		systemAdministrator.setLastName(registrationRequestDTO.getLastName());
+		systemAdministrator.setPhoneNumber(registrationRequestDTO.getPhoneNumber());
+		systemAdministrator.setAddress(registrationRequestDTO.getAddress());
+		systemAdministrator.setUserType(UserType.SYSTEM_ADMINISTRATOR);
+		systemAdministrator.setEnabled(true);
+		Set<Authority> authorities = authorityService.findByName("ROLE_SYSTEM_ADMINISTRATOR");
+		systemAdministrator.setAuthorities(authorities);
+		return userRepository.save(systemAdministrator);
 	}
 	
 	@Override
@@ -102,7 +120,6 @@ public class UserService implements IUserService {
 		cottageOwner.setLastName(userRequestDTO.getLastName());
 		cottageOwner.setPhoneNumber(userRequestDTO.getPhoneNumber());
 		cottageOwner.setAddress(userRequestDTO.getAddress());
-		addressService.saveAddress(userRequestDTO.getAddress());
 		cottageOwner.setUserType(UserType.COTTAGE_OWNER);
 		cottageOwner.setEnabled(false);
 		Set<Authority> authorities = authorityService.findByName("ROLE_COTTAGE_OWNER");
@@ -127,7 +144,6 @@ public class UserService implements IUserService {
 		shipOwner.setLastName(userRequestDTO.getLastName());
 		shipOwner.setPhoneNumber(userRequestDTO.getPhoneNumber());
 		shipOwner.setAddress(userRequestDTO.getAddress());
-		addressService.saveAddress(userRequestDTO.getAddress());
 		shipOwner.setUserType(UserType.SHIP_OWNER);
 		shipOwner.setEnabled(false);
 		Set<Authority> authorities = authorityService.findByName("ROLE_SHIP_OWNER");
@@ -152,7 +168,6 @@ public class UserService implements IUserService {
 		fishingInstructor.setLastName(userRequestDTO.getLastName());
 		fishingInstructor.setPhoneNumber(userRequestDTO.getPhoneNumber());
 		fishingInstructor.setAddress(userRequestDTO.getAddress());
-		addressService.saveAddress(userRequestDTO.getAddress());
 		fishingInstructor.setUserType(UserType.FISHING_INSTRUCTOR);
 		fishingInstructor.setEnabled(false);
 		Set<Authority> authorities = authorityService.findByName("ROLE_FISHING_INSTRUCTOR");

@@ -31,7 +31,11 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="green" text @click="acceptProfileDeleteRequest">
+                    <v-btn
+                      color="green"
+                      text
+                      @click="acceptProfileDeleteRequest"
+                    >
                       Accept</v-btn
                     >
                     <v-spacer></v-spacer>
@@ -66,7 +70,10 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
 
-                    <v-btn color="green" text @click="declineProfileDeleteRequest"
+                    <v-btn
+                      color="green"
+                      text
+                      @click="declineProfileDeleteRequest"
                       >Decline</v-btn
                     >
                     <v-spacer></v-spacer>
@@ -148,6 +155,23 @@ export default {
   methods: {
     init() {
       this.axios
+        .get("http://localhost:8091/admin", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          this.client = response.data;
+        })
+        .catch((err) => {
+          alert(
+            "401 Unauthorized - respected you are not logged as system administrator."
+          );
+          window.location.href = "http://localhost:8083/login";
+          console.log(err);
+        });
+
+      this.axios
         .get("http://localhost:8091/deleteAccount/profileDeleteRequests", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -158,10 +182,6 @@ export default {
           this.requests = response.data;
         })
         .catch((err) => {
-          window.location.href = "http://localhost:8083/login";
-          alert(
-            "401 Unauthorized - respected you are not logged in to the system."
-          );
           console.log(err);
         });
     },
@@ -203,42 +223,46 @@ export default {
     acceptProfileDeleteRequest() {
       this.requests.splice(this.index, 1);
       this.axios
-      .put("http://localhost:8091/deleteAccount/acceptRequest", 
-      {
-        profileDeleteRequestId: this.profileDeleteRequestId,
-        email: this.email,
-        comment: this.comment,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        alert("The profile delete request was successfully accepted.");
-      });
+        .put(
+          "http://localhost:8091/deleteAccount/acceptRequest",
+          {
+            profileDeleteRequestId: this.profileDeleteRequestId,
+            email: this.email,
+            comment: this.comment,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          alert("The profile delete request was successfully accepted.");
+        });
       this.closeAcceptRequest();
     },
 
     declineProfileDeleteRequest() {
       this.requests.splice(this.index, 1);
       this.axios
-      .put("http://localhost:8091/deleteAccount/declineRequest", 
-      {
-        profileDeleteRequestId: this.profileDeleteRequestId,
-        email: this.email,
-        comment: this.comment,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        alert("The profile delete request was successfully declined.");
-      });
+        .put(
+          "http://localhost:8091/deleteAccount/declineRequest",
+          {
+            profileDeleteRequestId: this.profileDeleteRequestId,
+            email: this.email,
+            comment: this.comment,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          alert("The profile delete request was successfully declined.");
+        });
       this.closeDeclineRequest();
     },
   },

@@ -158,6 +158,23 @@ export default {
   methods: {
     init() {
       this.axios
+        .get("http://localhost:8091/admin", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          this.client = response.data;
+        })
+        .catch((err) => {
+          alert(
+            "401 Unauthorized - respected you are not logged as system administrator."
+          );
+          window.location.href = "http://localhost:8083/login";
+          console.log(err);
+        });
+
+      this.axios
         .get("http://localhost:8091/admin/registrationRequests", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),

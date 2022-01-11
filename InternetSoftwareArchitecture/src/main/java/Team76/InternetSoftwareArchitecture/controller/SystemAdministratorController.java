@@ -22,11 +22,13 @@ import Team76.InternetSoftwareArchitecture.model.AccountApproval;
 import Team76.InternetSoftwareArchitecture.model.CottageOwner;
 import Team76.InternetSoftwareArchitecture.model.FishingInstructor;
 import Team76.InternetSoftwareArchitecture.model.ShipOwner;
+import Team76.InternetSoftwareArchitecture.model.SystemAdministrator;
 import Team76.InternetSoftwareArchitecture.model.User;
 import Team76.InternetSoftwareArchitecture.model.UserType;
 import Team76.InternetSoftwareArchitecture.service.CottageOwnerService;
 import Team76.InternetSoftwareArchitecture.service.FishingInstructorService;
 import Team76.InternetSoftwareArchitecture.service.ShipOwnerService;
+import Team76.InternetSoftwareArchitecture.service.SystemAdministratorService;
 import Team76.InternetSoftwareArchitecture.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:8083")
@@ -34,6 +36,8 @@ import Team76.InternetSoftwareArchitecture.service.UserService;
 @RequestMapping(value = "/admin", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SystemAdministratorController {
 
+	private SystemAdministratorService systemAdministratorService;
+	
 	private CottageOwnerService cottageOwnerService;
 
 	private ShipOwnerService shipOwnerService;
@@ -43,14 +47,22 @@ public class SystemAdministratorController {
 	private UserService userService;
 
 	@Autowired
-	public SystemAdministratorController(CottageOwnerService cottageOwnerService, ShipOwnerService shipOwnerService,
+	public SystemAdministratorController(SystemAdministratorService systemAdministratorService, CottageOwnerService cottageOwnerService, ShipOwnerService shipOwnerService,
 			FishingInstructorService fishingInstructorService, UserService userService) {
 		super();
+		this.systemAdministratorService = systemAdministratorService;
 		this.cottageOwnerService = cottageOwnerService;
 		this.shipOwnerService = shipOwnerService;
 		this.fishingInstructorService = fishingInstructorService;
 		this.userService = userService;
 	}
+	
+	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
+	@GetMapping
+	public ResponseEntity<SystemAdministrator> getSystemAdministratior() {
+		return new ResponseEntity<SystemAdministrator>(systemAdministratorService.findSystemAdministrator(), HttpStatus.OK);
+	}
+	
 
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
 	@GetMapping("/registrationRequests")

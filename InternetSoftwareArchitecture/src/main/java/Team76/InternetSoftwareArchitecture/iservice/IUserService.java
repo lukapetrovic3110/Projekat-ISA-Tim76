@@ -15,6 +15,7 @@ import Team76.InternetSoftwareArchitecture.security.auth.JwtAuthenticationReques
 public interface IUserService {
 	User login(JwtAuthenticationRequest authenticationRequest);
 	User saveClient(RegistrationRequestDTO userRequestDTO);
+	User saveSystemAdministrator(RegistrationRequestDTO registrationRequestDTO);
 	User saveCottageOwner(RegistrationRequestInstructorAndOwnerDTO userRequestDTO);
 	User saveShipOwner(RegistrationRequestInstructorAndOwnerDTO userRequestDTO);
 	User saveFishingInstructor(RegistrationRequestInstructorAndOwnerDTO userRequestDTO);
