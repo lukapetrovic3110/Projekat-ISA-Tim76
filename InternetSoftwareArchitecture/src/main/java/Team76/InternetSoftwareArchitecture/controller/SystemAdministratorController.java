@@ -59,7 +59,7 @@ public class SystemAdministratorController {
 	
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
 	@GetMapping
-	public ResponseEntity<SystemAdministrator> getSystemAdministratior() {
+	public ResponseEntity<SystemAdministrator> getSystemAdministrator() {
 		return new ResponseEntity<SystemAdministrator>(systemAdministratorService.findSystemAdministrator(), HttpStatus.OK);
 	}
 	
