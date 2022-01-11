@@ -87,13 +87,15 @@
 export default {
   name: "ChangePassword",
   data: () => ({
+    opacity: 0.9,
     oldPass: "",
     newPass: "",
     rewritePass: "",
-    email: localStorage.getItem("email"),
+    email: "",
     showPassword1: false,
     showPassword2: false,
     showPassword3: false,
+    user: null,
     rules: {
       required: (value) => !!value || "Required.",
       min: (v) => v.length >= 8 || "Min 8 characters",
@@ -104,10 +106,21 @@ export default {
   },
   methods: {
     init() {
-      if (this.email === "") {
+      this.axios
+      .get("http://localhost:8091/auth", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        this.user = response.data;
+        this.email = response.data.email;
+      })
+      .catch((err) => {
         window.location.href = "http://localhost:8083/login";
         alert("401 Unauthorized - respected you are not logged in to the system.");
-      }
+        console.log(err);
+      });
     },
     save() {
       if (

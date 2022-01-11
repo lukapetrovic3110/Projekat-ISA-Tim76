@@ -63,6 +63,15 @@ public class SystemAdministratorController {
 		return new ResponseEntity<SystemAdministrator>(systemAdministratorService.findSystemAdministrator(), HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
+	@PostMapping(value = "/update")
+	public ResponseEntity<?> update(@RequestBody SystemAdministrator systemAdministrator) {
+		try {
+			return new ResponseEntity<SystemAdministrator>(systemAdministratorService.update(systemAdministrator), HttpStatus.OK);
+		} catch(Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
 
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
 	@GetMapping("/registrationRequests")

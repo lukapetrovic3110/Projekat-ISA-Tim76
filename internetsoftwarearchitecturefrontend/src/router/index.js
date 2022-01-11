@@ -71,6 +71,11 @@ const routes = [
     component: () => import("../views/EditClientPersonalInfo.vue"),
   },
   {
+    path: "/editSystemAdministratorPersonalInfo",
+    name: "EditSystemAdministratorPersonInfo",
+    component: () => import("../views/EditSystemAdministratorPersonalInfo.vue"),
+  },
+  {
     path: "/changePassword",
     name: "ChangePassword",
     component: () => import("../views/ChangePassword.vue"),

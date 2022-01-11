@@ -5,15 +5,15 @@ INSERT INTO public.authority (name) VALUES ('ROLE_FISHING_INSTRUCTOR');
 INSERT INTO public.authority (name) VALUES ('ROLE_SYSTEM_ADMINISTRATOR');
 
 
-INSERT INTO public.address (city, country, street, street_number) VALUES ('RandomCity', 'RandomCountry', 'RandomStreet', '5');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Novi Sad', 'Srbija', 'Jevrejska', '6');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Novi Sad', 'Srbija', 'Bulevar Oslobodjenja', '10');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Novi Sad', 'Srbija', 'Bulevar Oslobodjenja', '9');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Temerin', 'Srbija', 'Novosadska', '31');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Beograd', 'Srbija', 'Svetog Save', '10');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Novi Sad', 'Srbija', 'Bulevar Oslobodjenja', '99');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Beograd', 'Srbija', 'Krusedolska', '31');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Zajecar', 'Srbija', 'Kotorska', '11');
+INSERT INTO public.address (city, country, street, street_number) VALUES ('RandomCity', 'Serbia', 'RandomStreet', '1');
+INSERT INTO public.address (city, country, street, street_number) VALUES ('Novi Sad', 'Serbia', 'Jevrejska', '6');
+INSERT INTO public.address (city, country, street, street_number) VALUES ('Novi Sad', 'Serbia', 'Bulevar Oslobodjenja', '10');
+INSERT INTO public.address (city, country, street, street_number) VALUES ('Novi Sad', 'Serbia', 'Bulevar Oslobodjenja', '9');
+INSERT INTO public.address (city, country, street, street_number) VALUES ('Temerin', 'Serbia', 'Novosadska', '31');
+INSERT INTO public.address (city, country, street, street_number) VALUES ('Beograd', 'Serbia', 'Svetog Save', '10');
+INSERT INTO public.address (city, country, street, street_number) VALUES ('Novi Sad', 'Serbia', 'Bulevar Oslobodjenja', '99');
+INSERT INTO public.address (city, country, street, street_number) VALUES ('Beograd', 'Serbia', 'Krusedolska', '31');
+INSERT INTO public.address (city, country, street, street_number) VALUES ('Zajecar', 'Serbia', 'Kotorska', '11');
 
 -- Admin 		Password: Admin123!
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, first_login_change_password, address_id) VALUES ('SystemAdministrator', default, 'admin@email.com', true, 'Admin', 'Admin', '$2a$12$9bz1GJdLCG.Ttl/p5al5O.KZOkfhgWv.MhbivCtKvC0JXbp6vyi6W', '0615859999', 'AdbMbt4t1KLF-G0SX01WPL==', 'SYSTEM_ADMINISTRATOR', true, 1);
@@ -67,7 +67,7 @@ INSERT INTO public.image(name) VALUES ('1638982456921cottage1img5');
 INSERT INTO public.image(name) VALUES ('1638982456933cottage1img6');
 
 
-INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Bajina Basta', 'Srbija', 'Perucac', '8', '19.478483', '43.955651');
+INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Bajina Basta', 'Serbia', 'Perucac', '8', '19.478483', '43.955651');
 
 INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_list_id)
 	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'Very nice cottage, overlooking the river. Vacation is guaranteed.', 'Wooden cottage on Drina', '2', '2', '4.0', '10', '3', '1');
@@ -86,7 +86,7 @@ INSERT INTO public.image(name) VALUES ('1638983374343cottage2img4');
 INSERT INTO public.image(name) VALUES ('1638983374352cottage2img5');
 INSERT INTO public.image(name) VALUES ('1638983374358cottage2img6');
 	
-INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Vrdnik', 'Srbija', 'Mikice Lesjaka', '20', '19.789300', '45.134670');
+INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Vrdnik', 'Serbia', 'Mikice Lesjaka', '20', '19.789300', '45.134670');
 
 INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_list_id)
 	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'This villa has a private pool, a garden, barbecue facilities, free WiFi and free private parking.', 'Mi Casa', '3', '2', '5.0', '11', '5', '2');
@@ -102,7 +102,7 @@ INSERT INTO public.image(name) VALUES ('1638984512089cottage3img1');
 INSERT INTO public.image(name) VALUES ('1638984512234cottage3img2');
 INSERT INTO public.image(name) VALUES ('1638984512259cottage3img3');
 
-INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Bajina Basta', 'Srbija', 'Sekuliceva', '8', '19.432485', '43.890245');
+INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Bajina Basta', 'Serbia', 'Sekuliceva', '8', '19.432485', '43.890245');
 
 INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_list_id)
 	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'Excellent cottag...', 'Mountain cottage Exclusive', '2', '2', '4.9', '12', '4', '3');
@@ -117,7 +117,7 @@ INSERT INTO public.image(name) VALUES ('ship1img1');
 INSERT INTO public.image(name) VALUES ('ship1img2');
 INSERT INTO public.image(name) VALUES ('ship1img3');
 
-INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Beograd', 'Srbija', 'Zemunski Kej', '67', '20.424374184658642', '44.826341557721506');
+INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Beograd', 'Serbia', 'Zemunski Kej', '67', '20.424374184658642', '44.826341557721506');
 
 INSERT INTO public.ship(availability_end, availability_start, capacity, description, engine_number, engine_power, length, max_speed, name, rating, ship_type, address_id, price_list_id, ship_owner_id)
 	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', '6', 'Excellent cruiser, ample storage under the sun island and helm station assure that everything finds a place.', '1', '320', '8.6', '88', 'Monterey 275 SY', '4.7', 'YACHT', '13', '4', '6');
@@ -134,7 +134,7 @@ INSERT INTO public.image(name) VALUES ('ship2img1');
 INSERT INTO public.image(name) VALUES ('ship2img2');
 INSERT INTO public.image(name) VALUES ('ship2img3');
 
-INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Novi Sad', 'Srbija', 'Bulevar despota Stefana', '7', '19.83781344455965', '45.23437796115102');
+INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Novi Sad', 'Serbia', 'Bulevar despota Stefana', '7', '19.83781344455965', '45.23437796115102');
 
 INSERT INTO public.ship(availability_end, availability_start, capacity, description, engine_number, engine_power, length, max_speed, name, rating, ship_type, address_id, price_list_id, ship_owner_id)
 	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', '10', 'Speed boat, aggressive appearance and broken tubes. It is adorned with a deep "V" riverbed that is designed to overcome larger waves on the high seas and cross long distances on the high seas.', '2', '250', '8.5', '102', 'Advance G800', '5.0', 'SPEED_BOAT', '14', '5', '7');
@@ -150,7 +150,7 @@ INSERT INTO public.image(name) VALUES ('instructor1img1');
 INSERT INTO public.image(name) VALUES ('instructor1img2');
 INSERT INTO public.image(name) VALUES ('instructor1img3');
 
-INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Beograd', 'Srbija', 'Obrenovacki drum', '78', '20.390636875888177', '44.782640133457626');
+INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Beograd', 'Serbia', 'Obrenovacki drum', '78', '20.390636875888177', '44.782640133457626');
 
 INSERT INTO public.adventure(availability_end, availability_start, description, instructor_biography, max_number_of_persons, name, rating, address_id, fishing_instructor_id, price_list_id)
 	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', ' The first steps of fly fishing', 'Biography', '4', 'Fishing adventure', '5.0', '15', '8', '6');
@@ -168,7 +168,7 @@ INSERT INTO public.image(name) VALUES ('instructor2img3');
 
 --- Google maps 44.09465613202866, 22.010111173842667
 
-INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Brestovac', 'Srbija', 'Kamp ulica', '105', '22.010111173842667', '44.09465613202866');
+INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Brestovac', 'Serbia', 'Kamp ulica', '105', '22.010111173842667', '44.09465613202866');
 
 INSERT INTO public.adventure(availability_end, availability_start, description, instructor_biography, max_number_of_persons, name, rating, address_id, fishing_instructor_id, price_list_id)
 	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', ' Fishing adventure', 'Biography', '6', 'Lake adventure', '4.6', '16', '9', '7');

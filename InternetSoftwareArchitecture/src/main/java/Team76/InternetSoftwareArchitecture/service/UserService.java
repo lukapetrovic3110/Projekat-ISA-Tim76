@@ -5,6 +5,7 @@ import java.util.Base64;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -321,6 +322,12 @@ public class UserService implements IUserService {
 		String newSecurePassword = hashPassword(passwordWithSalt);
  		existingUser.setPassword(newSecurePassword);
 		return userRepository.save(existingUser);
+	}
+
+	@Override
+	public User findLoggedInUser() {
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return userRepository.findByUserId(user.getUserId());
 	}
 
 }

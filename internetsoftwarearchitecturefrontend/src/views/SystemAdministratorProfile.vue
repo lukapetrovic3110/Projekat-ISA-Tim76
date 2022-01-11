@@ -157,10 +157,10 @@ export default {
         });
     },
     editPersonalInfo() {
-      // window.location.href = "http://localhost:8083/editSystemAdministratorPersonalInfo";
+      window.location.href = "http://localhost:8083/editSystemAdministratorPersonalInfo";
     },
     changePassword() {
-      // window.location.href = "http://localhost:8083/changePassword";
+      window.location.href = "http://localhost:8083/changePassword";
     },
   },
 };

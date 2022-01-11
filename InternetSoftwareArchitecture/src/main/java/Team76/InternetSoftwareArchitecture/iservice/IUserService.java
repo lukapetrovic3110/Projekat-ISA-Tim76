@@ -23,4 +23,5 @@ public interface IUserService {
 	User declineRegistarationRequest(DeclineRegistrationRequestDTO declineRegistrationRequestDTO);
 	User acceptRegistrationRequest(AcceptRegistrationRequestDTO acceptRegistrationRequestDTO);
 	User changePassword(ChangePasswordDTO changePasswordDTO);
+	User findLoggedInUser();
 }

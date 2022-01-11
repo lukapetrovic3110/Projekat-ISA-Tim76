@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -60,6 +61,12 @@ public class AuthentificationController {
 		this.authenticationManager = authenticationManager;
 		this.confirmationTokenService = confirmationTokenService;
 		this.userDetailsService = userDetailsService;
+	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_COTTAGE_OWNER', 'ROLE_SHIP_OWNER', 'ROLE_FISHING_INSTRUCTOR', 'ROLE_SYSTEM_ADMINISTRATOR')")
+	@GetMapping
+	public ResponseEntity<User> getLoggedInUser() {
+		return new ResponseEntity<User>(userService.findLoggedInUser(), HttpStatus.OK);
 	}
 
 	@PostMapping("/signupClient")

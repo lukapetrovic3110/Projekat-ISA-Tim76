@@ -9,31 +9,26 @@
           label="First Name"
           v-model="firstName"
           :rules="[() => !!firstName || 'This field is required']"
-          :error-messages="errorMessages"
         />
         <v-text-field
           label="Last Name"
           v-model="lastName"
           :rules="[() => !!lastName || 'This field is required']"
-          :error-messages="errorMessages"
         />
         <v-text-field
           label="Street Name"
           v-model="streetName"
           :rules="[() => !!streetName || 'This field is required']"
-          :error-messages="errorMessages"
         />
         <v-text-field
           label="Street Number"
           v-model="streetNumber"
           :rules="[() => !!streetNumber || 'This field is required']"
-          :error-messages="errorMessages"
         />
         <v-text-field
           label="City"
           v-model="city"
           :rules="[() => !!city || 'This field is required']"
-          :error-messages="errorMessages"
         />
         <v-autocomplete
           class="countryCombo"
@@ -48,13 +43,11 @@
           label="Phone Number"
           v-model="phoneNumber"
           :rules="[() => !!phoneNumber || 'This field is required']"
-          :error-messages="errorMessages"
         />
         <v-text-field
           label="E-mail"
           v-model="email"
           :rules="[() => !!email || 'This field is required']"
-          :error-messages="errorMessages"
         />
         <v-text-field
           :append-icon="showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -62,7 +55,6 @@
           label="Password"
           v-model="password"
           :rules="[() => !!password || 'This field is required']"
-          :error-messages="errorMessages"
           hint="Password must contain minimum 8 characters, 1 uppercase, 1 lowercase and 1 number and 1 special character."
           @click:append="showPassword1 = !showPassword1"
         />
@@ -75,7 +67,6 @@
             () => !!repeatedPassword || 'This field is required',
             passwordConfirmationRule,
           ]"
-          :error-messages="errorMessages"
           hint="Password must contain minimum 8 characters, 1 uppercase, 1 lowercase and 1 number and 1 special character."
           @click:append="showPassword2 = !showPassword2"
         />
@@ -101,7 +92,6 @@ export default {
   name: "RegisterSystemAdministrator",
   data: () => ({
     countries: ["Serbia"],
-    errorMessages: "",
     showPassword1: false,
     showPassword2: false,
     email: "",
