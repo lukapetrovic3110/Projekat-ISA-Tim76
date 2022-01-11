@@ -21,11 +21,9 @@ export default {
       paths = href.split("/");
       this.confirmationToken = paths[4];
       this.$http
-        .put(
-          "http://localhost:8091/auth/confirm_account/" +
-            this.confirmationToken,
-          {}
-        )
+        .put("http://localhost:8091/auth/confirm_account/" + this.confirmationToken, {
+          
+        })
         .then((response) => {
           console.log(response);
           this.message = "You have successfully verified your account!";
