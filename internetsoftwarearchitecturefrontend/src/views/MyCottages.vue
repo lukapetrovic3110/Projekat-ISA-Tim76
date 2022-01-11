@@ -91,11 +91,6 @@
                       </h3>
                     </div>
 
-                    <div class="justify-center">
-                      <h4>
-                        {{ item.description }}
-                      </h4>
-                    </div>
                   </v-card-text>
 
                   <v-divider class="mx-4"></v-divider>

@@ -46,6 +46,17 @@
           v-model="cottageInformation.numberOfBedsPerRoom"
           v-bind:readonly="true"
         />
+        <v-text-field
+          label="Availability start"
+          v-model="cottageInformation.availabilityStart"
+          v-bind:readonly="true"
+        />
+        <v-text-field
+          label="Availability end"
+          v-model="cottageInformation.availabilityEnd"
+          v-bind:readonly="true"
+        />
+        
         <v-card>
           <v-card-title style="color: gray">
             Cottage rules
@@ -110,21 +121,21 @@
     <v-card-actions>
       <v-btn
         class="mx-auto mb-10 mt-10; color:white"
-        color="primary"
+        color="info"
         elevation="2"
         x-large
         raised
-        v-on:click="registerCottage"
-        >Register cottage</v-btn
+        v-on:click="editCottageInformation"
+        >Edit cottage information</v-btn
       >
       <v-btn
         class="mx-auto mb-10 mt-10; color:white"
-        color="primary"
+        color="error"
         elevation="2"
         x-large
         raised
-        v-on:click="registerCottage"
-        >Register cottage</v-btn
+        v-on:click="deleteCottage"
+        >Delete cottage</v-btn
       >
     </v-card-actions>
   </v-card>
@@ -143,10 +154,7 @@ export default {
     cottageId: "",
     cottageInformation: null,
     cottageImages: [],
-    datePickerFormat: "dd.MM.yyyy.",
     errorMessages: "",
-    searchCottageRule: "",
-    searchCottagePriceTag: "",
     headersCottageRule: [
       {
         text: "Rule",
@@ -191,15 +199,18 @@ export default {
             response.data.availabilityEnd
           ).toDateString();
           console.log(this.cottageInformation);
-          for (let i = 0; i < this.cottageInformation.images.length; i++) {
-            let imageInformation = {
-              path: "../assets/images/" + this.cottageInformation.images[i].name + ".jpg",
-              default: i + 1,
-              highlight: i + 1,
-            };
 
-            this.cottageImages.push(imageInformation);
-          }
+          // TEST (mozda staviti cottage images u cottage information objekat)
+          let imageInformation = {
+            default: 1,
+            highlight: 1,
+            name: "cottage1.jpg",
+            path: "../assets/images/' + 1639156403128cottage1 + '.jpg",
+          };
+
+          this.cottageImages.push(imageInformation);
+          // TEST
+
           console.log(this.cottageImages);
         })
         .catch((err) => console.log(err));
@@ -227,6 +238,10 @@ export default {
 
     limitExceeded(amount) {
       console.log("limitExceeded data", amount);
+    },
+
+    editCottageInformation() {
+      window.location.href = "http://localhost:8083/editCottageInformation";
     },
   },
 };

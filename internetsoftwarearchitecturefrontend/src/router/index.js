@@ -90,6 +90,11 @@ const routes = [
     name: "CottageProfile",
     component: () => import("../views/CottageProfile.vue"),
   },
+  {
+    path: "/editCottageInformation",
+    name: "EditCottageInformation",
+    component: () => import("../views/EditCottageInformation.vue"),
+  },
 ];
 const router = new VueRouter({
   mode: "history",
