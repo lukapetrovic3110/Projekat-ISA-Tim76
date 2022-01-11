@@ -127,6 +127,14 @@ export default {
         this.items = [
           { title: "Home", path: "/" },
           { title: "My profile", path: "/clientProfile" },
+          { title: "Search cottage", path: "/searchCottage" },
+          { title: "Search ship or boat", path: "/searchShip" },
+          { title: "Search fishing instructor", path: '/searchFishingInstructor'},
+          { title: "View reservation ship history", path: '/reservationShipHistoryByClient'},
+          { title: "View reservation cottage history", path: '/reservationCottageHistoryByClient'},
+          { title: "View reservation adventure history", path: '/reservationAdventureHistoryByClient'},
+          { title: "View scheduled reservations", path: '/clientScheduledReservation'},
+          { title: "View subscriptions", path: "/clientSubscriptions"},
         ];
       } else if (this.userType === "COTTAGE_OWNER") {
         this.items = [
@@ -142,13 +150,14 @@ export default {
         this.items = [
           { title: "Home", path: "/" },
           { title: "Registration requests", path: "/registrationRequests" },
+          { title: "Profile delete requests", path: "/profileDeleteRequests"},
         ];
       } else {
         this.items = [
           { title: "Home", path: "/" },
           { title: "Search cottage", path: "/searchCottage" },
           { title: "Search ship or boat", path: "/searchShip" },
-          { title: "Search fishing instructor", path: '/searchFishingInstructor'}
+          { title: "Search fishing instructor", path: '/searchFishingInstructor'},
         ];
       }
     },

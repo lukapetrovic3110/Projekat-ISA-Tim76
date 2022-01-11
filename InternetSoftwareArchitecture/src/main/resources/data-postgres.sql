@@ -137,7 +137,7 @@ INSERT INTO public.image(name) VALUES ('ship2img3');
 INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Novi Sad', 'Srbija', 'Bulevar despota Stefana', '7', '19.83781344455965', '45.23437796115102');
 
 INSERT INTO public.ship(availability_end, availability_start, capacity, description, engine_number, engine_power, length, max_speed, name, rating, ship_type, address_id, price_list_id, ship_owner_id)
-	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', '6', 'Speed boat, aggressive appearance and broken tubes. It is adorned with a deep "V" riverbed that is designed to overcome larger waves on the high seas and cross long distances on the high seas.', '2', '250', '8.5', '102', 'Advance G800', '5.0', 'SPEED_BOAT', '14', '5', '7');
+	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', '10', 'Speed boat, aggressive appearance and broken tubes. It is adorned with a deep "V" riverbed that is designed to overcome larger waves on the high seas and cross long distances on the high seas.', '2', '250', '8.5', '102', 'Advance G800', '5.0', 'SPEED_BOAT', '14', '5', '7');
 
 INSERT INTO public.ship_images(ship_ship_id, images_image_id) VALUES (2, 19);
 INSERT INTO public.ship_images(ship_ship_id, images_image_id) VALUES (2, 20);
@@ -187,4 +187,75 @@ INSERT INTO public.reservation_cottage(reservation_cottage_id, date_and_time, du
 INSERT INTO public.reservation_cottage(reservation_cottage_id, date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id) VALUES (default, '2022-10-04 00:00:00', 4, 3, 4000, 'WAITING', 2, 1);
 INSERT INTO public.reservation_cottage(reservation_cottage_id, date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id) VALUES (default, '2021-05-05 00:00:00', 3, 2, 3000, 'STARTED', 2, 1);
 INSERT INTO public.reservation_cottage(reservation_cottage_id, date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id) VALUES (default, '2021-04-02 00:00:00', 5, 3, 5500, 'FINISHED', 2, 1);
+
+-- FINISHED RESERVATION CLIENT TEST
+
+INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_persons, price, reservation_status, ship_reservation_cancel_term, client_id, ship_id)
+	VALUES ('2021-11-11 12:00:00', '1', '2', '16000', 'FINISHED', 'FREE', '2', '1');
+	
+INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_persons, price, reservation_status, ship_reservation_cancel_term, client_id, ship_id)
+	VALUES ('2021-12-01 13:00:00', '4', '2', '60000', 'FINISHED', 'FREE', '2', '2');
+	
+INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_persons, price, reservation_status, ship_reservation_cancel_term, client_id, ship_id)
+	VALUES ('2021-12-09 10:00:00', '3', '3', '39000', 'FINISHED', 'FREE', '2', '2');
+
+INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id)
+	VALUES ('2021-09-03 11:00:00', '5', '4', '26000', 'FINISHED', '2', '1');
+
+INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id)
+	VALUES ('2021-11-07 11:00:00', '2', '2', '20000', 'FINISHED', '2', '2');
+	
+INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id)
+	VALUES ('2021-10-31 18:00:00', '3', '4', '30000', 'FINISHED', '2', '3');
+
+INSERT INTO public.reservation_adventure(adventure_reservation_cancel_term, date_and_time, duration, max_number_of_persons, price, reservation_status, adventure_id, client_id)
+	VALUES ('FREE','2021-09-15 08:00:00', '2', '2', '1800', 'FINISHED', '1', '2');
+	
+INSERT INTO public.reservation_adventure(adventure_reservation_cancel_term, date_and_time, duration, max_number_of_persons, price, reservation_status, adventure_id, client_id)
+	VALUES ('FREE','2021-10-10 14:00:00', '3', '4', '4000', 'FINISHED', '2', '2');
+	
+INSERT INTO public.reservation_adventure(adventure_reservation_cancel_term, date_and_time, duration, max_number_of_persons, price, reservation_status, adventure_id, client_id)
+	VALUES ('FREE','2021-11-10 15:00:00', '4', '4', '3000', 'FINISHED', '2', '2');
+	
+-- SCHEDULED RESERVATION CLIENT TEST
+INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id)
+	VALUES ('2021-12-20 11:00:00', '5', '4', '26000', 'SCHEDULED', '2', '1');
+
+INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id)
+	VALUES ('2021-12-12 11:00:00', '2', '2', '20000', 'SCHEDULED', '2', '2');
+	
+INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id)
+	VALUES ('2021-12-14 18:00:00', '3', '4', '30000', 'SCHEDULED', '2', '3');
+	
+INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_persons, price, reservation_status, ship_reservation_cancel_term, client_id, ship_id)
+	VALUES ('2021-12-15 12:00:00', '1', '2', '16000', 'SCHEDULED', 'FREE', '2', '1');
+	
+INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_persons, price, reservation_status, ship_reservation_cancel_term, client_id, ship_id)
+	VALUES ('2021-12-26 13:00:00', '4', '2', '60000', 'SCHEDULED', 'FREE', '2', '2');
+
+INSERT INTO public.reservation_adventure(adventure_reservation_cancel_term, date_and_time, duration, max_number_of_persons, price, reservation_status, adventure_id, client_id)
+	VALUES ('FREE','2021-12-11 14:00:00', '1', '2', '1000', 'SCHEDULED', '2', '2');
+	
+-- subscriptions 
+
+INSERT INTO public.user_subscriptions(client_user_id, subscriptions_user_id)
+	VALUES (2, 3);
+	
+INSERT INTO public.user_subscriptions(client_user_id, subscriptions_user_id)
+	VALUES (2, 4);
+
+INSERT INTO public.user_subscriptions(client_user_id, subscriptions_user_id)
+	VALUES (2, 5);
+
+INSERT INTO public.user_subscriptions(client_user_id, subscriptions_user_id)
+	VALUES (2, 6);
+	
+INSERT INTO public.user_subscriptions(client_user_id, subscriptions_user_id)
+	VALUES (2, 7);
+	
+INSERT INTO public.user_subscriptions(client_user_id, subscriptions_user_id)
+	VALUES (2, 8);
+
+INSERT INTO public.user_subscriptions(client_user_id, subscriptions_user_id)
+	VALUES (2, 9);
 

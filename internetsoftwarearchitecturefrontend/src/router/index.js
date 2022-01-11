@@ -51,6 +51,11 @@ const routes = [
     component: () => import("../views/ClientProfile.vue"),
   },
   {
+    path: "/clientSubscriptions",
+    name: "ClientSubscriptions",
+    component: () => import("../views/ClientSubscriptions.vue"),
+  },
+  {
     path: "/editClientPersonalInfo",
     name: "EditClientPersonalInfo",
     component: () => import("../views/EditClientPersonalInfo.vue"),
@@ -59,6 +64,16 @@ const routes = [
     path: "/changePassword",
     name: "ChangePassword",
     component: () => import("../views/ChangePassword.vue"),
+  },
+  {
+    path: "/profileDeleteRequests",
+    name: "ProfileDeleteRequests",
+    component: () => import("../views/ProfileDeleteRequests.vue"),
+  },
+  {
+    path: "/clientScheduledReservation",
+    name: "ClientScheduledReservation",
+    component: () => import("../views/ClientScheduledReservation.vue"),
   },
   {
     path: "/addCottage",
@@ -76,9 +91,19 @@ const routes = [
     component: () => import("../views/SearchCottage.vue"),
   },
   {
+    path: "/reservationCottageHistoryByClient",
+    name: "ReservationCottageHistoryByClient",
+    component: () => import("../views/ReservationCottageHistoryByClient.vue"),
+  },
+  {
     path: "/searchShip",
     name: "SearchShip",
     component: () => import("../views/SearchShip.vue"),
+  },
+  {
+    path: "/reservationShipHistoryByClient",
+    name: "ReservationShipHistoryByClient",
+    component: () => import("../views/ReservationShipHistoryByClient.vue"),
   },
   {
     path: "/searchFishingInstructor",
@@ -94,6 +119,11 @@ const routes = [
     path: "/editCottageInformation",
     name: "EditCottageInformation",
     component: () => import("../views/EditCottageInformation.vue"),
+  },
+  {
+    path: "/reservationAdventureHistoryByClient",
+    name: "ReservationAdventureHistoryByClient",
+    component: () => import("../views/ReservationAdventureHistoryByClient.vue"),
   },
 ];
 const router = new VueRouter({

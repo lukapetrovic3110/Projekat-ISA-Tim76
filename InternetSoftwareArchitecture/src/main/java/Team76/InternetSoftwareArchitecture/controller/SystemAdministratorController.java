@@ -54,7 +54,7 @@ public class SystemAdministratorController {
 
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
 	@GetMapping("/registrationRequests")
-	public ResponseEntity<?> registrationRequests() {
+	public ResponseEntity<List<WaitingRegistrationRequestDTO>> findRegistrationRequests() {
 		List<WaitingRegistrationRequestDTO> waitingRegistrationRequestDTOs = new ArrayList<WaitingRegistrationRequestDTO>();
 		List<CottageOwner> cottageOwnersForAccountApproval = cottageOwnerService
 				.findAllCottageOwnersByAccountApproval(AccountApproval.WAITING, UserType.COTTAGE_OWNER);
