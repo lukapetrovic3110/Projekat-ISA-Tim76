@@ -86,7 +86,7 @@ public class ReservationCottageService implements IReservationCottageService {
 		List<ReservationCottage> allCottageReservations = reservationCottageRepository.findAll();
 		
 		for (ReservationCottage reservationCottage : allCottageReservations) {
-			if (cottageOwnerCottagesId.contains(reservationCottage.getReservationCottageId())) {
+			if (cottageOwnerCottagesId.contains(reservationCottage.getCottage().getCottageId())) {
 				reservationsForCottageOwner.add(reservationCottage);
 			}
 		}
