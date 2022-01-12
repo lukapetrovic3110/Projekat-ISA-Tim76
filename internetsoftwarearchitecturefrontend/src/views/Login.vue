@@ -68,7 +68,7 @@ export default {
           localStorage.setItem("userId", response.data.user.userId);
           localStorage.setItem("userType", response.data.user.userType);
 
-          if (!response.data.user.firstLoginChangePassword)
+          if (!response.data.user.firstLoginChangePassword && response.data.user.userType === 'SYSTEM_ADMINISTRATOR')
             window.location.href = "/changePasswordFirstLogin";
           else 
             window.location.href = "/";
