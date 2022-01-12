@@ -141,6 +141,7 @@ export default {
           { title: "Home", path: "/" },
           { title: "My cottages", path: "/myCottages" },
           { title: "Register new cottage", path: "/addCottage" },
+          { title: "Reservation history", path: "/cottageOwnerReservationHistory" },
         ];
       } else if (this.userType === "SHIP_OWNER") {
         this.items = [{ title: "Home", path: "/" }];

@@ -27,6 +27,9 @@ public interface ICottageRepository extends JpaRepository<Cottage, Long> {
 	@Query(value = "SELECT * FROM cottage WHERE cottage_owner_id=:cottageOwnerId", nativeQuery = true)
 	List<Cottage> getAllCottagesForCottageOwner(Long cottageOwnerId);
 	
+	@Query(value = "SELECT cottage_id FROM cottage WHERE cottage_owner_id=:cottageOwnerId", nativeQuery = true)
+	List<Long> getAllCottagesIdForCottageOwner(Long cottageOwnerId);
+	
 	Cottage findByCottageId(Long id);
 
 }

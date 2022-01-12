@@ -130,6 +130,11 @@ const routes = [
     name: "ReservationAdventureHistoryByClient",
     component: () => import("../views/ReservationAdventureHistoryByClient.vue"),
   },
+  {
+    path: "/cottageOwnerReservationHistory",
+    name: "CottageOwnerReservationHistory",
+    component: () => import("../views/CottageOwnerReservationHistory.vue"),
+  },
 ];
 const router = new VueRouter({
   mode: "history",
