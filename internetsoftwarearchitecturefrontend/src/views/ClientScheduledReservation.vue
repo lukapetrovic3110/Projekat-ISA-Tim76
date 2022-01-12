@@ -62,31 +62,26 @@ export default {
         text: "Reservation start date and time",
         value: "dateAndTime",
         align: "center",
-        sortable: true,
       },
       {
         text: "Duration",
         value: "duration",
         align: "center",
-        sortable: true,
       },
       {
         text: "Price (RSD)",
         value: "price",
         align: "center",
-        sortable: true,
       },
       {
         text: "Number of persons",
         value: "numberOfPersons",
         align: "center",
-        sortable: true,
       },
       {
         text: "Name of reservation",
         value: "nameOfReservation",
         align: "center",
-        sortable: true,
       },
       {
         text: "Action",

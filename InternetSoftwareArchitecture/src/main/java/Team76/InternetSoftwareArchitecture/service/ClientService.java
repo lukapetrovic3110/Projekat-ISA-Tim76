@@ -8,10 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import Team76.InternetSoftwareArchitecture.dto.SubscriptionDTO;
+import Team76.InternetSoftwareArchitecture.dto.CottageSubscriptionDTO;
+import Team76.InternetSoftwareArchitecture.dto.FishingInstructorSubscriptionDTO;
+import Team76.InternetSoftwareArchitecture.dto.ShipSubscriptionDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IClientService;
+import Team76.InternetSoftwareArchitecture.model.Address;
 import Team76.InternetSoftwareArchitecture.model.Client;
-import Team76.InternetSoftwareArchitecture.model.User;
+import Team76.InternetSoftwareArchitecture.model.Cottage;
+import Team76.InternetSoftwareArchitecture.model.FishingInstructor;
+import Team76.InternetSoftwareArchitecture.model.Ship;
 import Team76.InternetSoftwareArchitecture.repository.IClientRepository;
 
 @Service
@@ -40,15 +45,43 @@ public class ClientService implements IClientService {
 		return clientRepository.save(existingClient);
 	}
 
-	public List<SubscriptionDTO> getClientSubscriptions() {
+	public List<FishingInstructorSubscriptionDTO> getFishingInstructorSubscriptions() {
 		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Set<User> subscriptions =  client.getSubscriptions();
-		List<SubscriptionDTO> subscriptionDTOs = new ArrayList<SubscriptionDTO>();
-		for (User user : subscriptions) {
-			subscriptionDTOs.add(new SubscriptionDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPhoneNumber()));
-		}
-		
-		return subscriptionDTOs;
+		Set<FishingInstructor> fishingInstructorSubscriptions =  client.getFishingInstructorSubscriptions();
+		List<FishingInstructorSubscriptionDTO> fishingInstructorSubscriptionDTOs = new ArrayList<FishingInstructorSubscriptionDTO>();
+		for (FishingInstructor f : fishingInstructorSubscriptions)
+			fishingInstructorSubscriptionDTOs.add(new FishingInstructorSubscriptionDTO(f.getFirstName(), f.getLastName(), f.getEmail(), f.getPhoneNumber()));
+		return fishingInstructorSubscriptionDTOs;
+	}
+
+	public List<ShipSubscriptionDTO> getShipSubscriptions() {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Set<Ship> shipSubscriptions =  client.getShipSubsriptions();
+		List<ShipSubscriptionDTO> shipSubscriptionDTOs = new ArrayList<ShipSubscriptionDTO>();
+		for (Ship s : shipSubscriptions)
+			shipSubscriptionDTOs.add(new ShipSubscriptionDTO(s.getName(), mapAddress(s.getAddress()), s.getDescription(), s.getCapacity(), s.getShipType(), s.getShipOwner().getFirstName(), s.getShipOwner().getLastName(), s.getShipOwner().getEmail(), s.getShipOwner().getPhoneNumber()));
+		return shipSubscriptionDTOs;
+	}
+
+	private String mapAddress(Address a) {
+		StringBuilder address = new StringBuilder();
+		address.append(a.getStreet());
+		address.append(" ");
+		address.append(a.getStreetNumber());
+		address.append(" ");
+		address.append(a.getCity());
+		address.append(", ");
+		address.append(a.getCountry());
+		return address.toString();
+	}
+
+	public List<CottageSubscriptionDTO> getCottageSubscriptions() {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Set<Cottage> cottageSubsciptions = client.getCottageSubscriptions();
+		List<CottageSubscriptionDTO> cottageSubscriptionDTOs = new ArrayList<CottageSubscriptionDTO>();
+		for (Cottage c : cottageSubsciptions) 
+			cottageSubscriptionDTOs.add(new CottageSubscriptionDTO(c.getName(), mapAddress(c.getAddress()), c.getDescription(), c.getNumberOfRooms(), c.getNumberOfBedsPerRoom(), c.getCottageOwner().getLastName(), c.getCottageOwner().getLastName(), c.getCottageOwner().getEmail(), c.getCottageOwner().getPhoneNumber()));
+		return cottageSubscriptionDTOs;
 	}
 
 }

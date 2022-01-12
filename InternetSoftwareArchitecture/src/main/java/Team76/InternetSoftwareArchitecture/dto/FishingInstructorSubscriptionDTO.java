@@ -1,17 +1,17 @@
 package Team76.InternetSoftwareArchitecture.dto;
 
-public class SubscriptionDTO {
+public class FishingInstructorSubscriptionDTO {
 	
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String phoneNumber;
 	
-	public SubscriptionDTO() {
+	public FishingInstructorSubscriptionDTO() {
 	
 	}
 
-	public SubscriptionDTO(String firstName, String lastName, String email, String phoneNumber) {
+	public FishingInstructorSubscriptionDTO(String firstName, String lastName, String email, String phoneNumber) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;

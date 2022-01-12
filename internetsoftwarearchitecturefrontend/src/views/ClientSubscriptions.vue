@@ -4,15 +4,55 @@
     <v-card id="subscriptionsCard">
       <div>
         <v-data-table
-          :headers="reservationHistoryHeaders"
-          :items="subscriptions"
+          :headers="fishingInstructorSubscriptionsHeaders"
+          :items="fishingInstructorSubscriptions"
           items-per-page="5"
         >
           <template v-slot:top>
             <v-toolbar dense dark color="light-blue darken-2">
               <v-spacer></v-spacer>
               <v-toolbar-title class="text-center">
-                Subscriptions
+                Fishing instructor subscriptions
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+          </template>
+        </v-data-table>
+      </div>
+    </v-card>
+    <v-spacer></v-spacer>
+    <v-card id="subscriptionsCard">
+      <div>
+        <v-data-table
+          :headers="shipSubscriptionsHeaders"
+          :items="shipSubscriptions"
+          items-per-page="5"
+        >
+          <template v-slot:top>
+            <v-toolbar dense dark color="light-blue darken-2">
+              <v-spacer></v-spacer>
+              <v-toolbar-title class="text-center">
+                Ship subscriptions
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+          </template>
+        </v-data-table>
+      </div>
+    </v-card>
+    <v-spacer></v-spacer>
+    <v-card id="subscriptionsCard">
+      <div>
+        <v-data-table
+          :headers="cottageSubscriptionsHeaders"
+          :items="cottageSubscriptions"
+          items-per-page="5"
+        >
+          <template v-slot:top>
+            <v-toolbar dense dark color="light-blue darken-2">
+              <v-spacer></v-spacer>
+              <v-toolbar-title class="text-center">
+                Cottage subscriptions
               </v-toolbar-title>
               <v-spacer></v-spacer>
             </v-toolbar>
@@ -27,54 +67,187 @@
 export default {
   name: "ClientSubscriptions",
   data: () => ({
-    reservationHistoryHeaders: [
+    fishingInstructorSubscriptionsHeaders: [
       {
         text: "First name",
         value: "firstName",
         align: "center",
-        sortable: true,
       },
       {
         text: "Last name",
         value: "lastName",
         align: "center",
-        sortable: true,
       },
       {
         text: "Email",
         value: "email",
         align: "center",
-        sortable: true,
       },
       {
         text: "Phone number",
         value: "phoneNumber",
         align: "center",
-        sortable: true,
       },
     ],
-    subscriptions: [],
+    shipSubscriptionsHeaders: [
+      {
+        text: "Name",
+        value: "name",
+        align: "center",
+      },
+      {
+        text: "Address",
+        value: "address",
+        align: "center",
+      },
+      {
+        text: "Description",
+        value: "description",
+        align: "center",
+      },
+      {
+        text: "Maximum of person on ship",
+        value: "capacity",
+        align: "center",
+      },
+      {
+        text: "Ship type",
+        value: "shipType",
+        align: "center",
+      },
+      {
+        text: "Owner first name",
+        value: "ownerFirstName",
+        align: "center",
+      },
+      {
+        text: "Owner last name",
+        value: "ownerLastName",
+        align: "center",
+      },
+      {
+        text: "Owner email",
+        value: "ownerEmail",
+        align: "center",
+      },
+      {
+        text: "Owner phone number",
+        value: "ownerPhoneNumber",
+        align: "center",
+      },
+    ],
+    cottageSubscriptionsHeaders: [
+      {
+        text: "Name",
+        value: "name",
+        align: "center",
+      },
+      {
+        text: "Address",
+        value: "address",
+        align: "center",
+      },
+      {
+        text: "Description",
+        value: "description",
+        align: "center",
+      },
+      {
+        text: "Number of rooms",
+        value: "numberOfRooms",
+        align: "center",
+      },
+      {
+        text: "Number of beds per room",
+        value: "numberOfBedsPerRoom",
+        align: "center",
+      },
+      {
+        text: "Owner first name",
+        value: "ownerFirstName",
+        align: "center",
+      },
+      {
+        text: "Owner last name",
+        value: "ownerLastName",
+        align: "center",
+      },
+      {
+        text: "Owner email",
+        value: "ownerEmail",
+        align: "center",
+      },
+      {
+        text: "Owner phone number",
+        value: "ownerPhoneNumber",
+        align: "center",
+      },
+    ],
+    fishingInstructorSubscriptions: [],
+    shipSubscriptions: [],
+    cottageSubscriptions: [],
   }),
   mounted() {
-    this.viewAllSubscription();
+    this.checkAuthentication();
   },
   methods: {
-    viewAllSubscription() {
+    checkAuthentication() {
       this.axios
-        .get("http://localhost:8091/client/subscriptions", {
+        .get("http://localhost:8091/client", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          if (response.data != null) this.viewAllSubscription();
+        })
+        .catch((error) => {
+          window.location.href = "http://localhost:8083/login";
+          alert(
+            "401 Unauthorized - respected you are not logged in to the system."
+          );
+          console.log(error);
+        });
+    },
+    viewAllSubscription() {
+      this.viewFishingInstructorSubscriptions();
+      this.viewShipSubscriptions();
+      this.viewCottageSubscriptions();
+    },
+    viewFishingInstructorSubscriptions() {
+      this.axios
+        .get("http://localhost:8091/client/fishingInstructorSubscriptions", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         })
         .then((response) => {
           console.log(response.data);
-          this.subscriptions = response.data;
+          this.fishingInstructorSubscriptions = response.data;
+        });
+    },
+    viewShipSubscriptions() {
+      this.axios
+        .get("http://localhost:8091/client/shipSubscriptions", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
         })
-        .catch((err) => { 
-            window.location.href = "http://localhost:8083/login";
-            alert("401 Unauthorized - respected you are not logged in to the system.");
-            console.log(err);
-            
+        .then((response) => {
+          console.log(response.data);
+          this.shipSubscriptions = response.data;
+        });
+    },
+    viewCottageSubscriptions() {
+      this.axios
+        .get("http://localhost:8091/client/cottageSubscriptions", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          this.cottageSubscriptions = response.data;
         });
     },
   },
@@ -90,9 +263,9 @@ export default {
   font-weight: bold;
 }
 #subscriptionsCard {
-  width: 80%;
+  width: 90%;
   text-align: center;
   margin: auto;
-  margin-top: 5%;
+  margin-top: 3%;
 }
 </style>

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import Team76.InternetSoftwareArchitecture.dto.SubscriptionDTO;
+import Team76.InternetSoftwareArchitecture.dto.FishingInstructorSubscriptionDTO;
 import Team76.InternetSoftwareArchitecture.model.Client;
 
 @Service
@@ -14,5 +14,5 @@ public interface IClientService {
 
 	Client findClient();
 	
-	List<SubscriptionDTO> getClientSubscriptions();
+	List<FishingInstructorSubscriptionDTO> getFishingInstructorSubscriptions();
 }
