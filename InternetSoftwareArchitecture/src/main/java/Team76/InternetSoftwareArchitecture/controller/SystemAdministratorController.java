@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import Team76.InternetSoftwareArchitecture.dto.AcceptRegistrationRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.ChangePasswordDTO;
 import Team76.InternetSoftwareArchitecture.dto.DeclineRegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.WaitingRegistrationRequestDTO;
 import Team76.InternetSoftwareArchitecture.model.AccountApproval;
@@ -71,6 +72,12 @@ public class SystemAdministratorController {
 		} catch(Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
+	@PostMapping(value = "/changePasswordFirstLogin")
+	public ResponseEntity<User> changePasswordFirstLogin(@RequestBody ChangePasswordDTO changePasswordDTO) {
+		return new ResponseEntity<User>(userService.changePasswordFirstLogin(changePasswordDTO), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")

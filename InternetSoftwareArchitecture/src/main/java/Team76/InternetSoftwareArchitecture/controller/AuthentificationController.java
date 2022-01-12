@@ -187,8 +187,8 @@ public class AuthentificationController {
 
 	}
 	
-	@PostMapping(value = "/changePassword")
 	@PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_COTTAGE_OWNER', 'ROLE_SHIP_OWNER', 'ROLE_FISHING_INSTRUCTOR', 'ROLE_SYSTEM_ADMINISTRATOR')")
+	@PostMapping(value = "/changePassword")
 	public ResponseEntity<User> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
 		return new ResponseEntity<User>(userService.changePassword(changePasswordDTO), HttpStatus.OK);
 	}

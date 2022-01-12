@@ -81,6 +81,11 @@ const routes = [
     component: () => import("../views/ChangePassword.vue"),
   },
   {
+    path: "/changePasswordFirstLogin",
+    name: "ChangePasswordFirstLogin",
+    component: () => import("../views/ChangePasswordFirstLogin.vue"),
+  },
+  {
     path: "/profileDeleteRequests",
     name: "ProfileDeleteRequests",
     component: () => import("../views/ProfileDeleteRequests.vue"),

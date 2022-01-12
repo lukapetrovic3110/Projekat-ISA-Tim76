@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 id="changePasswordCaption">Change password</h1>
+    <h1 id="changePasswordCaption">Change the password for the first login</h1>
     <div class="pt-1">
       <v-card
         width="40%"
@@ -133,7 +133,7 @@ export default {
         alert("Password can not be the same as the old one!");
       } else if (this.rewritePass !== this.newPass) {
         alert("New password and rewrite password must be the same!");
-      } else if (!this.validatePassword()) {
+      } else if(!this.validatePassword()) {
         return;
       } else {
         const passwordChanger = {
@@ -143,7 +143,7 @@ export default {
           rewritePassword: this.rewritePass,
         };
         this.axios
-          .post("http://localhost:8091/auth/changePassword", passwordChanger, {
+          .post("http://localhost:8091/admin/changePasswordFirstLogin", passwordChanger, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
             },
@@ -153,7 +153,7 @@ export default {
             console.log(resp.data);
             this.logOff();
           })
-          .catch((err) => { 
+          .catch((err) => {
             alert("Old password isn't correct!");
             console.log(err);
         });

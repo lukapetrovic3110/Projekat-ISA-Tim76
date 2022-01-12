@@ -298,6 +298,21 @@ public class UserService implements IUserService {
 	@Override
 	public User changePassword(ChangePasswordDTO changePasswordDTO) {
 		User existingUser = userRepository.findByEmail(changePasswordDTO.getEmail());
+		checkInput(changePasswordDTO, existingUser);
+		generateNewSecurePassword(changePasswordDTO, existingUser);
+		return userRepository.save(existingUser);
+	}
+	
+	@Override
+	public User changePasswordFirstLogin(ChangePasswordDTO changePasswordDTO) {
+		SystemAdministrator existingSystemAdministrator = (SystemAdministrator)userRepository.findByEmail(changePasswordDTO.getEmail());
+		checkInput(changePasswordDTO, existingSystemAdministrator);
+		generateNewSecurePassword(changePasswordDTO, existingSystemAdministrator);
+		existingSystemAdministrator.setFirstLoginChangePassword(true);
+		return userRepository.save(existingSystemAdministrator);
+	}
+	
+	private void checkInput(ChangePasswordDTO changePasswordDTO, User existingUser) {
 		if (changePasswordDTO.getNewPassword().equals(changePasswordDTO.getOldPassword())) {
 			throw new IllegalArgumentException("Password can not be the same as the old one.");
 		}
@@ -314,14 +329,15 @@ public class UserService implements IUserService {
 		if(!verifyHash(oldPassword, existingUser.getPassword())) {
 			throw new IllegalArgumentException("Old password isn't correct!");
 		}
-		
+	}
+	
+	private void generateNewSecurePassword(ChangePasswordDTO changePasswordDTO, User existingUser) {
 		byte[] salt = generateSalt();
 		String encodedSalt = Base64.getEncoder().encodeToString(salt);
 		existingUser.setSalt(encodedSalt);
 		String passwordWithSalt = generatePasswordWithSalt(changePasswordDTO.getNewPassword(), encodedSalt);
 		String newSecurePassword = hashPassword(passwordWithSalt);
  		existingUser.setPassword(newSecurePassword);
-		return userRepository.save(existingUser);
 	}
 
 	@Override

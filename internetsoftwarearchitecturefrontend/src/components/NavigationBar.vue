@@ -104,7 +104,7 @@ export default {
     return {
       applicationTitle: "Ship, cottage and fishing",
       drawer: false,
-      userType: null,
+      userType: "",
       items: [{ title: "Home", path: "/" }],
     };
   },
@@ -172,10 +172,10 @@ export default {
         window.location.href = "/";
     },
     logOff() {
-      localStorage.setItem("token", "");
-      localStorage.setItem("userId", "");
       localStorage.setItem("email", "");
-      localStorage.setItem("userType", null);
+      localStorage.setItem("userId", "");
+      localStorage.setItem("token", "");
+      localStorage.setItem("userType", "");
       window.location.href = "http://localhost:8083/login";
     },
   },

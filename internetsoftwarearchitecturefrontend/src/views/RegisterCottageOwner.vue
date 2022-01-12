@@ -55,7 +55,7 @@
           label="Password"
           v-model="password"
           :rules="[() => !!password || 'This field is required']"
-          hint="Password must contain minimum 8 characters, 1 uppercase, 1 lowercase and 1 number and 1 special character."
+          hint="Password must contain minimum 8 characters, 1 uppercase, 1 lowercase and 1 number and 1 special character"
           @click:append="showPassword = !showPassword"
         />
         <v-text-field
@@ -64,7 +64,7 @@
           label="Repeat Password"
           v-model="repeated_password"
           :rules="[() => !!repeated_password || 'This field is required', passwordConfirmationRule]"
-          hint="Password must contain minimum 8 characters, 1 uppercase, 1 lowercase and 1 number and 1 special character."
+          hint="Password must contain minimum 8 characters, 1 uppercase, 1 lowercase and 1 number and 1 special character"
           @click:append="showPassword = !showPassword"
         />
         <v-text-field

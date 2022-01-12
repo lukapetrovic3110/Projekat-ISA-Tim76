@@ -24,4 +24,5 @@ public interface IUserService {
 	User acceptRegistrationRequest(AcceptRegistrationRequestDTO acceptRegistrationRequestDTO);
 	User changePassword(ChangePasswordDTO changePasswordDTO);
 	User findLoggedInUser();
+	User changePasswordFirstLogin(ChangePasswordDTO changePasswordDTO);
 }
