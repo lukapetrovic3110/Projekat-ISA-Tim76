@@ -51,6 +51,11 @@ const routes = [
     component: () => import("../views/RegistrationRequests.vue"),
   },
   {
+    path: "/systemAdministratorProfile",
+    name: "SystemAdministratorProfile",
+    component: () => import("../views/SystemAdministratorProfile.vue"),
+  },
+  {
     path: "/clientProfile",
     name: "ClientProfile",
     component: () => import("../views/ClientProfile.vue"),
@@ -66,9 +71,19 @@ const routes = [
     component: () => import("../views/EditClientPersonalInfo.vue"),
   },
   {
+    path: "/editSystemAdministratorPersonalInfo",
+    name: "EditSystemAdministratorPersonInfo",
+    component: () => import("../views/EditSystemAdministratorPersonalInfo.vue"),
+  },
+  {
     path: "/changePassword",
     name: "ChangePassword",
     component: () => import("../views/ChangePassword.vue"),
+  },
+  {
+    path: "/changePasswordFirstLogin",
+    name: "ChangePasswordFirstLogin",
+    component: () => import("../views/ChangePasswordFirstLogin.vue"),
   },
   {
     path: "/profileDeleteRequests",

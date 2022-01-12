@@ -104,7 +104,7 @@ export default {
     return {
       applicationTitle: "Ship, cottage and fishing",
       drawer: false,
-      userType: null,
+      userType: "",
       items: [{ title: "Home", path: "/" }],
     };
   },
@@ -149,6 +149,7 @@ export default {
       } else if (this.userType === "SYSTEM_ADMINISTRATOR") {
         this.items = [
           { title: "Home", path: "/" },
+          { title: "My profile", path: "/systemAdministratorProfile"},
           { title: "Registration requests", path: "/registrationRequests" },
           { title: "Profile delete requests", path: "/profileDeleteRequests"},
           { title: "Register new adminstrator", path: "/registerSystemAdministrator"},
@@ -163,14 +164,18 @@ export default {
       }
     },
     myProfile() {
-      if(this.userType === "CLIENT") 
+      if(this.userType === "CLIENT")
         window.location.href = "/clientProfile";
+      else if (this.userType === "SYSTEM_ADMINISTRATOR")
+        window.location.href = "/systemAdministratorProfile";
+      else
+        window.location.href = "/";
     },
     logOff() {
-      localStorage.setItem("token", "");
-      localStorage.setItem("userId", "");
       localStorage.setItem("email", "");
-      localStorage.setItem("userType", null);
+      localStorage.setItem("userId", "");
+      localStorage.setItem("token", "");
+      localStorage.setItem("userType", "");
       window.location.href = "http://localhost:8083/login";
     },
   },

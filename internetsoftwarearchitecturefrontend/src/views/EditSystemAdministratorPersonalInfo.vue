@@ -9,71 +9,70 @@
               <v-text-field
                 class="ml-10 mr-10"
                 label="First name"
-                v-model="client.firstName"
+                v-model="systemAdministrator.firstName"
                 color="blue"
                 type="text"
-                :rules="[() => !!client.firstName || 'This field is required']"
+                :rules="[() => !!systemAdministrator.firstName || 'This field is required']"
               />
             </v-row>
             <v-row>
               <v-text-field
                 class="ml-10 mr-10"
                 label="Last name"
-                v-model="client.lastName"
+                v-model="systemAdministrator.lastName"
                 color="blue"
                 type="text"
-                :rules="[() => !!client.lastName || 'This field is required']"
+                :rules="[() => !!systemAdministrator.lastName || 'This field is required']"
               />
             </v-row>
             <v-row>
               <v-text-field
                 class="ml-10 mr-10"
                 label="Phone number"
-                v-model="client.phoneNumber"
+                v-model="systemAdministrator.phoneNumber"
                 color="blue"
                 type="text"
-                :rules="[() => !!client.phoneNumber || 'This field is required']"
+                :rules="[() => !!systemAdministrator.phoneNumber || 'This field is required']"
               />
             </v-row>
             <v-row>
               <v-text-field
                 class="ml-10 mr-10"
                 label="Street"
-                v-model="client.address.street"
+                v-model="systemAdministrator.address.street"
                 color="blue"
                 type="text"
-                :rules="[() => !!client.address.street || 'This field is required']"
+                :rules="[() => !!systemAdministrator.address.street || 'This field is required']"
               />
             </v-row>
             <v-row>
               <v-text-field
                 class="ml-10 mr-10"
                 label="Street number"
-                v-model="client.address.streetNumber"
+                v-model="systemAdministrator.address.streetNumber"
                 color="blue"
                 type="text"
-                :rules="[() => !!client.address.streetNumber || 'This field is required']"
+                :rules="[() => !!systemAdministrator.address.streetNumber || 'This field is required']"
               />
             </v-row>
             <v-row>
               <v-text-field
                 class="ml-10 mr-10"
                 label="City"
-                v-model="client.address.city"
+                v-model="systemAdministrator.address.city"
                 color="blue"
                 type="text"
-                :rules="[() => !!client.address.city || 'This field is required']"
+                :rules="[() => !!systemAdministrator.address.city || 'This field is required']"
               />
             </v-row>
             <v-row class="countryCombo">
               <v-autocomplete
-                ref="client.address.country"
-                v-model="client.address.country"
+                ref="country"
+                v-model="systemAdministrator.address.country"
                 :items="countries"
-                item-text="client.address.country"
                 label="Country"
                 placeholder="Select..."
-                :rules="[() => !!client.address.country || 'This field is required']"
+                :rules="[() => !!systemAdministrator.address.country || 'This field is required']"
               />
             </v-row>
           </v-form>
@@ -105,11 +104,11 @@
 
 <script>
 export default {
-  name: "EditClientPersonalInfo",
+  name: "EditSystemAdministratorPersonalInfo",
   data: () => ({
     opacity: 0.9,
     countries: ["Serbia"],
-    client: null,
+    systemAdministrator: null,
   }),
   mounted() {
     this.viewPersonalInfo();
@@ -117,18 +116,21 @@ export default {
   methods: {
     viewPersonalInfo() {
       this.axios
-        .get("http://localhost:8091/client", {
+        .get("http://localhost:8091/admin", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         })
         .then((response) => {
-          this.client = response.data;
+          this.systemAdministrator = response.data;
+          console.log(this.systemAdministrator);
         })
-        .catch((err) => { 
-            window.location.href = "http://localhost:8083/login";
-            alert("401 Unauthorized - respected you are not logged in to the system.");
-            console.log(err);
+        .catch((err) => {
+          window.location.href = "http://localhost:8083/login";
+          alert(
+            "401 Unauthorized - respected you are not logged in to the system."
+          );
+          console.log(err);
         });
     },
     save() {
@@ -143,68 +145,68 @@ export default {
       )
         return;
 
-      this.axios.post("http://localhost:8091/client/update", this.client, {
+      this.axios.post("http://localhost:8091/admin/update", this.systemAdministrator, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
       alert("Successfully modified personal information!");
-      window.location.href = "/clientProfile";
+      window.location.href = "/systemAdministratorProfile";
     },
     cancel() {
       alert("Canceled change personal information!");
       window.location.href = "/";
     },
     validateFirstName() {
-      if (this.client.firstName.length < 2) {
+      if (this.systemAdministrator.firstName.length < 2) {
         alert("Your first name should contain at least 2 characters!");
         return false;
-      } else if (this.client.firstName.length > 30) {
+      } else if (this.systemAdministrator.firstName.length > 30) {
         alert("Your first name shouldn't contain more than 30 characters!");
         return false;
-      } else if (this.client.firstName.match(/[!@#$%^&*.,:'<>+-/\\"]/g)) {
+      } else if (this.systemAdministrator.firstName.match(/[!@#$%^&*.,:'<>+-/\\"]/g)) {
         alert("Your first name shouldn't contain special characters.");
         return false;
-      } else if (this.client.firstName.match(/[ ]/g)) {
+      } else if (this.systemAdministrator.firstName.match(/[ ]/g)) {
         alert("Your first name shouldn't contain spaces!");
         return false;
-      } else if (this.client.firstName.match(/\d/g)) {
+      } else if (this.systemAdministrator.firstName.match(/\d/g)) {
         alert("Your first name shouldn't contain numbers!");
         return false;
-      } else if (!/^[A-Z][a-z]+$/.test(this.client.firstName)) {
+      } else if (!/^[A-Z][a-z]+$/.test(this.systemAdministrator.firstName)) {
         alert("Your first name needs to have one upper letter at the start!");
         return false;
       }
       return true;
     },
     validateLastName() {
-      if (this.client.lastName.length < 2) {
+      if (this.systemAdministrator.lastName.length < 2) {
         alert("Your last name should contain at least 2 characters!");
         return false;
-      } else if (this.client.lastName.length > 36) {
+      } else if (this.systemAdministrator.lastName.length > 36) {
         alert("Your last name shouldn't contain more than 36 characters!");
         return false;
-      } else if (this.client.lastName.match(/[!@#$%^&*.,:'<>+-/\\"]/g)) {
+      } else if (this.systemAdministrator.lastName.match(/[!@#$%^&*.,:'<>+-/\\"]/g)) {
         alert("Your last name shouldn't contain special characters.");
         return false;
-      } else if (this.client.lastName.match(/\d/g)) {
+      } else if (this.systemAdministrator.lastName.match(/\d/g)) {
         alert("Your last name shouldn't contain numbers!");
         return false;
-      } else if (!/^[A-Z][a-z]+[ ]?[A-Z]*[a-z]*$/.test(this.client.lastName)) {
+      } else if (!/^[A-Z][a-z]+[ ]?[A-Z]*[a-z]*$/.test(this.systemAdministrator.lastName)) {
         alert("Your last name needs to have one upper letter at the start!");
         return false;
       }
       return true;
     },
     validateStreet() {
-      if (this.client.address.street.match(/[!@#$%^&*.,:'<>+-/\\"]/g)) {
+      if (this.systemAdministrator.address.street.match(/[!@#$%^&*.,:'<>+-/\\"]/g)) {
         alert("Your street name shouldn't contain special characters.");
         return false;
-      } else if (this.client.address.street.match(/\d/g)) {
+      } else if (this.systemAdministrator.address.street.match(/\d/g)) {
         alert("Your street name shouldn't contain numbers!");
         return false;
       } else if (
-        !/^[A-Z][a-z]+[ ]?[A-Z]*[a-z]*$/.test(this.client.address.street)
+        !/^[A-Z][a-z]+[ ]?[A-Z]*[a-z]*$/.test(this.systemAdministrator.address.street)
       ) {
         alert("Your street name needs to have one upper letter at the start!");
         return false;
@@ -212,29 +214,29 @@ export default {
       return true;
     },
     validateStreetNumber() {
-      if (this.client.address.streetNumber.match(/[ ]/g)) {
+      if (this.systemAdministrator.address.streetNumber.match(/[ ]/g)) {
         alert("Your street number shouldn't contain spaces!");
         return false;
       } else if (
-        this.client.address.streetNumber.match(/[!@#$%^&*.,:'<>+/\\"]/g)
+        this.systemAdministrator.address.streetNumber.match(/[!@#$%^&*.,:'<>+/\\"]/g)
       ) {
         alert("Your street number shouldn't contain special characters.");
         return false;
-      } else if (this.client.address.streetNumber.length < 1) {
+      } else if (this.systemAdministrator.address.streetNumber.length < 1) {
         alert("Your street number should contain at least one number.");
         return false;
       }
       return true;
     },
     validateCity() {
-      if (this.client.address.city.match(/[!@#$%^&*.,:'<>+-/\\"]/g)) {
+      if (this.systemAdministrator.address.city.match(/[!@#$%^&*.,:'<>+-/\\"]/g)) {
         alert("Your city name shouldn't contain special characters.");
         return false;
-      } else if (this.client.address.city.match(/\d/g)) {
+      } else if (this.systemAdministrator.address.city.match(/\d/g)) {
         alert("Your city name shouldn't contain numbers!");
         return false;
       } else if (
-        !/^[A-Z][a-z]+[ ]?[A-Z]*[a-z]*$/.test(this.client.address.city)
+        !/^[A-Z][a-z]+[ ]?[A-Z]*[a-z]*$/.test(this.systemAdministrator.address.city)
       ) {
         alert("Your city name needs to have one upper letter at the start!");
         return false;
@@ -242,14 +244,14 @@ export default {
       return true;
     },
     validateCountry() {
-      if (this.client.address.country.match(/[!@#$%^&*.,:'<>+-/\\"]/g)) {
+      if (this.systemAdministrator.address.country.match(/[!@#$%^&*.,:'<>+-/\\"]/g)) {
         alert("Your country name shouldn't contain special characters.");
         return false;
-      } else if (this.client.address.country.match(/\d/g)) {
+      } else if (this.systemAdministrator.address.country.match(/\d/g)) {
         alert("Your country name shouldn't contain numbers!");
         return false;
       } else if (
-        !/^[A-Z][a-z]+[ ]?[A-Z]*[a-z]*$/.test(this.client.address.country)
+        !/^[A-Z][a-z]+[ ]?[A-Z]*[a-z]*$/.test(this.systemAdministrator.address.country)
       ) {
         alert("Your country name needs to have one upper letter at the start!");
         return false;
@@ -257,15 +259,15 @@ export default {
       return true;
     },
     validatePhoneNumber() {
-      if (this.client.phoneNumber.match(/[a-zA-Z]/g)) {
+      if (this.systemAdministrator.phoneNumber.match(/[a-zA-Z]/g)) {
         alert("Your phone number shouldn't contain letters.");
         return false;
-      } else if (this.client.phoneNumber.match(/[ ]/g)) {
+      } else if (this.systemAdministrator.phoneNumber.match(/[ ]/g)) {
         alert("Your phone number shouldn't contain spaces!");
         return false;
       } else if (
         !/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\\s./0-9]*$/.test(
-          this.client.phoneNumber
+          this.systemAdministrator.phoneNumber
         )
       ) {
         alert("Your phone number is not in right form!");
