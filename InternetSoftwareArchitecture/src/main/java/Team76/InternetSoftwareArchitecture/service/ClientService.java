@@ -50,7 +50,7 @@ public class ClientService implements IClientService {
 		Set<FishingInstructor> fishingInstructorSubscriptions =  client.getFishingInstructorSubscriptions();
 		List<FishingInstructorSubscriptionDTO> fishingInstructorSubscriptionDTOs = new ArrayList<FishingInstructorSubscriptionDTO>();
 		for (FishingInstructor f : fishingInstructorSubscriptions)
-			fishingInstructorSubscriptionDTOs.add(new FishingInstructorSubscriptionDTO(f.getFirstName(), f.getLastName(), f.getEmail(), f.getPhoneNumber()));
+			fishingInstructorSubscriptionDTOs.add(new FishingInstructorSubscriptionDTO(f.getUserId(), f.getFirstName(), f.getLastName(), f.getEmail(), f.getPhoneNumber()));
 		return fishingInstructorSubscriptionDTOs;
 	}
 
@@ -59,7 +59,7 @@ public class ClientService implements IClientService {
 		Set<Ship> shipSubscriptions =  client.getShipSubsriptions();
 		List<ShipSubscriptionDTO> shipSubscriptionDTOs = new ArrayList<ShipSubscriptionDTO>();
 		for (Ship s : shipSubscriptions)
-			shipSubscriptionDTOs.add(new ShipSubscriptionDTO(s.getName(), mapAddress(s.getAddress()), s.getDescription(), s.getCapacity(), s.getShipType(), s.getShipOwner().getFirstName(), s.getShipOwner().getLastName(), s.getShipOwner().getEmail(), s.getShipOwner().getPhoneNumber()));
+			shipSubscriptionDTOs.add(new ShipSubscriptionDTO(s.getShipId(), s.getName(), mapAddress(s.getAddress()), s.getDescription(), s.getCapacity(), s.getShipType(), s.getShipOwner().getFirstName(), s.getShipOwner().getLastName(), s.getShipOwner().getEmail(), s.getShipOwner().getPhoneNumber()));
 		return shipSubscriptionDTOs;
 	}
 
@@ -80,8 +80,56 @@ public class ClientService implements IClientService {
 		Set<Cottage> cottageSubsciptions = client.getCottageSubscriptions();
 		List<CottageSubscriptionDTO> cottageSubscriptionDTOs = new ArrayList<CottageSubscriptionDTO>();
 		for (Cottage c : cottageSubsciptions) 
-			cottageSubscriptionDTOs.add(new CottageSubscriptionDTO(c.getName(), mapAddress(c.getAddress()), c.getDescription(), c.getNumberOfRooms(), c.getNumberOfBedsPerRoom(), c.getCottageOwner().getLastName(), c.getCottageOwner().getLastName(), c.getCottageOwner().getEmail(), c.getCottageOwner().getPhoneNumber()));
+			cottageSubscriptionDTOs.add(new CottageSubscriptionDTO(c.getCottageId(), c.getName(), mapAddress(c.getAddress()), c.getDescription(), c.getNumberOfRooms(), c.getNumberOfBedsPerRoom(), c.getCottageOwner().getLastName(), c.getCottageOwner().getLastName(), c.getCottageOwner().getEmail(), c.getCottageOwner().getPhoneNumber()));
 		return cottageSubscriptionDTOs;
+	}
+	
+	@Override
+	public Boolean unsubscribeFishingInstructor(Long id) {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Set<FishingInstructor> fishingInstructorSubscriptions =  client.getFishingInstructorSubscriptions();
+		try {
+			for (FishingInstructor f : fishingInstructorSubscriptions)
+				if (f.getUserId() == id)
+					fishingInstructorSubscriptions.remove(f);
+			clientRepository.save(client);
+			return true;
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+	}
+
+	@Override
+	public Boolean unsubscribeCottage(Long id) {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Set<Cottage> cottageSubsciptions = client.getCottageSubscriptions();
+		try {
+			for (Cottage c : cottageSubsciptions)
+				if (c.getCottageId() == id)
+					cottageSubsciptions.remove(c);
+			clientRepository.save(client);
+			return true;
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+	}
+	
+	@Override
+	public Boolean unsubscribeShip(Long id) {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Set<Ship> shipSubscriptions =  client.getShipSubsriptions();
+		try {
+			for (Ship s : shipSubscriptions)
+				if (s.getShipId() == id)
+					shipSubscriptions.remove(s);
+			clientRepository.save(client);
+			return true;
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
 	}
 
 }

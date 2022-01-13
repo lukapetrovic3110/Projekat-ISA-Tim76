@@ -2,6 +2,7 @@ package Team76.InternetSoftwareArchitecture.dto;
 
 public class CottageSubscriptionDTO {
 	
+	private Long id;
 	private String name;
 	private String address;
 	private String description;
@@ -16,10 +17,11 @@ public class CottageSubscriptionDTO {
 	
 	}
 
-	public CottageSubscriptionDTO(String name, String address, String description, Integer numberOfRooms,
+	public CottageSubscriptionDTO(Long id, String name, String address, String description, Integer numberOfRooms,
 			Integer numberOfBedsPerRoom, String ownerFirstName, String ownerLastName, String ownerEmail,
 			String ownerPhoneNumber) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.description = description;
@@ -29,6 +31,14 @@ public class CottageSubscriptionDTO {
 		this.ownerLastName = ownerLastName;
 		this.ownerEmail = ownerEmail;
 		this.ownerPhoneNumber = ownerPhoneNumber;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {

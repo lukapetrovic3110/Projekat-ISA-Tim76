@@ -23,14 +23,9 @@
                   </v-card-title>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-
                     <v-btn color="green" text @click="deleteReservation">Yes</v-btn>
                     <v-spacer></v-spacer>
-
-                    <v-btn color="red" text @click="cancel"
-                      >No</v-btn
-                    >
-
+                    <v-btn color="red" text @click="cancel">No</v-btn>
                     <v-spacer></v-spacer>
                   </v-card-actions>
                 </v-card>

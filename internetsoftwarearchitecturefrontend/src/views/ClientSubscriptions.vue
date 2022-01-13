@@ -6,7 +6,7 @@
         <v-data-table
           :headers="fishingInstructorSubscriptionsHeaders"
           :items="fishingInstructorSubscriptions"
-          items-per-page="5"
+          :items-per-page="5"
         >
           <template v-slot:top>
             <v-toolbar dense dark color="light-blue darken-2">
@@ -15,7 +15,31 @@
                 Fishing instructor subscriptions
               </v-toolbar-title>
               <v-spacer></v-spacer>
+              <v-dialog v-model="dialogUnsubscribeFishingInstructor" max-width="60%">
+                <v-card>
+                  <v-spacer></v-spacer>
+                  <v-card-title class="text-h5 justify-center"
+                    >Are you want to unsubscribe this fishing instructor?
+                  </v-card-title>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green" text @click="unsubscribeFishingInstructor">Yes</v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn color="red" text @click="cancelUnsubscribeFishingInstructor">No</v-btn>
+                    <v-spacer></v-spacer>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-toolbar>
+          </template>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="red" text @click="unsubscribeFI(item)">
+                UNSUBSCRIBE
+              </v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
           </template>
         </v-data-table>
       </div>
@@ -26,7 +50,7 @@
         <v-data-table
           :headers="shipSubscriptionsHeaders"
           :items="shipSubscriptions"
-          items-per-page="5"
+          :items-per-page="5"
         >
           <template v-slot:top>
             <v-toolbar dense dark color="light-blue darken-2">
@@ -35,7 +59,31 @@
                 Ship subscriptions
               </v-toolbar-title>
               <v-spacer></v-spacer>
+              <v-dialog v-model="dialogUnsubscribeShip" max-width="60%">
+                <v-card>
+                  <v-spacer></v-spacer>
+                  <v-card-title class="text-h5 justify-center"
+                    >Are you want to unsubscribe this ship?
+                  </v-card-title>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green" text @click="unsubscribeShip">Yes</v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn color="red" text @click="cancelUnsubscribeShip">No</v-btn>
+                    <v-spacer></v-spacer>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-toolbar>
+          </template>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="red" text @click="unsubscribeS(item)">
+                UNSUBSCRIBE
+              </v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
           </template>
         </v-data-table>
       </div>
@@ -46,7 +94,7 @@
         <v-data-table
           :headers="cottageSubscriptionsHeaders"
           :items="cottageSubscriptions"
-          items-per-page="5"
+          :items-per-page="5"
         >
           <template v-slot:top>
             <v-toolbar dense dark color="light-blue darken-2">
@@ -55,7 +103,31 @@
                 Cottage subscriptions
               </v-toolbar-title>
               <v-spacer></v-spacer>
+              <v-dialog v-model="dialogUnsubscribeCottage" max-width="60%">
+                <v-card>
+                  <v-spacer></v-spacer>
+                  <v-card-title class="text-h5 justify-center"
+                    >Are you want to unsubscribe this cottage?
+                  </v-card-title>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green" text @click="unsubscribeCottage">Yes</v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn color="red" text @click="cancelUnsubscribeCottage">No</v-btn>
+                    <v-spacer></v-spacer>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-toolbar>
+          </template>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="red" text @click="unsubscribeC(item)">
+                UNSUBSCRIBE
+              </v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
           </template>
         </v-data-table>
       </div>
@@ -87,6 +159,12 @@ export default {
         text: "Phone number",
         value: "phoneNumber",
         align: "center",
+      },
+      {
+        text: "Action",
+        value: "actions",
+        align: "center",
+        sortable: false,
       },
     ],
     shipSubscriptionsHeaders: [
@@ -135,6 +213,12 @@ export default {
         value: "ownerPhoneNumber",
         align: "center",
       },
+      {
+        text: "Action",
+        value: "actions",
+        align: "center",
+        sortable: false,
+      },
     ],
     cottageSubscriptionsHeaders: [
       {
@@ -182,10 +266,22 @@ export default {
         value: "ownerPhoneNumber",
         align: "center",
       },
+      {
+        text: "Action",
+        value: "actions",
+        align: "center",
+        sortable: false,
+      },
     ],
+    dialogUnsubscribeFishingInstructor: false,
+    dialogUnsubscribeShip: false,
+    dialogUnsubscribeCottage: false,
     fishingInstructorSubscriptions: [],
     shipSubscriptions: [],
     cottageSubscriptions: [],
+    index: null,
+    requestItem: null,
+    defaultItem: null,
   }),
   mounted() {
     this.checkAuthentication();
@@ -249,6 +345,96 @@ export default {
           console.log(response.data);
           this.cottageSubscriptions = response.data;
         });
+    },
+    unsubscribeFI(item) {
+      this.index = this.fishingInstructorSubscriptions.indexOf(item);
+      this.requestItem = Object.assign({}, item);
+      this.dialogUnsubscribeFishingInstructor = true;
+    },
+    unsubscribeFishingInstructor() {
+      this.axios.put("http://localhost:8091/client/unsubscribeFishingInstructor", 
+      {
+        id: this.requestItem.id,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        if(response.data == true) {
+          this.fishingInstructorSubscriptions.splice(this.index, 1);
+          alert("You have successfully unsubscribed from the fishing instructor!")
+        }
+      });
+      this.cancelUnsubscribeFishingInstructor();
+    },
+    cancelUnsubscribeFishingInstructor() {
+      this.dialogUnsubscribeFishingInstructor = false;
+      this.$nextTick(() => {
+        this.requestItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+    unsubscribeS(item) {
+      this.index = this.shipSubscriptions.indexOf(item);
+      this.requestItem = Object.assign({}, item);
+      this.dialogUnsubscribeShip = true;
+    },
+    unsubscribeShip() {
+      this.axios.put("http://localhost:8091/client/unsubscribeShip", 
+      {
+        id: this.requestItem.id,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        if(response.data == true) {
+          this.shipSubscriptions.splice(this.index, 1);
+          alert("You have successfully unsubscribed from the ship!")
+        }
+      });
+      this.cancelUnsubscribeShip();
+    },
+    cancelUnsubscribeShip() {
+      this.dialogUnsubscribeShip = false;
+      this.$nextTick(() => {
+        this.requestItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+    unsubscribeC(item) {
+      this.index = this.cottageSubscriptions.indexOf(item);
+      this.requestItem = Object.assign({}, item);
+      this.dialogUnsubscribeCottage = true;
+    },
+    unsubscribeCottage() {
+      this.axios.put("http://localhost:8091/client/unsubscribeCottage", 
+      {
+        id: this.requestItem.id,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        if(response.data == true) {
+          this.cottageSubscriptions.splice(this.index, 1);
+          alert("You have successfully unsubscribed from the cottage!")
+        }
+      });
+      this.cancelUnsubscribeCottage();
+    },
+    cancelUnsubscribeCottage() {
+      this.dialogUnsubscribeCottage = false;
+      this.$nextTick(() => {
+        this.requestItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
     },
   },
 };

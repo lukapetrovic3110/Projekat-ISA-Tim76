@@ -15,4 +15,10 @@ public interface IClientService {
 	Client findClient();
 	
 	List<FishingInstructorSubscriptionDTO> getFishingInstructorSubscriptions();
+	
+	Boolean unsubscribeFishingInstructor(Long id);
+	
+	Boolean unsubscribeCottage(Long id);
+
+	Boolean unsubscribeShip(Long id);
 }

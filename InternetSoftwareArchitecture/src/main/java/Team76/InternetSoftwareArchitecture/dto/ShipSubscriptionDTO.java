@@ -4,6 +4,7 @@ import Team76.InternetSoftwareArchitecture.model.ShipType;
 
 public class ShipSubscriptionDTO {
 	
+	private Long id;
 	private String name;
 	private String address;
 	private String description;
@@ -18,9 +19,11 @@ public class ShipSubscriptionDTO {
 		
 	}
 
-	public ShipSubscriptionDTO(String name, String address, String description, Integer capacity, ShipType shipType,
-			String ownerFirstName, String ownerLastName, String ownerEmail, String ownerPhoneNumber) {
+	public ShipSubscriptionDTO(Long id, String name, String address, String description, Integer capacity,
+			ShipType shipType, String ownerFirstName, String ownerLastName, String ownerEmail,
+			String ownerPhoneNumber) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.description = description;
@@ -31,7 +34,15 @@ public class ShipSubscriptionDTO {
 		this.ownerEmail = ownerEmail;
 		this.ownerPhoneNumber = ownerPhoneNumber;
 	}
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
 	}
