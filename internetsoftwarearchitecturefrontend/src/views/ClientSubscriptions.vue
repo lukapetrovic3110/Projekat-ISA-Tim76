@@ -364,7 +364,7 @@ export default {
       .then((response) => {
         if(response.data == true) {
           this.fishingInstructorSubscriptions.splice(this.index, 1);
-          alert("You have successfully unsubscribed from the fishing instructor!")
+          alert("You have successfully unsubscribed from this fishing instructor!")
         }
       });
       this.cancelUnsubscribeFishingInstructor();
@@ -394,7 +394,7 @@ export default {
       .then((response) => {
         if(response.data == true) {
           this.shipSubscriptions.splice(this.index, 1);
-          alert("You have successfully unsubscribed from the ship!")
+          alert("You have successfully unsubscribed from this ship!")
         }
       });
       this.cancelUnsubscribeShip();
@@ -424,7 +424,7 @@ export default {
       .then((response) => {
         if(response.data == true) {
           this.cottageSubscriptions.splice(this.index, 1);
-          alert("You have successfully unsubscribed from the cottage!")
+          alert("You have successfully unsubscribed from this cottage!")
         }
       });
       this.cancelUnsubscribeCottage();

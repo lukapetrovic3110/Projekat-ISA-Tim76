@@ -111,6 +111,11 @@ const routes = [
     component: () => import("../views/SearchCottage.vue"),
   },
   {
+    path: "/cottageDetails",
+    name: "CottageDetails",
+    component: () => import("../views/CottageDetails.vue"),
+  },
+  {
     path: "/reservationCottageHistoryByClient",
     name: "ReservationCottageHistoryByClient",
     component: () => import("../views/ReservationCottageHistoryByClient.vue"),

@@ -17,5 +17,7 @@ public interface IFishingInstructorRepository extends JpaRepository<FishingInstr
 	List<FishingInstructor> findAllFishingInstructorsByAccountApproval(AccountApproval accountApproval, UserType userType);
 	
 	FishingInstructor findByEmail(String email);
+	
+	FishingInstructor findByUserId(Long userId);
 
 }

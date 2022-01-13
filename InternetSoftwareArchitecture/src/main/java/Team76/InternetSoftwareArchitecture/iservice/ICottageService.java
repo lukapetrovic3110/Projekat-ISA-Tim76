@@ -15,6 +15,8 @@ public interface ICottageService {
 	
 	Cottage findById(Long id);
 	
+	CottageDTO getCottageById(Long id);
+	
 	void saveImageForCottage(Long cottageId, Long imageId);
 	
 	List<Cottage> getAllCottagesForCottageOwner(Long cottageOwnerId);

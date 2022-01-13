@@ -108,5 +108,25 @@ public class CottageService implements ICottageService {
 
 		return cottageDTOs;
 	}
+
+	@Override
+	public CottageDTO getCottageById(Long id) {
+		Cottage c = cottageRepository.findByCottageId(id);
+		List<Image> images = c.getImages();
+		List<String> cottageImages = new ArrayList<String>();
+		for (Image image : images) {
+			cottageImages.add(image.getName());
+		}
+		CottageDTO cottageDTO = new CottageDTO(c.getCottageId(), c.getName(), c.getDescription(),
+				c.getAddress().getStreet(), c.getAddress().getStreetNumber(),
+				c.getAddress().getCity(), c.getAddress().getCountry(),
+				c.getAddress().getLongitude(), c.getAddress().getLatitude(), c.getRating(),
+				c.getAvailabilityStart(), c.getAvailabilityEnd(), c.getNumberOfRooms(),
+				c.getNumberOfBedsPerRoom(), c.getCottageOwner().getFirstName(),
+				c.getCottageOwner().getLastName(), c.getCottageOwner().getEmail(),
+				c.getCottageOwner().getPhoneNumber(), cottageImages);
+
+		return cottageDTO;
+	}
   
 }

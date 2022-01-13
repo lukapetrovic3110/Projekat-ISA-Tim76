@@ -21,6 +21,7 @@ import Team76.InternetSoftwareArchitecture.dto.CottageSubscriptionDTO;
 import Team76.InternetSoftwareArchitecture.dto.FishingInstructorSubscriptionDTO;
 import Team76.InternetSoftwareArchitecture.dto.ScheduledReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipSubscriptionDTO;
+import Team76.InternetSoftwareArchitecture.dto.SubscribeRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.UnsubscribeRequestDTO;
 import Team76.InternetSoftwareArchitecture.model.Client;
 import Team76.InternetSoftwareArchitecture.model.ReservationAdventure;
@@ -71,6 +72,12 @@ public class ClientController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@PostMapping(value = "/subscribeShip")
+	public ResponseEntity<Boolean> subscribeShip(@RequestBody SubscribeRequestDTO subscribeRequestDTO) {
+		return new ResponseEntity<Boolean>(clientService.subscribeShip(subscribeRequestDTO.getId()), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@GetMapping(value = "/cottageSubscriptions")
 	public ResponseEntity<List<CottageSubscriptionDTO>> getCottageSubscriptions() {
 		return new ResponseEntity<List<CottageSubscriptionDTO>>(clientService.getCottageSubscriptions(), HttpStatus.OK);
@@ -83,6 +90,12 @@ public class ClientController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@PostMapping(value = "/subscribeCottage")
+	public ResponseEntity<Boolean> subscribeCottage(@RequestBody SubscribeRequestDTO subscribeRequestDTO) {
+		return new ResponseEntity<Boolean>(clientService.subscribeCottage(subscribeRequestDTO.getId()), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@GetMapping(value = "/fishingInstructorSubscriptions")
 	public ResponseEntity<List<FishingInstructorSubscriptionDTO>> getFishingInstructorSubscriptions() {
 		return new ResponseEntity<List<FishingInstructorSubscriptionDTO>>(clientService.getFishingInstructorSubscriptions(), HttpStatus.OK);
@@ -92,6 +105,12 @@ public class ClientController {
 	@PutMapping(value = "/unsubscribeFishingInstructor")
 	public ResponseEntity<Boolean> unsubscribeFishingInstructor(@RequestBody UnsubscribeRequestDTO unsubscribeRequestDTO) {
 		return new ResponseEntity<Boolean>(clientService.unsubscribeFishingInstructor(unsubscribeRequestDTO.getId()), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@PostMapping(value = "/subscribeFishingInstructor")
+	public ResponseEntity<Boolean> subscribeFishingInstructor(@RequestBody SubscribeRequestDTO subscribeRequestDTO) {
+		return new ResponseEntity<Boolean>(clientService.subscribeFishingInstructor(subscribeRequestDTO.getId()), HttpStatus.OK);
 	}
 	
 	
