@@ -1,6 +1,7 @@
 package Team76.InternetSoftwareArchitecture.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -57,24 +58,112 @@ public class ClientService implements IClientService {
 	@Override
 	public List<FishingInstructorSubscriptionDTO> getFishingInstructorSubscriptions() {
 		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Set<FishingInstructor> fishingInstructorSubscriptions =  client.getFishingInstructorSubscriptions();
+		Set<FishingInstructor> fishingInstructorSubscriptions = new HashSet<FishingInstructor>();
 		List<FishingInstructorSubscriptionDTO> fishingInstructorSubscriptionDTOs = new ArrayList<FishingInstructorSubscriptionDTO>();
-		for (FishingInstructor f : fishingInstructorSubscriptions)
-			fishingInstructorSubscriptionDTOs.add(new FishingInstructorSubscriptionDTO(f.getUserId(), f.getFirstName(), f.getLastName(), f.getEmail(), f.getPhoneNumber()));
+		if(!client.getFishingInstructorSubscriptions().isEmpty()) {
+			fishingInstructorSubscriptions = client.getFishingInstructorSubscriptions();
+			for (FishingInstructor f : fishingInstructorSubscriptions)
+				fishingInstructorSubscriptionDTOs.add(new FishingInstructorSubscriptionDTO(f.getUserId(), f.getFirstName(), f.getLastName(), f.getEmail(), f.getPhoneNumber()));
+		}
 		return fishingInstructorSubscriptionDTOs;
+	}
+	
+	@Override
+	public List<ShipSubscriptionDTO> getShipSubscriptions() {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Set<Ship> shipSubscriptions = new HashSet<Ship>(); 
+		List<ShipSubscriptionDTO> shipSubscriptionDTOs = new ArrayList<ShipSubscriptionDTO>();
+		if(!client.getShipSubscriptions().isEmpty()) {
+			shipSubscriptions = client.getShipSubscriptions();
+			for (Ship s : shipSubscriptions)
+				shipSubscriptionDTOs.add(new ShipSubscriptionDTO(s.getShipId(), s.getName(), mapAddress(s.getAddress()), s.getDescription(), s.getCapacity(), s.getShipType(), s.getShipOwner().getFirstName(), s.getShipOwner().getLastName(), s.getShipOwner().getEmail(), s.getShipOwner().getPhoneNumber()));
+		}
+		return shipSubscriptionDTOs;
+	}
+	
+	@Override
+	public List<CottageSubscriptionDTO> getCottageSubscriptions() {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Set<Cottage> cottageSubsciptions = new HashSet<Cottage>();
+		List<CottageSubscriptionDTO> cottageSubscriptionDTOs = new ArrayList<CottageSubscriptionDTO>();
+		if(!client.getCottageSubscriptions().isEmpty()) {
+			cottageSubsciptions = client.getCottageSubscriptions();
+			for (Cottage c : cottageSubsciptions) 
+				cottageSubscriptionDTOs.add(new CottageSubscriptionDTO(c.getCottageId(), c.getName(), mapAddress(c.getAddress()), c.getDescription(), c.getNumberOfRooms(), c.getNumberOfBedsPerRoom(), c.getCottageOwner().getLastName(), c.getCottageOwner().getLastName(), c.getCottageOwner().getEmail(), c.getCottageOwner().getPhoneNumber()));
+		}
+		return cottageSubscriptionDTOs;
 	}
 	
 	
 	@Override
 	public Boolean unsubscribeFishingInstructor(Long id) {
 		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Set<FishingInstructor> fishingInstructorSubscriptions =  client.getFishingInstructorSubscriptions();
+		Set<FishingInstructor> fishingInstructorSubscriptions = new HashSet<FishingInstructor>();
 		try {
-			for (FishingInstructor f : fishingInstructorSubscriptions)
-				if (f.getUserId() == id)
-					fishingInstructorSubscriptions.remove(f);
-			clientRepository.save(client);
-			return true;
+			if(!client.getFishingInstructorSubscriptions().isEmpty()) {
+				fishingInstructorSubscriptions = client.getFishingInstructorSubscriptions();
+				FishingInstructor f = fishingInstructorRepository.findByUserId(id);
+				for(FishingInstructor fishingInstructor : fishingInstructorSubscriptions) {
+					if(fishingInstructor.getUserId() == f.getUserId()) {
+						fishingInstructorSubscriptions.remove(fishingInstructor);
+						break;
+					}
+				}
+				client.setFishingInstructorSubscriptions(fishingInstructorSubscriptions);
+				clientRepository.save(client);
+				return true;
+			}
+			return false;
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+	}
+	
+	@Override
+	public Boolean unsubscribeShip(Long id) {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Set<Ship> shipSubscriptions = new HashSet<Ship>();
+		try {	
+			if(!client.getShipSubscriptions().isEmpty()) {
+				shipSubscriptions = client.getShipSubscriptions();
+				Ship s = shipRepository.findById(id).get();
+				for(Ship ship : shipSubscriptions) {
+					if(ship.getShipId() == s.getShipId()) {
+						shipSubscriptions.remove(ship);
+						break;
+					}
+				}
+				client.setShipSubscriptions(shipSubscriptions);
+				clientRepository.save(client);
+				return true;
+			}
+			return false;
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+	}
+	
+	@Override
+	public Boolean unsubscribeCottage(Long id) {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Set<Cottage> cottageSubscriptions = new HashSet<Cottage>();
+		try {
+			if(!client.getShipSubscriptions().isEmpty()) {
+				cottageSubscriptions = client.getCottageSubscriptions();
+				Cottage c = cottageRepository.findById(id).get();
+				for(Cottage cottage : cottageSubscriptions) {
+					if(cottage.getCottageId() == c.getCottageId()) {
+						cottageSubscriptions.remove(cottage);
+						break;
+					}
+				}
+				client.setCottageSubscriptions(cottageSubscriptions);
+				clientRepository.save(client);
+				return true;
+			}
+			return false;
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 			return false;
@@ -84,25 +173,37 @@ public class ClientService implements IClientService {
 	@Override
 	public Boolean subscribeFishingInstructor(Long id) {
 		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Set<FishingInstructor> fishingInstructorSubscriptions =  client.getFishingInstructorSubscriptions();
 		try {
-			fishingInstructorSubscriptions.add(fishingInstructorRepository.findByUserId(id));
-			clientRepository.save(client);
+			fishingInstructorRepository.addNewFishingInstructorSubscriptions(client.getUserId(), id);
 			return true;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return false;
 		}
 	}
-
+	
 	@Override
-	public List<ShipSubscriptionDTO> getShipSubscriptions() {
+	public Boolean subscribeShip(Long id) {
 		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Set<Ship> shipSubscriptions =  client.getShipSubsriptions();
-		List<ShipSubscriptionDTO> shipSubscriptionDTOs = new ArrayList<ShipSubscriptionDTO>();
-		for (Ship s : shipSubscriptions)
-			shipSubscriptionDTOs.add(new ShipSubscriptionDTO(s.getShipId(), s.getName(), mapAddress(s.getAddress()), s.getDescription(), s.getCapacity(), s.getShipType(), s.getShipOwner().getFirstName(), s.getShipOwner().getLastName(), s.getShipOwner().getEmail(), s.getShipOwner().getPhoneNumber()));
-		return shipSubscriptionDTOs;
+		try {
+			shipRepository.addNewShipSubscriptions(client.getUserId(), id);
+			return true;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+	}
+	
+	@Override
+	public Boolean subscribeCottage(Long id) {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		try {
+			cottageRepository.addNewCottageSubscriptions(client.getUserId(), id);
+			return true;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
 	}
 	
 	private String mapAddress(Address a) {
@@ -116,77 +217,5 @@ public class ClientService implements IClientService {
 		address.append(a.getCountry());
 		return address.toString();
 	}
-
-	@Override
-	public List<CottageSubscriptionDTO> getCottageSubscriptions() {
-		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Set<Cottage> cottageSubsciptions = client.getCottageSubscriptions();
-		List<CottageSubscriptionDTO> cottageSubscriptionDTOs = new ArrayList<CottageSubscriptionDTO>();
-		for (Cottage c : cottageSubsciptions) 
-			cottageSubscriptionDTOs.add(new CottageSubscriptionDTO(c.getCottageId(), c.getName(), mapAddress(c.getAddress()), c.getDescription(), c.getNumberOfRooms(), c.getNumberOfBedsPerRoom(), c.getCottageOwner().getLastName(), c.getCottageOwner().getLastName(), c.getCottageOwner().getEmail(), c.getCottageOwner().getPhoneNumber()));
-		return cottageSubscriptionDTOs;
-	}
 	
-	
-	@Override
-	public Boolean unsubscribeShip(Long id) {
-		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Set<Ship> shipSubscriptions =  client.getShipSubsriptions();
-		try {
-			for (Ship s : shipSubscriptions)
-				if (s.getShipId() == id)
-					shipSubscriptions.remove(s);
-			clientRepository.save(client);
-			return true;
-		} catch(Exception e) {
-			System.out.println(e.getMessage());
-			return false;
-		}
-	}
-
-	@Override
-	public Boolean subscribeShip(Long id) {
-		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Set<Ship> shipSubscriptions =  client.getShipSubsriptions();
-		try {
-			shipSubscriptions.add(shipRepository.findById(id).get());
-			clientRepository.save(client);
-			return true;
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return false;
-		}
-	}
-
-	
-	@Override
-	public Boolean unsubscribeCottage(Long id) {
-		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Set<Cottage> cottageSubsciptions = client.getCottageSubscriptions();
-		try {
-			for (Cottage c : cottageSubsciptions)
-				if (c.getCottageId() == id)
-					cottageSubsciptions.remove(c);
-			clientRepository.save(client);
-			return true;
-		} catch(Exception e) {
-			System.out.println(e.getMessage());
-			return false;
-		}
-	}
-	
-	@Override
-	public Boolean subscribeCottage(Long id) {
-		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Set<Cottage> cottageSubscriptions =  client.getCottageSubscriptions();
-		try {
-			cottageSubscriptions.add(cottageRepository.findById(id).get());
-			clientRepository.save(client);
-			return true;
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return false;
-		}
-	}
-
 }

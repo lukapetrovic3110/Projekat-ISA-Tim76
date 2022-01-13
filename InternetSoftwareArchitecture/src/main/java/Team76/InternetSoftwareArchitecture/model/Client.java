@@ -20,18 +20,18 @@ public class Client extends User {
 	private Set<Cottage> cottageSubscriptions = new HashSet<Cottage>();
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<Ship> shipSubsriptions = new HashSet<Ship>();
+	private Set<Ship> shipSubscriptions = new HashSet<Ship>();
 	
 	public Client() {
 		
 	}
 
 	public Client(Set<FishingInstructor> fishingInstructorSubscriptions, Set<Cottage> cottageSubscriptions,
-			Set<Ship> shipSubsriptions) {
+			Set<Ship> shipSubscriptions) {
 		super();
 		this.fishingInstructorSubscriptions = fishingInstructorSubscriptions;
 		this.cottageSubscriptions = cottageSubscriptions;
-		this.shipSubsriptions = shipSubsriptions;
+		this.shipSubscriptions = shipSubscriptions;
 	}
 
 	public Set<FishingInstructor> getFishingInstructorSubscriptions() {
@@ -50,12 +50,12 @@ public class Client extends User {
 		this.cottageSubscriptions = cottageSubscriptions;
 	}
 
-	public Set<Ship> getShipSubsriptions() {
-		return shipSubsriptions;
+	public Set<Ship> getShipSubscriptions() {
+		return shipSubscriptions;
 	}
 
-	public void setShipSubsriptions(Set<Ship> shipSubsriptions) {
-		this.shipSubsriptions = shipSubsriptions;
+	public void setShipSubscriptions(Set<Ship> shipSubscriptions) {
+		this.shipSubscriptions = shipSubscriptions;
 	}
 	
 }

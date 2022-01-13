@@ -237,10 +237,10 @@ INSERT INTO public.user_cottage_subscriptions(client_user_id, cottage_subscripti
 INSERT INTO public.user_cottage_subscriptions(client_user_id, cottage_subscriptions_cottage_id)
 	VALUES (2, 3);
 	
-INSERT INTO public.user_ship_subsriptions(client_user_id, ship_subsriptions_ship_id)
+INSERT INTO public.user_ship_subscriptions(client_user_id, ship_subscriptions_ship_id)
 	VALUES (2, 1);
 	
-INSERT INTO public.user_ship_subsriptions(client_user_id, ship_subsriptions_ship_id)
+INSERT INTO public.user_ship_subscriptions(client_user_id, ship_subscriptions_ship_id)
 	VALUES (2, 2);
 
 INSERT INTO public.user_fishing_instructor_subscriptions(client_user_id, fishing_instructor_subscriptions_user_id)

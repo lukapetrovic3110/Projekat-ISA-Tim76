@@ -114,7 +114,7 @@
                       x-large
                       color="primary accent-3"
                       text
-                      @click="reserve"
+                      @click="seeMoreDetails(item)"
                     >
                       SEE MORE DETAILS
                     </v-btn>
@@ -229,6 +229,10 @@ export default {
         console.log(response.data);
         this.items = response.data;
       });
+    },
+    seeMoreDetails(item) {
+      localStorage.setItem("adventureId", item.adventureId);
+      window.location.href = "http://localhost:8083/adventureDetails";
     },
   },
 };

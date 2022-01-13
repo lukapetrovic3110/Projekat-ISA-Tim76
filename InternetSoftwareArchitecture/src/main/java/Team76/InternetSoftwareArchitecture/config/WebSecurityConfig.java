@@ -55,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().exceptionHandling()
 				.authenticationEntryPoint(restAuthenticationEntryPoint).and().authorizeRequests()
-				.antMatchers("/auth/*", "/admin/registrationRequests", "/admin", "/admin/declineRegistrationRequest", "/admin/acceptRegistrationRequest", "/client/*", "/deleteAccount/*", "/cottage/*", "/cottage", "/cottage/findCottage/*", "/reservationCottage/*", "/ship", "/ship/*", "/reservationShip/*", "/adventure", "/reservationAdventure/*", "/adventure/*" ,"/image/upload/*/*").permitAll()
+				.antMatchers("/auth/*", "/admin/registrationRequests", "/admin", "/admin/declineRegistrationRequest", "/admin/acceptRegistrationRequest", "/client/*", "/deleteAccount/*", "/cottage/*", "/cottage", "/cottage/findCottage/*", "/reservationCottage/*", "/ship", "/ship/*", "/ship/findShip/*", "/reservationShip/*", "/adventure", "/adventure/findAdventure/*", "/reservationAdventure/*", "/adventure/*" ,"/image/upload/*/*").permitAll()
 				.anyRequest().authenticated().and().httpBasic().and().cors().and()
 				.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
 						BasicAuthenticationFilter.class);

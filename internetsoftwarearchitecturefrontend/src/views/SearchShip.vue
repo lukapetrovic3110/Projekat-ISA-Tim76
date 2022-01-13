@@ -61,8 +61,7 @@
                     height="360"
                     alt="ship"
                     v-bind:src="
-                      require('../assets/images/' + item.shipImages[0] +
-                        '.jpg')
+                      require('../assets/images/' + item.shipImages[0] + '.jpg')
                     "
                   ></v-img>
 
@@ -106,7 +105,7 @@
                       x-large
                       color="primary accent-3"
                       text
-                      @click="reserve"
+                      @click="seeMoreDetails(item)"
                     >
                       SEE MORE DETAILS
                     </v-btn>
@@ -221,6 +220,10 @@ export default {
         console.log(response.data);
         this.items = response.data;
       });
+    },
+    seeMoreDetails(item) {
+      localStorage.setItem("shipId", item.shipId);
+      window.location.href = "http://localhost:8083/shipDetails";
     },
   },
 };

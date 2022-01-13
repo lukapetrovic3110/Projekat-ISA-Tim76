@@ -10,7 +10,9 @@ import Team76.InternetSoftwareArchitecture.model.Ship;
 @Service
 public interface IShipService {
 	
-	public List<Ship> all();
+	List<Ship> all();
 	
-	public List<ShipDTO> findAll();
+	List<ShipDTO> findAll();
+	
+	ShipDTO getShipById(Long shipId);
 }
