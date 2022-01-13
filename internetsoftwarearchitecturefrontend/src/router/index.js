@@ -135,6 +135,11 @@ const routes = [
     name: "CottageOwnerReservationHistory",
     component: () => import("../views/CottageOwnerReservationHistory.vue"),
   },
+  {
+    path: "/cottageOwnerReservationReport",
+    name: "CottageOwnerReservationReport",
+    component: () => import("../views/CottageOwnerReservationReport.vue"),
+  },
 ];
 const router = new VueRouter({
   mode: "history",

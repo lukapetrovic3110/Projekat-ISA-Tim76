@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,12 +12,15 @@ import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationClientInformationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationInformationDTO;
+import Team76.InternetSoftwareArchitecture.dto.CottageReservationReportDTO;
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationCottageDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IReservationCottageService;
 import Team76.InternetSoftwareArchitecture.model.Client;
+import Team76.InternetSoftwareArchitecture.model.CottageReservationReport;
 import Team76.InternetSoftwareArchitecture.model.ReservationCottage;
 import Team76.InternetSoftwareArchitecture.model.ReservationStatus;
 import Team76.InternetSoftwareArchitecture.repository.ICottageRepository;
+import Team76.InternetSoftwareArchitecture.repository.ICottageReservationReportRepository;
 import Team76.InternetSoftwareArchitecture.repository.IReservationCottageRepository;
 
 @Service
@@ -26,11 +30,13 @@ public class ReservationCottageService implements IReservationCottageService {
 	
 	private ICottageRepository cottageRepository;
 	
+	private ICottageReservationReportRepository cottageReservationReportRepository;
 	
 	@Autowired
-	public ReservationCottageService(IReservationCottageRepository reservationCottageRepository, ICottageRepository cottageRepository) {
+	public ReservationCottageService(IReservationCottageRepository reservationCottageRepository, ICottageRepository cottageRepository, ICottageReservationReportRepository cottageReservationReportRepository) {
 		this.reservationCottageRepository = reservationCottageRepository;
 		this.cottageRepository = cottageRepository;
+		this.cottageReservationReportRepository = cottageReservationReportRepository;
 	}
 
 
@@ -79,26 +85,50 @@ public class ReservationCottageService implements IReservationCottageService {
 
 
 	@Override
-	public List<CottageReservationInformationDTO> findAllReservationsForCottageOwner(Long cottageOwnerId) {
+	public List<CottageReservationInformationDTO> findAllReservationsForCottageOwner(Long cottageOwnerId, ReservationStatus reservationStatus) {
 		List<CottageReservationInformationDTO> reservationsForCottageOwnerDTO = new ArrayList<CottageReservationInformationDTO>();
 		List<ReservationCottage> reservationsForCottageOwner = new ArrayList<ReservationCottage>();
-		List<Long> cottageOwnerCottagesId = cottageRepository.getAllCottagesIdForCottageOwner(cottageOwnerId);
+		List<Long> cottageOwnerCottagesId = cottageRepository.getAllCottageIdForCottageOwner(cottageOwnerId);
 		List<ReservationCottage> allCottageReservations = reservationCottageRepository.findAll();
+		List<Long> cottageReservationIdFromCottageReservationReport = cottageReservationReportRepository.getAllCottageReservationIdFromCottageReservationReports();
 		
 		for (ReservationCottage reservationCottage : allCottageReservations) {
-			if (cottageOwnerCottagesId.contains(reservationCottage.getCottage().getCottageId())) {
+			if (reservationStatus == null) {
+				cottageOwnerCottagesId.contains(reservationCottage.getCottage().getCottageId());
 				reservationsForCottageOwner.add(reservationCottage);
+			} else if (reservationStatus.equals(ReservationStatus.FINISHED)) {
+				if (reservationCottage.getReservationStatus().equals(reservationStatus) && !cottageReservationIdFromCottageReservationReport.contains(reservationCottage.getReservationCottageId())) {
+					cottageOwnerCottagesId.contains(reservationCottage.getCottage().getCottageId());
+					reservationsForCottageOwner.add(reservationCottage);
+				}
+			} else {
+				if (reservationCottage.getReservationStatus().equals(reservationStatus)) {
+					cottageOwnerCottagesId.contains(reservationCottage.getCottage().getCottageId());
+					reservationsForCottageOwner.add(reservationCottage);
+				}
 			}
 		}
 		
 		for (ReservationCottage reservationCottage : reservationsForCottageOwner) {
 			CottageReservationClientInformationDTO cottageReservationClientInformationDTO = new CottageReservationClientInformationDTO(reservationCottage.getClient().getFirstName(), reservationCottage.getClient().getLastName(), reservationCottage.getClient().getEmail(), reservationCottage.getClient().getPhoneNumber(), reservationCottage.getClient().getAddress());
-			CottageReservationInformationDTO cottageReservationInformationDTO = new CottageReservationInformationDTO(reservationCottage.getDateAndTime(), reservationCottage.getDuration(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getPrice(), reservationCottage.getCottage().getName(), reservationCottage.getCottage().getNumberOfRooms(), reservationCottage.getCottage().getNumberOfBedsPerRoom(), cottageReservationClientInformationDTO, reservationCottage.getReservationStatus());
+			CottageReservationInformationDTO cottageReservationInformationDTO = new CottageReservationInformationDTO(reservationCottage.getReservationCottageId(), reservationCottage.getDateAndTime(), reservationCottage.getDuration(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getPrice(), reservationCottage.getCottage().getName(), reservationCottage.getCottage().getNumberOfRooms(), reservationCottage.getCottage().getNumberOfBedsPerRoom(), cottageReservationClientInformationDTO, reservationCottage.getReservationStatus());
 			
 			reservationsForCottageOwnerDTO.add(cottageReservationInformationDTO);
 		}
 		
 		return reservationsForCottageOwnerDTO;
+	}
+
+
+	@Override
+	public CottageReservationReportDTO saveReport(CottageReservationReportDTO cottageReservationReportDTO) {
+		Optional<ReservationCottage> reservationCottage = reservationCottageRepository.findById(cottageReservationReportDTO.getCottageReservationId());
+		Boolean clientArrival = cottageReservationReportDTO.getClientArrival().equals("client-arrived") ? true : false;
+		CottageReservationReport cottageReservationReport = new CottageReservationReport(cottageReservationReportDTO.getComment(), clientArrival, reservationCottage.get());
+		
+		CottageReservationReport report = cottageReservationReportRepository.save(cottageReservationReport);
+		String clientArrivalFormatted = report.getClientArrived() ? "client-arrived" : "client-didnt-arrive";
+		return new CottageReservationReportDTO(report.getComment(), clientArrivalFormatted, report.getReservationCottage().getClient().getEmail(), report.getReservationCottage().getReservationCottageId());
 	}
 
 }

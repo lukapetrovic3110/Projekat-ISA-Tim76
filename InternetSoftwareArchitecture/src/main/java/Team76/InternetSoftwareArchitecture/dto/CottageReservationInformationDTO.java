@@ -6,6 +6,7 @@ import Team76.InternetSoftwareArchitecture.model.ReservationStatus;
 
 public class CottageReservationInformationDTO {
 
+	private Long cottageReservationId;
 	private Date dateAndTime;
 	private Integer duration;
 	private Integer maxNumberOfPersons;
@@ -20,11 +21,12 @@ public class CottageReservationInformationDTO {
 		
 	}
 
-	public CottageReservationInformationDTO(Date dateAndTime, Integer duration, Integer maxNumberOfPersons,
-			Double price, String cottageName, Integer numberOfRooms, Integer numberOfBedsPerRoom,
-			CottageReservationClientInformationDTO cottageReservationClientInformationDTO,
+	public CottageReservationInformationDTO(Long cottageReservationId, Date dateAndTime, Integer duration,
+			Integer maxNumberOfPersons, Double price, String cottageName, Integer numberOfRooms,
+			Integer numberOfBedsPerRoom, CottageReservationClientInformationDTO cottageReservationClientInformationDTO,
 			ReservationStatus reservationStatus) {
 		super();
+		this.cottageReservationId = cottageReservationId;
 		this.dateAndTime = dateAndTime;
 		this.duration = duration;
 		this.maxNumberOfPersons = maxNumberOfPersons;
@@ -34,6 +36,14 @@ public class CottageReservationInformationDTO {
 		this.numberOfBedsPerRoom = numberOfBedsPerRoom;
 		this.cottageReservationClientInformationDTO = cottageReservationClientInformationDTO;
 		this.reservationStatus = reservationStatus;
+	}
+
+	public Long getCottageReservationId() {
+		return cottageReservationId;
+	}
+
+	public void setCottageReservationId(Long cottageReservationId) {
+		this.cottageReservationId = cottageReservationId;
 	}
 
 	public Date getDateAndTime() {
@@ -108,5 +118,5 @@ public class CottageReservationInformationDTO {
 	public void setReservationStatus(ReservationStatus reservationStatus) {
 		this.reservationStatus = reservationStatus;
 	}
-	
+		
 }
