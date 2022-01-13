@@ -24,6 +24,7 @@ public class AdventureDTO {
 	private String instructorLastName;
 	private String instructorEmail;
 	private String instructorPhoneNumber;
+	private Long instructorId;
 	private HashMap<String, Double> priceList = new HashMap<String, Double>();
 	private List<String> adventureRules = new ArrayList<String>();
 	private List<String> adventureImages = new ArrayList<String>();
@@ -35,8 +36,7 @@ public class AdventureDTO {
 	public AdventureDTO(Long adventureId, String name, String description, Double rating, String instructorBiography,
 			Integer maxNumberOfPersons, String street, String streetNumber, String city, String country,
 			Double longitude, Double latitude, Date availabilityStart, Date availabilityEnd, String instructorFirstName,
-			String instructorLastName, String instructorEmail, String instructorPhoneNumber,
-			List<String> adventureImages) {
+			String instructorLastName, String instructorEmail, String instructorPhoneNumber, Long instructorId, List<String> adventureImages) {
 		super();
 		this.adventureId = adventureId;
 		this.name = name;
@@ -56,35 +56,7 @@ public class AdventureDTO {
 		this.instructorLastName = instructorLastName;
 		this.instructorEmail = instructorEmail;
 		this.instructorPhoneNumber = instructorPhoneNumber;
-		this.adventureImages = adventureImages;
-	}
-
-	public AdventureDTO(Long adventureId, String name, String description, Double rating, String instructorBiography,
-			Integer maxNumberOfPersons, String street, String streetNumber, String city, String country,
-			Double longitude, Double latitude, Date availabilityStart, Date availabilityEnd, String instructorFirstName,
-			String instructorLastName, String instructorEmail, String instructorPhoneNumber,
-			HashMap<String, Double> priceList, List<String> adventureRules, List<String> adventureImages) {
-		super();
-		this.adventureId = adventureId;
-		this.name = name;
-		this.description = description;
-		this.rating = rating;
-		this.instructorBiography = instructorBiography;
-		this.maxNumberOfPersons = maxNumberOfPersons;
-		this.street = street;
-		this.streetNumber = streetNumber;
-		this.city = city;
-		this.country = country;
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.availabilityStart = availabilityStart;
-		this.availabilityEnd = availabilityEnd;
-		this.instructorFirstName = instructorFirstName;
-		this.instructorLastName = instructorLastName;
-		this.instructorEmail = instructorEmail;
-		this.instructorPhoneNumber = instructorPhoneNumber;
-		this.priceList = priceList;
-		this.adventureRules = adventureRules;
+		this.instructorId = instructorId;
 		this.adventureImages = adventureImages;
 	}
 
@@ -232,12 +204,12 @@ public class AdventureDTO {
 		this.instructorPhoneNumber = instructorPhoneNumber;
 	}
 
-	public List<String> getAdventureImages() {
-		return adventureImages;
+	public Long getInstructorId() {
+		return instructorId;
 	}
 
-	public void setAdventureImages(List<String> adventureImages) {
-		this.adventureImages = adventureImages;
+	public void setInstructorId(Long instructorId) {
+		this.instructorId = instructorId;
 	}
 
 	public HashMap<String, Double> getPriceList() {
@@ -254,6 +226,14 @@ public class AdventureDTO {
 
 	public void setAdventureRules(List<String> adventureRules) {
 		this.adventureRules = adventureRules;
+	}
+
+	public List<String> getAdventureImages() {
+		return adventureImages;
+	}
+
+	public void setAdventureImages(List<String> adventureImages) {
+		this.adventureImages = adventureImages;
 	}
 
 }

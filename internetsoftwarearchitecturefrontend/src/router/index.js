@@ -111,6 +111,11 @@ const routes = [
     component: () => import("../views/SearchCottage.vue"),
   },
   {
+    path: "/cottageDetails",
+    name: "CottageDetails",
+    component: () => import("../views/CottageDetails.vue"),
+  },
+  {
     path: "/reservationCottageHistoryByClient",
     name: "ReservationCottageHistoryByClient",
     component: () => import("../views/ReservationCottageHistoryByClient.vue"),
@@ -121,6 +126,11 @@ const routes = [
     component: () => import("../views/SearchShip.vue"),
   },
   {
+    path: "/shipDetails",
+    name: "ShipDetails",
+    component: () => import("../views/ShipDetails.vue"),
+  },
+  {
     path: "/reservationShipHistoryByClient",
     name: "ReservationShipHistoryByClient",
     component: () => import("../views/ReservationShipHistoryByClient.vue"),
@@ -129,6 +139,11 @@ const routes = [
     path: "/searchFishingInstructor",
     name: "SearchFishingInstructor",
     component: () => import("../views/SearchFishingInstructor.vue"),
+  },
+  {
+    path: "/adventureDetails",
+    name: "AdventureDetails",
+    component: () => import("../views/AdventureDetails.vue"),
   },
   {
     path: "/reservationAdventureHistoryByClient",

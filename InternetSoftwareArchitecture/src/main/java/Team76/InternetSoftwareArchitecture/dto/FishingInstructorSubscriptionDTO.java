@@ -1,22 +1,33 @@
 package Team76.InternetSoftwareArchitecture.dto;
 
-public class SubscriptionDTO {
+public class FishingInstructorSubscriptionDTO {
 	
+	private Long id;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String phoneNumber;
 	
-	public SubscriptionDTO() {
+	public FishingInstructorSubscriptionDTO() {
 	
 	}
 
-	public SubscriptionDTO(String firstName, String lastName, String email, String phoneNumber) {
+	public FishingInstructorSubscriptionDTO(Long id, String firstName, String lastName, String email, String phoneNumber) {
 		super();
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
+	}
+
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
