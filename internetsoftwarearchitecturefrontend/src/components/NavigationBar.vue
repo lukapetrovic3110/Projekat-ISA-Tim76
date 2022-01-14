@@ -130,11 +130,10 @@ export default {
           { title: "Search cottage", path: "/searchCottage" },
           { title: "Search ship or boat", path: "/searchShip" },
           { title: "Search fishing instructor", path: '/searchFishingInstructor'},
-          { title: "View reservation ship history", path: '/reservationShipHistoryByClient'},
-          { title: "View reservation cottage history", path: '/reservationCottageHistoryByClient'},
-          { title: "View reservation adventure history", path: '/reservationAdventureHistoryByClient'},
+          { title: "View reservation history", path: '/clientReservationHistory'},
           { title: "View scheduled reservations", path: '/clientScheduledReservation'},
           { title: "View subscriptions", path: "/clientSubscriptions"},
+          { title: "Write a complaint", path: "/clientComplaint"},
         ];
       } else if (this.userType === "COTTAGE_OWNER") {
         this.items = [

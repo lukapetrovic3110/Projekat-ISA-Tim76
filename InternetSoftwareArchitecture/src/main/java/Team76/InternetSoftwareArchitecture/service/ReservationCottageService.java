@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationCottageDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IReservationCottageService;
+import Team76.InternetSoftwareArchitecture.model.Address;
 import Team76.InternetSoftwareArchitecture.model.Client;
 import Team76.InternetSoftwareArchitecture.model.ReservationCottage;
 import Team76.InternetSoftwareArchitecture.model.ReservationStatus;
@@ -35,7 +36,7 @@ public class ReservationCottageService implements IReservationCottageService {
 		
 		for (ReservationCottage reservationCottage : allFinishedReservation)
 			if (reservationCottage.getClient().getUserId() == client.getUserId())
-				historyReservationDTOs.add(new HistoryReservationCottageDTO(reservationCottage.getDateAndTime().toString(), reservationCottage.getDuration(), reservationCottage.getPrice(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getCottage().getName(), reservationCottage.getCottage().getNumberOfRooms(), reservationCottage.getCottage().getNumberOfBedsPerRoom()));
+				historyReservationDTOs.add(new HistoryReservationCottageDTO(reservationCottage.getCottage().getCottageId(), reservationCottage.getDateAndTime().toString(), reservationCottage.getDuration(), reservationCottage.getPrice(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getCottage().getName(), reservationCottage.getCottage().getNumberOfRooms(), reservationCottage.getCottage().getNumberOfBedsPerRoom(), Address.mapAddress(reservationCottage.getCottage().getAddress()), reservationCottage.getCottage().getCottageOwner().getUserId(), reservationCottage.getCottage().getCottageOwner().getFirstName(), reservationCottage.getCottage().getCottageOwner().getLastName(),reservationCottage.getCottage().getCottageOwner().getEmail(), reservationCottage.getCottage().getCottageOwner().getPhoneNumber(), Address.mapAddress(reservationCottage.getCottage().getCottageOwner().getAddress())));
 		
 		return historyReservationDTOs;
 	}

@@ -76,7 +76,7 @@ public class ClientService implements IClientService {
 		if(!client.getShipSubscriptions().isEmpty()) {
 			shipSubscriptions = client.getShipSubscriptions();
 			for (Ship s : shipSubscriptions)
-				shipSubscriptionDTOs.add(new ShipSubscriptionDTO(s.getShipId(), s.getName(), mapAddress(s.getAddress()), s.getDescription(), s.getCapacity(), s.getShipType(), s.getShipOwner().getFirstName(), s.getShipOwner().getLastName(), s.getShipOwner().getEmail(), s.getShipOwner().getPhoneNumber()));
+				shipSubscriptionDTOs.add(new ShipSubscriptionDTO(s.getShipId(), s.getName(), Address.mapAddress(s.getAddress()), s.getDescription(), s.getCapacity(), s.getShipType(), s.getShipOwner().getFirstName(), s.getShipOwner().getLastName(), s.getShipOwner().getEmail(), s.getShipOwner().getPhoneNumber()));
 		}
 		return shipSubscriptionDTOs;
 	}
@@ -89,7 +89,7 @@ public class ClientService implements IClientService {
 		if(!client.getCottageSubscriptions().isEmpty()) {
 			cottageSubsciptions = client.getCottageSubscriptions();
 			for (Cottage c : cottageSubsciptions) 
-				cottageSubscriptionDTOs.add(new CottageSubscriptionDTO(c.getCottageId(), c.getName(), mapAddress(c.getAddress()), c.getDescription(), c.getNumberOfRooms(), c.getNumberOfBedsPerRoom(), c.getCottageOwner().getLastName(), c.getCottageOwner().getLastName(), c.getCottageOwner().getEmail(), c.getCottageOwner().getPhoneNumber()));
+				cottageSubscriptionDTOs.add(new CottageSubscriptionDTO(c.getCottageId(), c.getName(), Address.mapAddress(c.getAddress()), c.getDescription(), c.getNumberOfRooms(), c.getNumberOfBedsPerRoom(), c.getCottageOwner().getLastName(), c.getCottageOwner().getLastName(), c.getCottageOwner().getEmail(), c.getCottageOwner().getPhoneNumber()));
 		}
 		return cottageSubscriptionDTOs;
 	}
@@ -204,18 +204,6 @@ public class ClientService implements IClientService {
 			System.out.println(e.getMessage());
 			return false;
 		}
-	}
-	
-	private String mapAddress(Address a) {
-		StringBuilder address = new StringBuilder();
-		address.append(a.getStreet());
-		address.append(" ");
-		address.append(a.getStreetNumber());
-		address.append(" ");
-		address.append(a.getCity());
-		address.append(", ");
-		address.append(a.getCountry());
-		return address.toString();
 	}
 	
 }
