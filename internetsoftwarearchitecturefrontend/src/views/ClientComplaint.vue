@@ -897,14 +897,17 @@ export default {
         this.complaintItem = Object.assign({}, this.defaultComplaintItem);
       });
     },
+    onlySpaces(str) {
+      return str.trim().length === 0;
+    },
     validateComment() {
-      if (this.comment === "") {
+      if (this.onlySpaces(this.comment)) {
         alert("Please enter a comment!");
         return false;
       } else if (this.comment.length > 50) {
         alert("The comment is long please enter up to 50 characters!");
         return false;
-      } else if (this.comment.match(/[#$%^&*'<>+-/\\"]/g)) {
+      } else if (this.comment.match(/[\\#$%^&*'<>/"]/g)) {
         alert("Your comment shouldn't contain special characters.");
         return false;
       }

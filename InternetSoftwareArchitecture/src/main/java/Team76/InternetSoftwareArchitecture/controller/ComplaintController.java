@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.regex.Pattern;
 
 import Team76.InternetSoftwareArchitecture.dto.ComplaintRequestDTO;
 import Team76.InternetSoftwareArchitecture.model.Complaint;
@@ -29,32 +30,87 @@ public class ComplaintController {
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@PostMapping(value = "/writeCottageComplaint")
-	public ResponseEntity<Complaint> writeCottageComplaint(@RequestBody ComplaintRequestDTO complaintRequestDTO) {
-		return new ResponseEntity<Complaint>(complaintService.writeCottageComplaint(complaintRequestDTO), HttpStatus.CREATED);
+	public ResponseEntity<?> writeCottageComplaint(@RequestBody ComplaintRequestDTO complaintRequestDTO) {
+		try {
+			if (complaintRequestDTO.getComment().trim().isEmpty())
+				throw new Exception("Please enter a comment!");
+			else if(complaintRequestDTO.getComment().length() > 50)
+				throw new Exception("The comment is long please enter up to 50 characters!");
+			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(complaintRequestDTO.getComment()).find())
+				throw new Exception("Your comment shouldn't contain special characters.");
+			else
+				return new ResponseEntity<Complaint>(complaintService.writeCottageComplaint(complaintRequestDTO), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@PostMapping(value = "/writeCottageOwnerComplaint")
-	public ResponseEntity<Complaint> writeCottageOwnerComplaint(@RequestBody ComplaintRequestDTO complaintRequestDTO) {
-		return new ResponseEntity<Complaint>(complaintService.writeUserComplaint(complaintRequestDTO), HttpStatus.CREATED);
+	public ResponseEntity<?> writeCottageOwnerComplaint(@RequestBody ComplaintRequestDTO complaintRequestDTO) {
+		try {
+			if (complaintRequestDTO.getComment().trim().isEmpty())
+				throw new Exception("Please enter a comment!");
+			else if(complaintRequestDTO.getComment().length() > 50)
+				throw new Exception("The comment is long please enter up to 50 characters!");
+			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(complaintRequestDTO.getComment()).find())
+				throw new Exception("Your comment shouldn't contain special characters.");
+			else
+				return new ResponseEntity<Complaint>(complaintService.writeUserComplaint(complaintRequestDTO), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@PostMapping(value = "/writeShipComplaint")
-	public ResponseEntity<Complaint> writeShipComplaint(@RequestBody ComplaintRequestDTO complaintRequestDTO) {
-		return new ResponseEntity<Complaint>(complaintService.writeShipComplaint(complaintRequestDTO), HttpStatus.CREATED);
+	public ResponseEntity<?> writeShipComplaint(@RequestBody ComplaintRequestDTO complaintRequestDTO) {
+		try {
+			if (complaintRequestDTO.getComment().trim().isEmpty())
+				throw new Exception("Please enter a comment!");
+			else if(complaintRequestDTO.getComment().length() > 50)
+				throw new Exception("The comment is long please enter up to 50 characters!");
+			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(complaintRequestDTO.getComment()).find())
+				throw new Exception("Your comment shouldn't contain special characters.");
+			else
+				return new ResponseEntity<Complaint>(complaintService.writeShipComplaint(complaintRequestDTO), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@PostMapping(value = "/writeShipOwnerComplaint")
-	public ResponseEntity<Complaint> writeShipOwnerComplaint(@RequestBody ComplaintRequestDTO complaintRequestDTO) {
-		return new ResponseEntity<Complaint>(complaintService.writeUserComplaint(complaintRequestDTO), HttpStatus.CREATED);
+	public ResponseEntity<?> writeShipOwnerComplaint(@RequestBody ComplaintRequestDTO complaintRequestDTO) {
+		try {
+			if (complaintRequestDTO.getComment().trim().isEmpty())
+				throw new Exception("Please enter a comment!");
+			else if(complaintRequestDTO.getComment().length() > 50)
+				throw new Exception("The comment is long please enter up to 50 characters!");
+			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(complaintRequestDTO.getComment()).find())
+				throw new Exception("Your comment shouldn't contain special characters.");
+			else
+				return new ResponseEntity<Complaint>(complaintService.writeUserComplaint(complaintRequestDTO), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@PostMapping(value = "/writeFishingInstructorComplaint")
-	public ResponseEntity<Complaint> writeFishingInstructorComplaint(@RequestBody ComplaintRequestDTO complaintRequestDTO) {
-		return new ResponseEntity<Complaint>(complaintService.writeUserComplaint(complaintRequestDTO), HttpStatus.CREATED);
+	public ResponseEntity<?> writeFishingInstructorComplaint(@RequestBody ComplaintRequestDTO complaintRequestDTO) {
+		try {
+			if (complaintRequestDTO.getComment().trim().isEmpty())
+				throw new Exception("Please enter a comment!");
+			else if(complaintRequestDTO.getComment().length() > 50)
+				throw new Exception("The comment is long please enter up to 50 characters!");
+			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(complaintRequestDTO.getComment()).find())
+				throw new Exception("Your comment shouldn't contain special characters.");
+			else
+				return new ResponseEntity<Complaint>(complaintService.writeUserComplaint(complaintRequestDTO), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 
 }
