@@ -74,7 +74,7 @@ public class ClientController {
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@PostMapping(value = "/subscribeShip")
 	public ResponseEntity<Boolean> subscribeShip(@RequestBody SubscribeRequestDTO subscribeRequestDTO) {
-		return new ResponseEntity<Boolean>(clientService.subscribeShip(subscribeRequestDTO.getId()), HttpStatus.OK);
+		return new ResponseEntity<Boolean>(clientService.subscribeShip(subscribeRequestDTO.getId()), HttpStatus.CREATED);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
@@ -92,7 +92,7 @@ public class ClientController {
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@PostMapping(value = "/subscribeCottage")
 	public ResponseEntity<Boolean> subscribeCottage(@RequestBody SubscribeRequestDTO subscribeRequestDTO) {
-		return new ResponseEntity<Boolean>(clientService.subscribeCottage(subscribeRequestDTO.getId()), HttpStatus.OK);
+		return new ResponseEntity<Boolean>(clientService.subscribeCottage(subscribeRequestDTO.getId()), HttpStatus.CREATED);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
@@ -110,7 +110,7 @@ public class ClientController {
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@PostMapping(value = "/subscribeFishingInstructor")
 	public ResponseEntity<Boolean> subscribeFishingInstructor(@RequestBody SubscribeRequestDTO subscribeRequestDTO) {
-		return new ResponseEntity<Boolean>(clientService.subscribeFishingInstructor(subscribeRequestDTO.getId()), HttpStatus.OK);
+		return new ResponseEntity<Boolean>(clientService.subscribeFishingInstructor(subscribeRequestDTO.getId()), HttpStatus.CREATED);
 	}
 	
 	

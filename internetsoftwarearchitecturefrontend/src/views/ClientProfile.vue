@@ -106,7 +106,7 @@
             height="40px"
             >Change password</v-btn
           >
-          <v-dialog max-width="600">
+          <v-dialog max-width="600" persistent>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 color="red darken-1"
@@ -134,6 +134,7 @@
                     v-model="reason"
                     color="info"
                     type="text"
+                    :rules="[() => !!reason || 'This field is required']"
                   />
                   <v-spacer></v-spacer>
                 </v-card-text>
@@ -215,6 +216,10 @@ export default {
       window.location.href = "http://localhost:8083/changePassword";
     },
     sendRequest() {
+      if(this.reason === "") {
+        alert("Please enter a reason.");
+        return;
+      }
       this.$http
         .post(
           "http://localhost:8091/deleteAccount/client",

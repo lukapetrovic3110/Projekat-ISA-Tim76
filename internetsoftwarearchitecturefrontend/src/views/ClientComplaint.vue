@@ -74,6 +74,58 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
+              <v-dialog v-model="dialogComplaintCottage" persistent>
+                <v-card>
+                  <v-card-title class="text-h5 justify-center"
+                    >Complaint form</v-card-title
+                  >
+                  <v-card-text>
+                    <v-container>
+                      <v-text-field
+                        v-model="comment"
+                        label="Comment"
+                        type="text"
+                        :rules="[() => !!comment || 'This field is required']"
+                      >
+                      </v-text-field>
+                      <v-radio-group
+                        v-model="cottageComplaintGroup"
+                        hide-details
+                      >
+                        <v-radio
+                          value="cottage"
+                          label="Complaint about the cottage"
+                        >
+                        </v-radio>
+                        <v-radio
+                          value="cottage-owner"
+                          label="Complaint to the owner of the cottage"
+                        >
+                        </v-radio>
+                      </v-radio-group>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="writeCottageComplaint"
+                    >
+                      Write
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="closeComplaintCottageDialog"
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-toolbar>
           </template>
           <template v-slot:[`item.cottageActions`]="{ item }">
@@ -94,7 +146,7 @@
                 outlined
                 color="red"
                 text
-                @click="displayCottageOwnerInformation(item)"
+                @click="displayComplaintCottageDialog(item)"
               >
                 WRITE A COMPLAINT
               </v-btn>
@@ -177,6 +229,52 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
+              <v-dialog v-model="dialogComplaintShip" persistent>
+                <v-card>
+                  <v-card-title class="text-h5 justify-center"
+                    >Complaint form</v-card-title
+                  >
+                  <v-card-text>
+                    <v-container>
+                      <v-text-field
+                        v-model="comment"
+                        label="Comment"
+                        type="text"
+                        :rules="[() => !!comment || 'This field is required']"
+                      >
+                      </v-text-field>
+                      <v-radio-group v-model="shipComplaintGroup" hide-details>
+                        <v-radio value="ship" label="Complaint about the ship">
+                        </v-radio>
+                        <v-radio
+                          value="ship-owner"
+                          label="Complaint to the owner of the ship"
+                        >
+                        </v-radio>
+                      </v-radio-group>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="writeShipComplaint"
+                    >
+                      Write
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="closeComplaintShipDialog"
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-toolbar>
           </template>
           <template v-slot:[`item.shipActions`]="{ item }">
@@ -192,6 +290,15 @@
                 VIEW SHIP OWNER INFORMATION
               </v-btn>
               <v-spacer></v-spacer>
+              <v-btn
+                class="ma-2"
+                outlined
+                color="red"
+                text
+                @click="displayComplaintShipDialog(item)"
+              >
+                WRITE A COMPLAINT
+              </v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </template>
@@ -281,6 +388,43 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
+              <v-dialog v-model="dialogComplaintFishingInstructor" persistent>
+                <v-card>
+                  <v-card-title class="text-h5 justify-center"
+                    >Complaint about the fishing instructor</v-card-title
+                  >
+                  <v-card-text>
+                    <v-container>
+                      <v-text-field
+                        v-model="comment"
+                        label="Comment"
+                        type="text"
+                        :rules="[() => !!comment || 'This field is required']"
+                      >
+                      </v-text-field>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="writeFishingInstructorComplaint"
+                    >
+                      Write
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="closeComplaintFishingInstructorDialog"
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-toolbar>
           </template>
           <template v-slot:[`item.adventureActions`]="{ item }">
@@ -296,6 +440,15 @@
                 VIEW FISHING INSTRUCTOR INFORMATION
               </v-btn>
               <v-spacer></v-spacer>
+              <v-btn
+                class="ma-2"
+                outlined
+                color="red"
+                text
+                @click="displayComplaintFishingInstructorDialog(item)"
+              >
+                WRITE A COMPLAINT
+              </v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </template>
@@ -448,8 +601,10 @@ export default {
         sortable: false,
       },
     ],
-    reservationCottageHistory: [],
     dialogCottageOwnerInformation: false,
+    dialogComplaintCottage: false,
+    dialogComplaintShip: false,
+    dialogComplaintFishingInstructor: false,
     dialogShipOwnerInformation: false,
     dialogFishingInstructorInformation: false,
     cottageOwner: {
@@ -477,8 +632,14 @@ export default {
       biography: "",
       address: "",
     },
+    reservationCottageHistory: [],
     reservationShipHistory: [],
     reservationAdventureHistory: [],
+    cottageComplaintGroup: "",
+    shipComplaintGroup: "",
+    comment: "",
+    complaintItem: null,
+    defaultComplaintItem: null,
   }),
   mounted() {
     this.checkAuthentication();
@@ -553,6 +714,23 @@ export default {
     closeCottageOwnerInformationDialog() {
       this.dialogCottageOwnerInformation = false;
     },
+    displayComplaintCottageDialog(item) {
+      this.dialogComplaintCottage = true;
+      this.complaintItem = Object.assign({}, item);
+    },
+    writeCottageComplaint() {
+      console.log(this.complaintItem);
+      console.log(this.comment);
+      console.log(this.cottageComplaintGroup);
+    },
+    closeComplaintCottageDialog() {
+      this.dialogComplaintCottage = false;
+      this.comment = "";
+      this.cottageComplaintGroup = "";
+      this.$nextTick(() => {
+        this.complaintItem = Object.assign({}, this.defaultComplaintItem);
+      });
+    },
     displayShipOwnerInformation(item) {
       this.dialogShipOwnerInformation = true;
       this.shipOwner.id = item.ownerId;
@@ -565,6 +743,23 @@ export default {
     },
     closeShipOwnerInformationDialog() {
       this.dialogShipOwnerInformation = false;
+    },
+    displayComplaintShipDialog(item) {
+      this.dialogComplaintShip = true;
+      this.complaintItem = Object.assign({}, item);
+    },
+    writeShipComplaint() {
+      console.log(this.complaintItem);
+      console.log(this.comment);
+      console.log(this.shipComplaintGroup);
+    },
+    closeComplaintShipDialog() {
+      this.dialogComplaintShip = false;
+      this.comment = "";
+      this.shipComplaintGroup = "";
+      this.$nextTick(() => {
+        this.complaintItem = Object.assign({}, this.defaultComplaintItem);
+      });
     },
     displayFishingInstructorInformation(item) {
       this.dialogFishingInstructorInformation = true;
@@ -579,6 +774,21 @@ export default {
     },
     closeFishingInstructorInformationDialog() {
       this.dialogFishingInstructorInformation = false;
+    },
+    displayComplaintFishingInstructorDialog(item) {
+      this.dialogComplaintFishingInstructor = true;
+      this.complaintItem = Object.assign({}, item);
+    },
+    writeFishingInstructorComplaint() {
+      console.log(this.complaintItem);
+      console.log(this.comment);
+    },
+    closeComplaintFishingInstructorDialog() {
+      this.dialogComplaintFishingInstructor = false;
+      this.comment = "";
+      this.$nextTick(() => {
+        this.complaintItem = Object.assign({}, this.defaultComplaintItem);
+      });
     },
   },
 };
