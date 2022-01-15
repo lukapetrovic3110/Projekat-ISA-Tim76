@@ -219,8 +219,24 @@ export default {
         this.index = -1;
       });
     },
-
+    onlySpaces(str) {
+      return str.trim().length === 0;
+    },
+    validateComment() {
+      if (this.onlySpaces(this.comment)) {
+        alert("Please enter a comment!");
+        return false;
+      } else if (this.comment.length > 100) {
+        alert("The comment is long please enter up to 100 characters!");
+        return false;
+      } else if (this.comment.match(/[\\#$%^&*'<>/"]/g)) {
+        alert("Your comment shouldn't contain special characters.");
+        return false;
+      }
+      return true;
+    },
     acceptProfileDeleteRequest() {
+      if (!this.validateComment()) return;
       this.requests.splice(this.index, 1);
       this.axios
         .put(
@@ -244,6 +260,7 @@ export default {
     },
 
     declineProfileDeleteRequest() {
+      if (!this.validateComment()) return;
       this.requests.splice(this.index, 1);
       this.axios
         .put(

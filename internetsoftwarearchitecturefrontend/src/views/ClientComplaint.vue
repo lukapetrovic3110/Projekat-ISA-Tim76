@@ -719,9 +719,6 @@ export default {
       this.complaintItem = Object.assign({}, item);
     },
     writeCottageComplaint() {
-      console.log(this.complaintItem);
-      console.log(this.comment);
-      console.log(this.cottageComplaintGroup);
       if (!this.validateComment() || !this.validateCottageComplaintGroup())
         return;
 
@@ -793,11 +790,7 @@ export default {
       this.complaintItem = Object.assign({}, item);
     },
     writeShipComplaint() {
-      console.log(this.complaintItem);
-      console.log(this.comment);
-      console.log(this.shipComplaintGroup);
       if (!this.validateComment() || !this.validateShipComplaintGroup()) return;
-
       if(this.shipComplaintGroup.toString() === "ship") {
         this.axios
           .post(
@@ -866,8 +859,6 @@ export default {
       this.complaintItem = Object.assign({}, item);
     },
     writeFishingInstructorComplaint() {
-      console.log(this.complaintItem);
-      console.log(this.comment);
       if (!this.validateComment()) return;
       this.axios
           .post(

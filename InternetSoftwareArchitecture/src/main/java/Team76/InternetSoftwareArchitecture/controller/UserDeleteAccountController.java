@@ -1,6 +1,7 @@
 package Team76.InternetSoftwareArchitecture.controller;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,8 +36,20 @@ public class UserDeleteAccountController {
 		
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@PostMapping("/client")
-	public ResponseEntity<UserDeleteAccount> sendDeleteClientAccountRequest(@RequestBody UserDeleteAccountRequestDTO userDeleteAccountDTO) {
-		return new ResponseEntity<UserDeleteAccount>(userDeleteAccountService.sendDeleteClientAccountRequest(userDeleteAccountDTO), HttpStatus.CREATED);
+	public ResponseEntity<?> sendDeleteClientAccountRequest(@RequestBody UserDeleteAccountRequestDTO userDeleteAccountDTO) {
+		try {
+			if (userDeleteAccountDTO.getReason().trim().isEmpty())
+				throw new Exception("Please enter a reason!");
+			else if(userDeleteAccountDTO.getReason().length() > 100)
+				throw new Exception("The reason is long please enter up to 100 characters!");
+			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(userDeleteAccountDTO.getReason()).find())
+				throw new Exception("Your reason shouldn't contain special characters.");
+			else
+				return new ResponseEntity<UserDeleteAccount>(userDeleteAccountService.sendDeleteClientAccountRequest(userDeleteAccountDTO), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 	
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
@@ -47,21 +60,35 @@ public class UserDeleteAccountController {
 	
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
 	@PutMapping("/acceptRequest")
-	public ResponseEntity<Boolean> acceptRequest(@RequestBody AnswerProfileDeleteRequestDTO answerProfileDeleteRequestDTO) {
+	public ResponseEntity<?> acceptRequest(@RequestBody AnswerProfileDeleteRequestDTO answerProfileDeleteRequestDTO) {
 		try {
-			return new ResponseEntity<Boolean>(userDeleteAccountService.accpetRequest(answerProfileDeleteRequestDTO), HttpStatus.OK);
+			if (answerProfileDeleteRequestDTO.getComment().trim().isEmpty())
+				throw new Exception("Please enter a comment!");
+			else if(answerProfileDeleteRequestDTO.getComment().length() > 100)
+				throw new Exception("The comment is long please enter up to 100 characters!");
+			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(answerProfileDeleteRequestDTO.getComment()).find())
+				throw new Exception("Your comment shouldn't contain special characters.");
+			else
+				return new ResponseEntity<Boolean>(userDeleteAccountService.accpetRequest(answerProfileDeleteRequestDTO), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
 	@PutMapping("/declineRequest")
-	public ResponseEntity<Boolean> declineRequest(@RequestBody AnswerProfileDeleteRequestDTO answerProfileDeleteRequestDTO) {
+	public ResponseEntity<?> declineRequest(@RequestBody AnswerProfileDeleteRequestDTO answerProfileDeleteRequestDTO) {
 		try {
-			return new ResponseEntity<Boolean>(userDeleteAccountService.declineRequest(answerProfileDeleteRequestDTO), HttpStatus.OK);
+			if (answerProfileDeleteRequestDTO.getComment().trim().isEmpty())
+				throw new Exception("Please enter a comment!");
+			else if(answerProfileDeleteRequestDTO.getComment().length() > 100)
+				throw new Exception("The comment is long please enter up to 100 characters!");
+			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(answerProfileDeleteRequestDTO.getComment()).find())
+				throw new Exception("Your comment shouldn't contain special characters.");
+			else
+				return new ResponseEntity<Boolean>(userDeleteAccountService.declineRequest(answerProfileDeleteRequestDTO), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	

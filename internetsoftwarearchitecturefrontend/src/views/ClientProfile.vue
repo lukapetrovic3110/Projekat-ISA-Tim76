@@ -215,11 +215,24 @@ export default {
     changePassword() {
       window.location.href = "http://localhost:8083/changePassword";
     },
-    sendRequest() {
-      if(this.reason === "") {
-        alert("Please enter a reason.");
-        return;
+    onlySpaces(str) {
+      return str.trim().length === 0;
+    },
+    validateReason() {
+      if (this.onlySpaces(this.reason)) {
+        alert("Please enter a reason!");
+        return false;
+      } else if (this.reason.length > 100) {
+        alert("The reason is long please enter up to 100 characters!");
+        return false;
+      } else if (this.reason.match(/[\\#$%^&*'<>/"]/g)) {
+        alert("Your reason shouldn't contain special characters.");
+        return false;
       }
+      return true;
+    },
+    sendRequest() {
+      if(!this.validateReason(this.reason)) return;
       this.$http
         .post(
           "http://localhost:8091/deleteAccount/client",
