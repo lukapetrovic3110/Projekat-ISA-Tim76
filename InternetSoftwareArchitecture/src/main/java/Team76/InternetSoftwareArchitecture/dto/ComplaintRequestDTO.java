@@ -5,8 +5,11 @@ public class ComplaintRequestDTO {
 	private String comment;
 	private Long complaintEntityId;
 	
+	public ComplaintRequestDTO() {
+		
+	}
+	
 	public ComplaintRequestDTO(String comment, Long complaintEntityId) {
-		super();
 		this.comment = comment;
 		this.complaintEntityId = complaintEntityId;
 	}
@@ -26,7 +29,5 @@ public class ComplaintRequestDTO {
 	public void setComplaintEntityId(Long complaintEntityId) {
 		this.complaintEntityId = complaintEntityId;
 	}
-	
-	
 	
 }

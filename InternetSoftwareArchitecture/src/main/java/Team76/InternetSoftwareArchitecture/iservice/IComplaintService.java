@@ -9,7 +9,6 @@ import Team76.InternetSoftwareArchitecture.model.Complaint;
 public interface IComplaintService {
 	
 	Complaint writeCottageComplaint(ComplaintRequestDTO complaintRequestDTO);
-	Complaint writeCottageOwnerComplaint(ComplaintRequestDTO complaintRequestDTO);
-	Complaint writeShipOwnerComplaint(ComplaintRequestDTO complaintRequestDTO);
 	Complaint writeShipComplaint(ComplaintRequestDTO complaintRequestDTO);
+	Complaint writeUserComplaint(ComplaintRequestDTO complaintRequestDTO);
 }

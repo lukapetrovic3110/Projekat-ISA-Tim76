@@ -722,6 +722,50 @@ export default {
       console.log(this.complaintItem);
       console.log(this.comment);
       console.log(this.cottageComplaintGroup);
+      if (!this.validateComment() || !this.validateCottageComplaintGroup())
+        return;
+
+      if(this.cottageComplaintGroup.toString() === "cottage") {
+        this.axios
+          .post(
+            "http://localhost:8091/complaint/writeCottageComplaint",
+            {
+              comment: this.comment,
+              complaintEntityId: this.complaintItem.cottageId,
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((response) => {
+           console.log(response.data);
+           alert("The complaint was successfully written and submitted!");
+          })
+          .catch((error) => console.log(error));
+      } else {
+        this.axios
+          .post(
+            "http://localhost:8091/complaint/writeCottageOwnerComplaint",
+            {
+              comment: this.comment,
+              complaintEntityId: this.complaintItem.ownerId,
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((response) => {
+           console.log(response.data);
+           alert("The complaint was successfully written and submitted!");
+          })
+          .catch((error) => console.log(error));
+      }
+      this.closeComplaintCottageDialog();
+      
     },
     closeComplaintCottageDialog() {
       this.dialogComplaintCottage = false;
@@ -752,6 +796,48 @@ export default {
       console.log(this.complaintItem);
       console.log(this.comment);
       console.log(this.shipComplaintGroup);
+      if (!this.validateComment() || !this.validateShipComplaintGroup()) return;
+
+      if(this.shipComplaintGroup.toString() === "ship") {
+        this.axios
+          .post(
+            "http://localhost:8091/complaint/writeShipComplaint",
+            {
+              comment: this.comment,
+              complaintEntityId: this.complaintItem.shipId,
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((response) => {
+           console.log(response.data);
+           alert("The complaint was successfully written and submitted!");
+          })
+          .catch((error) => console.log(error));
+      } else {
+        this.axios
+          .post(
+            "http://localhost:8091/complaint/writeShipOwnerComplaint",
+            {
+              comment: this.comment,
+              complaintEntityId: this.complaintItem.ownerId,
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((response) => {
+           console.log(response.data);
+           alert("The complaint was successfully written and submitted!");
+          })
+          .catch((error) => console.log(error));
+      }
+      this.closeComplaintShipDialog();
     },
     closeComplaintShipDialog() {
       this.dialogComplaintShip = false;
@@ -782,6 +868,27 @@ export default {
     writeFishingInstructorComplaint() {
       console.log(this.complaintItem);
       console.log(this.comment);
+      if (!this.validateComment()) return;
+      this.axios
+          .post(
+            "http://localhost:8091/complaint/writeFishingInstructorComplaint",
+            {
+              comment: this.comment,
+              complaintEntityId: this.complaintItem.fishingInstructorId,
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((response) => {
+           console.log(response.data);
+           alert("The complaint was successfully written and submitted!");
+          })
+          .catch((error) => console.log(error));
+
+          this.closeComplaintFishingInstructorDialog();
     },
     closeComplaintFishingInstructorDialog() {
       this.dialogComplaintFishingInstructor = false;
@@ -789,6 +896,33 @@ export default {
       this.$nextTick(() => {
         this.complaintItem = Object.assign({}, this.defaultComplaintItem);
       });
+    },
+    validateComment() {
+      if (this.comment === "") {
+        alert("Please enter a comment!");
+        return false;
+      } else if (this.comment.length > 50) {
+        alert("The comment is long please enter up to 50 characters!");
+        return false;
+      } else if (this.comment.match(/[#$%^&*'<>+-/\\"]/g)) {
+        alert("Your comment shouldn't contain special characters.");
+        return false;
+      }
+      return true;
+    },
+    validateCottageComplaintGroup() {
+      if (this.cottageComplaintGroup.length == 0) {
+        alert("Please select a complaint type!");
+        return false;
+      }
+      return true;
+    },
+    validateShipComplaintGroup() {
+      if (this.shipComplaintGroup.length == 0) {
+        alert("Please select a complaint type!");
+        return false;
+      }
+      return true;
     },
   },
 };

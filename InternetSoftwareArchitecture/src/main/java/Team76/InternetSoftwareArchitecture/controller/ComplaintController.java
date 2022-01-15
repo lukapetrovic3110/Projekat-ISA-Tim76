@@ -27,7 +27,6 @@ public class ComplaintController {
 		this.complaintService = complaintService;
 	}
 	
-	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@PostMapping(value = "/writeCottageComplaint")
 	public ResponseEntity<Complaint> writeCottageComplaint(@RequestBody ComplaintRequestDTO complaintRequestDTO) {
@@ -37,7 +36,7 @@ public class ComplaintController {
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@PostMapping(value = "/writeCottageOwnerComplaint")
 	public ResponseEntity<Complaint> writeCottageOwnerComplaint(@RequestBody ComplaintRequestDTO complaintRequestDTO) {
-		return new ResponseEntity<Complaint>(complaintService.writeCottageOwnerComplaint(complaintRequestDTO), HttpStatus.CREATED);
+		return new ResponseEntity<Complaint>(complaintService.writeUserComplaint(complaintRequestDTO), HttpStatus.CREATED);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
@@ -49,13 +48,13 @@ public class ComplaintController {
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@PostMapping(value = "/writeShipOwnerComplaint")
 	public ResponseEntity<Complaint> writeShipOwnerComplaint(@RequestBody ComplaintRequestDTO complaintRequestDTO) {
-		return new ResponseEntity<Complaint>(complaintService.writeShipOwnerComplaint(complaintRequestDTO), HttpStatus.CREATED);
+		return new ResponseEntity<Complaint>(complaintService.writeUserComplaint(complaintRequestDTO), HttpStatus.CREATED);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@PostMapping(value = "/writeFishingInstructorComplaint")
 	public ResponseEntity<Complaint> writeFishingInstructorComplaint(@RequestBody ComplaintRequestDTO complaintRequestDTO) {
-		return new ResponseEntity<Complaint>(complaintService.writeFishingInstructorComplaint(complaintRequestDTO), HttpStatus.CREATED);
+		return new ResponseEntity<Complaint>(complaintService.writeUserComplaint(complaintRequestDTO), HttpStatus.CREATED);
 	}
 
 }

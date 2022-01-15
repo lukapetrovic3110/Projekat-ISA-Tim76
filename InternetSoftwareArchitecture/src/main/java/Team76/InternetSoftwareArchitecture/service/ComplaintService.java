@@ -35,20 +35,9 @@ public class ComplaintService implements IComplaintService {
 	public Complaint writeCottageComplaint(ComplaintRequestDTO complaintRequestDTO) {
 		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Complaint complaint = new Complaint();
-		complaint.setClient(client);
+		complaint.setClient((Client)userRepository.findByEmail(client.getEmail()));
 		complaint.setComment(complaintRequestDTO.getComment());
 		complaint.setCottage(cottageRepository.findByCottageId(complaintRequestDTO.getComplaintEntityId()));
-		complaint.setComplaintStatus(ComplaintStatus.WAITING);
-		return complaintRepository.save(complaint);
-	}
-	
-	@Override
-	public Complaint writeCottageOwnerComplaint(ComplaintRequestDTO complaintRequestDTO) {
-		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Complaint complaint = new Complaint();
-		complaint.setClient(client);
-		complaint.setComment(complaintRequestDTO.getComment());
-		complaint.setUser(userRepository.findByUserId(complaintRequestDTO.getComplaintEntityId()));
 		complaint.setComplaintStatus(ComplaintStatus.WAITING);
 		return complaintRepository.save(complaint);
 	}
@@ -57,32 +46,22 @@ public class ComplaintService implements IComplaintService {
 	public Complaint writeShipComplaint(ComplaintRequestDTO complaintRequestDTO) {
 		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Complaint complaint = new Complaint();
-		complaint.setClient(client);
+		complaint.setClient((Client)userRepository.findByEmail(client.getEmail()));
 		complaint.setComment(complaintRequestDTO.getComment());
 		complaint.setShip(shipRepository.findByShipId(complaintRequestDTO.getComplaintEntityId()));
 		complaint.setComplaintStatus(ComplaintStatus.WAITING);
 		return complaintRepository.save(complaint);
 	}
 	
+	
 	@Override
-	public Complaint writeShipOwnerComplaint(ComplaintRequestDTO complaintRequestDTO) {
+	public Complaint writeUserComplaint(ComplaintRequestDTO complaintRequestDTO) {
 		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Complaint complaint = new Complaint();
-		complaint.setClient(client);
+		complaint.setClient((Client)userRepository.findByEmail(client.getEmail()));
 		complaint.setComment(complaintRequestDTO.getComment());
 		complaint.setUser(userRepository.findByUserId(complaintRequestDTO.getComplaintEntityId()));
 		complaint.setComplaintStatus(ComplaintStatus.WAITING);
 		return complaintRepository.save(complaint);
 	}
-
-	public Complaint writeFishingInstructorComplaint(ComplaintRequestDTO complaintRequestDTO) {
-		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Complaint complaint = new Complaint();
-		complaint.setClient(client);
-		complaint.setComment(complaintRequestDTO.getComment());
-		complaint.setUser(userRepository.findByUserId(complaintRequestDTO.getComplaintEntityId()));
-		complaint.setComplaintStatus(ComplaintStatus.WAITING);
-		return complaintRepository.save(complaint);
-	}
-
 }
