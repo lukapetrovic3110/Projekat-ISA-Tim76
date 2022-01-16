@@ -12,7 +12,7 @@
               </v-toolbar-title>
               <v-spacer></v-spacer>
 
-              <v-dialog v-model="dialogAcceptRequest" max-width="60%">
+              <v-dialog v-model="dialogAcceptRequest" max-width="60%" persistent>
                 <v-card>
                   <v-spacer></v-spacer>
                   <v-card-title class="text-h4 justify-center">
@@ -39,7 +39,7 @@
                       Accept</v-btn
                     >
                     <v-spacer></v-spacer>
-                    <v-btn color="red" text @click="closeAcceptRequest">
+                    <v-btn color="red" text @click="closeAcceptDialog">
                       Cancel</v-btn
                     >
                     <v-spacer></v-spacer>
@@ -47,7 +47,7 @@
                 </v-card>
               </v-dialog>
 
-              <v-dialog v-model="dialogDeclineRequest" max-width="60%">
+              <v-dialog v-model="dialogDeclineRequest" max-width="60%" persistent>
                 <v-card>
                   <v-spacer></v-spacer>
                   <v-card-title class="text-h4 justify-center"
@@ -78,7 +78,7 @@
                     >
                     <v-spacer></v-spacer>
 
-                    <v-btn color="red" text @click="closeDeclineRequest"
+                    <v-btn color="red" text @click="closeDeclineDialog"
                       >Cancel</v-btn
                     >
                     <v-spacer></v-spacer>
@@ -131,7 +131,7 @@ export default {
         align: "center",
       },
       {
-        text: "E-mail",
+        text: "Email",
         value: "email",
         align: "center",
       },
@@ -161,7 +161,7 @@ export default {
           },
         })
         .then((response) => {
-          this.client = response.data;
+          if(response.data != null) this.viewProfileDeleteRequests();
         })
         .catch((err) => {
           alert(
@@ -170,22 +170,17 @@ export default {
           window.location.href = "http://localhost:8083/login";
           console.log(err);
         });
-
+    },
+    viewProfileDeleteRequests() {
       this.axios
         .get("http://localhost:8091/deleteAccount/profileDeleteRequests", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         })
-        .then((response) => {
-          console.log(response.data);
-          this.requests = response.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        .then((response) => this.requests = response.data)
+        .catch((err) => console.log(err));
     },
-
     acceptRequest(item) {
       this.index = this.requests.indexOf(item);
       this.requestItem = Object.assign({}, item);
@@ -202,17 +197,17 @@ export default {
       this.profileDeleteRequestId = this.requestItem.profileDeleteRequestId;
     },
 
-    closeAcceptRequest() {
+    closeAcceptDialog() {
       this.dialogAcceptRequest = false;
-      this.closeRequest();
+      this.closeDialog();
     },
 
-    closeDeclineRequest() {
+    closeDeclineDialog() {
       this.dialogDeclineRequest = false;
-      this.closeRequest();
+      this.closeDialog();
     },
 
-    closeRequest() {
+    closeDialog() {
       this.comment = "";
       this.$nextTick(() => {
         this.requestItem = Object.assign({}, this.defaultItem);
@@ -256,7 +251,7 @@ export default {
           console.log(response.data);
           alert("The profile delete request was successfully accepted.");
         });
-      this.closeAcceptRequest();
+      this.closeAcceptDialog();
     },
 
     declineProfileDeleteRequest() {
@@ -280,7 +275,7 @@ export default {
           console.log(response.data);
           alert("The profile delete request was successfully declined.");
         });
-      this.closeDeclineRequest();
+      this.closeDeclineDialog();
     },
   },
 };

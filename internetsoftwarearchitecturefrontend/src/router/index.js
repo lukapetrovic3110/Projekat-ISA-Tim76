@@ -86,6 +86,11 @@ const routes = [
     component: () => import("../views/EditSystemAdministratorPersonalInfo.vue"),
   },
   {
+    path: "/systemAdministratorComplaint",
+    name: "SystemAdministratorComplaint",
+    component: () => import("../views/SystemAdministratorComplaint.vue"),
+  },
+  {
     path: "/changePassword",
     name: "ChangePassword",
     component: () => import("../views/ChangePassword.vue"),

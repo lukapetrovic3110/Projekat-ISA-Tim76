@@ -118,10 +118,7 @@ export default {
         { title: "Register as client", path: "/registerClient" },
         { title: "Register as cottage owner", path: "/registerCottageOwner" },
         { title: "Register as ship owner", path: "/registerShipOwner" },
-        {
-          title: "Register as fishing instructor",
-          path: "/registerFishingInstructor",
-        },
+        { title: "Register as fishing instructor", path: "/registerFishingInstructor" },
       ];
       if (this.userType === "CLIENT") {
         this.items = [
@@ -151,6 +148,7 @@ export default {
           { title: "My profile", path: "/systemAdministratorProfile"},
           { title: "Registration requests", path: "/registrationRequests" },
           { title: "Profile delete requests", path: "/profileDeleteRequests"},
+          { title: "Complaint requests", path: "/systemAdministratorComplaint"},
           { title: "Register new adminstrator", path: "/registerSystemAdministrator"},
         ];
       } else {
@@ -175,7 +173,7 @@ export default {
       localStorage.setItem("userId", "");
       localStorage.setItem("token", "");
       localStorage.setItem("userType", "");
-      window.location.href = "http://localhost:8083/login";
+      window.location.href = "/login";
     },
   },
 };

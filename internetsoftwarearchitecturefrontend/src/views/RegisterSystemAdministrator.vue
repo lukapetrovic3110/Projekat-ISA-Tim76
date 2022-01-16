@@ -104,6 +104,7 @@ export default {
     country: "",
     phoneNumber: "",
     repeatedPassword: "",
+    systemAdministrator: null,
   }),
   mounted(){
     this.init();
@@ -136,7 +137,7 @@ export default {
           },
         })
         .then((response) => {
-          this.client = response.data;
+          this.systemAdministrator = response.data;
         })
         .catch((err) => { 
             alert("401 Unauthorized - respected you are not logged as system administrator.");
