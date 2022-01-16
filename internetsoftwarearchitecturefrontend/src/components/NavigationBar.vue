@@ -118,10 +118,7 @@ export default {
         { title: "Register as client", path: "/registerClient" },
         { title: "Register as cottage owner", path: "/registerCottageOwner" },
         { title: "Register as ship owner", path: "/registerShipOwner" },
-        {
-          title: "Register as fishing instructor",
-          path: "/registerFishingInstructor",
-        },
+        { title: "Register as fishing instructor", path: "/registerFishingInstructor" },
       ];
       if (this.userType === "CLIENT") {
         this.items = [
@@ -130,11 +127,10 @@ export default {
           { title: "Search cottage", path: "/searchCottage" },
           { title: "Search ship or boat", path: "/searchShip" },
           { title: "Search fishing instructor", path: '/searchFishingInstructor'},
-          { title: "View reservation ship history", path: '/reservationShipHistoryByClient'},
-          { title: "View reservation cottage history", path: '/reservationCottageHistoryByClient'},
-          { title: "View reservation adventure history", path: '/reservationAdventureHistoryByClient'},
+          { title: "View reservation history", path: '/clientReservationHistory'},
           { title: "View scheduled reservations", path: '/clientScheduledReservation'},
           { title: "View subscriptions", path: "/clientSubscriptions"},
+          { title: "Write a complaint", path: "/clientComplaint"},
         ];
       } else if (this.userType === "COTTAGE_OWNER") {
         this.items = [
@@ -152,6 +148,7 @@ export default {
           { title: "My profile", path: "/systemAdministratorProfile"},
           { title: "Registration requests", path: "/registrationRequests" },
           { title: "Profile delete requests", path: "/profileDeleteRequests"},
+          { title: "Complaint requests", path: "/systemAdministratorComplaint"},
           { title: "Register new adminstrator", path: "/registerSystemAdministrator"},
         ];
       } else {
@@ -176,7 +173,7 @@ export default {
       localStorage.setItem("userId", "");
       localStorage.setItem("token", "");
       localStorage.setItem("userType", "");
-      window.location.href = "http://localhost:8083/login";
+      window.location.href = "/login";
     },
   },
 };

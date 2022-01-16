@@ -100,5 +100,17 @@ public class Address {
 	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
+	
+	public static String mapAddress(Address a) {
+		StringBuilder address = new StringBuilder();
+		address.append(a.getStreet());
+		address.append(" ");
+		address.append(a.getStreetNumber());
+		address.append(" ");
+		address.append(a.getCity());
+		address.append(", ");
+		address.append(a.getCountry());
+		return address.toString();
+	}
 
 }

@@ -61,9 +61,19 @@ const routes = [
     component: () => import("../views/ClientProfile.vue"),
   },
   {
+    path: "/clientReservationHistory",
+    name: "ClientReservationHistory",
+    component: () => import("../views/ClientReservationHistory.vue"),
+  },
+  {
     path: "/clientSubscriptions",
     name: "ClientSubscriptions",
     component: () => import("../views/ClientSubscriptions.vue"),
+  },
+  {
+    path: "/clientComplaint",
+    name: "ClientComplaint",
+    component: () => import("../views/ClientComplaint.vue"),
   },
   {
     path: "/editClientPersonalInfo",
@@ -74,6 +84,11 @@ const routes = [
     path: "/editSystemAdministratorPersonalInfo",
     name: "EditSystemAdministratorPersonInfo",
     component: () => import("../views/EditSystemAdministratorPersonalInfo.vue"),
+  },
+  {
+    path: "/systemAdministratorComplaint",
+    name: "SystemAdministratorComplaint",
+    component: () => import("../views/SystemAdministratorComplaint.vue"),
   },
   {
     path: "/changePassword",
@@ -116,11 +131,6 @@ const routes = [
     component: () => import("../views/CottageDetails.vue"),
   },
   {
-    path: "/reservationCottageHistoryByClient",
-    name: "ReservationCottageHistoryByClient",
-    component: () => import("../views/ReservationCottageHistoryByClient.vue"),
-  },
-  {
     path: "/searchShip",
     name: "SearchShip",
     component: () => import("../views/SearchShip.vue"),
@@ -131,11 +141,6 @@ const routes = [
     component: () => import("../views/ShipDetails.vue"),
   },
   {
-    path: "/reservationShipHistoryByClient",
-    name: "ReservationShipHistoryByClient",
-    component: () => import("../views/ReservationShipHistoryByClient.vue"),
-  },
-  {
     path: "/searchFishingInstructor",
     name: "SearchFishingInstructor",
     component: () => import("../views/SearchFishingInstructor.vue"),
@@ -144,11 +149,6 @@ const routes = [
     path: "/adventureDetails",
     name: "AdventureDetails",
     component: () => import("../views/AdventureDetails.vue"),
-  },
-  {
-    path: "/reservationAdventureHistoryByClient",
-    name: "ReservationAdventureHistoryByClient",
-    component: () => import("../views/ReservationAdventureHistoryByClient.vue"),
   },
 ];
 const router = new VueRouter({
