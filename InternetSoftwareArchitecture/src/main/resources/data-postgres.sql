@@ -19,7 +19,7 @@ INSERT INTO public.address (city, country, street, street_number) VALUES ('Beogr
 -- Admin 		Password: Admin123!
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, first_login_change_password, address_id) VALUES ('SystemAdministrator', default, 'admin@email.com', true, 'Admin', 'Admin', '$2a$12$9bz1GJdLCG.Ttl/p5al5O.KZOkfhgWv.MhbivCtKvC0JXbp6vyi6W', '0615859999', 'AdbMbt4t1KLF-G0SX01WPL==', 'SYSTEM_ADMINISTRATOR', true, 1);
 -- Client1		Password: Client123! 
-INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('Client', default, 'lukait31@gmail.com', true, 'Milan', 'Zivkovic', '$2a$12$gMBetyilqUFKX9iv4UuNhOATalqMm9y/LcV44I6c/AooN.VL/geK6', '0645557771', 'G1pxvzLwtZujO+hVgIp2og==', 'CLIENT', 2);
+INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('Client', default, 'milan98@email.com', true, 'Milan', 'Zivkovic', '$2a$12$gMBetyilqUFKX9iv4UuNhOATalqMm9y/LcV44I6c/AooN.VL/geK6', '0645557771', 'G1pxvzLwtZujO+hVgIp2og==', 'CLIENT', 2);
 -- CottageOwner1	Password: Owner123! 
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('CottageOwner', default, 'milos98@gmail.com', true, 'Milos', 'Milosevic', '$2a$12$1hs/7XPSREmfh70Omj.Zee5W59JnOsCN41xidlyDv1fVHmizIy.qa', '0645554048', 'h96BMRi8MSnZYO/+7RrbYQ==', 'COTTAGE_OWNER', 3);
 -- CottageOwner2	Password: Dada123# 
@@ -27,7 +27,7 @@ INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, 
 -- CottageOwner3	Password: Luka123! 
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('CottageOwner', default, 'luka98@gmail.com', true, 'Luka', 'Lukic', '$2a$12$qUR6ohymUgD5pHKRwDKZMO5/9QpRWGuiRMkdw1QqTulY6MErZhAzS', '0612002476', 'l1oBGDi4sHgZxXz+7aVbBS==', 'COTTAGE_OWNER', 5);
 -- ShipOwner1		Password: Owner123$
-INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('ShipOwner', default, 'isateam39@gmail.com', true, 'Nikola', 'Savic', '$2a$12$6FzwVE5D3b/CXpkHaJcqtOUG.x4aGVZwuvVhvDWrnJ0QysPcPffd6', '0692002010', 'PlbLG1i4S5gTNik+7WvMBw==', 'SHIP_OWNER', 6);
+INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('ShipOwner', default, 'nikola9@gmail.com', true, 'Nikola', 'Savic', '$2a$12$6FzwVE5D3b/CXpkHaJcqtOUG.x4aGVZwuvVhvDWrnJ0QysPcPffd6', '0692002010', 'PlbLG1i4S5gTNik+7WvMBw==', 'SHIP_OWNER', 6);
 -- ShipOwner2		Password: Tara123!
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('ShipOwner', default, 'tara10@gmail.com', true, 'Tara', 'Gligoric', '$2a$12$KzV2OVuhv4iUhQLhs/CeOOXKBHXGAlmR3W/XAsgaAyFaLHUipbZEW', '0633003022', 'ByCrDgSvdhj1vT-5J9aVbS==', 'SHIP_OWNER', 7);
 -- Instructor1		Password: Jan3456!
