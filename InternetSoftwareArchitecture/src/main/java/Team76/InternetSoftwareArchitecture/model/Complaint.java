@@ -3,6 +3,8 @@ package Team76.InternetSoftwareArchitecture.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +22,10 @@ public class Complaint {
 
 	@Column(name = "comment", nullable = false)
 	private String comment;
-
+	
+	@Enumerated(EnumType.STRING)
+	private ComplaintStatus complaintStatus;
+	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "clientId", referencedColumnName = "userId")
 	private Client client;
@@ -41,9 +46,10 @@ public class Complaint {
 
 	}
 
-	public Complaint(String comment, Client client, User user, Cottage cottage, Ship ship) {
-		super();
+	public Complaint(String comment, ComplaintStatus complaintStatus, Client client, User user,
+			Cottage cottage, Ship ship) {
 		this.comment = comment;
+		this.complaintStatus = complaintStatus;
 		this.client = client;
 		this.user = user;
 		this.cottage = cottage;
@@ -96,6 +102,14 @@ public class Complaint {
 
 	public void setShip(Ship ship) {
 		this.ship = ship;
+	}
+
+	public ComplaintStatus getComplaintStatus() {
+		return complaintStatus;
+	}
+
+	public void setComplaintStatus(ComplaintStatus complaintStatus) {
+		this.complaintStatus = complaintStatus;
 	}
 
 }

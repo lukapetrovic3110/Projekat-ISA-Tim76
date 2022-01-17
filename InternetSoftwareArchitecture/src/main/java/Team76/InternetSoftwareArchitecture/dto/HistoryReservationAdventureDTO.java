@@ -6,27 +6,44 @@ public class HistoryReservationAdventureDTO {
 	private Double price;
 	private Integer numberOfPersons;
 	private String nameOfAdventure;
-	private String fishingInstructor;
 	private String description;
 	private Integer maxNumberOfPersons;
+	private String adventureAddress;
+	private Long fishingInstructorId;
+	private String fishingInstructorFirstName;
+	private String fishingInstructorLastName;
+	private String fishingInstructorEmail;
+	private String fishingInstructorPhoneNumber;
+	private String fishingInstructorBiography;
+	private String fishingInstructorAddress;
 	
 	public HistoryReservationAdventureDTO() {
 		
 	}
 	
 	public HistoryReservationAdventureDTO(String dateAndTime, Integer duration, Double price, Integer numberOfPersons,
-			String nameOfAdventure, String fishingInstructor, String description, Integer maxNumberOfPersons) {
+			String nameOfAdventure, String description, Integer maxNumberOfPersons, String adventureAddress,
+			Long fishingInstructorId, String fishingInstructorFirstName, String fishingInstructorLastName,
+			String fishingInstructorEmail, String fishingInstructorPhoneNumber, String fishingInstructorBiography,
+			String fishingInstructorAddress) {
 		super();
 		this.dateAndTime = dateAndTime;
 		this.duration = duration;
 		this.price = price;
 		this.numberOfPersons = numberOfPersons;
 		this.nameOfAdventure = nameOfAdventure;
-		this.fishingInstructor = fishingInstructor;
 		this.description = description;
 		this.maxNumberOfPersons = maxNumberOfPersons;
+		this.adventureAddress = adventureAddress;
+		this.fishingInstructorId = fishingInstructorId;
+		this.fishingInstructorFirstName = fishingInstructorFirstName;
+		this.fishingInstructorLastName = fishingInstructorLastName;
+		this.fishingInstructorEmail = fishingInstructorEmail;
+		this.fishingInstructorPhoneNumber = fishingInstructorPhoneNumber;
+		this.fishingInstructorBiography = fishingInstructorBiography;
+		this.fishingInstructorAddress = fishingInstructorAddress;
 	}
-
+	
 	public String getDateAndTime() {
 		return dateAndTime;
 	}
@@ -67,14 +84,6 @@ public class HistoryReservationAdventureDTO {
 		this.nameOfAdventure = nameOfAdventure;
 	}
 
-	public String getFishingInstructor() {
-		return fishingInstructor;
-	}
-
-	public void setFishingInstructor(String fishingInstructor) {
-		this.fishingInstructor = fishingInstructor;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -89,6 +98,70 @@ public class HistoryReservationAdventureDTO {
 
 	public void setMaxNumberOfPersons(Integer maxNumberOfPersons) {
 		this.maxNumberOfPersons = maxNumberOfPersons;
-	}	
+	}
+
+	public Long getFishingInstructorId() {
+		return fishingInstructorId;
+	}
+
+	public void setFishingInstructorId(Long fishingInstructorId) {
+		this.fishingInstructorId = fishingInstructorId;
+	}
+
+	public String getFishingInstructorFirstName() {
+		return fishingInstructorFirstName;
+	}
+
+	public void setFishingInstructorFirstName(String fishingInstructorFirstName) {
+		this.fishingInstructorFirstName = fishingInstructorFirstName;
+	}
+
+	public String getFishingInstructorLastName() {
+		return fishingInstructorLastName;
+	}
+
+	public void setFishingInstructorLastName(String fishingInstructorLastName) {
+		this.fishingInstructorLastName = fishingInstructorLastName;
+	}
+
+	public String getFishingInstructorEmail() {
+		return fishingInstructorEmail;
+	}
+
+	public void setFishingInstructorEmail(String fishingInstructorEmail) {
+		this.fishingInstructorEmail = fishingInstructorEmail;
+	}
+
+	public String getFishingInstructorPhoneNumber() {
+		return fishingInstructorPhoneNumber;
+	}
+
+	public void setFishingInstructorPhoneNumber(String fishingInstructorPhoneNumber) {
+		this.fishingInstructorPhoneNumber = fishingInstructorPhoneNumber;
+	}
+
+	public String getFishingInstructorBiography() {
+		return fishingInstructorBiography;
+	}
+
+	public void setFishingInstructorBiography(String fishingInstructorBiography) {
+		this.fishingInstructorBiography = fishingInstructorBiography;
+	}
+
+	public String getAdventureAddress() {
+		return adventureAddress;
+	}
+
+	public void setAdventureAddress(String adventureAddress) {
+		this.adventureAddress = adventureAddress;
+	}
+
+	public String getFishingInstructorAddress() {
+		return fishingInstructorAddress;
+	}
+
+	public void setFishingInstructorAddress(String fishingInstructorAddress) {
+		this.fishingInstructorAddress = fishingInstructorAddress;
+	}
 	
 }

@@ -105,7 +105,7 @@
                       x-large
                       color="primary accent-3"
                       text
-                      @click="reserve"
+                      @click="seeMoreDetails(item)"
                     >
                       SEE MORE DETAILS
                     </v-btn>
@@ -227,6 +227,10 @@ export default {
         this.items = response.data;
       });
     },
+    seeMoreDetails(item) {
+      localStorage.setItem("cottageId", item.cottageId);
+      window.location.href = "http://localhost:8083/cottageDetails";
+    }
   },
 };
 </script>

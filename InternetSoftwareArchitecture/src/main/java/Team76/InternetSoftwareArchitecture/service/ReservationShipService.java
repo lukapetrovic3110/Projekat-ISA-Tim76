@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationShipDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IReservationShipService;
+import Team76.InternetSoftwareArchitecture.model.Address;
 import Team76.InternetSoftwareArchitecture.model.Client;
 import Team76.InternetSoftwareArchitecture.model.ReservationShip;
 import Team76.InternetSoftwareArchitecture.model.ReservationStatus;
@@ -34,7 +35,7 @@ public class ReservationShipService implements IReservationShipService {
 		
 		for (ReservationShip reservationShip : allFinishedReservation) 
 			if (reservationShip.getClient().getUserId() == client.getUserId())
-				historyReservationDTOs.add(new HistoryReservationShipDTO(reservationShip.getDateAndTime().toString(),reservationShip.getDuration(), reservationShip.getPrice(), reservationShip.getMaxNumberOfPersons(), reservationShip.getShip().getName(), reservationShip.getShip().getCapacity()));
+				historyReservationDTOs.add(new HistoryReservationShipDTO(reservationShip.getShip().getShipId(), reservationShip.getDateAndTime().toString(), reservationShip.getDuration(), reservationShip.getPrice(), reservationShip.getMaxNumberOfPersons(), reservationShip.getShip().getName(), reservationShip.getShip().getCapacity(), Address.mapAddress(reservationShip.getShip().getAddress()), reservationShip.getShip().getShipOwner().getUserId(), reservationShip.getShip().getShipOwner().getFirstName(), reservationShip.getShip().getShipOwner().getLastName(), reservationShip.getShip().getShipOwner().getEmail(), reservationShip.getShip().getShipOwner().getPhoneNumber(), Address.mapAddress(reservationShip.getShip().getShipOwner().getAddress())));
 			
 	
 		return historyReservationDTOs; 
@@ -69,5 +70,7 @@ public class ReservationShipService implements IReservationShipService {
 		reservationShipRepository.save(reservationShip);
 		return true;
 	}
+	
+	
 
 }

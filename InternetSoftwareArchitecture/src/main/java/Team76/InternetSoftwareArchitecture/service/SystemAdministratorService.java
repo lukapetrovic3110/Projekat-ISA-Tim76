@@ -24,4 +24,14 @@ public class SystemAdministratorService implements ISystemAdministratorService{
 		return systemAdministratorRepository.findByUserId(systemAdministrator.getUserId());
 	}
 	
+	@Override
+	public SystemAdministrator update(SystemAdministrator systemAdministrator) {
+		SystemAdministrator existingSystemAdministrator = systemAdministratorRepository.findByUserId(systemAdministrator.getUserId());
+		existingSystemAdministrator.setFirstName(systemAdministrator.getFirstName());
+		existingSystemAdministrator.setLastName(systemAdministrator.getLastName());
+		existingSystemAdministrator.setAddress(systemAdministrator.getAddress());
+		existingSystemAdministrator.setPhoneNumber(systemAdministrator.getPhoneNumber());
+		return systemAdministratorRepository.save(existingSystemAdministrator);
+	}
+	
 }

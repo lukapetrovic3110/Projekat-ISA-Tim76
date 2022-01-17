@@ -30,7 +30,7 @@
                     >
                     <v-spacer></v-spacer>
 
-                    <v-btn color="red" text @click="closeAcceptRequest"
+                    <v-btn color="red" text @click="closeAcceptDialog"
                       >Cancel</v-btn
                     >
 
@@ -67,7 +67,7 @@
                     >
                     <v-spacer></v-spacer>
 
-                    <v-btn color="red" text @click="closeDeclineRequest"
+                    <v-btn color="red" text @click="closeDeclineDialog"
                       >Cancel</v-btn
                     >
 
@@ -151,6 +151,7 @@ export default {
         sortable: false,
       },
     ],
+    systemAdministrator: null,
   }),
   mounted() {
     this.init();
@@ -164,7 +165,7 @@ export default {
           },
         })
         .then((response) => {
-          this.client = response.data;
+          if(response.data != null) this.viewRegistrationRequests();
         })
         .catch((err) => {
           alert(
@@ -173,7 +174,8 @@ export default {
           window.location.href = "http://localhost:8083/login";
           console.log(err);
         });
-
+    },
+    viewRegistrationRequests() {
       this.axios
         .get("http://localhost:8091/admin/registrationRequests", {
           headers: {
@@ -185,7 +187,6 @@ export default {
           this.registartionRequests = response.data;
         });
     },
-
     declineRegistrationRequest(item) {
       this.index = this.registartionRequests.indexOf(item);
       this.requestItem = Object.assign({}, item);
@@ -218,7 +219,7 @@ export default {
           console.log(response.data);
           alert("The registartion request was successfully accepted!");
         });
-      this.closeAcceptRequest();
+      this.closeAcceptDialog();
     },
 
     declineRequest() {
@@ -240,9 +241,9 @@ export default {
           console.log(response.data);
           alert("The registartion request was declined!");
         });
-      this.closeDeclineRequest();
+      this.closeDeclineDialog();
     },
-    closeDeclineRequest() {
+    closeDeclineDialog() {
       this.comment = "";
       this.dialogDeclineRequest = false;
       this.$nextTick(() => {
@@ -251,7 +252,7 @@ export default {
       });
     },
 
-    closeAcceptRequest() {
+    closeAcceptDialog() {
       this.dialogAcceptRequest = false;
       this.$nextTick(() => {
         this.requestItem = Object.assign({}, this.defaultItem);

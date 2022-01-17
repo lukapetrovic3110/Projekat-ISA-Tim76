@@ -43,5 +43,17 @@ public class ShipService implements IShipService  {
 		}
 		return shipDTOs;
 	}
+
+	@Override
+	public ShipDTO getShipById(Long shipId) {
+		Ship s = shipRepository.findById(shipId).get();
+		List<Image> images = s.getImages();
+		List<String> shipImages = new ArrayList<String>();
+		for (Image image : images) {
+			shipImages.add(image.getName());
+		}
+		ShipDTO shipDTO = new ShipDTO(s.getShipId(), s.getName(), s.getDescription(), s.getAddress().getStreet(), s.getAddress().getStreetNumber(), s.getAddress().getCity(), s.getAddress().getCountry(), s.getAddress().getLongitude(), s.getAddress().getLatitude(), s.getRating(), s.getLength(), s.getEngineNumber(), s.getEnginePower(), s.getMaxSpeed(), s.getCapacity(), s.getShipType(), s.getShipOwner().getFirstName(), s.getShipOwner().getLastName(), s.getShipOwner().getEmail(), s.getShipOwner().getPhoneNumber(), shipImages, s.getAvailabilityStart(), s.getAvailabilityEnd()); 
+		return shipDTO;
+	}
 	
 }

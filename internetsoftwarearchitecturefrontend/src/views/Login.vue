@@ -9,7 +9,6 @@
           label="E-mail"
           v-model="email"
           :rules="[() => !!email || 'This field is required']"
-          :error-messages="errorMessages"
           prepend-icon="mdi-account-circle"
         />
         <v-text-field
@@ -18,7 +17,6 @@
           label="Password"
           v-model="password"
           :rules="[() => !!password || 'This field is required']"
-          :error-messages="errorMessages"
           hint="At least 8 characters"
           prepend-icon="mdi-lock"
           @click:append="showPassword = !showPassword"
@@ -63,24 +61,24 @@ export default {
           email: this.email,
           password: this.password,
         })
-        .then((resp) => {
-          console.log(resp.data);
-          try {
-            localStorage.setItem("email", this.user.email);
-            localStorage.setItem("token", resp.data.accessToken);
-            localStorage.setItem("userId", resp.data.user.userId);
-            localStorage.setItem("userType", resp.data.user.userType);
-            localStorage.setItem("first_login", resp.data.user.firstLogin);
-            window.location.href = "http://localhost:8083/";
-          } catch (error) {
-            alert(error);
-          }
+        .then((response) => {
+          console.log(response.data);
+          localStorage.setItem("email", this.user.email);
+          localStorage.setItem("token", response.data.accessToken);
+          localStorage.setItem("userId", response.data.user.userId);
+          localStorage.setItem("userType", response.data.user.userType);
+
+          if (!response.data.user.firstLoginChangePassword && response.data.user.userType === 'SYSTEM_ADMINISTRATOR')
+            window.location.href = "/changePasswordFirstLogin";
+          else 
+            window.location.href = "/";
+
         })
-        .catch((er) => {
+        .catch((error) => {
           alert("Invalid email and/or password! Please, try again!");
           this.email = "";
           this.password = "";
-          console.log(er.response.data);
+          console.log(error.response.data);
         });
       }
     },

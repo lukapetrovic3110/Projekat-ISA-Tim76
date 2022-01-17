@@ -106,7 +106,7 @@
             height="40px"
             >Change password</v-btn
           >
-          <v-dialog max-width="600">
+          <v-dialog max-width="600" persistent>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 color="red darken-1"
@@ -134,6 +134,7 @@
                     v-model="reason"
                     color="info"
                     type="text"
+                    :rules="[() => !!reason || 'This field is required']"
                   />
                   <v-spacer></v-spacer>
                 </v-card-text>
@@ -168,7 +169,6 @@ export default {
   name: "ClientProfile",
   data: () => ({
     opacity: 0.9,
-    clientId: "",
     firstName: "",
     lastName: "",
     phoneNumber: "",
@@ -185,8 +185,6 @@ export default {
   },
   methods: {
     viewPersonalInfo() {
-      this.clientId = localStorage.getItem("userId");
-      console.log(this.clientId);
       this.axios
         .get("http://localhost:8091/client", {
           headers: {
@@ -217,7 +215,24 @@ export default {
     changePassword() {
       window.location.href = "http://localhost:8083/changePassword";
     },
+    onlySpaces(str) {
+      return str.trim().length === 0;
+    },
+    validateReason() {
+      if (this.onlySpaces(this.reason)) {
+        alert("Please enter a reason!");
+        return false;
+      } else if (this.reason.length > 100) {
+        alert("The reason is long please enter up to 100 characters!");
+        return false;
+      } else if (this.reason.match(/[\\#$%^&*'<>/"]/g)) {
+        alert("Your reason shouldn't contain special characters.");
+        return false;
+      }
+      return true;
+    },
     sendRequest() {
+      if(!this.validateReason(this.reason)) return;
       this.$http
         .post(
           "http://localhost:8091/deleteAccount/client",

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationAdventureDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IReservationAdventureService;
+import Team76.InternetSoftwareArchitecture.model.Address;
 import Team76.InternetSoftwareArchitecture.model.Client;
 import Team76.InternetSoftwareArchitecture.model.ReservationAdventure;
 import Team76.InternetSoftwareArchitecture.model.ReservationStatus;
@@ -35,9 +36,8 @@ public class ReservationAdventureService implements IReservationAdventureService
 		List<HistoryReservationAdventureDTO> historyReservationDTOs = new ArrayList<HistoryReservationAdventureDTO>();
 		
 		for (ReservationAdventure reservationAdventure : allFinishedReservation)
-			if (reservationAdventure.getClient().getUserId() == client.getUserId()) {
-				historyReservationDTOs.add(new HistoryReservationAdventureDTO(reservationAdventure.getDateAndTime().toString(), reservationAdventure.getDuration(), reservationAdventure.getPrice(), reservationAdventure.getMaxNumberOfPersons(), reservationAdventure.getAdventure().getName(), reservationAdventure.getAdventure().getFishingInstructor().getFirstName() + " " + reservationAdventure.getAdventure().getFishingInstructor().getLastName(), reservationAdventure.getAdventure().getDescription(), reservationAdventure.getAdventure().getMaxNumberOfPersons()));
-			}
+			if (reservationAdventure.getClient().getUserId() == client.getUserId())
+				historyReservationDTOs.add(new HistoryReservationAdventureDTO(reservationAdventure.getDateAndTime().toString(), reservationAdventure.getDuration(), reservationAdventure.getPrice(), reservationAdventure.getMaxNumberOfPersons(), reservationAdventure.getAdventure().getName(), reservationAdventure.getAdventure().getDescription(), reservationAdventure.getAdventure().getMaxNumberOfPersons(), Address.mapAddress(reservationAdventure.getAdventure().getAddress()), reservationAdventure.getAdventure().getFishingInstructor().getUserId(), reservationAdventure.getAdventure().getFishingInstructor().getFirstName(), reservationAdventure.getAdventure().getFishingInstructor().getLastName(), reservationAdventure.getAdventure().getFishingInstructor().getEmail(), reservationAdventure.getAdventure().getFishingInstructor().getPhoneNumber(), reservationAdventure.getAdventure().getInstructorBiography(), Address.mapAddress(reservationAdventure.getAdventure().getFishingInstructor().getAddress())));
 		
 		return historyReservationDTOs;
 	}

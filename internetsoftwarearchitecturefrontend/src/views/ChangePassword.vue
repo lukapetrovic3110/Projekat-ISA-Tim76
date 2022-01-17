@@ -38,8 +38,8 @@
                 label="New password"
                 v-model="newPass"
                 color="blue"
-                hint="At least 8 characters"
-                :rules="[rules.required, rules.min]"
+                hint="Password must contain minimum 8 characters, 1 uppercase, 1 lowercase and 1 number and 1 special character"
+                :rules="[rules.required, rules.minimum]"
                 @click:append="showPassword2 = !showPassword2"
               />
             </v-row>
@@ -51,8 +51,8 @@
                 label="Rewrite new password"
                 v-model="rewritePass"
                 color="blue"
-                hint="At least 8 characters"
-                :rules="[rules.required, rules.min]"
+                hint="Password must contain minimum 8 characters, 1 uppercase, 1 lowercase and 1 number and 1 special character"
+                :rules="[rules.required, rules.minimum]"
                 @click:append="showPassword3 = !showPassword3"
               />
             </v-row>
@@ -87,16 +87,18 @@
 export default {
   name: "ChangePassword",
   data: () => ({
+    opacity: 0.9,
     oldPass: "",
     newPass: "",
     rewritePass: "",
-    email: localStorage.getItem("email"),
+    email: "",
     showPassword1: false,
     showPassword2: false,
     showPassword3: false,
+    user: null,
     rules: {
-      required: (value) => !!value || "Required.",
-      min: (v) => v.length >= 8 || "Min 8 characters",
+      required: (value) => !!value || "This field is required",
+      minimum: (value) => value.length >= 8 || "Password must contain minimum 8 characters",
     },
   }),
   mounted() {
@@ -104,22 +106,35 @@ export default {
   },
   methods: {
     init() {
-      if (this.email === "") {
+      this.axios
+      .get("http://localhost:8091/auth", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        this.user = response.data;
+        this.email = response.data.email;
+      })
+      .catch((err) => {
         window.location.href = "http://localhost:8083/login";
         alert("401 Unauthorized - respected you are not logged in to the system.");
-      }
+        console.log(err);
+      });
     },
     save() {
       if (
         this.oldPass == "" ||
         this.newPass == "" ||
-        this.rewritePassword == ""
+        this.rewritePass == ""
       ) {
         alert("Please fill all the required fields!");
       } else if (this.oldPass === this.newPass) {
         alert("Password can not be the same as the old one!");
       } else if (this.rewritePass !== this.newPass) {
         alert("New password and rewrite password must be the same!");
+      } else if (!this.validatePassword()) {
+        return;
       } else {
         const passwordChanger = {
           oldPassword: this.oldPass,
@@ -127,7 +142,6 @@ export default {
           email: this.email,
           rewritePassword: this.rewritePass,
         };
-
         this.axios
           .post("http://localhost:8091/auth/changePassword", passwordChanger, {
             headers: {
@@ -140,17 +154,54 @@ export default {
             this.logOff();
           })
           .catch((err) => { 
+            alert("Old password isn't correct!");
             console.log(err);
         });
       }
     },
+    validatePassword() {
+      if (this.newPass.length < 8) {
+        this.rewritePass = "";
+        alert("Your password should contain at least 8 character!");
+        return false;
+      } else if (this.newPass.length > 25) {
+        this.rewritePass = "";
+        alert("Your password shouldn't contain more than 25 characters!");
+        return false;
+      } else if (!this.newPass.match(/[a-z]/g)) {
+        this.rewritePass = "";
+        alert("Your password should contain at least one small letter.");
+        return false;
+      } else if (!this.newPass.match(/[A-Z]/g)) {
+        this.rewritePass = "";
+        alert("Your password should contain at least one big letter.");
+        return false;
+      } else if (!this.newPass.match(/[0-9]/g)) {
+        this.rewritePass = "";
+        alert("Your password should contain at least one number.");
+        return false;
+      } else if (!this.newPass.match(/[!@#$%^&*.,:'+-/\\"]/g)) {
+        alert("Your password should contain at least one special character (other than <>).");
+        this.rewritePass = "";
+        return false;
+      } else if (this.newPass.match(/[<>]/g)) {
+        alert("Your password shouldn't contain special character < or >.");
+        this.rewritePass = "";
+        return false;
+      } else if (this.newPass.match(/[ ]/g)) {
+        alert("Your password shouldn't contain spaces!");
+        this.rewritePass = "";
+        return false;
+      } else {
+        return true;
+      }
+    },
     logOff() {
       alert("Please log in with your new password.");
-      localStorage.setItem("token", "");
-      localStorage.setItem("token", "");
-      localStorage.setItem("userId", "");
       localStorage.setItem("email", "");
-      localStorage.setItem("userType", null);
+      localStorage.setItem("userId", "");
+      localStorage.setItem("token", "");
+      localStorage.setItem("userType", "");
       window.location.href = "http://localhost:8083/login";
     },
     cancel() {

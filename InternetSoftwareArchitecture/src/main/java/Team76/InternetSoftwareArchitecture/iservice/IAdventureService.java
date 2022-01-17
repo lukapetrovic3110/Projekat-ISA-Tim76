@@ -10,7 +10,9 @@ import Team76.InternetSoftwareArchitecture.model.Adventure;
 @Service
 public interface IAdventureService {
 	
-	public List<Adventure> all();
+	List<Adventure> all();
 	
-	public List<AdventureDTO> findAll();
+	List<AdventureDTO> findAll();
+	
+	AdventureDTO getAdventureById(Long adventureId);
 }

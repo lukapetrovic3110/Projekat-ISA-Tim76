@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import Team76.InternetSoftwareArchitecture.dto.CancelReservationDTO;
+import Team76.InternetSoftwareArchitecture.dto.CottageSubscriptionDTO;
+import Team76.InternetSoftwareArchitecture.dto.FishingInstructorSubscriptionDTO;
 import Team76.InternetSoftwareArchitecture.dto.ScheduledReservationDTO;
-import Team76.InternetSoftwareArchitecture.dto.SubscriptionDTO;
+import Team76.InternetSoftwareArchitecture.dto.ShipSubscriptionDTO;
+import Team76.InternetSoftwareArchitecture.dto.SubscribeRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.UnsubscribeRequestDTO;
 import Team76.InternetSoftwareArchitecture.model.Client;
 import Team76.InternetSoftwareArchitecture.model.ReservationAdventure;
 import Team76.InternetSoftwareArchitecture.model.ReservationCottage;
@@ -56,10 +60,59 @@ public class ClientController {
 	
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
-	@GetMapping(value = "/subscriptions")
-	public ResponseEntity<List<SubscriptionDTO>> getClientSubscriptions() {
-		return new ResponseEntity<List<SubscriptionDTO>>(clientService.getClientSubscriptions(), HttpStatus.OK);
+	@GetMapping(value = "/shipSubscriptions")
+	public ResponseEntity<List<ShipSubscriptionDTO>> getShipSubscriptions() {
+		return new ResponseEntity<List<ShipSubscriptionDTO>>(clientService.getShipSubscriptions(), HttpStatus.OK);
 	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@PutMapping(value = "/unsubscribeShip")
+	public ResponseEntity<Boolean> unsubscribeShip(@RequestBody UnsubscribeRequestDTO unsubscribeRequestDTO) {
+		return new ResponseEntity<Boolean>(clientService.unsubscribeShip(unsubscribeRequestDTO.getId()), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@PostMapping(value = "/subscribeShip")
+	public ResponseEntity<Boolean> subscribeShip(@RequestBody SubscribeRequestDTO subscribeRequestDTO) {
+		return new ResponseEntity<Boolean>(clientService.subscribeShip(subscribeRequestDTO.getId()), HttpStatus.CREATED);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@GetMapping(value = "/cottageSubscriptions")
+	public ResponseEntity<List<CottageSubscriptionDTO>> getCottageSubscriptions() {
+		return new ResponseEntity<List<CottageSubscriptionDTO>>(clientService.getCottageSubscriptions(), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@PutMapping(value = "/unsubscribeCottage")
+	public ResponseEntity<Boolean> unsubscribeCottage(@RequestBody UnsubscribeRequestDTO unsubscribeRequestDTO) {
+		return new ResponseEntity<Boolean>(clientService.unsubscribeCottage(unsubscribeRequestDTO.getId()), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@PostMapping(value = "/subscribeCottage")
+	public ResponseEntity<Boolean> subscribeCottage(@RequestBody SubscribeRequestDTO subscribeRequestDTO) {
+		return new ResponseEntity<Boolean>(clientService.subscribeCottage(subscribeRequestDTO.getId()), HttpStatus.CREATED);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@GetMapping(value = "/fishingInstructorSubscriptions")
+	public ResponseEntity<List<FishingInstructorSubscriptionDTO>> getFishingInstructorSubscriptions() {
+		return new ResponseEntity<List<FishingInstructorSubscriptionDTO>>(clientService.getFishingInstructorSubscriptions(), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@PutMapping(value = "/unsubscribeFishingInstructor")
+	public ResponseEntity<Boolean> unsubscribeFishingInstructor(@RequestBody UnsubscribeRequestDTO unsubscribeRequestDTO) {
+		return new ResponseEntity<Boolean>(clientService.unsubscribeFishingInstructor(unsubscribeRequestDTO.getId()), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@PostMapping(value = "/subscribeFishingInstructor")
+	public ResponseEntity<Boolean> subscribeFishingInstructor(@RequestBody SubscribeRequestDTO subscribeRequestDTO) {
+		return new ResponseEntity<Boolean>(clientService.subscribeFishingInstructor(subscribeRequestDTO.getId()), HttpStatus.CREATED);
+	}
+	
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@PostMapping(value = "/update")

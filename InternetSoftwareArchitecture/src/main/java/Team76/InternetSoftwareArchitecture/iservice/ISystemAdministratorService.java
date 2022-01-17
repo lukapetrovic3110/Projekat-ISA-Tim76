@@ -7,4 +7,5 @@ import Team76.InternetSoftwareArchitecture.model.SystemAdministrator;
 @Service
 public interface ISystemAdministratorService {
 	SystemAdministrator findSystemAdministrator();
+	SystemAdministrator update(SystemAdministrator systemAdministrator);
 }

@@ -51,9 +51,19 @@ const routes = [
     component: () => import("../views/RegistrationRequests.vue"),
   },
   {
+    path: "/systemAdministratorProfile",
+    name: "SystemAdministratorProfile",
+    component: () => import("../views/SystemAdministratorProfile.vue"),
+  },
+  {
     path: "/clientProfile",
     name: "ClientProfile",
     component: () => import("../views/ClientProfile.vue"),
+  },
+  {
+    path: "/clientReservationHistory",
+    name: "ClientReservationHistory",
+    component: () => import("../views/ClientReservationHistory.vue"),
   },
   {
     path: "/clientSubscriptions",
@@ -61,14 +71,34 @@ const routes = [
     component: () => import("../views/ClientSubscriptions.vue"),
   },
   {
+    path: "/clientComplaint",
+    name: "ClientComplaint",
+    component: () => import("../views/ClientComplaint.vue"),
+  },
+  {
     path: "/editClientPersonalInfo",
     name: "EditClientPersonalInfo",
     component: () => import("../views/EditClientPersonalInfo.vue"),
   },
   {
+    path: "/editSystemAdministratorPersonalInfo",
+    name: "EditSystemAdministratorPersonInfo",
+    component: () => import("../views/EditSystemAdministratorPersonalInfo.vue"),
+  },
+  {
+    path: "/systemAdministratorComplaint",
+    name: "SystemAdministratorComplaint",
+    component: () => import("../views/SystemAdministratorComplaint.vue"),
+  },
+  {
     path: "/changePassword",
     name: "ChangePassword",
     component: () => import("../views/ChangePassword.vue"),
+  },
+  {
+    path: "/changePasswordFirstLogin",
+    name: "ChangePasswordFirstLogin",
+    component: () => import("../views/ChangePasswordFirstLogin.vue"),
   },
   {
     path: "/profileDeleteRequests",
@@ -96,9 +126,9 @@ const routes = [
     component: () => import("../views/SearchCottage.vue"),
   },
   {
-    path: "/reservationCottageHistoryByClient",
-    name: "ReservationCottageHistoryByClient",
-    component: () => import("../views/ReservationCottageHistoryByClient.vue"),
+    path: "/cottageDetails",
+    name: "CottageDetails",
+    component: () => import("../views/CottageDetails.vue"),
   },
   {
     path: "/searchShip",
@@ -106,9 +136,9 @@ const routes = [
     component: () => import("../views/SearchShip.vue"),
   },
   {
-    path: "/reservationShipHistoryByClient",
-    name: "ReservationShipHistoryByClient",
-    component: () => import("../views/ReservationShipHistoryByClient.vue"),
+    path: "/shipDetails",
+    name: "ShipDetails",
+    component: () => import("../views/ShipDetails.vue"),
   },
   {
     path: "/searchFishingInstructor",
@@ -126,9 +156,9 @@ const routes = [
     component: () => import("../views/EditCottageInformation.vue"),
   },
   {
-    path: "/reservationAdventureHistoryByClient",
-    name: "ReservationAdventureHistoryByClient",
-    component: () => import("../views/ReservationAdventureHistoryByClient.vue"),
+    path: "/adventureDetails",
+    name: "AdventureDetails",
+    component: () => import("../views/AdventureDetails.vue"),
   },
   {
     path: "/cottageOwnerReservationHistory",

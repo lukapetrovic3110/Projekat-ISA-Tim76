@@ -12,6 +12,7 @@
                 v-model="client.firstName"
                 color="blue"
                 type="text"
+                :rules="[() => !!client.firstName || 'This field is required']"
               />
             </v-row>
             <v-row>
@@ -21,6 +22,7 @@
                 v-model="client.lastName"
                 color="blue"
                 type="text"
+                :rules="[() => !!client.lastName || 'This field is required']"
               />
             </v-row>
             <v-row>
@@ -30,6 +32,7 @@
                 v-model="client.phoneNumber"
                 color="blue"
                 type="text"
+                :rules="[() => !!client.phoneNumber || 'This field is required']"
               />
             </v-row>
             <v-row>
@@ -39,6 +42,7 @@
                 v-model="client.address.street"
                 color="blue"
                 type="text"
+                :rules="[() => !!client.address.street || 'This field is required']"
               />
             </v-row>
             <v-row>
@@ -48,6 +52,7 @@
                 v-model="client.address.streetNumber"
                 color="blue"
                 type="text"
+                :rules="[() => !!client.address.streetNumber || 'This field is required']"
               />
             </v-row>
             <v-row>
@@ -55,19 +60,20 @@
                 class="ml-10 mr-10"
                 label="City"
                 v-model="client.address.city"
-                auto-select-first
                 color="blue"
                 type="text"
+                :rules="[() => !!client.address.city || 'This field is required']"
               />
             </v-row>
             <v-row class="countryCombo">
               <v-autocomplete
                 ref="client.address.country"
                 v-model="client.address.country"
-                item-text="client.address.country"
                 :items="countries"
+                item-text="client.address.country"
                 label="Country"
                 placeholder="Select..."
+                :rules="[() => !!client.address.country || 'This field is required']"
               />
             </v-row>
           </v-form>
@@ -101,6 +107,7 @@
 export default {
   name: "EditClientPersonalInfo",
   data: () => ({
+    opacity: 0.9,
     countries: ["Serbia"],
     client: null,
   }),
@@ -122,7 +129,6 @@ export default {
             window.location.href = "http://localhost:8083/login";
             alert("401 Unauthorized - respected you are not logged in to the system.");
             console.log(err);
-            
         });
     },
     save() {

@@ -62,5 +62,9 @@ public class CottageController {
 		return new ResponseEntity<List<CottageDTO>>(cottageService.findAll(), HttpStatus.OK);
 	}
 	
+	@GetMapping("/findCottage/{cottageId}")
+	public ResponseEntity<CottageDTO> getCottageById(@PathVariable Long cottageId) {
+		return new ResponseEntity<CottageDTO>(cottageService.getCottageById(cottageId), HttpStatus.OK);
+	}
 
 }

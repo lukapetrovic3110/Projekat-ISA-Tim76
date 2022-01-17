@@ -31,5 +31,10 @@ public interface ICottageRepository extends JpaRepository<Cottage, Long> {
 	List<Long> getAllCottageIdForCottageOwner(Long cottageOwnerId);
 	
 	Cottage findByCottageId(Long id);
+	
+	 @Modifying
+	 @Transactional
+	 @Query(value = "INSERT INTO user_cottage_subscriptions (client_user_id, cottage_subscriptions_cottage_id) VALUES (:userId, :cottageId)", nativeQuery = true)
+	 void addNewCottageSubscriptions(Long userId, Long cottageId);
 
 }

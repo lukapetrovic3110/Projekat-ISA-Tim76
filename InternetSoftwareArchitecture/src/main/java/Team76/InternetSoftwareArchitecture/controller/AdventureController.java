@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,6 +36,11 @@ public class AdventureController {
 	@GetMapping
 	public ResponseEntity<List<AdventureDTO>> findAll() {
 		return new ResponseEntity<List<AdventureDTO>>(adventureService.findAll(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/findAdventure/{adventureId}")
+	public ResponseEntity<AdventureDTO> getAdventureById(@PathVariable Long adventureId) {
+		return new ResponseEntity<AdventureDTO>(adventureService.getAdventureById(adventureId), HttpStatus.OK);
 	}
 	
 	
