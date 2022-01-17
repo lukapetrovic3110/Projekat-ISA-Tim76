@@ -90,10 +90,10 @@
                 </v-card>
               </v-dialog>
 
-              <v-dialog v-model="dialogReportForm" persistent>
+              <v-dialog v-model="dialogReportForm" width="30%" persistent>
                 <v-card>
                   <v-card-title>
-                    <span class="text-h5 justify-center">Report form</span>
+                    <span class="text-h5">Report form</span>
                   </v-card-title>
                   <v-card-text>
                     <v-container>
@@ -128,7 +128,6 @@
                     >
                       Save
                     </v-btn>
-                    <v-spacer></v-spacer>
                     <v-btn
                       color="blue darken-1"
                       text

@@ -105,9 +105,10 @@
                     </v-btn>
                     <v-btn
                       depressed
-                      color="error"
+                      color="primary"
+                      v-on:click="cottageFastReservation(item.cottageId)"
                     >
-                    Delete cottage
+                    Fast reservations
                     </v-btn>
                   </v-card-actions>
                 </v-card>
@@ -219,6 +220,11 @@ export default {
     viewOrEditCottage(cottageId) {
       localStorage.setItem("cottageId", cottageId);
       window.location.href = "http://localhost:8083/cottageProfile";
+    },
+
+    cottageFastReservation(cottageId) {
+      localStorage.setItem("cottageId", cottageId);
+      window.location.href = "http://localhost:8083/cottageFastReservation";
     },
 
     getAllCottagesForCottageOwner() { // "http://localhost:8091/cottage/getAll/" + this.cottageOwnerId

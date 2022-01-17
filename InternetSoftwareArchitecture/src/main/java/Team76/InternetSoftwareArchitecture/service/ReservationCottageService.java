@@ -3,19 +3,26 @@ package Team76.InternetSoftwareArchitecture.service;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import Team76.InternetSoftwareArchitecture.dto.CottageFastReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationClientInformationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationInformationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationReportDTO;
+import Team76.InternetSoftwareArchitecture.dto.DeleteCottageReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationCottageDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IReservationCottageService;
 import Team76.InternetSoftwareArchitecture.model.Client;
+import Team76.InternetSoftwareArchitecture.model.Cottage;
+import Team76.InternetSoftwareArchitecture.model.CottageAdditionalService;
+import Team76.InternetSoftwareArchitecture.model.CottageAdditionalServiceType;
 import Team76.InternetSoftwareArchitecture.model.CottageReservationReport;
 import Team76.InternetSoftwareArchitecture.model.ReservationCottage;
 import Team76.InternetSoftwareArchitecture.model.ReservationStatus;
@@ -131,4 +138,44 @@ public class ReservationCottageService implements IReservationCottageService {
 		return new CottageReservationReportDTO(report.getComment(), clientArrivalFormatted, report.getReservationCottage().getClient().getEmail(), report.getReservationCottage().getReservationCottageId());
 	}
 
+
+	@Override
+	public List<CottageFastReservationDTO> findAllFastReservationsForCottage(Long cottageId) {
+		List<ReservationCottage> cottageReservations = reservationCottageRepository.findAllFastReservationsForCottage(cottageId);
+		List<CottageFastReservationDTO> cottageFastReservationsDTO = new ArrayList<CottageFastReservationDTO>();
+		
+		for (ReservationCottage cottageReservation : cottageReservations) {
+			if (cottageReservation.getReservationStatus().equals(ReservationStatus.WAITING)) {
+				cottageFastReservationsDTO.add(new CottageFastReservationDTO(cottageReservation.getReservationCottageId() ,cottageReservation.getDateAndTime(), cottageReservation.getDuration(), cottageReservation.getMaxNumberOfPersons(), cottageReservation.getCottageAdditionalServices(), cottageReservation.getPrice(), cottageReservation.getDiscountPercentage()));
+			}
+		}
+		
+		return cottageFastReservationsDTO;
+	}
+
+
+	@Override
+	public CottageFastReservationDTO saveFastReservation(Long cottageId, CottageFastReservationDTO cottageFastReservationDTO) {
+		Cottage cottage = cottageRepository.findByCottageId(cottageId);
+		Set<CottageAdditionalService> cottageAdditionalServices = new HashSet<CottageAdditionalService>();
+		for (CottageAdditionalService cottageAdditionalService : cottageFastReservationDTO.getCottageAdditionalServices()) {
+			cottageAdditionalServices.add(new CottageAdditionalService(CottageAdditionalServiceType.valueOf(cottageAdditionalService.getCottageAdditionalServiceType().toString().replace(" ", "_"))));
+		}
+		
+		ReservationCottage fastReservationCottage = new ReservationCottage(cottageFastReservationDTO.getDateAndTime(), cottageFastReservationDTO.getDuration(), cottageFastReservationDTO.getMaxNumberOfPersons(), cottageFastReservationDTO.getPrice(), cottage, null, cottageAdditionalServices, cottageFastReservationDTO.getDiscountPercentage(), ReservationStatus.WAITING);
+		ReservationCottage reservationCottage = reservationCottageRepository.save(fastReservationCottage);
+		
+		return new CottageFastReservationDTO(reservationCottage.getReservationCottageId() ,reservationCottage.getDateAndTime(), reservationCottage.getDuration(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getCottageAdditionalServices(), reservationCottage.getPrice(), reservationCottage.getDiscountPercentage());
+	}
+
+
+	@Override
+	public Boolean deleteFastReservation(DeleteCottageReservationDTO deleteCottageReservationDTO) {
+		ReservationCottage reservationCottage = reservationCottageRepository.getOne(deleteCottageReservationDTO.getCottageReservationId());
+		reservationCottage.setReservationStatus(ReservationStatus.CANCELLED);
+		reservationCottageRepository.save(reservationCottage);
+		
+		return true;
+	}
+	
 }
