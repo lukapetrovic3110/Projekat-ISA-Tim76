@@ -22,5 +22,7 @@ public interface IRevisionRepository extends JpaRepository<Revision, Long> {
 
 	@Query(value = "SELECT * FROM revision WHERE user_id IS NOT NULL and revision_status = 'WAITING'", nativeQuery = true)
 	List<Revision> getUserRevisions();
-
+	
+	Revision findByRevisionId(Long revisionId);
+	
 }

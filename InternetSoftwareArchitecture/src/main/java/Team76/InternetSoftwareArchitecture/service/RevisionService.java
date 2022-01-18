@@ -8,13 +8,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import Team76.InternetSoftwareArchitecture.dto.AcceptRevisionRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.DeclineRevisionRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.ObjectRevisionDTO;
 import Team76.InternetSoftwareArchitecture.dto.RevisionRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.UserRevisionDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IRevisionService;
+import Team76.InternetSoftwareArchitecture.model.Adventure;
 import Team76.InternetSoftwareArchitecture.model.Client;
+import Team76.InternetSoftwareArchitecture.model.Cottage;
+import Team76.InternetSoftwareArchitecture.model.CottageOwner;
+import Team76.InternetSoftwareArchitecture.model.FishingInstructor;
 import Team76.InternetSoftwareArchitecture.model.Revision;
 import Team76.InternetSoftwareArchitecture.model.RevisionStatus;
+import Team76.InternetSoftwareArchitecture.model.Ship;
+import Team76.InternetSoftwareArchitecture.model.ShipOwner;
+import Team76.InternetSoftwareArchitecture.model.SystemAdministrator;
 import Team76.InternetSoftwareArchitecture.repository.IAdventureRepository;
 import Team76.InternetSoftwareArchitecture.repository.ICottageRepository;
 import Team76.InternetSoftwareArchitecture.repository.IRevisionRepository;
@@ -29,15 +38,17 @@ public class RevisionService implements IRevisionService {
 	private ICottageRepository cottageRepository;
 	private IShipRepository shipRepository;
 	private IAdventureRepository adventureRepository;
+	private EmailService emailService;
 	
 	@Autowired
 	public RevisionService(IRevisionRepository revisionRepository, IUserRepository userRepository, ICottageRepository cottageRepository,
-			IShipRepository shipRepository, IAdventureRepository adventureRepository) {
+			IShipRepository shipRepository, IAdventureRepository adventureRepository, EmailService emailService) {
 		this.revisionRepository = revisionRepository;
 		this.userRepository = userRepository;
 		this.cottageRepository = cottageRepository;
 		this.shipRepository = shipRepository;
 		this.adventureRepository = adventureRepository;
+		this.emailService = emailService;
 	}
 
 	@Override
@@ -93,6 +104,124 @@ public class RevisionService implements IRevisionService {
 		userRevisions = revisionRepository.getUserRevisions();
 		return userRevisions.stream().map(u -> new UserRevisionDTO(u.getRevisionId(), u.getUser().getFirstName(), u.getUser().getLastName(),  u.getUser().getEmail(),  u.getComment(), u.getRating(), u.getClient().getFirstName(), u.getClient().getLastName(), u.getClient().getEmail())).collect(Collectors.toList());
 	
+	}
+
+	@Override
+	public Boolean acceptRevisionRequest(AcceptRevisionRequestDTO acceptRevisionRequestDTO) {
+		SystemAdministrator systemAdministrator = (SystemAdministrator) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		StringBuilder systemAdministratorName = new StringBuilder();
+		systemAdministratorName.append(systemAdministrator.getFirstName());
+		systemAdministratorName.append(" ");
+		systemAdministratorName.append(systemAdministrator.getLastName());
+		Revision revision = revisionRepository.findByRevisionId(acceptRevisionRequestDTO.getRevisionRequestId());
+		Double rating = revision.getRating();
+		revision.setRevisionStatus(RevisionStatus.APPROVED);
+		Client client = (Client) userRepository.findByEmail(acceptRevisionRequestDTO.getClientEmail());
+		StringBuilder clientName = new StringBuilder();
+		clientName.append(client.getFirstName());
+		clientName.append(" ");
+		clientName.append(client.getLastName());
+		
+		switch (acceptRevisionRequestDTO.getRevisionType()) {
+		case COTTAGE:
+			Cottage cottage = cottageRepository.findByCottageId(revision.getCottage().getCottageId());
+			cottage.setRating((rating + cottage.getRating())/2.);
+			cottageRepository.save(cottage);
+			try {
+				sendAcceptedEmail(acceptRevisionRequestDTO.getUserEmail(), revision.getComment(), revision.getRating().toString(), clientName.toString(), systemAdministratorName.toString());
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		case SHIP:
+			Ship ship = shipRepository.findByShipId(revision.getShip().getShipId());
+			ship.setRating((rating + ship.getRating())/2.);
+			shipRepository.save(ship);
+			try {
+				sendAcceptedEmail(acceptRevisionRequestDTO.getUserEmail(), revision.getComment(), revision.getRating().toString(), clientName.toString(), systemAdministratorName.toString());
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		case ADVENTURE:
+			Adventure adventure = adventureRepository.findByAdventureId(revision.getAdventure().getAdventureId());
+			adventure.setRating((rating + adventure.getRating())/2.);
+			adventureRepository.save(adventure);
+			try {
+				sendAcceptedEmail(acceptRevisionRequestDTO.getUserEmail(), revision.getComment(), revision.getRating().toString(), clientName.toString(), systemAdministratorName.toString());
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		case COTTAGE_OWNER:
+			CottageOwner cottageOwner = (CottageOwner)userRepository.findByEmail(acceptRevisionRequestDTO.getUserEmail());
+			cottageOwner.setRating((rating + cottageOwner.getRating())/2.);
+			userRepository.save(cottageOwner);
+			try {
+				sendAcceptedEmail(acceptRevisionRequestDTO.getUserEmail(), revision.getComment(), revision.getRating().toString(), clientName.toString(), systemAdministratorName.toString());
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		case SHIP_OWNER:
+			ShipOwner shipOwner = (ShipOwner)userRepository.findByEmail(acceptRevisionRequestDTO.getUserEmail());
+			shipOwner.setRating((rating + shipOwner.getRating())/2.);
+			userRepository.save(shipOwner);
+			try {
+				sendAcceptedEmail(acceptRevisionRequestDTO.getUserEmail(), revision.getComment(), revision.getRating().toString(), clientName.toString(), systemAdministratorName.toString());
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		case FISHING_INSTRUCTOR:
+			FishingInstructor fishingInstructor = (FishingInstructor)userRepository.findByEmail(acceptRevisionRequestDTO.getUserEmail());
+			fishingInstructor.setRating((rating + fishingInstructor.getRating())/2.);
+			userRepository.save(fishingInstructor);
+			try {
+				sendAcceptedEmail(acceptRevisionRequestDTO.getUserEmail(), revision.getComment(), revision.getRating().toString(), clientName.toString(), systemAdministratorName.toString());
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		default:
+			System.out.println("Error Revision Type");
+			return false;
+		}
+	}
+
+	@Override
+	public Boolean declineRevisionRequest(DeclineRevisionRequestDTO declineRevisionRequestDTO) {
+		Revision revision = revisionRepository.findByRevisionId(declineRevisionRequestDTO.getRevisionRequestId());
+		revision.setRevisionStatus(RevisionStatus.DECLINED);
+		if(revisionRepository.save(revision) != null)
+			return true;
+		else 
+			return false;
+	}
+	
+	private void sendAcceptedEmail(String userEmail, String revisionComment, String revisionRating, String clientName, String systemAdministratorName) {
+		emailService.sendNotificaitionAsync(userEmail, "New revision", createMessageText("You have received a new revision.", revisionComment, revisionRating, clientName, systemAdministratorName));
+	}
+	
+	private String createMessageText(String captionMessageText, String revisionComment, String revisionRating, String clientName, String systemAdministratorName) {
+		StringBuilder messageText = new StringBuilder();
+		messageText.append(captionMessageText);
+		messageText.append("\nRevision comment: \"");
+		messageText.append(revisionComment);
+		messageText.append("\"");
+		messageText.append("\nRevision rating: ");
+		messageText.append(revisionRating);
+		messageText.append("\nRevision by ");
+		messageText.append(clientName);
+		messageText.append("\nYours,\n");
+		messageText.append(systemAdministratorName);
+		return messageText.toString();
 	}
 	
 }

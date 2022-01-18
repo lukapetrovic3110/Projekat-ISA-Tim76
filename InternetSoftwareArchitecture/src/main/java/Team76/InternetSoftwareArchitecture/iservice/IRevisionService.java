@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import Team76.InternetSoftwareArchitecture.dto.AcceptRevisionRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.DeclineRevisionRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.ObjectRevisionDTO;
 import Team76.InternetSoftwareArchitecture.dto.RevisionRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.UserRevisionDTO;
@@ -17,4 +19,6 @@ public interface IRevisionService {
 	List<ObjectRevisionDTO> getShipRevisions();
 	List<ObjectRevisionDTO> getAdventureRevisions();
 	List<UserRevisionDTO> getUserRevisions();
+	Boolean acceptRevisionRequest(AcceptRevisionRequestDTO acceptRevisionRequestDTO);
+	Boolean declineRevisionRequest(DeclineRevisionRequestDTO declineRevisionRequestDTO);
 }

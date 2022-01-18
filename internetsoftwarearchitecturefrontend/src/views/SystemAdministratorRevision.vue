@@ -399,10 +399,10 @@ export default {
     requestItem: null,
     defaultItem: null,
     revisionRequestId: null,
-    comment: null,
     clientEmail: null,
     userEmail: null,
     index: null,
+    userType: null,
     objectRevisionHeaders: [
       {
         text: "Name",
@@ -613,8 +613,7 @@ export default {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         })
-        .then((response) => {this.adventureRevisions = response.data; 
-        console.log(response.data);})
+        .then((response) => (this.adventureRevisions = response.data))
         .catch((err) => console.log(err));
     },
     viewUserRevisions() {
@@ -632,8 +631,8 @@ export default {
       this.requestItem = Object.assign({}, item);
       this.dialogAcceptCottageRevisionRequest = true;
       this.revisionRequestId = this.requestItem.revisionId;
-      this.clientEmail = this.requestItem.clientEmail,
-      this.userEmail = this.requestItem.ownerEmail;
+      (this.clientEmail = this.requestItem.clientEmail),
+        (this.userEmail = this.requestItem.ownerEmail);
     },
 
     declineCottageRevision(item) {
@@ -653,16 +652,15 @@ export default {
       this.closeDialog();
     },
     acceptCottageRevisionRequest() {
-      if (!this.validateComment()) return;
       this.cottageRevisions.splice(this.index, 1);
       this.axios
-        .post(
-          "http://localhost:8091/revision/acceptCottageRevisionRequest",
+        .put(
+          "http://localhost:8091/revision/acceptRevisionRequest",
           {
             revisionRequestId: this.revisionRequestId,
             clientEmail: this.clientEmail,
             userEmail: this.userEmail,
-            comment: this.comment,
+            revisionType: "COTTAGE",
           },
           {
             headers: {
@@ -678,11 +676,10 @@ export default {
     },
 
     declineCottageRevisionRequest() {
-      if (!this.validateComment()) return;
       this.cottageRevisions.splice(this.index, 1);
       this.axios
-        .post(
-          "http://localhost:8091/revision/declineCottageRevisionRequest",
+        .put(
+          "http://localhost:8091/revision/declineRevisionRequest",
           {
             revisionRequestId: this.revisionRequestId,
           },
@@ -694,7 +691,6 @@ export default {
         )
         .then((response) => {
           console.log(response.data);
-          alert("The cottage revision request was successfully declined.");
         });
       this.closeDeclineCottageRevisionDialog();
     },
@@ -724,16 +720,15 @@ export default {
       this.closeDialog();
     },
     acceptShipRevisionRequest() {
-      if (!this.validateComment()) return;
       this.shipRevisions.splice(this.index, 1);
       this.axios
-        .post(
-          "http://localhost:8091/revision/acceptShipRevisionRequest",
+        .put(
+          "http://localhost:8091/revision/acceptRevisionRequest",
           {
             revisionRequestId: this.revisionRequestId,
             clientEmail: this.clientEmail,
             userEmail: this.userEmail,
-            comment: this.comment,
+            revisionType: "SHIP",
           },
           {
             headers: {
@@ -749,11 +744,10 @@ export default {
     },
 
     declineShipRevisionRequest() {
-      if (!this.validateComment()) return;
       this.shipRevisions.splice(this.index, 1);
       this.axios
-        .post(
-          "http://localhost:8091/revision/declineShipRevisionRequest",
+        .put(
+          "http://localhost:8091/revision/declineRevisionRequest",
           {
             revisionRequestId: this.revisionRequestId,
           },
@@ -765,7 +759,6 @@ export default {
         )
         .then((response) => {
           console.log(response.data);
-          alert("The ship revision request was successfully declined.");
         });
       this.closeDeclineShipRevisionDialog();
     },
@@ -794,16 +787,15 @@ export default {
       this.closeDialog();
     },
     acceptAdventureRevisionRequest() {
-      if (!this.validateComment()) return;
       this.adventureRevisions.splice(this.index, 1);
       this.axios
-        .post(
-          "http://localhost:8091/revision/acceptShipRevisionRequest",
+        .put(
+          "http://localhost:8091/revision/acceptRevisionRequest",
           {
             revisionRequestId: this.revisionRequestId,
             clientEmail: this.clientEmail,
             userEmail: this.userEmail,
-            comment: this.comment,
+            revisionType: "ADVENTURE",
           },
           {
             headers: {
@@ -815,15 +807,14 @@ export default {
           console.log(response.data);
           alert("The adventure revision request was successfully accepted.");
         });
-      this.closeAcceptShipRevisionDialog();
+      this.closeAcceptAdventureRevisionDialog();
     },
 
     declineAdventureRevisionRequest() {
-      if (!this.validateComment()) return;
       this.adventureRevisions.splice(this.index, 1);
       this.axios
-        .post(
-          "http://localhost:8091/revision/declineShipRevisionRequest",
+        .put(
+          "http://localhost:8091/revision/declineRevisionRequest",
           {
             revisionRequestId: this.revisionRequestId,
           },
@@ -835,7 +826,6 @@ export default {
         )
         .then((response) => {
           console.log(response.data);
-          alert("The adventure revision request was successfully declined.");
         });
       this.closeDeclineAdventureRevisionDialog();
     },
@@ -845,7 +835,7 @@ export default {
       this.dialogAcceptUserRevisionRequest = true;
       this.revisionRequestId = this.requestItem.revisionId;
       this.clientEmail = this.requestItem.clientEmail;
-      this.userEmail = this.requestItem.accusedEmail;
+      this.userEmail = this.requestItem.email;
     },
 
     declineUserRevision(item) {
@@ -865,16 +855,23 @@ export default {
       this.closeDialog();
     },
     acceptUserRevisionRequest() {
-      if (!this.validateComment()) return;
       this.userRevisions.splice(this.index, 1);
       this.axios
-        .post(
-          "http://localhost:8091/revision/acceptUserRevisionRequest",
+        .get("http://localhost:8091/user/findByEmail/" + this.userEmail, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((response) => { 
+          this.userType = response.data.userType;
+          this.axios
+        .put(
+          "http://localhost:8091/revision/acceptRevisionRequest",
           {
             revisionRequestId: this.revisionRequestId,
             clientEmail: this.clientEmail,
             userEmail: this.userEmail,
-            comment: this.comment,
+            revisionType: this.userType.toString(),
           },
           {
             headers: {
@@ -882,19 +879,20 @@ export default {
             },
           }
         )
-        .then((response) => {
-          console.log(response.data);
+        .then((resp) => {
+          console.log(resp.data);
           alert("The revision request was successfully accepted.");
         });
       this.closeAcceptUserRevisionDialog();
+        })
+        .catch((err) => console.log(err));
     },
 
     declineUserRevisionRequest() {
-      if (!this.validateComment()) return;
       this.userRevisions.splice(this.index, 1);
       this.axios
-        .post(
-          "http://localhost:8091/revision/declineUserRevisionRequest",
+        .put(
+          "http://localhost:8091/revision/declineRevisionRequest",
           {
             revisionRequestId: this.revisionRequestId,
           },
@@ -906,32 +904,14 @@ export default {
         )
         .then((response) => {
           console.log(response.data);
-          alert("The revision request was successfully declined.");
         });
       this.closeDeclineUserRevisionDialog();
     },
     closeDialog() {
-      this.comment = "";
       this.$nextTick(() => {
         this.requestItem = Object.assign({}, this.defaultItem);
         this.index = -1;
       });
-    },
-    onlySpaces(str) {
-      return str.trim().length === 0;
-    },
-    validateComment() {
-      if (this.onlySpaces(this.comment)) {
-        alert("Please enter a comment!");
-        return false;
-      } else if (this.comment.length > 100) {
-        alert("The comment is long please enter up to 100 characters!");
-        return false;
-      } else if (this.comment.match(/[\\#$%^&*'<>/"]/g)) {
-        alert("The comment shouldn't contain special characters.");
-        return false;
-      }
-      return true;
     },
   },
 };

@@ -105,11 +105,7 @@ public class ComplaintService implements IComplaintService {
 		c.setComplaintStatus(ComplaintStatus.APPROVED);
 		complaintRepository.save(c);
 		try {
-			StringBuilder systemAdministratorName = new StringBuilder();
-			systemAdministratorName.append(systemAdministrator.getFirstName());
-			systemAdministratorName.append(" ");
-			systemAdministratorName.append(systemAdministrator.getLastName());
-			sendAcceptedCottageComplaintEmails(answerComplaintRequestDTO, c.getComment(), systemAdministratorName.toString());
+			sendAcceptedCottageComplaintEmails(answerComplaintRequestDTO, c.getComment(), getSystemAdministratorName(systemAdministrator));
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -124,11 +120,7 @@ public class ComplaintService implements IComplaintService {
 		c.setComplaintStatus(ComplaintStatus.DECLINED);
 		complaintRepository.save(c);
 		try {
-			StringBuilder systemAdministratorName = new StringBuilder();
-			systemAdministratorName.append(systemAdministrator.getFirstName());
-			systemAdministratorName.append(" ");
-			systemAdministratorName.append(systemAdministrator.getLastName());
-			sendDeclinedCottageComplaintEmails(answerComplaintRequestDTO, c.getComment(), systemAdministratorName.toString());
+			sendDeclinedCottageComplaintEmails(answerComplaintRequestDTO, c.getComment(), getSystemAdministratorName(systemAdministrator));
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -143,11 +135,7 @@ public class ComplaintService implements IComplaintService {
 		c.setComplaintStatus(ComplaintStatus.APPROVED);
 		complaintRepository.save(c);
 		try {
-			StringBuilder systemAdministratorName = new StringBuilder();
-			systemAdministratorName.append(systemAdministrator.getFirstName());
-			systemAdministratorName.append(" ");
-			systemAdministratorName.append(systemAdministrator.getLastName());
-			sendAcceptedShipComplaintEmails(answerComplaintRequestDTO, c.getComment(), systemAdministratorName.toString());
+			sendAcceptedShipComplaintEmails(answerComplaintRequestDTO, c.getComment(), getSystemAdministratorName(systemAdministrator));
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -162,11 +150,7 @@ public class ComplaintService implements IComplaintService {
 		c.setComplaintStatus(ComplaintStatus.DECLINED);
 		complaintRepository.save(c);
 		try {
-			StringBuilder systemAdministratorName = new StringBuilder();
-			systemAdministratorName.append(systemAdministrator.getFirstName());
-			systemAdministratorName.append(" ");
-			systemAdministratorName.append(systemAdministrator.getLastName());
-			sendDeclinedShipComplaintEmails(answerComplaintRequestDTO, c.getComment(), systemAdministratorName.toString());
+			sendDeclinedShipComplaintEmails(answerComplaintRequestDTO, c.getComment(), getSystemAdministratorName(systemAdministrator));
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -181,11 +165,7 @@ public class ComplaintService implements IComplaintService {
 		c.setComplaintStatus(ComplaintStatus.APPROVED);
 		complaintRepository.save(c);
 		try {
-			StringBuilder systemAdministratorName = new StringBuilder();
-			systemAdministratorName.append(systemAdministrator.getFirstName());
-			systemAdministratorName.append(" ");
-			systemAdministratorName.append(systemAdministrator.getLastName());
-			sendAcceptedUserComplaintEmails(answerComplaintRequestDTO, c.getComment(), systemAdministratorName.toString());
+			sendAcceptedUserComplaintEmails(answerComplaintRequestDTO, c.getComment(), getSystemAdministratorName(systemAdministrator));
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -200,160 +180,95 @@ public class ComplaintService implements IComplaintService {
 		c.setComplaintStatus(ComplaintStatus.DECLINED);
 		complaintRepository.save(c);
 		try {
-			StringBuilder systemAdministratorName = new StringBuilder();
-			systemAdministratorName.append(systemAdministrator.getFirstName());
-			systemAdministratorName.append(" ");
-			systemAdministratorName.append(systemAdministrator.getLastName());
-			sendDeclinedUserComplaintEmails(answerComplaintRequestDTO, c.getComment(), systemAdministratorName.toString());
+			sendDeclinedUserComplaintEmails(answerComplaintRequestDTO, c.getComment(), getSystemAdministratorName(systemAdministrator));
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
-	
-	private void sendAcceptedCottageComplaintEmails(AnswerComplaintRequestDTO answerComplaintRequestDTO, String complaintComment, String systemAdministratorName) {
-		StringBuilder text1 = new StringBuilder();
-		text1.append("We have accepted your cottage complaint request.");
-		text1.append("\nYour complaint: \"");
-		text1.append(complaintComment);
-		text1.append("\"");
-		text1.append("\nAnswer: ");
-		text1.append(answerComplaintRequestDTO.getComment());
-		text1.append("\n");
-		text1.append(systemAdministratorName);
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Accepted cottage complaint request", text1.toString());
-		
-		StringBuilder text2 = new StringBuilder();
-		text2.append("We have accepted the complaint against your cottage.");
-		text2.append("\nComplaint: \"");
-		text2.append(complaintComment);
-		text2.append("\"");
-		text2.append("\nAnswer: ");
-		text2.append(answerComplaintRequestDTO.getComment());
-		text2.append("\n");
-		text2.append(systemAdministratorName);
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Cottage complaint", text2.toString());
+
+	private String getSystemAdministratorName(SystemAdministrator systemAdministrator) {
+		StringBuilder systemAdministratorName = new StringBuilder();
+		systemAdministratorName.append(systemAdministrator.getFirstName());
+		systemAdministratorName.append(" ");
+		systemAdministratorName.append(systemAdministrator.getLastName());
+		return systemAdministratorName.toString();
 	}
 	
-	private void sendAcceptedShipComplaintEmails(AnswerComplaintRequestDTO answerComplaintRequestDTO, String complaintComment,String systemAdministratorName) {
-		StringBuilder text1 = new StringBuilder();
-		text1.append("We have accepted your ship complaint request.");
-		text1.append("\nYour complaint: \"");
-		text1.append(complaintComment);
-		text1.append("\"");
-		text1.append("\nAnswer: ");
-		text1.append(answerComplaintRequestDTO.getComment());
-		text1.append("\n");
-		text1.append(systemAdministratorName);
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Accepted ship complaint request", text1.toString());
+	private void sendAcceptedCottageComplaintEmails(AnswerComplaintRequestDTO answerComplaintRequestDTO, String complaintComment, String systemAdministratorName) {
+		String captionFirstMessageText = "We have accepted your cottage complaint request.";
+		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Accepted cottage complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
 		
-		StringBuilder text2 = new StringBuilder();
-		text2.append("We have accepted the complaint against your ship.");
-		text2.append("\nComplaint: \"");
-		text2.append(complaintComment);
-		text2.append("\"");
-		text2.append("\nAnswer: ");
-		text2.append(answerComplaintRequestDTO.getComment());
-		text2.append("\n");
-		text2.append(systemAdministratorName);
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Ship complaint", text2.toString());
+		String captionSecondMessageText = "We have accepted the complaint against your cottage.";
+		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Cottage complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
+	}
+	
+	private void sendAcceptedShipComplaintEmails(AnswerComplaintRequestDTO answerComplaintRequestDTO, String complaintComment, String systemAdministratorName) {
+		String captionFirstMessageText = "We have accepted your ship complaint request.";
+		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Accepted ship complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
+		
+		String captionSecondMessageText = "We have accepted the complaint against your ship.";
+		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Ship complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
 	}
 	
 	private void sendAcceptedUserComplaintEmails(AnswerComplaintRequestDTO answerComplaintRequestDTO, String complaintComment, String systemAdministratorName) {
-		StringBuilder text1 = new StringBuilder();
-		text1.append("We have accepted your complaint request.");
-		text1.append("\nYour complaint: \"");
-		text1.append(complaintComment);
-		text1.append("\"");
-		text1.append("\nAnswer: ");
-		text1.append(answerComplaintRequestDTO.getComment());
-		text1.append("\n");
-		text1.append(systemAdministratorName);
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Accepted complaint request", text1.toString());
+		String captionFirstMessageText = "We have accepted your complaint request.";
+		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Accepted complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
 		
-		StringBuilder text2 = new StringBuilder();
-		text2.append("We have accepted the complaint against you.");
-		text2.append("\nComplaint: \"");
-		text2.append(complaintComment);
-		text2.append("\"");
-		text2.append("\nAnswer: ");
-		text2.append(answerComplaintRequestDTO.getComment());
-		text2.append("\n");
-		text2.append(systemAdministratorName);
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Complaint", text2.toString());
+		String captionSecondMessageText = "We have accepted the complaint against you.";
+		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
 		
 	}
 	
 	private void sendDeclinedCottageComplaintEmails(AnswerComplaintRequestDTO answerComplaintRequestDTO, String complaintComment, String systemAdministratorName) {
-		StringBuilder text1 = new StringBuilder();
-		text1.append("We have declined your cottage complaint request.");
-		text1.append("\nYour complaint: \"");
-		text1.append(complaintComment);
-		text1.append("\"");
-		text1.append("\nAnswer: ");
-		text1.append(answerComplaintRequestDTO.getComment());
-		text1.append("\n");
-		text1.append(systemAdministratorName);
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Declined cottage complaint request", text1.toString());
+		String captionFirstMessageText = "We have declined your cottage complaint request.";
+		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Declined cottage complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
 		
-		StringBuilder text2 = new StringBuilder();
-		text2.append("We have declined the complaint against your cottage.");
-		text2.append("\nComplaint: \"");
-		text2.append(complaintComment);
-		text2.append("\"");
-		text2.append("\nAnswer: ");
-		text2.append(answerComplaintRequestDTO.getComment());
-		text2.append("\n");
-		text2.append(systemAdministratorName);
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Cottage complaint", text2.toString());
+		String captionSecondMessageText = "We have declined the complaint against your cottage.";
+		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Cottage complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
 	}
 	
 	private void sendDeclinedShipComplaintEmails(AnswerComplaintRequestDTO answerComplaintRequestDTO, String complaintComment, String systemAdministratorName) {
-		StringBuilder text1 = new StringBuilder();
-		text1.append("We have declined your ship complaint request.");
-		text1.append("\nYour complaint: \"");
-		text1.append(complaintComment);
-		text1.append("\"");
-		text1.append("\nAnswer: ");
-		text1.append(answerComplaintRequestDTO.getComment());
-		text1.append("\n");
-		text1.append(systemAdministratorName);
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Declined ship complaint request", text1.toString());
+		String captionFirstMessageText = "We have declined your ship complaint request.";
+		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Declined ship complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
 		
-		StringBuilder text2 = new StringBuilder();
-		text2.append("We have declined the complaint against your ship.");
-		text2.append("\nComplaint: \"");
-		text2.append(complaintComment);
-		text2.append("\"");
-		text2.append("\nAnswer: ");
-		text2.append(answerComplaintRequestDTO.getComment());
-		text2.append("\n");
-		text2.append(systemAdministratorName);
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Ship complaint", text2.toString());
+		String captionSecondMessageText = "We have declined the complaint against your ship.";
+		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Ship complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
 	}
 	
 	private void sendDeclinedUserComplaintEmails(AnswerComplaintRequestDTO answerComplaintRequestDTO, String complaintComment, String systemAdministratorName) {
-		StringBuilder text1 = new StringBuilder();
-		text1.append("We have declined your complaint request.");
-		text1.append("\nYour complaint: \"");
-		text1.append(complaintComment);
-		text1.append("\"");
-		text1.append("\nAnswer: ");
-		text1.append(answerComplaintRequestDTO.getComment());
-		text1.append("\n");
-		text1.append(systemAdministratorName);
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Declined complaint request", text1.toString());
+		String captionFirstMessageText = "We have declined your complaint request.";
+		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Declined complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
 		
-		StringBuilder text2 = new StringBuilder();
-		text2.append("We have declined the complaint against you.");
-		text2.append("\nComplaint: \"");
-		text2.append(complaintComment);
-		text2.append("\"");
-		text2.append("\nAnswer: ");
-		text2.append(answerComplaintRequestDTO.getComment());
-		text2.append("\n");
-		text2.append(systemAdministratorName);
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Complaint", text2.toString());
+		String captionSecondMessageText = "We have declined the complaint against you.";
+		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
 	}
+	
+	private String createFirstMessageText(AnswerComplaintRequestDTO answerComplaintRequestDTO, String captionFirstMessageText, String complaintComment, String systemAdministratorName) {
+		StringBuilder firstMessageText = new StringBuilder();
+		firstMessageText.append(captionFirstMessageText);
+		firstMessageText.append("\nYour complaint: \"");
+		firstMessageText.append(complaintComment);
+		firstMessageText.append("\"");
+		firstMessageText.append("\nAnswer: ");
+		firstMessageText.append(answerComplaintRequestDTO.getComment());
+		firstMessageText.append("\n");
+		firstMessageText.append(systemAdministratorName);
+		return firstMessageText.toString();
+	}
+	
+	private String createSecondMessageText(AnswerComplaintRequestDTO answerComplaintRequestDTO, String captionSecondMessageText, String complaintComment, String systemAdministratorName) {
+		StringBuilder secondMessageText = new StringBuilder();
+		secondMessageText.append(captionSecondMessageText);
+		secondMessageText.append("\nComplaint: \"");
+		secondMessageText.append(complaintComment);
+		secondMessageText.append("\"");
+		secondMessageText.append("\nAnswer: ");
+		secondMessageText.append(answerComplaintRequestDTO.getComment());
+		secondMessageText.append("\n");
+		secondMessageText.append(systemAdministratorName);
+		return secondMessageText.toString();
+	}
+
 }

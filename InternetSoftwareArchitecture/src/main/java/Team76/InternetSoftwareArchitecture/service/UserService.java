@@ -346,4 +346,9 @@ public class UserService implements IUserService {
 		return userRepository.findByUserId(user.getUserId());
 	}
 
+	public User findUserById(Long userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

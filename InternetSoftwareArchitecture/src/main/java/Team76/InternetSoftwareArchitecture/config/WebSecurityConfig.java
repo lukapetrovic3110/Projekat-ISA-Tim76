@@ -55,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().exceptionHandling()
 				.authenticationEntryPoint(restAuthenticationEntryPoint).and().authorizeRequests()
-				.antMatchers("/auth/*", "/admin/registrationRequests", "/admin", "/admin/declineRegistrationRequest", "/admin/acceptRegistrationRequest", "/client/*", "/deleteAccount/*", "/cottage/*", "/cottage", "/cottage/findCottage/*", "/reservationCottage/*", "/ship", "/ship/*", "/ship/findShip/*", "/reservationShip/*", "/adventure", "/adventure/findAdventure/*", "/reservationAdventure/*", "/adventure/*" ,"/image/upload/*/*", "/complaint/*", "/revision/*").permitAll()
+				.antMatchers("/auth/*", "/admin/registrationRequests", "/admin", "/admin/declineRegistrationRequest", "/admin/acceptRegistrationRequest", "/client/*", "/deleteAccount/*", "/cottage/*", "/cottage", "/cottage/findCottage/*", "/reservationCottage/*", "/ship", "/ship/*", "/ship/findShip/*", "/reservationShip/*", "/adventure", "/adventure/findAdventure/*", "/reservationAdventure/*", "/adventure/*" ,"/image/upload/*/*", "/complaint/*", "/revision/*", "/user/findByEmail/*").permitAll()
 				.anyRequest().authenticated().and().httpBasic().and().cors().and()
 				.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
 						BasicAuthenticationFilter.class);

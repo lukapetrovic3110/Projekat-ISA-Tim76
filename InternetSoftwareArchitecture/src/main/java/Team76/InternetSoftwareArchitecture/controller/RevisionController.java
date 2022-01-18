@@ -11,10 +11,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import Team76.InternetSoftwareArchitecture.dto.AcceptRevisionRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.DeclineRevisionRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.ObjectRevisionDTO;
 import Team76.InternetSoftwareArchitecture.dto.RevisionRequestDTO;
 import Team76.InternetSoftwareArchitecture.dto.UserRevisionDTO;
@@ -71,6 +74,26 @@ public class RevisionController {
 				throw new Exception("The rating must be in the range of 1 to 5!");
 			else
 				return new ResponseEntity<Revision>(revisionService.writeRevision(revisionRequestDTO), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
+	@PutMapping("/acceptRevisionRequest")
+	public ResponseEntity<?> acceptCottageComplaintRequest(@RequestBody AcceptRevisionRequestDTO acceptRevisionRequestDTO) {
+		try {
+			return new ResponseEntity<Boolean>(revisionService.acceptRevisionRequest(acceptRevisionRequestDTO), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
+	@PutMapping("/declineRevisionRequest")
+	public ResponseEntity<?> declineCottageComplaintRequest(@RequestBody DeclineRevisionRequestDTO declineRevisionRequestDTO) {
+		try {
+			return new ResponseEntity<Boolean>(revisionService.declineRevisionRequest(declineRevisionRequestDTO), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
