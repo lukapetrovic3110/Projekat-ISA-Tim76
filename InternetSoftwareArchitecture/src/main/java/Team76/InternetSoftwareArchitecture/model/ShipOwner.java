@@ -10,6 +10,9 @@ public class ShipOwner extends User {
 
 	private static final long serialVersionUID = 9163089365319355578L;
 	
+	@Column(name = "rating")
+	private Double rating;
+	
 	@Column(name = "explanation")
 	private String explanation;
 
@@ -17,11 +20,20 @@ public class ShipOwner extends User {
 	private AccountApproval accountApproval;
 	
 	public ShipOwner() { }
-	
-	public ShipOwner(String explanation, AccountApproval accountApproval) {
+
+	public ShipOwner(Double rating, String explanation, AccountApproval accountApproval) {
 		super();
+		this.rating = rating;
 		this.explanation = explanation;
 		this.accountApproval = accountApproval;
+	}
+
+	public Double getRating() {
+		return rating;
+	}
+
+	public void setRating(Double rating) {
+		this.rating = rating;
 	}
 
 	public String getExplanation() {
@@ -39,5 +51,5 @@ public class ShipOwner extends User {
 	public void setAccountApproval(AccountApproval accountApproval) {
 		this.accountApproval = accountApproval;
 	}
-
+	
 }

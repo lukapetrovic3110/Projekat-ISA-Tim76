@@ -7,5 +7,5 @@ import Team76.InternetSoftwareArchitecture.model.Adventure;
 
 @Repository
 public interface IAdventureRepository extends JpaRepository<Adventure, Long> {
-
+	Adventure findByAdventureId(Long adventureId);
 }

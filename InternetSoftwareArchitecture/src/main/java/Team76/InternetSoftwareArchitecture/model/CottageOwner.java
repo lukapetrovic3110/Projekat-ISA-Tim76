@@ -9,19 +9,31 @@ import javax.persistence.Enumerated;
 public class CottageOwner extends User {
 	
 	private static final long serialVersionUID = 5797369556253038949L;
-
+	
+	@Column(name = "rating")
+	private Double rating;
+	
 	@Column(name = "explanation")
 	private String explanation;
 	
 	@Enumerated(EnumType.STRING)
 	private AccountApproval accountApproval;
-	
+
 	public CottageOwner() { }
 
-	public CottageOwner(String explanation, AccountApproval accountApproval) {
+	public CottageOwner(Double rating, String explanation, AccountApproval accountApproval) {
 		super();
+		this.rating = rating;
 		this.explanation = explanation;
 		this.accountApproval = accountApproval;
+	}
+
+	public Double getRating() {
+		return rating;
+	}
+
+	public void setRating(Double rating) {
+		this.rating = rating;
 	}
 
 	public String getExplanation() {
