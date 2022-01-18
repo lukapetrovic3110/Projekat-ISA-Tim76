@@ -791,7 +791,7 @@ export default {
           .post(
             "http://localhost:8091/revision/writeRevision",
             {
-              revisionEntityId: this.revisionItem.cottageId,
+              revisionEntityId: this.revisionItem.ownerId,
               rating: this.rating,
               comment: this.comment,
               revisionType: "COTTAGE_OWNER",
@@ -866,7 +866,7 @@ export default {
           .post(
             "http://localhost:8091/revision/writeRevision",
             {
-              revisionEntityId: this.revisionItem.shipId,
+              revisionEntityId: this.revisionItem.ownerId,
               rating: this.rating,
               comment: this.comment,
               revisionType: "SHIP_OWNER",
@@ -915,12 +915,12 @@ export default {
     writeFishingInstructorRevision() {
       if (!this.validateComment() || !this.validateRating() || !this.validateAdventureRevisionGroup()) 
         return;
-      if(this.shipRevisionGroup.toString() === "ADVENTURE") {
+      if(this.adventureRevisionGroup.toString() === "ADVENTURE") {
         this.axios
           .post(
             "http://localhost:8091/revision/writeRevision",
             {
-              revisionEntityId: this.revisionItem.shipId,
+              revisionEntityId: this.revisionItem.adventureId,
               rating: this.rating,
               comment: this.comment,
               revisionType: "ADVENTURE",
@@ -941,7 +941,7 @@ export default {
           .post(
             "http://localhost:8091/revision/writeRevision",
             {
-              revisionEntityId: this.revisionItem.shipId,
+              revisionEntityId: this.revisionItem.fishingInstructorId,
               rating: this.rating,
               comment: this.comment,
               revisionType: "FISHING_INSTRUCTOR",

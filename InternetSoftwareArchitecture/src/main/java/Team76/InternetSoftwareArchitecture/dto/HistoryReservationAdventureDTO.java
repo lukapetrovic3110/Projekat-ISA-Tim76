@@ -1,6 +1,8 @@
 package Team76.InternetSoftwareArchitecture.dto;
 
 public class HistoryReservationAdventureDTO {
+	
+	private Long adventureId;
 	private String dateAndTime;
 	private Integer duration;
 	private Double price;
@@ -21,12 +23,13 @@ public class HistoryReservationAdventureDTO {
 		
 	}
 	
-	public HistoryReservationAdventureDTO(String dateAndTime, Integer duration, Double price, Integer numberOfPersons,
-			String nameOfAdventure, String description, Integer maxNumberOfPersons, String adventureAddress,
-			Long fishingInstructorId, String fishingInstructorFirstName, String fishingInstructorLastName,
-			String fishingInstructorEmail, String fishingInstructorPhoneNumber, String fishingInstructorBiography,
-			String fishingInstructorAddress) {
+	public HistoryReservationAdventureDTO(Long adventureId, String dateAndTime, Integer duration, Double price,
+			Integer numberOfPersons, String nameOfAdventure, String description, Integer maxNumberOfPersons,
+			String adventureAddress, Long fishingInstructorId, String fishingInstructorFirstName,
+			String fishingInstructorLastName, String fishingInstructorEmail, String fishingInstructorPhoneNumber,
+			String fishingInstructorBiography, String fishingInstructorAddress) {
 		super();
+		this.adventureId = adventureId;
 		this.dateAndTime = dateAndTime;
 		this.duration = duration;
 		this.price = price;
@@ -44,6 +47,14 @@ public class HistoryReservationAdventureDTO {
 		this.fishingInstructorAddress = fishingInstructorAddress;
 	}
 	
+	public Long getAdventureId() {
+		return adventureId;
+	}
+
+	public void setAdventureId(Long adventureId) {
+		this.adventureId = adventureId;
+	}
+
 	public String getDateAndTime() {
 		return dateAndTime;
 	}

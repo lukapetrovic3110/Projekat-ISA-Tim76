@@ -1,5 +1,6 @@
 package Team76.InternetSoftwareArchitecture.controller;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +9,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import Team76.InternetSoftwareArchitecture.dto.ObjectRevisionDTO;
 import Team76.InternetSoftwareArchitecture.dto.RevisionRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.UserRevisionDTO;
 import Team76.InternetSoftwareArchitecture.model.Revision;
 import Team76.InternetSoftwareArchitecture.service.RevisionService;
 
@@ -28,6 +32,30 @@ public class RevisionController {
 	public RevisionController(RevisionService revisionService) {
 		this.revisionService = revisionService;
 	}
+	
+	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
+	@GetMapping(value = "/cottage")
+	public ResponseEntity<List<ObjectRevisionDTO>> getCottageRevisions() {
+		return new ResponseEntity<List<ObjectRevisionDTO>>(revisionService.getCottageRevisions(), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
+	@GetMapping(value = "/ship")
+	public ResponseEntity<List<ObjectRevisionDTO>> getShipRevisions() {
+		return new ResponseEntity<List<ObjectRevisionDTO>>(revisionService.getShipRevisions(), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
+	@GetMapping(value = "/adventure")
+	public ResponseEntity<List<ObjectRevisionDTO>> getAdventureRevisions() {
+		return new ResponseEntity<List<ObjectRevisionDTO>>(revisionService.getAdventureRevisions(), HttpStatus.OK);
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
+	@GetMapping(value = "/user")
+	public ResponseEntity<List<UserRevisionDTO>> getUserRevisions() {
+		return new ResponseEntity<List<UserRevisionDTO>>(revisionService.getUserRevisions(), HttpStatus.OK);
+	}	
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@PostMapping(value = "/writeRevision")

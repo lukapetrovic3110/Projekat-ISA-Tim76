@@ -91,6 +91,11 @@ const routes = [
     component: () => import("../views/SystemAdministratorComplaint.vue"),
   },
   {
+    path: "/systemAdministratorRevision",
+    name: "SystemAdministratorRevision",
+    component: () => import("../views/SystemAdministratorRevision.vue"),
+  },
+  {
     path: "/changePassword",
     name: "ChangePassword",
     component: () => import("../views/ChangePassword.vue"),
