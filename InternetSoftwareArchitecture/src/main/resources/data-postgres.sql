@@ -21,21 +21,21 @@ INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, 
 -- Client1		Password: Client123! 
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('Client', default, 'milan98@email.com', true, 'Milan', 'Zivkovic', '$2a$12$gMBetyilqUFKX9iv4UuNhOATalqMm9y/LcV44I6c/AooN.VL/geK6', '0645557771', 'G1pxvzLwtZujO+hVgIp2og==', 'CLIENT', 2);
 -- CottageOwner1	Password: Owner123! 
-INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('CottageOwner', default, 'milos98@gmail.com', true, 'Milos', 'Milosevic', '$2a$12$1hs/7XPSREmfh70Omj.Zee5W59JnOsCN41xidlyDv1fVHmizIy.qa', '0645554048', 'h96BMRi8MSnZYO/+7RrbYQ==', 'COTTAGE_OWNER', 3);
+INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('CottageOwner', default, 'milos98@email.com', true, 'Milos', 'Milosevic', '$2a$12$1hs/7XPSREmfh70Omj.Zee5W59JnOsCN41xidlyDv1fVHmizIy.qa', '0645554048', 'h96BMRi8MSnZYO/+7RrbYQ==', 'COTTAGE_OWNER', 3);
 -- CottageOwner2	Password: Dada123# 
-INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('CottageOwner', default, 'dada97@gmail.com', true, 'Dada', 'Mesaljic', '$2a$12$VXUN7e1SiFCOVJG7Jxxm1e0h9vesimb4zpumF9ovo.ZoNafiZCwoG', '0633362476', 'd9aBVDi5sNgZYI/-7RrbYa==', 'COTTAGE_OWNER', 4);
+INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('CottageOwner', default, 'dada97@email.com', true, 'Dada', 'Mesaljic', '$2a$12$VXUN7e1SiFCOVJG7Jxxm1e0h9vesimb4zpumF9ovo.ZoNafiZCwoG', '0633362476', 'd9aBVDi5sNgZYI/-7RrbYa==', 'COTTAGE_OWNER', 4);
 -- CottageOwner3	Password: Luka123! 
-INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('CottageOwner', default, 'luka98@gmail.com', true, 'Luka', 'Lukic', '$2a$12$qUR6ohymUgD5pHKRwDKZMO5/9QpRWGuiRMkdw1QqTulY6MErZhAzS', '0612002476', 'l1oBGDi4sHgZxXz+7aVbBS==', 'COTTAGE_OWNER', 5);
+INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('CottageOwner', default, 'luka98@email.com', true, 'Luka', 'Lukic', '$2a$12$qUR6ohymUgD5pHKRwDKZMO5/9QpRWGuiRMkdw1QqTulY6MErZhAzS', '0612002476', 'l1oBGDi4sHgZxXz+7aVbBS==', 'COTTAGE_OWNER', 5);
 -- ShipOwner1		Password: Owner123$
-INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('ShipOwner', default, 'nikola9@gmail.com', true, 'Nikola', 'Savic', '$2a$12$6FzwVE5D3b/CXpkHaJcqtOUG.x4aGVZwuvVhvDWrnJ0QysPcPffd6', '0692002010', 'PlbLG1i4S5gTNik+7WvMBw==', 'SHIP_OWNER', 6);
+INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('ShipOwner', default, 'nikola9@email.com', true, 'Nikola', 'Savic', '$2a$12$6FzwVE5D3b/CXpkHaJcqtOUG.x4aGVZwuvVhvDWrnJ0QysPcPffd6', '0692002010', 'PlbLG1i4S5gTNik+7WvMBw==', 'SHIP_OWNER', 6);
 -- ShipOwner2		Password: Tara123!
-INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('ShipOwner', default, 'tara10@gmail.com', true, 'Tara', 'Gligoric', '$2a$12$KzV2OVuhv4iUhQLhs/CeOOXKBHXGAlmR3W/XAsgaAyFaLHUipbZEW', '0633003022', 'ByCrDgSvdhj1vT-5J9aVbS==', 'SHIP_OWNER', 7);
+INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('ShipOwner', default, 'tara10@email.com', true, 'Tara', 'Gligoric', '$2a$12$KzV2OVuhv4iUhQLhs/CeOOXKBHXGAlmR3W/XAsgaAyFaLHUipbZEW', '0633003022', 'ByCrDgSvdhj1vT-5J9aVbS==', 'SHIP_OWNER', 7);
 -- Instructor1		Password: Jan3456!
-INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('FishingInstructor', default, 'jan@gmail.com', true, 'Jan', 'Jankovic', '$2a$12$nb21qrNM7.0IvUrBtqMIDOcE5qSVk.CikFQVIXlpDVY7OJg0zdhuS', '066106108', 'FibSH1iGhhvJ2n7JkVyMfL==', 'FISHING_INSTRUCTOR', 8);
+INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('FishingInstructor', default, 'jan@email.com', true, 'Jan', 'Jankovic', '$2a$12$nb21qrNM7.0IvUrBtqMIDOcE5qSVk.CikFQVIXlpDVY7OJg0zdhuS', '066106108', 'FibSH1iGhhvJ2n7JkVyMfL==', 'FISHING_INSTRUCTOR', 8);
 -- Instructor2		Password: Sale456!
-INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('FishingInstructor', default, 'sale@gmail.com', true, 'Sale', 'Zagorac', '$2a$12$eASTw9wd4MW8i9DOs6dKR.9cdp5kmwIDU80IsVLYqQz.lAktWSUy2', '0634001030', 'Al3sj7R4S5tT6iNc7W3mOK==', 'FISHING_INSTRUCTOR', 9);
+INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('FishingInstructor', default, 'sale@email.com', true, 'Sale', 'Zagorac', '$2a$12$eASTw9wd4MW8i9DOs6dKR.9cdp5kmwIDU80IsVLYqQz.lAktWSUy2', '0634001030', 'Al3sj7R4S5tT6iNc7W3mOK==', 'FISHING_INSTRUCTOR', 9);
 -- Client2		Password: Milika123! 
-INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('Client', default, 'milika@gmail.com', true, 'Milica', 'Djordjevic', '$2a$12$pTODZJjxRDcvM1I12TOfpOe6XiSTHgYJ5AtPi8oAw6fj9ilPBfTgC', '0649993031', 'K+IsDJLi43-jlR+Fiap1mG==', 'CLIENT', 10);
+INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('Client', default, 'milika@email.com', true, 'Milica', 'Djordjevic', '$2a$12$pTODZJjxRDcvM1I12TOfpOe6XiSTHgYJ5AtPi8oAw6fj9ilPBfTgC', '0649993031', 'K+IsDJLi43-jlR+Fiap1mG==', 'CLIENT', 10);
 
 INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALUES (1, 5);
 INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALUES (2, 1);
@@ -181,6 +181,16 @@ INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VAL
 INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (2, 26);
 INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (2, 27);
 
+---
+
+INSERT INTO public.cottage_additional_service(cottage_additional_service_id, cottage_additional_service_type) VALUES (default, 'WIFI');
+INSERT INTO public.cottage_additional_service(cottage_additional_service_id, cottage_additional_service_type) VALUES (default, 'PARKING');
+INSERT INTO public.cottage_additional_service(cottage_additional_service_id, cottage_additional_service_type) VALUES (default, 'PET_FRIENDLY');
+
+INSERT INTO public.reservation_cottage(reservation_cottage_id, date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id) VALUES (default, '2021-11-07 00:00:00', 5, 3, 5000, 'WAITING', 2, 1);
+INSERT INTO public.reservation_cottage(reservation_cottage_id, date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id) VALUES (default, '2022-10-04 00:00:00', 4, 3, 4000, 'WAITING', 2, 1);
+INSERT INTO public.reservation_cottage(reservation_cottage_id, date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id) VALUES (default, '2021-05-05 00:00:00', 3, 2, 3000, 'STARTED', 2, 1);
+INSERT INTO public.reservation_cottage(reservation_cottage_id, date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id) VALUES (default, '2021-04-02 00:00:00', 5, 3, 5500, 'FINISHED', 2, 1);
 
 -- FINISHED RESERVATION CLIENT TEST
 

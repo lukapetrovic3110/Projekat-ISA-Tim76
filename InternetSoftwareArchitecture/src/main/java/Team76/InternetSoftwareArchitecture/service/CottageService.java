@@ -74,8 +74,31 @@ public class CottageService implements ICottageService {
 	}
 
 	@Override
-	public List<Cottage> getAllCottagesForCottageOwner(Long cottageOwnerId) {
-		return cottageRepository.getAllCottagesForCottageOwner(cottageOwnerId);
+	public List<CottageDTO> getAllCottagesForCottageOwner(Long cottageOwnerId) {
+		List<Cottage> cottagesForCottageOwner = cottageRepository.getAllCottagesForCottageOwner(cottageOwnerId);
+		ArrayList<CottageDTO> cottageDTOs = new ArrayList<CottageDTO>();
+		
+		for (Cottage cottage : cottagesForCottageOwner) {
+			List<Image> images = cottage.getImages();
+			List<String> cottageImages = new ArrayList<String>();
+			for (Image image : images) {
+				cottageImages.add(image.getName());
+			}
+			
+			CottageDTO cottageDTO = new CottageDTO(cottage.getCottageId(), cottage.getName(), cottage.getDescription(),
+					cottage.getAddress().getStreet(), cottage.getAddress().getStreetNumber(),
+					cottage.getAddress().getCity(), cottage.getAddress().getCountry(),
+					cottage.getAddress().getLongitude(), cottage.getAddress().getLatitude(), cottage.getRating(),
+					cottage.getAvailabilityStart(), cottage.getAvailabilityEnd(), cottage.getNumberOfRooms(),
+					cottage.getNumberOfBedsPerRoom(), cottage.getCottageOwner().getFirstName(),
+					cottage.getCottageOwner().getLastName(), cottage.getCottageOwner().getEmail(),
+					cottage.getCottageOwner().getPhoneNumber(), cottageImages);
+
+			cottageDTOs.add(cottageDTO);
+		}
+		
+		return cottageDTOs;
+
 	}
 	
 	public List<Cottage> all() {
