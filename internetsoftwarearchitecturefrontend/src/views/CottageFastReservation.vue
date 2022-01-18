@@ -352,11 +352,10 @@ export default {
     },
 
     deleteCottageFastReservationItemConfirm() {
-      console.log(this.cottageFastReservationItem);
       this.axios
         .post("http://localhost:8091/reservationCottage/deleteFastReservation/",
           {
-            cottageId: this.cottageFastReservationItem.cottageFastReservationId,
+            cottageReservationId: this.cottageFastReservationItem.cottageFastReservationId,
           },
           {
             headers: {

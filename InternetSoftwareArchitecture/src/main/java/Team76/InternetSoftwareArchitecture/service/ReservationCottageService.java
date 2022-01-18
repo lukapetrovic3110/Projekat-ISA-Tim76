@@ -27,6 +27,7 @@ import Team76.InternetSoftwareArchitecture.model.CottageAdditionalServiceType;
 import Team76.InternetSoftwareArchitecture.model.CottageReservationReport;
 import Team76.InternetSoftwareArchitecture.model.ReservationCottage;
 import Team76.InternetSoftwareArchitecture.model.ReservationStatus;
+import Team76.InternetSoftwareArchitecture.repository.IClientRepository;
 import Team76.InternetSoftwareArchitecture.repository.ICottageRepository;
 import Team76.InternetSoftwareArchitecture.repository.ICottageReservationReportRepository;
 import Team76.InternetSoftwareArchitecture.repository.IReservationCottageRepository;
@@ -40,11 +41,17 @@ public class ReservationCottageService implements IReservationCottageService {
 	
 	private ICottageReservationReportRepository cottageReservationReportRepository;
 	
+	private IClientRepository clientRepository;
+	
+	private EmailService emailService;
+	
 	@Autowired
-	public ReservationCottageService(IReservationCottageRepository reservationCottageRepository, ICottageRepository cottageRepository, ICottageReservationReportRepository cottageReservationReportRepository) {
+	public ReservationCottageService(IReservationCottageRepository reservationCottageRepository, ICottageRepository cottageRepository, ICottageReservationReportRepository cottageReservationReportRepository, IClientRepository clientRepository, EmailService emailService) {
 		this.reservationCottageRepository = reservationCottageRepository;
 		this.cottageRepository = cottageRepository;
 		this.cottageReservationReportRepository = cottageReservationReportRepository;
+		this.clientRepository = clientRepository;
+		this.emailService = emailService;
 	}
 
 
@@ -166,9 +173,24 @@ public class ReservationCottageService implements IReservationCottageService {
 		ReservationCottage fastReservationCottage = new ReservationCottage(cottageFastReservationDTO.getDateAndTime(), cottageFastReservationDTO.getDuration(), cottageFastReservationDTO.getMaxNumberOfPersons(), cottageFastReservationDTO.getPrice(), cottage, null, cottageAdditionalServices, cottageFastReservationDTO.getDiscountPercentage(), ReservationStatus.WAITING);
 		ReservationCottage reservationCottage = reservationCottageRepository.save(fastReservationCottage);
 		
+		List<Long> subscribedClientIdForCottage = clientRepository.getAllSubscribedClientIdForCottage(cottageId);
+		if (!subscribedClientIdForCottage.isEmpty()) {
+			List<Client> allClients = clientRepository.findAll();
+			for (Client client : allClients) {
+				if (subscribedClientIdForCottage.contains(client.getUserId())) {
+					sendCottageReservationEmail(client.getEmail(), cottage.getName());
+				}
+			}
+		}
+		
 		return new CottageFastReservationDTO(reservationCottage.getReservationCottageId() ,reservationCottage.getDateAndTime(), reservationCottage.getDuration(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getCottageAdditionalServices(), reservationCottage.getPrice(), reservationCottage.getDiscountPercentage());
 	}
-
+	
+	private void sendCottageReservationEmail(String clientEmail, String cottageName) {
+		StringBuilder text = new StringBuilder();
+		text.append("New reservation is available.");
+		emailService.sendNotificaitionAsync(clientEmail, cottageName, text.toString());
+	}
 
 	@Override
 	public Boolean deleteFastReservation(DeleteCottageReservationDTO deleteCottageReservationDTO) {
