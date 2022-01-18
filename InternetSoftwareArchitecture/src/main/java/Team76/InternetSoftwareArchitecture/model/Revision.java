@@ -21,7 +21,7 @@ public class Revision {
 	private Long revisionId;
 
 	@Column(name = "rating", nullable = false)
-	private Integer rating;
+	private Double rating;
 
 	@Column(name = "comment", nullable = false)
 	private String comment;
@@ -41,6 +41,10 @@ public class Revision {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "shipId", referencedColumnName = "shipId", nullable = true)
 	private Ship ship;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "adventureId", referencedColumnName = "adventureId", nullable = true)
+	private Adventure adventure;
 
 	@Enumerated(EnumType.STRING)
 	private RevisionStatus revisionStatus;
@@ -49,16 +53,18 @@ public class Revision {
 
 	}
 
-	public Revision(Integer rating, String comment, Client client, User user, RevisionStatus revisionStatus,
-			Cottage cottage, Ship ship) {
+	public Revision(Long revisionId, Double rating, String comment, Client client, User user, Cottage cottage,
+			Ship ship, Adventure adventure, RevisionStatus revisionStatus) {
 		super();
+		this.revisionId = revisionId;
 		this.rating = rating;
 		this.comment = comment;
 		this.client = client;
 		this.user = user;
-		this.revisionStatus = revisionStatus;
 		this.cottage = cottage;
 		this.ship = ship;
+		this.adventure = adventure;
+		this.revisionStatus = revisionStatus;
 	}
 
 	public Long getRevisionId() {
@@ -69,11 +75,11 @@ public class Revision {
 		this.revisionId = revisionId;
 	}
 
-	public Integer getRating() {
+	public Double getRating() {
 		return rating;
 	}
 
-	public void setRating(Integer rating) {
+	public void setRating(Double rating) {
 		this.rating = rating;
 	}
 
@@ -101,14 +107,6 @@ public class Revision {
 		this.user = user;
 	}
 
-	public RevisionStatus getRevisionStatus() {
-		return revisionStatus;
-	}
-
-	public void setRevisionStatus(RevisionStatus revisionStatus) {
-		this.revisionStatus = revisionStatus;
-	}
-
 	public Cottage getCottage() {
 		return cottage;
 	}
@@ -125,4 +123,20 @@ public class Revision {
 		this.ship = ship;
 	}
 
+	public Adventure getAdventure() {
+		return adventure;
+	}
+
+	public void setAdventure(Adventure adventure) {
+		this.adventure = adventure;
+	}
+
+	public RevisionStatus getRevisionStatus() {
+		return revisionStatus;
+	}
+
+	public void setRevisionStatus(RevisionStatus revisionStatus) {
+		this.revisionStatus = revisionStatus;
+	}
+	
 }

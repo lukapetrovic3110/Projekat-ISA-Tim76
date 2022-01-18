@@ -9,6 +9,9 @@ import javax.persistence.Enumerated;
 public class FishingInstructor extends User {
 
 	private static final long serialVersionUID = -7744732584895885510L;
+
+	@Column(name = "rating")
+	private Double rating;
 	
 	@Column(name = "explanation")
 	private String explanation;
@@ -18,10 +21,19 @@ public class FishingInstructor extends User {
 	
 	public FishingInstructor() { }
 
-	public FishingInstructor(String explanation, AccountApproval accountApproval) {
+	public FishingInstructor(Double rating, String explanation, AccountApproval accountApproval) {
 		super();
+		this.rating = rating;
 		this.explanation = explanation;
 		this.accountApproval = accountApproval;
+	}
+
+	public Double getRating() {
+		return rating;
+	}
+
+	public void setRating(Double rating) {
+		this.rating = rating;
 	}
 
 	public String getExplanation() {
@@ -39,5 +51,4 @@ public class FishingInstructor extends User {
 	public void setAccountApproval(AccountApproval accountApproval) {
 		this.accountApproval = accountApproval;
 	}
-	
 }

@@ -43,7 +43,7 @@ public class UserDeleteAccountController {
 			else if(userDeleteAccountDTO.getReason().length() > 100)
 				throw new Exception("The reason is long please enter up to 100 characters!");
 			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(userDeleteAccountDTO.getReason()).find())
-				throw new Exception("Your reason shouldn't contain special characters.");
+				throw new Exception("The reason shouldn't contain special characters.");
 			else
 				return new ResponseEntity<UserDeleteAccount>(userDeleteAccountService.sendDeleteClientAccountRequest(userDeleteAccountDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -67,7 +67,7 @@ public class UserDeleteAccountController {
 			else if(answerProfileDeleteRequestDTO.getComment().length() > 100)
 				throw new Exception("The comment is long please enter up to 100 characters!");
 			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(answerProfileDeleteRequestDTO.getComment()).find())
-				throw new Exception("Your comment shouldn't contain special characters.");
+				throw new Exception("The comment shouldn't contain special characters.");
 			else
 				return new ResponseEntity<Boolean>(userDeleteAccountService.accpetRequest(answerProfileDeleteRequestDTO), HttpStatus.OK);
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class UserDeleteAccountController {
 			else if(answerProfileDeleteRequestDTO.getComment().length() > 100)
 				throw new Exception("The comment is long please enter up to 100 characters!");
 			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(answerProfileDeleteRequestDTO.getComment()).find())
-				throw new Exception("Your comment shouldn't contain special characters.");
+				throw new Exception("The comment shouldn't contain special characters.");
 			else
 				return new ResponseEntity<Boolean>(userDeleteAccountService.declineRequest(answerProfileDeleteRequestDTO), HttpStatus.OK);
 		} catch (Exception e) {

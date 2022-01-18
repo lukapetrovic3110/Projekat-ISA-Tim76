@@ -61,7 +61,7 @@ public class ComplaintController {
 			else if(complaintRequestDTO.getComment().length() > 50)
 				throw new Exception("The comment is long please enter up to 50 characters!");
 			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(complaintRequestDTO.getComment()).find())
-				throw new Exception("Your comment shouldn't contain special characters.");
+				throw new Exception("The comment shouldn't contain special characters.");
 			else
 				return new ResponseEntity<Complaint>(complaintService.writeCottageComplaint(complaintRequestDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -78,7 +78,7 @@ public class ComplaintController {
 			else if(complaintRequestDTO.getComment().length() > 50)
 				throw new Exception("The comment is long please enter up to 50 characters!");
 			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(complaintRequestDTO.getComment()).find())
-				throw new Exception("Your comment shouldn't contain special characters.");
+				throw new Exception("The comment shouldn't contain special characters.");
 			else
 				return new ResponseEntity<Complaint>(complaintService.writeUserComplaint(complaintRequestDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -95,7 +95,7 @@ public class ComplaintController {
 			else if(complaintRequestDTO.getComment().length() > 50)
 				throw new Exception("The comment is long please enter up to 50 characters!");
 			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(complaintRequestDTO.getComment()).find())
-				throw new Exception("Your comment shouldn't contain special characters.");
+				throw new Exception("The comment shouldn't contain special characters.");
 			else
 				return new ResponseEntity<Complaint>(complaintService.writeShipComplaint(complaintRequestDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -112,7 +112,7 @@ public class ComplaintController {
 			else if(complaintRequestDTO.getComment().length() > 50)
 				throw new Exception("The comment is long please enter up to 50 characters!");
 			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(complaintRequestDTO.getComment()).find())
-				throw new Exception("Your comment shouldn't contain special characters.");
+				throw new Exception("The comment shouldn't contain special characters.");
 			else
 				return new ResponseEntity<Complaint>(complaintService.writeUserComplaint(complaintRequestDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -129,7 +129,7 @@ public class ComplaintController {
 			else if(complaintRequestDTO.getComment().length() > 50)
 				throw new Exception("The comment is long please enter up to 50 characters!");
 			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(complaintRequestDTO.getComment()).find())
-				throw new Exception("Your comment shouldn't contain special characters.");
+				throw new Exception("The comment shouldn't contain special characters.");
 			else
 				return new ResponseEntity<Complaint>(complaintService.writeUserComplaint(complaintRequestDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -146,7 +146,7 @@ public class ComplaintController {
 			else if(answerComplaintRequestDTO.getComment().length() > 100)
 				throw new Exception("The comment is long please enter up to 100 characters!");
 			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(answerComplaintRequestDTO.getComment()).find())
-				throw new Exception("Your comment shouldn't contain special characters.");
+				throw new Exception("The comment shouldn't contain special characters.");
 			else
 				return new ResponseEntity<Boolean>(complaintService.accpetCottageComplaintRequest(answerComplaintRequestDTO), HttpStatus.OK);
 		} catch (Exception e) {
@@ -163,7 +163,7 @@ public class ComplaintController {
 			else if(answerComplaintRequestDTO.getComment().length() > 100)
 				throw new Exception("The comment is long please enter up to 100 characters!");
 			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(answerComplaintRequestDTO.getComment()).find())
-				throw new Exception("Your comment shouldn't contain special characters.");
+				throw new Exception("The comment shouldn't contain special characters.");
 			else
 				return new ResponseEntity<Boolean>(complaintService.declineCottageComplaintRequest(answerComplaintRequestDTO), HttpStatus.OK);
 		} catch (Exception e) {
@@ -180,7 +180,7 @@ public class ComplaintController {
 			else if(answerComplaintRequestDTO.getComment().length() > 100)
 				throw new Exception("The comment is long please enter up to 100 characters!");
 			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(answerComplaintRequestDTO.getComment()).find())
-				throw new Exception("Your comment shouldn't contain special characters.");
+				throw new Exception("The comment shouldn't contain special characters.");
 			else
 				return new ResponseEntity<Boolean>(complaintService.acceptShipComplaintRequest(answerComplaintRequestDTO), HttpStatus.OK);
 		} catch (Exception e) {
@@ -197,7 +197,7 @@ public class ComplaintController {
 			else if(answerComplaintRequestDTO.getComment().length() > 100)
 				throw new Exception("The comment is long please enter up to 100 characters!");
 			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(answerComplaintRequestDTO.getComment()).find())
-				throw new Exception("Your comment shouldn't contain special characters.");
+				throw new Exception("The comment shouldn't contain special characters.");
 			else
 				return new ResponseEntity<Boolean>(complaintService.declineShipComplaintRequest(answerComplaintRequestDTO), HttpStatus.OK);
 		} catch (Exception e) {
@@ -214,7 +214,7 @@ public class ComplaintController {
 			else if(answerComplaintRequestDTO.getComment().length() > 100)
 				throw new Exception("The comment is long please enter up to 100 characters!");
 			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(answerComplaintRequestDTO.getComment()).find())
-				throw new Exception("Your comment shouldn't contain special characters.");
+				throw new Exception("The comment shouldn't contain special characters.");
 			else
 				return new ResponseEntity<Boolean>(complaintService.acceptUserComplaintRequest(answerComplaintRequestDTO), HttpStatus.OK);
 		} catch (Exception e) {
@@ -231,19 +231,12 @@ public class ComplaintController {
 			else if(answerComplaintRequestDTO.getComment().length() > 100)
 				throw new Exception("The comment is long please enter up to 100 characters!");
 			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(answerComplaintRequestDTO.getComment()).find())
-				throw new Exception("Your comment shouldn't contain special characters.");
+				throw new Exception("The comment shouldn't contain special characters.");
 			else
 				return new ResponseEntity<Boolean>(complaintService.declineUserComplaintRequest(answerComplaintRequestDTO), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 }

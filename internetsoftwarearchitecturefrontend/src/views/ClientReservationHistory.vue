@@ -74,9 +74,74 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
+              <v-dialog v-model="dialogRevisionCottage" persistent>
+                <v-card>
+                  <v-card-title class="text-h5 justify-center"
+                    >Revision form</v-card-title
+                  >
+                  <v-card-text>
+                    <v-container>
+                      <v-text-field
+                        v-model="comment"
+                        label="Comment"
+                        type="text"
+                        :rules="[() => !!comment || 'This field is required']"
+                        hint="Please enter a comment (maximum 100 characters)"
+                      >
+                      </v-text-field>
+                      <v-text-field
+                        v-model="rating"
+                        label="Rating"
+                        type="number"
+                        min="1" 
+                        value="0" 
+                        step="0.1"
+                        max="5"
+                        :rules="[() => !!rating || 'This field is required']"
+                        hint="Please enter a rating in the range of 1 to 5"
+                      >
+                      </v-text-field>
+                      <v-radio-group
+                        v-model="cottageRevisionGroup"
+                        hide-details
+                      >
+                        <v-radio
+                          value="COTTAGE"
+                          label="Revision about the cottage"
+                        >
+                        </v-radio>
+                        <v-radio
+                          value="COTTAGE_OWNER"
+                          label="Revision to the owner of the cottage"
+                        >
+                        </v-radio>
+                      </v-radio-group>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="writeCottageRevision"
+                    >
+                      Write
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="closeRevisionCottageDialog"
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-toolbar>
           </template>
-          <template v-slot:[`item.cottageAction`]="{ item }">
+          <template v-slot:[`item.cottageActions`]="{ item }">
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
@@ -87,6 +152,16 @@
                 @click="displayCottageOwnerInformation(item)"
               >
                 VIEW COTTAGE OWNER INFORMATION
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                class="ma-2"
+                outlined
+                color="red"
+                text
+                @click="displayRevisionCottageDialog(item)"
+              >
+                WRITE A REVISION
               </v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
@@ -167,9 +242,65 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
+              <v-dialog v-model="dialogRevisionShip" persistent>
+                <v-card>
+                  <v-card-title class="text-h5 justify-center"
+                    >Revision form</v-card-title
+                  >
+                  <v-card-text>
+                    <v-container>
+                      <v-text-field
+                        v-model="comment"
+                        label="Comment"
+                        type="text"
+                        :rules="[() => !!comment || 'This field is required']"
+                        hint="Please enter a comment (maximum 100 characters)"
+                      >
+                      </v-text-field>
+                      <v-text-field
+                        v-model="rating"
+                        label="Rating"
+                        type="number"
+                        min="1" 
+                        value="0" 
+                        step="0.1"
+                        max="5"
+                        :rules="[() => !!rating || 'This field is required']"
+                        hint="Please enter a rating in the range of 1 to 5"
+                      >
+                      </v-text-field>
+                      <v-radio-group v-model="shipRevisionGroup" hide-details>
+                        <v-radio value="SHIP" label="Revision about the ship">
+                        </v-radio>
+                        <v-radio value="SHIP_OWNER" label="Revision to the owner of the ship">
+                        </v-radio>
+                      </v-radio-group>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="writeShipRevision"
+                    >
+                      Write
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="closeRevisionShipDialog"
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-toolbar>
           </template>
-          <template v-slot:[`item.shipAction`]="{ item }">
+          <template v-slot:[`item.shipActions`]="{ item }">
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
@@ -182,6 +313,15 @@
                 VIEW SHIP OWNER INFORMATION
               </v-btn>
               <v-spacer></v-spacer>
+              <v-btn
+                class="ma-2"
+                outlined
+                color="red"
+                text
+                @click="displayRevisionShipDialog(item)"
+              >
+                WRITE A REVISION
+              </v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </template>
@@ -271,9 +411,65 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
+              <v-dialog v-model="dialogRevisionFishingInstructor" persistent>
+                <v-card>
+                  <v-card-title class="text-h5 justify-center"
+                    >Revision form</v-card-title
+                  >
+                  <v-card-text>
+                    <v-container>
+                      <v-text-field
+                        v-model="comment"
+                        label="Comment"
+                        type="text"
+                        :rules="[() => !!comment || 'This field is required']"
+                        hint="Please enter a comment (maximum 100 characters)"
+                      >
+                      </v-text-field>
+                      <v-text-field
+                        v-model="rating"
+                        label="Rating"
+                        type="number"
+                        min="1" 
+                        value="0" 
+                        step="0.1"
+                        max="5"
+                        :rules="[() => !!rating || 'This field is required']"
+                        hint="Please enter a rating in the range of 1 to 5"
+                      >
+                      </v-text-field>
+                      <v-radio-group v-model="adventureRevisionGroup" hide-details>
+                        <v-radio value="ADVENTURE" label="Revision about the adventure">
+                        </v-radio>
+                        <v-radio value="FISHING_INSTRUCTOR" label="Revision to the fishing instructor">
+                        </v-radio>
+                      </v-radio-group>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="writeFishingInstructorRevision"
+                    >
+                      Write
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="closeRevisionFishingInstructorDialog"
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-toolbar>
           </template>
-          <template v-slot:[`item.adventureAction`]="{ item }">
+          <template v-slot:[`item.adventureActions`]="{ item }">
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
@@ -286,6 +482,15 @@
                 VIEW FISHING INSTRUCTOR INFORMATION
               </v-btn>
               <v-spacer></v-spacer>
+              <v-btn
+                class="ma-2"
+                outlined
+                color="red"
+                text
+                @click="displayRevisionFishingInstructorDialog(item)"
+              >
+                WRITE A REVISION
+              </v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </template>
@@ -341,8 +546,8 @@ export default {
         align: "center",
       },
       {
-        text: "Action",
-        value: "cottageAction",
+        text: "Actions",
+        value: "cottageActions",
         align: "center",
         sortable: false,
       },
@@ -384,8 +589,8 @@ export default {
         align: "center",
       },
       {
-        text: "Action",
-        value: "shipAction",
+        text: "Actions",
+        value: "shipActions",
         align: "center",
         sortable: false,
       },
@@ -432,16 +637,18 @@ export default {
         align: "center",
       },
       {
-        text: "Action",
-        value: "adventureAction",
+        text: "Actions",
+        value: "adventureActions",
         align: "center",
         sortable: false,
       },
     ],
-    reservationCottageHistory: [],
     dialogCottageOwnerInformation: false,
     dialogShipOwnerInformation: false,
     dialogFishingInstructorInformation: false,
+    dialogRevisionCottage: false,
+    dialogRevisionShip: false,
+    dialogRevisionFishingInstructor: false,
     cottageOwner: {
       id: null,
       firstName: "",
@@ -467,8 +674,16 @@ export default {
       biography: "",
       address: "",
     },
+    reservationCottageHistory: [],
     reservationShipHistory: [],
     reservationAdventureHistory: [],
+    cottageRevisionGroup: "",
+    shipRevisionGroup: "",
+    adventureRevisionGroup: "",
+    comment: "",
+    rating: null,
+    revisionItem: null,
+    defaultRevisionItem: null,
   }),
   mounted() {
     this.checkAuthentication();
@@ -543,6 +758,68 @@ export default {
     closeCottageOwnerInformationDialog() {
       this.dialogCottageOwnerInformation = false;
     },
+    displayRevisionCottageDialog(item) {
+      this.dialogRevisionCottage = true;
+      this.revisionItem = Object.assign({}, item);
+    },
+    writeCottageRevision() {
+      if (!this.validateComment() || !this.validateRating() || !this.validateCottageRevisionGroup()) 
+        return;
+      if(this.cottageRevisionGroup.toString() === "COTTAGE") {
+        this.axios
+          .post(
+            "http://localhost:8091/revision/writeRevision",
+            {
+              revisionEntityId: this.revisionItem.cottageId,
+              rating: this.rating,
+              comment: this.comment,
+              revisionType: "COTTAGE",
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((response) => {
+           console.log(response.data);
+           alert("The revision was successfully written and submitted!");
+          })
+          .catch((error) => console.log(error));
+      } else {
+        this.axios
+          .post(
+            "http://localhost:8091/revision/writeRevision",
+            {
+              revisionEntityId: this.revisionItem.ownerId,
+              rating: this.rating,
+              comment: this.comment,
+              revisionType: "COTTAGE_OWNER",
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((response) => {
+           console.log(response.data);
+           alert("The revision was successfully written and submitted!");
+          })
+          .catch((error) => console.log(error));
+      }
+      this.closeRevisionCottageDialog();
+      
+    },
+    closeRevisionCottageDialog() {
+      this.dialogRevisionCottage = false;
+      this.comment = "";
+      this.rating = "";
+      this.cottageRevisionGroup = "";
+      this.$nextTick(() => {
+        this.revisionItem = Object.assign({}, this.defaultRevisionItem);
+      });
+    },
     displayShipOwnerInformation(item) {
       this.dialogShipOwnerInformation = true;
       this.shipOwner.id = item.ownerId;
@@ -555,6 +832,67 @@ export default {
     },
     closeShipOwnerInformationDialog() {
       this.dialogShipOwnerInformation = false;
+    },
+    displayRevisionShipDialog(item) {
+      this.dialogRevisionShip = true;
+      this.revisionItem = Object.assign({}, item);
+    },
+    writeShipRevision() {
+      if (!this.validateComment() || !this.validateRating() || !this.validateShipRevisionGroup()) 
+        return;
+      if(this.shipRevisionGroup.toString() === "SHIP") {
+        this.axios
+          .post(
+            "http://localhost:8091/revision/writeRevision",
+            {
+              revisionEntityId: this.revisionItem.shipId,
+              rating: this.rating,
+              comment: this.comment,
+              revisionType: "SHIP",
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((response) => {
+           console.log(response.data);
+           alert("The revision was successfully written and submitted!");
+          })
+          .catch((error) => console.log(error));
+      } else {
+        this.axios
+          .post(
+            "http://localhost:8091/revision/writeRevision",
+            {
+              revisionEntityId: this.revisionItem.ownerId,
+              rating: this.rating,
+              comment: this.comment,
+              revisionType: "SHIP_OWNER",
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((response) => {
+           console.log(response.data);
+           alert("The revision was successfully written and submitted!");
+          })
+          .catch((error) => console.log(error));
+      }
+      this.closeRevisionShipDialog();
+    },
+    closeRevisionShipDialog() {
+      this.dialogRevisionShip = false;
+      this.comment = "";
+      this.rating = "";
+      this.shipRevisionGroup = "";
+      this.$nextTick(() => {
+        this.revisionItem = Object.assign({}, this.defaultRevisionItem);
+      });
     },
     displayFishingInstructorInformation(item) {
       this.dialogFishingInstructorInformation = true;
@@ -570,6 +908,114 @@ export default {
     closeFishingInstructorInformationDialog() {
       this.dialogFishingInstructorInformation = false;
     },
+    displayRevisionFishingInstructorDialog(item) {
+      this.dialogRevisionFishingInstructor = true;
+      this.revisionItem = Object.assign({}, item);
+    },
+    writeFishingInstructorRevision() {
+      if (!this.validateComment() || !this.validateRating() || !this.validateAdventureRevisionGroup()) 
+        return;
+      if(this.adventureRevisionGroup.toString() === "ADVENTURE") {
+        this.axios
+          .post(
+            "http://localhost:8091/revision/writeRevision",
+            {
+              revisionEntityId: this.revisionItem.adventureId,
+              rating: this.rating,
+              comment: this.comment,
+              revisionType: "ADVENTURE",
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((response) => {
+           console.log(response.data);
+           alert("The revision was successfully written and submitted!");
+          })
+          .catch((error) => console.log(error));
+      } else {
+        this.axios
+          .post(
+            "http://localhost:8091/revision/writeRevision",
+            {
+              revisionEntityId: this.revisionItem.fishingInstructorId,
+              rating: this.rating,
+              comment: this.comment,
+              revisionType: "FISHING_INSTRUCTOR",
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((response) => {
+           console.log(response.data);
+           alert("The revision was successfully written and submitted!");
+          })
+          .catch((error) => console.log(error));
+      }
+      this.closeRevisionFishingInstructorDialog();
+    },
+    closeRevisionFishingInstructorDialog() {
+      this.dialogRevisionFishingInstructor = false;
+      this.comment = "";
+      this.rating = "";
+      this.$nextTick(() => {
+        this.revisionItem = Object.assign({}, this.defaultRevisionItem);
+      });
+    },
+    onlySpaces(str) {
+      return str.trim().length === 0;
+    },
+    validateComment() {
+      if (this.onlySpaces(this.comment)) {
+        alert("Please enter a comment!");
+        return false;
+      } else if (this.comment.length > 100) {
+        alert("The comment is long please enter up to 100 characters!");
+        return false;
+      } else if (this.comment.match(/[\\#$%^&*'<>/"]/g)) {
+        alert("The comment shouldn't contain special characters.");
+        return false;
+      }
+      return true;
+    },
+    validateRating() {
+      if(this.rating === null) {
+        alert("Please a rating!");
+        return false;
+      }
+      else if (!(this.rating >= 1 && this.rating <= 5)) {
+        alert("The rating must be in the range of 1 to 5!");
+        return false;
+      }
+      return true;
+    },
+    validateCottageRevisionGroup() {
+      if (this.cottageRevisionGroup.length == 0) {
+        alert("Please select a revision type!");
+        return false;
+      }
+      return true;
+    },
+    validateShipRevisionGroup() {
+      if (this.shipRevisionGroup.length == 0) {
+        alert("Please select a revision type!");
+        return false;
+      }
+      return true;
+    },
+     validateAdventureRevisionGroup() {
+      if (this.adventureRevisionGroup.length == 0) {
+        alert("Please select a revision type!");
+        return false;
+      }
+      return true;
+    },
   },
 };
 </script>
@@ -583,7 +1029,7 @@ export default {
   font-weight: bold;
 }
 #reservationHistoryCard {
-  width: 80%;
+  width: 90%;
   text-align: center;
   margin: auto;
   margin-top: 3%;

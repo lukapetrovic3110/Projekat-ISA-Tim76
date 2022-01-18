@@ -86,6 +86,7 @@
                         label="Comment"
                         type="text"
                         :rules="[() => !!comment || 'This field is required']"
+                        hint="Please enter a comment (maximum 50 characters)"
                       >
                       </v-text-field>
                       <v-radio-group
@@ -241,6 +242,7 @@
                         label="Comment"
                         type="text"
                         :rules="[() => !!comment || 'This field is required']"
+                        hint="Please enter a comment (maximum 50 characters)"
                       >
                       </v-text-field>
                       <v-radio-group v-model="shipComplaintGroup" hide-details>
@@ -400,6 +402,7 @@
                         label="Comment"
                         type="text"
                         :rules="[() => !!comment || 'This field is required']"
+                        hint="Please enter a comment (maximum 50 characters)"
                       >
                       </v-text-field>
                     </v-container>
@@ -899,7 +902,7 @@ export default {
         alert("The comment is long please enter up to 50 characters!");
         return false;
       } else if (this.comment.match(/[\\#$%^&*'<>/"]/g)) {
-        alert("Your comment shouldn't contain special characters.");
+        alert("The comment shouldn't contain special characters.");
         return false;
       }
       return true;
