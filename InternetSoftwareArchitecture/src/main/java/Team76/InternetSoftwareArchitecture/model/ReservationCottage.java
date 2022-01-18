@@ -47,6 +47,9 @@ public class ReservationCottage {
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<CottageAdditionalService> cottageAdditionalServices = new HashSet<CottageAdditionalService>();
+	
+	@Column(name = "discountPercentage", nullable = true)
+	private Integer discountPercentage;
 
 	@Enumerated(EnumType.STRING)
 	private ReservationStatus reservationStatus;
@@ -56,7 +59,7 @@ public class ReservationCottage {
 
 	public ReservationCottage(Date dateAndTime, Integer duration, Integer maxNumberOfPersons, Double price,
 			Cottage cottage, Client client, Set<CottageAdditionalService> cottageAdditionalServices,
-			ReservationStatus reservationStatus) {
+			Integer discountPercentage, ReservationStatus reservationStatus) {
 		super();
 		this.dateAndTime = dateAndTime;
 		this.duration = duration;
@@ -65,6 +68,7 @@ public class ReservationCottage {
 		this.cottage = cottage;
 		this.client = client;
 		this.cottageAdditionalServices = cottageAdditionalServices;
+		this.discountPercentage = discountPercentage;
 		this.reservationStatus = reservationStatus;
 	}
 
@@ -130,6 +134,14 @@ public class ReservationCottage {
 
 	public void setCottageAdditionalServices(Set<CottageAdditionalService> cottageAdditionalServices) {
 		this.cottageAdditionalServices = cottageAdditionalServices;
+	}
+
+	public Integer getDiscountPercentage() {
+		return discountPercentage;
+	}
+
+	public void setDiscountPercentage(Integer discountPercentage) {
+		this.discountPercentage = discountPercentage;
 	}
 
 	public ReservationStatus getReservationStatus() {

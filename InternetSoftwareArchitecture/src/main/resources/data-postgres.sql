@@ -181,6 +181,16 @@ INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VAL
 INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (2, 26);
 INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (2, 27);
 
+---
+
+INSERT INTO public.cottage_additional_service(cottage_additional_service_id, cottage_additional_service_type) VALUES (default, 'WIFI');
+INSERT INTO public.cottage_additional_service(cottage_additional_service_id, cottage_additional_service_type) VALUES (default, 'PARKING');
+INSERT INTO public.cottage_additional_service(cottage_additional_service_id, cottage_additional_service_type) VALUES (default, 'PET_FRIENDLY');
+
+INSERT INTO public.reservation_cottage(reservation_cottage_id, date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id) VALUES (default, '2021-11-07 00:00:00', 5, 3, 5000, 'WAITING', 2, 1);
+INSERT INTO public.reservation_cottage(reservation_cottage_id, date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id) VALUES (default, '2022-10-04 00:00:00', 4, 3, 4000, 'WAITING', 2, 1);
+INSERT INTO public.reservation_cottage(reservation_cottage_id, date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id) VALUES (default, '2021-05-05 00:00:00', 3, 2, 3000, 'STARTED', 2, 1);
+INSERT INTO public.reservation_cottage(reservation_cottage_id, date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id) VALUES (default, '2021-04-02 00:00:00', 5, 3, 5500, 'FINISHED', 2, 1);
 
 -- FINISHED RESERVATION CLIENT TEST
 

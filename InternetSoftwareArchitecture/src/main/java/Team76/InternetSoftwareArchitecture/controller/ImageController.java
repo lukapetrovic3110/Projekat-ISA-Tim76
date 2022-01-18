@@ -47,12 +47,12 @@ public class ImageController {
 		for (String image : images) {
 			String[] imageInfo = image.split(",");
 			
-			String newImageName = System.currentTimeMillis() +imageInfo[0];
+			String newImageName = System.currentTimeMillis() + imageInfo[0];
 			File outputFile = new File("../internetsoftwarearchitecturefrontend/src/assets/images/" + newImageName);
 			byte[] decodedBytes = Base64.getDecoder().decode(imageInfo[2]);
 
 			FileUtils.writeByteArrayToFile(outputFile, decodedBytes);
-			Image imagedb = imageService.saveImage(new Image(newImageName));
+			Image imagedb = imageService.saveImage(new Image(newImageName.substring(0, newImageName.length() - 4)));
 			
 			if (userType == UserType.COTTAGE_OWNER) {
 				cottageService.saveImageForCottage(id, imagedb.getImageId());

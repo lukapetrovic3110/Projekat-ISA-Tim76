@@ -151,9 +151,34 @@ const routes = [
     component: () => import("../views/SearchFishingInstructor.vue"),
   },
   {
+    path: "/cottageProfile",
+    name: "CottageProfile",
+    component: () => import("../views/CottageProfile.vue"),
+  },
+  {
+    path: "/editCottageInformation",
+    name: "EditCottageInformation",
+    component: () => import("../views/EditCottageInformation.vue"),
+  },
+  {
     path: "/adventureDetails",
     name: "AdventureDetails",
     component: () => import("../views/AdventureDetails.vue"),
+  },
+  {
+    path: "/cottageOwnerReservationHistory",
+    name: "CottageOwnerReservationHistory",
+    component: () => import("../views/CottageOwnerReservationHistory.vue"),
+  },
+  {
+    path: "/cottageOwnerReservationReport",
+    name: "CottageOwnerReservationReport",
+    component: () => import("../views/CottageOwnerReservationReport.vue"),
+  },
+  {
+    path: "/cottageFastReservation",
+    name: "CottageFastReservation",
+    component: () => import("../views/CottageFastReservation.vue"),
   },
 ];
 const router = new VueRouter({

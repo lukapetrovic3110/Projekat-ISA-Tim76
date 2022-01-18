@@ -19,7 +19,7 @@ public interface ICottageService {
 	
 	void saveImageForCottage(Long cottageId, Long imageId);
 	
-	List<Cottage> getAllCottagesForCottageOwner(Long cottageOwnerId);
+	List<CottageDTO> getAllCottagesForCottageOwner(Long cottageOwnerId);
 
 	public List<Cottage> all();
 	

@@ -1,11 +1,19 @@
 package Team76.InternetSoftwareArchitecture.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import Team76.InternetSoftwareArchitecture.model.Client;
 
 @Repository
 public interface IClientRepository extends JpaRepository<Client, Long> {
+	
 	Client findByUserId(Long userId);
+	
+	@Query(value = "SELECT client_user_id FROM user_cottage_subscriptions WHERE cottage_subscriptions_cottage_id=:cottageId", nativeQuery = true)
+	List<Long> getAllSubscribedClientIdForCottage(Long cottageId);
+
 }
