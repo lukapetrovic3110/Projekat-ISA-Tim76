@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +37,8 @@ import Team76.InternetSoftwareArchitecture.repository.IReservationCottageReposit
 
 @Service
 public class ReservationCottageService implements IReservationCottageService {
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private IReservationCottageRepository reservationCottageRepository;
 	
@@ -199,6 +204,18 @@ public class ReservationCottageService implements IReservationCottageService {
 		reservationCottageRepository.save(reservationCottage);
 		
 		return true;
+	}
+	
+	@Scheduled(cron = "1 * * * * *") // test na svaki minut
+	public void checkIfReservationsFinished() {
+		logger.info("I'm checking to see if any cottage reservations have been finished in the meantime.");
+		List<ReservationCottage> allScheduledReservation = reservationCottageRepository.findByReservationStatus(ReservationStatus.SCHEDULED);
+		Date currentDate = new Date(System.currentTimeMillis());
+		for (ReservationCottage reservationCottage : allScheduledReservation)
+			if(currentDate.after(reservationCottage.getDateAndTime())) {
+				reservationCottage.setReservationStatus(ReservationStatus.FINISHED);
+				reservationCottageRepository.save(reservationCottage);
+			}
 	}
 	
 }

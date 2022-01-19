@@ -5,7 +5,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,7 @@ import Team76.InternetSoftwareArchitecture.repository.IReservationAdventureRepos
 @Service
 public class ReservationAdventureService implements IReservationAdventureService {
 	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private IReservationAdventureRepository reservationAdventureRepository;
 	
 	@Autowired
@@ -47,7 +51,7 @@ public class ReservationAdventureService implements IReservationAdventureService
 		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<ReservationAdventure> allScheduledReservation = reservationAdventureRepository.findByReservationStatus(ReservationStatus.SCHEDULED);
 		List<ReservationAdventure> clientScheduledReservations = new ArrayList<ReservationAdventure>();
-		
+	
 		for (ReservationAdventure reservationAdventure : allScheduledReservation)
 			if (reservationAdventure.getClient().getUserId() == client.getUserId())
 				clientScheduledReservations.add(reservationAdventure);
@@ -71,6 +75,20 @@ public class ReservationAdventureService implements IReservationAdventureService
 		reservationAdventure.setReservationStatus(ReservationStatus.CANCELLED);
 		reservationAdventureRepository.save(reservationAdventure);
 		return true;
+	}
+	
+	
+	@Scheduled(cron = "1 * * * * *")
+	public void checkIfReservationsFinished() {
+		logger.info("I'm checking to see if any adventure reservations have been finished in the meantime.");
+		List<ReservationAdventure> allScheduledReservation = reservationAdventureRepository.findByReservationStatus(ReservationStatus.SCHEDULED);
+		Date currentDate = new Date(System.currentTimeMillis());
+		for (ReservationAdventure reservationAdventure : allScheduledReservation)
+			if(currentDate.after(reservationAdventure.getDateAndTime())) {
+				reservationAdventure.setReservationStatus(ReservationStatus.FINISHED);
+				reservationAdventureRepository.save(reservationAdventure);
+			} 
+		
 	}
 
 }

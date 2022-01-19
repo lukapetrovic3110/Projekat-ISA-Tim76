@@ -193,9 +193,6 @@ INSERT INTO public.reservation_cottage(reservation_cottage_id, date_and_time, du
 INSERT INTO public.reservation_cottage(reservation_cottage_id, date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id) VALUES (default, '2021-04-02 00:00:00', 5, 3, 5500, 'FINISHED', 2, 1);
 
 -- FINISHED RESERVATION CLIENT TEST
-
-INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_persons, price, reservation_status, ship_reservation_cancel_term, client_id, ship_id)
-	VALUES ('2021-11-11 12:00:00', '1', '2', '16000', 'FINISHED', 'FREE', '2', '1');
 	
 INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_persons, price, reservation_status, ship_reservation_cancel_term, client_id, ship_id)
 	VALUES ('2021-12-01 13:00:00', '4', '2', '60000', 'FINISHED', 'FREE', '2', '2');
@@ -204,7 +201,7 @@ INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_perso
 	VALUES ('2021-12-09 10:00:00', '3', '3', '39000', 'FINISHED', 'FREE', '2', '2');
 
 INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id)
-	VALUES ('2021-09-03 11:00:00', '5', '4', '26000', 'FINISHED', '2', '1');
+	VALUES ('2021-10-03 11:00:00', '5', '4', '26000', 'FINISHED', '2', '1');
 
 INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id)
 	VALUES ('2021-11-07 11:00:00', '2', '2', '20000', 'FINISHED', '2', '2');
@@ -222,11 +219,12 @@ INSERT INTO public.reservation_adventure(adventure_reservation_cancel_term, date
 	VALUES ('FREE','2021-11-10 15:00:00', '4', '4', '3000', 'FINISHED', '2', '2');
 	
 -- SCHEDULED RESERVATION CLIENT TEST
+
 INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id)
 	VALUES ('2022-01-27 11:00:00', '5', '4', '26000', 'SCHEDULED', '2', '1');
 
 INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id)
-	VALUES ('2022-01-23 11:00:00', '2', '2', '20000', 'SCHEDULED', '2', '2');
+	VALUES ('2022-01-22 11:00:00', '2', '2', '20000', 'SCHEDULED', '2', '2');
 	
 INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, reservation_status, client_id, cottage_id)
 	VALUES ('2022-02-14 18:00:00', '3', '4', '30000', 'SCHEDULED', '2', '3');
@@ -239,6 +237,9 @@ INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_perso
 
 INSERT INTO public.reservation_adventure(adventure_reservation_cancel_term, date_and_time, duration, max_number_of_persons, price, reservation_status, adventure_id, client_id)
 	VALUES ('FREE','2022-04-11 14:00:00', '1', '2', '1000', 'SCHEDULED', '2', '2');
+
+INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_persons, price, reservation_status, ship_reservation_cancel_term, client_id, ship_id)
+	VALUES ('2021-11-11 12:00:00', '1', '2', '16000', 'SCHEDULED', 'FREE', '2', '1'); --- SCHEDULED worker test
 	
 -- CLIENT SUBSCRIPTIONS 
 
