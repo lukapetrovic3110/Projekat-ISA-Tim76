@@ -207,15 +207,38 @@ public class ReservationCottageService implements IReservationCottageService {
 	}
 	
 	@Scheduled(cron = "1 * * * * *") // test na svaki minut
-	public void checkIfReservationsFinished() {
-		logger.info("I'm checking to see if any cottage reservations have been finished in the meantime.");
+	public void checkIfReservationsFinishedOrStarted() {
+		logger.info("I'm checking to see if any cottage reservations have been finished or started in the meantime.");
 		List<ReservationCottage> allScheduledReservation = reservationCottageRepository.findByReservationStatus(ReservationStatus.SCHEDULED);
 		Date currentDate = new Date(System.currentTimeMillis());
-		for (ReservationCottage reservationCottage : allScheduledReservation)
-			if(currentDate.after(reservationCottage.getDateAndTime())) {
+		for (ReservationCottage reservationCottage : allScheduledReservation) {
+			Date startReservationDate = reservationCottage.getDateAndTime();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(startReservationDate);
+			calendar.add(Calendar.DAY_OF_MONTH, reservationCottage.getDuration());
+			Date endReservationDate = calendar.getTime(); 
+			
+			
+			if(startReservationDate.getTime() <= currentDate.getTime() && currentDate.getTime() <= endReservationDate.getTime()) {
+				reservationCottage.setReservationStatus(ReservationStatus.STARTED);
+				reservationCottageRepository.save(reservationCottage);
+			}
+			
+			if(currentDate.after(endReservationDate)) {
 				reservationCottage.setReservationStatus(ReservationStatus.FINISHED);
 				reservationCottageRepository.save(reservationCottage);
 			}
+			
+		}
+		
+		List<ReservationCottage> allWaitingReservation = reservationCottageRepository.findByReservationStatus(ReservationStatus.WAITING);
+		for (ReservationCottage reservationCottage : allWaitingReservation) {
+			Date waitingReservationDate = reservationCottage.getDateAndTime();
+			if(currentDate.after(waitingReservationDate)) {
+				reservationCottage.setReservationStatus(ReservationStatus.FINISHED);
+				reservationCottageRepository.save(reservationCottage);
+			}
+		}
 	}
 	
 }

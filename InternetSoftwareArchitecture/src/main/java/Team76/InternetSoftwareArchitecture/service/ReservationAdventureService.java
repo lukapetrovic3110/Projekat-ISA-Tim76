@@ -79,15 +79,36 @@ public class ReservationAdventureService implements IReservationAdventureService
 	
 	
 	@Scheduled(cron = "1 * * * * *")
-	public void checkIfReservationsFinished() {
-		logger.info("I'm checking to see if any adventure reservations have been finished in the meantime.");
+	public void checkIfReservationsFinishedOrStarted() {
+		logger.info("I'm checking to see if any adventure reservations have been finished or started in the meantime.");
 		List<ReservationAdventure> allScheduledReservation = reservationAdventureRepository.findByReservationStatus(ReservationStatus.SCHEDULED);
 		Date currentDate = new Date(System.currentTimeMillis());
-		for (ReservationAdventure reservationAdventure : allScheduledReservation)
-			if(currentDate.after(reservationAdventure.getDateAndTime())) {
+		for (ReservationAdventure reservationAdventure : allScheduledReservation) {
+			Date startReservationDate = reservationAdventure.getDateAndTime();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(startReservationDate);
+			calendar.add(Calendar.HOUR_OF_DAY, reservationAdventure.getDuration());
+			Date endReservationDate = calendar.getTime(); 
+			
+			if(startReservationDate.getTime() <= currentDate.getTime() && currentDate.getTime() <= endReservationDate.getTime()) {
+				reservationAdventure.setReservationStatus(ReservationStatus.STARTED);
+				reservationAdventureRepository.save(reservationAdventure);
+			}
+			
+			if(currentDate.after(endReservationDate)) {
 				reservationAdventure.setReservationStatus(ReservationStatus.FINISHED);
 				reservationAdventureRepository.save(reservationAdventure);
-			} 
+			}
+		}
+		
+		List<ReservationAdventure> allWaitingReservation = reservationAdventureRepository.findByReservationStatus(ReservationStatus.WAITING);
+		for (ReservationAdventure reservationAdventure : allWaitingReservation) {
+			Date waitingReservationDate = reservationAdventure.getDateAndTime();
+			if(currentDate.after(waitingReservationDate)) {
+				reservationAdventure.setReservationStatus(ReservationStatus.FINISHED);
+				reservationAdventureRepository.save(reservationAdventure);
+			}
+		}
 		
 	}
 
