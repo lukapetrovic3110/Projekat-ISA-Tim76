@@ -13,6 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.dto.CottageFastReservationDTO;
+import Team76.InternetSoftwareArchitecture.dto.CottageReservationCalendarDTO;
+import Team76.InternetSoftwareArchitecture.dto.CottageReservationCalendarInformationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationClientInformationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationInformationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationReportDTO;
@@ -199,6 +201,35 @@ public class ReservationCottageService implements IReservationCottageService {
 		reservationCottageRepository.save(reservationCottage);
 		
 		return true;
+	}
+
+
+	@Override
+	public CottageReservationCalendarDTO getAvailabilityCalendarInformation(Long cottageId) {
+		CottageReservationCalendarDTO cottageReservationCalendarDTO = new CottageReservationCalendarDTO();
+		cottageReservationCalendarDTO.setCottageReservations(new ArrayList<CottageReservationCalendarInformationDTO>());
+		List<ReservationCottage> cottageReservations = reservationCottageRepository.findAllReservationsForCottage(cottageId);
+		Cottage cottage = cottageRepository.getOne(cottageId);
+		cottageReservationCalendarDTO.setAvailabilityStart(cottage.getAvailabilityStart());
+		cottageReservationCalendarDTO.setAvailabilityEnd(cottage.getAvailabilityEnd());
+		
+		for (ReservationCottage reservationCottage : cottageReservations) {
+			if (reservationCottage.getReservationStatus().equals(ReservationStatus.STARTED) || reservationCottage.getReservationStatus().equals(ReservationStatus.SCHEDULED) || reservationCottage.getReservationStatus().equals(ReservationStatus.WAITING)) {
+				CottageReservationCalendarInformationDTO cottageReservationCalendarInformationDTO;
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(reservationCottage.getDateAndTime());
+				calendar.add(Calendar.DATE, reservationCottage.getDuration());
+				if (reservationCottage.getClient() == null) {
+					cottageReservationCalendarInformationDTO = new CottageReservationCalendarInformationDTO(reservationCottage.getDateAndTime(), calendar.getTime(), reservationCottage.getCottage().getName(), "No client", "No client", "No client", reservationCottage.getReservationStatus());
+				} else {
+					cottageReservationCalendarInformationDTO = new CottageReservationCalendarInformationDTO(reservationCottage.getDateAndTime(), calendar.getTime(), reservationCottage.getCottage().getName(), reservationCottage.getClient().getFirstName(), reservationCottage.getClient().getLastName(), reservationCottage.getClient().getEmail(), reservationCottage.getReservationStatus());
+				}
+				
+				cottageReservationCalendarDTO.getCottageReservations().add(cottageReservationCalendarInformationDTO);
+			}
+		}
+		
+		return cottageReservationCalendarDTO;
 	}
 	
 }
