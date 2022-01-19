@@ -256,7 +256,7 @@ export default {
       this.cottageId = localStorage.getItem("cottageId");
       this.axios
         .get(
-          "http://localhost:8091/reservationCottage/cottageOwnerFastReservations/" +
+          "http://localhost:8091/reservationCottage/cottageFastReservations/" +
             this.cottageId,
           {
             headers: {

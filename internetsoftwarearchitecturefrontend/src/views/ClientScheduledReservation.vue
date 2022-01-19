@@ -23,7 +23,9 @@
                   </v-card-title>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="green" text @click="acceptCancelReservation">Yes</v-btn>
+                    <v-btn color="green" text @click="acceptCancelReservation"
+                      >Yes</v-btn
+                    >
                     <v-spacer></v-spacer>
                     <v-btn color="red" text @click="cancel">No</v-btn>
                     <v-spacer></v-spacer>
@@ -91,7 +93,6 @@ export default {
     reservationType: null,
     reservationId: null,
     defaultItem: null,
-    editedIndex: null, 
   }),
   mounted() {
     this.viewScheduledReservations();
@@ -124,7 +125,6 @@ export default {
       this.reservationType = this.requestItem.reservationType;
     },
     acceptCancelReservation() {
-      
       this.axios
         .put(
           "http://localhost:8091/client/cancelReservation",
@@ -141,12 +141,13 @@ export default {
         .then((response) => {
           console.log(response.data);
           if (response.data === true) {
-              this.scheduledReservations.splice(this.index, 1);
-              alert("The reservation was successfully canceled!");
+            this.scheduledReservations.splice(this.index, 1);
+            alert("The reservation was successfully canceled!");
           } else {
-               alert("The reservation cannot be deleted, as there are less than 3 days left until the beginning!");
+            alert(
+              "The reservation cannot be deleted, as there are less than 3 days left until the beginning!"
+            );
           }
-          
         });
       this.cancel();
     },
@@ -154,7 +155,7 @@ export default {
       this.dialogCancelReservation = false;
       this.$nextTick(() => {
         this.requestItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
+        this.index = -1;
       });
     },
   },
