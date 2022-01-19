@@ -5,7 +5,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,7 @@ import Team76.InternetSoftwareArchitecture.repository.IReservationShipRepository
 @Service
 public class ReservationShipService implements IReservationShipService {
 	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private IReservationShipRepository reservationShipRepository;
 	
 	@Autowired
@@ -62,15 +66,44 @@ public class ReservationShipService implements IReservationShipService {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(currentDate);
 		calendar.add(Calendar.DAY_OF_MONTH, 3);
-
 		if (startDate.before(calendar.getTime()))
 			return false;
-		
 		reservationShip.setReservationStatus(ReservationStatus.CANCELLED);
 		reservationShipRepository.save(reservationShip);
 		return true;
 	}
 	
-	
+	@Scheduled(cron = "1 * * * * *")
+	public void checkIfReservationsFinishedOrStarted() {
+		logger.info("I'm checking to see if any ship reservations have been finished or started in the meantime.");
+		List<ReservationShip> allScheduledReservation = reservationShipRepository.findByReservationStatus(ReservationStatus.SCHEDULED);
+		Date currentDate = new Date(System.currentTimeMillis());
+		for (ReservationShip reservationShip : allScheduledReservation) {
+			Date startReservationDate = reservationShip.getDateAndTime();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(startReservationDate);
+			calendar.add(Calendar.HOUR_OF_DAY, reservationShip.getDuration());
+			Date endReservationDate = calendar.getTime(); 
+			
+			if(startReservationDate.getTime() <= currentDate.getTime() && currentDate.getTime() <= endReservationDate.getTime()) {
+				reservationShip.setReservationStatus(ReservationStatus.STARTED);
+				reservationShipRepository.save(reservationShip);
+			}
+			
+			if(currentDate.after(endReservationDate)) {
+				reservationShip.setReservationStatus(ReservationStatus.FINISHED);
+				reservationShipRepository.save(reservationShip);
+			}
+		}
+		
+		List<ReservationShip> allWaitingReservation = reservationShipRepository.findByReservationStatus(ReservationStatus.WAITING);
+		for (ReservationShip reservationShip : allWaitingReservation) {
+			Date waitingReservationDate = reservationShip.getDateAndTime();
+			if(currentDate.after(waitingReservationDate)) {
+				reservationShip.setReservationStatus(ReservationStatus.FINISHED);
+				reservationShipRepository.save(reservationShip);
+			}
+		}
+	}
 
 }

@@ -23,7 +23,7 @@
                   </v-card-title>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="green" text @click="deleteReservation">Yes</v-btn>
+                    <v-btn color="green" text @click="acceptCancelReservation">Yes</v-btn>
                     <v-spacer></v-spacer>
                     <v-btn color="red" text @click="cancel">No</v-btn>
                     <v-spacer></v-spacer>
@@ -123,7 +123,7 @@ export default {
       this.reservationId = this.requestItem.reservationId;
       this.reservationType = this.requestItem.reservationType;
     },
-    deleteReservation() {
+    acceptCancelReservation() {
       
       this.axios
         .put(
