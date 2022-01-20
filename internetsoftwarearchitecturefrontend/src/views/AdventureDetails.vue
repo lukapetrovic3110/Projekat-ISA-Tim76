@@ -96,6 +96,7 @@
           </v-form>
         </v-card-text>
         <v-card-actions>
+          <v-spacer></v-spacer>
           <v-btn
             v-if="isClient"
             class="mx-auto mb-10 mt-10"
@@ -106,6 +107,18 @@
             v-on:click="subscribe"
             >Subscribe</v-btn
           >
+          <v-spacer></v-spacer>
+          <v-btn
+            v-if="isClient"
+            class="mb-10 mt-10"
+            color="success"
+            elevation="2"
+            x-large
+            raised
+            v-on:click="viewFastReservations"
+            >View available fast reservations
+          </v-btn>
+          <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
     </div>
@@ -143,7 +156,9 @@ export default {
         });
 
       this.axios
-        .get("http://localhost:8091/adventure/findAdventure/" + this.adventureId)
+        .get(
+          "http://localhost:8091/adventure/findAdventure/" + this.adventureId
+        )
         .then((response) => {
           this.adventureInformation = response.data;
           this.instructorId = response.data.instructorId;
@@ -189,6 +204,9 @@ export default {
             );
         })
         .catch((err) => console.log(err));
+    },
+    viewFastReservations() {
+      window.location.href = "/clientAdventureFastReservation";
     },
   },
 };

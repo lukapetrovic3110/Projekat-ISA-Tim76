@@ -373,7 +373,6 @@ export default {
       this.dialogUnsubscribeFishingInstructor = false;
       this.$nextTick(() => {
         this.requestItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
       });
     },
     unsubscribeS(item) {
@@ -403,7 +402,6 @@ export default {
       this.dialogUnsubscribeShip = false;
       this.$nextTick(() => {
         this.requestItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
       });
     },
     unsubscribeC(item) {
@@ -433,7 +431,6 @@ export default {
       this.dialogUnsubscribeCottage = false;
       this.$nextTick(() => {
         this.requestItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
       });
     },
   },

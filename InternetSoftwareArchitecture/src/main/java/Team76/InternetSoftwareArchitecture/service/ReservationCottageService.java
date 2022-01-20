@@ -1,5 +1,6 @@
 package Team76.InternetSoftwareArchitecture.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -7,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,15 +41,10 @@ import Team76.InternetSoftwareArchitecture.repository.IReservationCottageReposit
 public class ReservationCottageService implements IReservationCottageService {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
 	private IReservationCottageRepository reservationCottageRepository;
-	
 	private ICottageRepository cottageRepository;
-	
 	private ICottageReservationReportRepository cottageReservationReportRepository;
-	
 	private IClientRepository clientRepository;
-	
 	private EmailService emailService;
 	
 	@Autowired
@@ -154,16 +151,80 @@ public class ReservationCottageService implements IReservationCottageService {
 
 	@Override
 	public List<CottageFastReservationDTO> findAllFastReservationsForCottage(Long cottageId) {
-		List<ReservationCottage> cottageReservations = reservationCottageRepository.findAllFastReservationsForCottage(cottageId);
-		List<CottageFastReservationDTO> cottageFastReservationsDTO = new ArrayList<CottageFastReservationDTO>();
-		
-		for (ReservationCottage cottageReservation : cottageReservations) {
-			if (cottageReservation.getReservationStatus().equals(ReservationStatus.WAITING)) {
-				cottageFastReservationsDTO.add(new CottageFastReservationDTO(cottageReservation.getReservationCottageId() ,cottageReservation.getDateAndTime(), cottageReservation.getDuration(), cottageReservation.getMaxNumberOfPersons(), cottageReservation.getCottageAdditionalServices(), cottageReservation.getPrice(), cottageReservation.getDiscountPercentage()));
+		List<ReservationCottage> cottageFastReservations = reservationCottageRepository.findAllFastReservationsForCottage(cottageId);
+		return cottageFastReservations.stream().map(cottageReservation -> new CottageFastReservationDTO(
+						cottageReservation.getReservationCottageId(),
+						cottageReservation.getDateAndTime(), 
+						cottageReservation.getDuration(), 
+						cottageReservation.getMaxNumberOfPersons(), 
+						cottageReservation.getCottageAdditionalServices(), 
+						cottageReservation.getPrice(),
+						cottageReservation.getDiscountPercentage())).collect(Collectors.toList());
+	}
+	
+	@Override
+	public Boolean scheduleFastReservation(Long fastReservationId) {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		ReservationCottage reservationCottage = reservationCottageRepository.findByReservationCottageId(fastReservationId);
+		reservationCottage.setClient(clientRepository.findByUserId(client.getUserId()));
+		reservationCottage.setReservationStatus(ReservationStatus.SCHEDULED);
+		reservationCottageRepository.save(reservationCottage);
+		Cottage cottage = reservationCottage.getCottage();
+		try {
+			sendFastReservationEmail(client.getEmail(),createMessage(reservationCottage, cottage));		
+			return true;
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+	}
+
+
+	private String createMessage(ReservationCottage reservationCottage, Cottage cottage) {
+		StringBuilder textMessage = new StringBuilder();
+		textMessage.append("You have a scheduled cottage - ");
+		textMessage.append(cottage.getName());
+		textMessage.append(" from ");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.M.yyyy. HH:mm:ss");
+		Date startDateAndTime = reservationCottage.getDateAndTime();
+		Calendar startReservationDate = Calendar.getInstance();
+		startReservationDate.setTime(startDateAndTime);
+		textMessage.append(sdf.format(startReservationDate.getTime()));
+		textMessage.append(" to ");
+		Calendar endReservationDate = Calendar.getInstance();
+		endReservationDate.setTime(startDateAndTime);
+		endReservationDate.add(Calendar.DAY_OF_MONTH, reservationCottage.getDuration());
+		textMessage.append(sdf.format(endReservationDate.getTime()));
+		textMessage.append(".");
+		if (reservationCottage.getCottageAdditionalServices().size() > 0) {
+			textMessage.append("\nThe reservation include additional service");
+			for (CottageAdditionalService s : reservationCottage.getCottageAdditionalServices()) {
+				textMessage.append("\n-");
+				textMessage.append(s.getCottageAdditionalServiceType().toString().replace("_", " "));
 			}
 		}
-		
-		return cottageFastReservationsDTO;
+		if (reservationCottage.getDiscountPercentage() !=  null) {
+			textMessage.append("\nYou have received a discount ");
+			textMessage.append(reservationCottage.getDiscountPercentage());
+			textMessage.append("%, so your bill is now ");
+			Double newPrice = reservationCottage.getPrice() * (1 - reservationCottage.getDiscountPercentage()/100.);
+			textMessage.append(newPrice.toString());
+			textMessage.append(" instead of ");
+			textMessage.append(reservationCottage.getPrice().toString() + " RSD.");
+		} else {
+			textMessage.append("\nYour bill is ");
+			textMessage.append(reservationCottage.getPrice().toString() + " RSD.");
+		}
+		textMessage.append("\nContact the owner for details, phone number: ");
+		textMessage.append(cottage.getCottageOwner().getPhoneNumber());
+		textMessage.append(", email: ");
+		textMessage.append(cottage.getCottageOwner().getEmail() + ".");
+		textMessage.append("\nBest regards and see you!");
+		return textMessage.toString();
+	}
+	
+	private void sendFastReservationEmail(String clientEmail, String text) {
+		emailService.sendNotificaitionAsync(clientEmail, "Successfully scheduled fast reservation for cottage", text);
 	}
 
 

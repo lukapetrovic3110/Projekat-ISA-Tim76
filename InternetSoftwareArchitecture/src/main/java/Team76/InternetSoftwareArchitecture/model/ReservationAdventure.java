@@ -36,6 +36,9 @@ public class ReservationAdventure {
 
 	@Column(name = "price", nullable = false)
 	private Double price;
+	
+	@Column(name = "discountPercentage", nullable = true)
+	private Integer discountPercentage;
 
 	@Enumerated(EnumType.STRING)
 	private ReservationStatus reservationStatus;
@@ -62,14 +65,16 @@ public class ReservationAdventure {
 	}
 
 	public ReservationAdventure(Date dateAndTime, Integer duration, Integer maxNumberOfPersons, Double price,
-			ReservationStatus reservationStatus, AdventureReservationCancelTerm adventureReservationCancelTerm,
-			Adventure adventure, Client client, Set<AdventureAdditionalService> adventureAdditionalService,
+			Integer discountPercentage, ReservationStatus reservationStatus,
+			AdventureReservationCancelTerm adventureReservationCancelTerm, Adventure adventure, Client client,
+			Set<AdventureAdditionalService> adventureAdditionalService,
 			Set<FishingEquipmentForAdventure> fishingEquipmentForAdventure) {
 		super();
 		this.dateAndTime = dateAndTime;
 		this.duration = duration;
 		this.maxNumberOfPersons = maxNumberOfPersons;
 		this.price = price;
+		this.discountPercentage = discountPercentage;
 		this.reservationStatus = reservationStatus;
 		this.adventureReservationCancelTerm = adventureReservationCancelTerm;
 		this.adventure = adventure;
@@ -77,6 +82,7 @@ public class ReservationAdventure {
 		this.adventureAdditionalService = adventureAdditionalService;
 		this.fishingEquipmentForAdventure = fishingEquipmentForAdventure;
 	}
+
 
 	public Long getReservationAdventureId() {
 		return reservationAdventureId;
@@ -116,6 +122,14 @@ public class ReservationAdventure {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+	
+	public Integer getDiscountPercentage() {
+		return discountPercentage;
+	}
+
+	public void setDiscountPercentage(Integer discountPercentage) {
+		this.discountPercentage = discountPercentage;
 	}
 
 	public ReservationStatus getReservationStatus() {

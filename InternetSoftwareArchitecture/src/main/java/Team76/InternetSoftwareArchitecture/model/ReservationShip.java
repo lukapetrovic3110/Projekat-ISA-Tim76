@@ -36,9 +36,9 @@ public class ReservationShip {
 
 	@Column(name = "price", nullable = false)
 	private Double price;
-
-	@Enumerated(EnumType.STRING)
-	private ReservationStatus reservationStatus;
+	
+	@Column(name = "discountPercentage", nullable = true)
+	private Integer discountPercentage;
 
 	@Enumerated(EnumType.STRING)
 	private ShipReservationCancelTerm shipReservationCancelTerm;
@@ -56,26 +56,33 @@ public class ReservationShip {
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<FishingEquipmentForShip> fishingEquipmentForShip = new HashSet<FishingEquipmentForShip>();
+	
+	@Enumerated(EnumType.STRING)
+	private ReservationStatus reservationStatus;
 
+	
 	public ReservationShip() {
 	}
 
-	public ReservationShip(Date dateAndTime, Integer duration, Integer maxNumberOfPersons, Double price,
-			ReservationStatus reservationStatus, ShipReservationCancelTerm shipReservationCancelTerm, Ship ship,
+	public ReservationShip(Date dateAndTime, Integer duration, Integer maxNumberOfPersons,
+			Double price, Integer discountPercentage, ShipReservationCancelTerm shipReservationCancelTerm, Ship ship,
 			Client client, Set<ShipAdditionalService> shipAdditionalServices,
-			Set<FishingEquipmentForShip> fishingEquipmentForShip) {
+			Set<FishingEquipmentForShip> fishingEquipmentForShip, ReservationStatus reservationStatus) {
 		super();
 		this.dateAndTime = dateAndTime;
 		this.duration = duration;
 		this.maxNumberOfPersons = maxNumberOfPersons;
 		this.price = price;
-		this.reservationStatus = reservationStatus;
+		this.discountPercentage = discountPercentage;
 		this.shipReservationCancelTerm = shipReservationCancelTerm;
 		this.ship = ship;
 		this.client = client;
 		this.shipAdditionalServices = shipAdditionalServices;
 		this.fishingEquipmentForShip = fishingEquipmentForShip;
+		this.reservationStatus = reservationStatus;
 	}
+
+
 
 	public Long getReservationShipId() {
 		return reservationShipId;
@@ -163,6 +170,14 @@ public class ReservationShip {
 
 	public void setFishingEquipmentForShip(Set<FishingEquipmentForShip> fishingEquipmentForShip) {
 		this.fishingEquipmentForShip = fishingEquipmentForShip;
+	}
+
+	public Integer getDiscountPercentage() {
+		return discountPercentage;
+	}
+
+	public void setDiscountPercentage(Integer discountPercentage) {
+		this.discountPercentage = discountPercentage;
 	}
 
 }
