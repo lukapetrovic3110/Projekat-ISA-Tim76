@@ -14,26 +14,38 @@
         <v-text-field
           label="Street Name"
           v-model="cottageInformation.address.street"
-          :rules="[() => !!cottageInformation.address.street || 'This field is required']"
+          :rules="[
+            () =>
+              !!cottageInformation.address.street || 'This field is required',
+          ]"
           :error-messages="errorMessages"
         />
         <v-text-field
           label="Street Number"
           v-model="cottageInformation.address.streetNumber"
-          :rules="[() => !!cottageInformation.address.streetNumber || 'This field is required']"
+          :rules="[
+            () =>
+              !!cottageInformation.address.streetNumber ||
+              'This field is required',
+          ]"
           :error-messages="errorMessages"
         />
         <v-text-field
           label="City"
           v-model="cottageInformation.address.city"
-          :rules="[() => !!cottageInformation.address.city || 'This field is required']"
+          :rules="[
+            () => !!cottageInformation.address.city || 'This field is required',
+          ]"
           :error-messages="errorMessages"
         />
         <v-autocomplete
           class="countryCombo"
           ref="country"
           v-model="cottageInformation.address.country"
-          :rules="[() => !!cottageInformation.address.country || 'This field is required']"
+          :rules="[
+            () =>
+              !!cottageInformation.address.country || 'This field is required',
+          ]"
           :items="countries"
           label="Country"
           placeholder="Select..."
@@ -41,7 +53,9 @@
         <v-text-field
           label="Description"
           v-model="cottageInformation.description"
-          :rules="[() => !!cottageInformation.description || 'This field is required']"
+          :rules="[
+            () => !!cottageInformation.description || 'This field is required',
+          ]"
           :error-messages="errorMessages"
         />
         <v-text-field
@@ -66,62 +80,118 @@
           :rules="rules"
           :error-messages="errorMessages"
         />
-        <v-dialog
-          ref="dialogAvailabilityStart"
-          v-model="dialogAvailabilityStart"
-          :return-value.sync="date"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-text-field
-              v-model="cottageInformation.availabilityStart"
-              label="Available from"
-              prepend-icon="mdi-calendar"
-              readonly
-              v-bind="attrs"
-              v-on="on"
-            ></v-text-field>
-          </template>
-          <v-date-picker v-model="cottageInformation.availabilityStart" scrollable>
-            <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="dialogAvailabilityStart = false"
-              >Cancel</v-btn
-            >
-            <v-btn
-              text
-              color="primary"
-              @click="$refs.dialogAvailabilityStart.save(cottageInformation.availabilityStart)"
-              >OK</v-btn
-            >
-          </v-date-picker>
-        </v-dialog>
-        <v-dialog
-          ref="dialogAvailabilityEnd"
-          v-model="dialogAvailabilityEnd"
-          :return-value.sync="date"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-text-field
-              v-model="cottageInformation.availabilityEnd"
-              label="Available until"
-              prepend-icon="mdi-calendar"
-              readonly
-              v-bind="attrs"
-              v-on="on"
-            ></v-text-field>
-          </template>
-          <v-date-picker v-model="cottageInformation.availabilityEnd" scrollable>
-            <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="dialogAvailabilityEnd = false"
-              >Cancel</v-btn
-            >
-            <v-btn
-              text
-              color="primary"
-              @click="$refs.dialogAvailabilityEnd.save(cottageInformation.availabilityEnd)"
-              >OK</v-btn
-            >
-          </v-date-picker>
-        </v-dialog>
+        <v-simple-table>
+          <tr>
+            <td>
+              <v-menu
+                v-model="availabilityStartDateMenu"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="availabilityStartDate"
+                    label="Availability start date"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="availabilityStartDate"
+                  @input="availabilityStartDateMenu = false"
+                ></v-date-picker>
+              </v-menu>
+              <v-spacer></v-spacer>
+            </td>
+            <td>
+              <v-menu
+                ref="availabilityStartTimeMenu"
+                v-model="availabilityStartTimeMenu"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                max-width="290px"
+                min-width="290px"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="availabilityStartTime"
+                    label="Availability start time"
+                    prepend-icon="mdi-clock-time-four-outline"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-time-picker
+                  v-model="availabilityStartTime"
+                  full-width
+                  @click:minute="$refs.availabilityStartTimeMenu.save(availabilityStartTime)"
+                ></v-time-picker>
+              </v-menu>
+            </td>
+          </tr>
+        </v-simple-table>
+        <v-simple-table>
+          <tr>
+            <td>
+              <v-menu
+                v-model="availabilityEndDateMenu"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="availabilityEndDate"
+                    label="Availability end date"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="availabilityEndDate"
+                  @input="availabilityEndDateMenu = false"
+                ></v-date-picker>
+              </v-menu>
+              <v-spacer></v-spacer>
+            </td>
+            <td>
+              <v-menu
+                ref="availabilityEndTimeMenu"
+                v-model="availabilityEndTimeMenu"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                max-width="290px"
+                min-width="290px"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="availabilityEndTime"
+                    label="Availability end time"
+                    prepend-icon="mdi-clock-time-four-outline"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-time-picker
+                  v-model="availabilityEndTime"
+                  full-width
+                  @click:minute="$refs.availabilityEndTimeMenu.save(availabilityEndTime)"
+                ></v-time-picker>
+              </v-menu>
+            </td>
+          </tr>
+        </v-simple-table>
         <v-data-table
           :headers="headersCottageRule"
           :items="cottageRules"
@@ -180,10 +250,16 @@
                   >
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="closeCottageRuleDelete"
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="closeCottageRuleDelete"
                       >Cancel</v-btn
                     >
-                    <v-btn color="blue darken-1" text @click="deleteCottageRuleItemConfirm"
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="deleteCottageRuleItemConfirm"
                       >OK</v-btn
                     >
                     <v-spacer></v-spacer>
@@ -196,7 +272,9 @@
             <v-icon small class="mr-2" @click="editCottageRuleItem(item)">
               mdi-pencil
             </v-icon>
-            <v-icon small @click="deleteCottageRuleItem(item)"> mdi-delete </v-icon>
+            <v-icon small @click="deleteCottageRuleItem(item)">
+              mdi-delete
+            </v-icon>
           </template>
         </v-data-table>
         <v-data-table
@@ -208,9 +286,7 @@
         >
           <template v-slot:top>
             <v-toolbar flat>
-              <v-toolbar-title style="color: gray"
-                >Price list</v-toolbar-title
-              >
+              <v-toolbar-title style="color: gray">Price list</v-toolbar-title>
               <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-dialog v-model="dialogCottagePriceTag" max-width="500px">
@@ -245,10 +321,18 @@
 
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="closeCottagePriceTag">
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="closeCottagePriceTag"
+                    >
                       Cancel
                     </v-btn>
-                    <v-btn color="blue darken-1" text @click="saveCottagePriceTag">
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="saveCottagePriceTag"
+                    >
                       Save
                     </v-btn>
                   </v-card-actions>
@@ -257,14 +341,21 @@
               <v-dialog v-model="dialogCottagePriceTagDelete" max-width="500px">
                 <v-card>
                   <v-card-title class="text-h6"
-                    >Are you sure you want to delete this price tag?</v-card-title
+                    >Are you sure you want to delete this price
+                    tag?</v-card-title
                   >
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="closeCottagePriceTagDelete"
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="closeCottagePriceTagDelete"
                       >Cancel</v-btn
                     >
-                    <v-btn color="blue darken-1" text @click="deleteCottagePriceTagItemConfirm"
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="deleteCottagePriceTagItemConfirm"
                       >OK</v-btn
                     >
                     <v-spacer></v-spacer>
@@ -277,10 +368,12 @@
             <v-icon small class="mr-2" @click="editCottagePriceTagItem(item)">
               mdi-pencil
             </v-icon>
-            <v-icon small @click="deleteCottagePriceTagItem(item)"> mdi-delete </v-icon>
+            <v-icon small @click="deleteCottagePriceTagItem(item)">
+              mdi-delete
+            </v-icon>
           </template>
         </v-data-table>
-        <div style="display: flex; justify-content: center; margin-top: 7%;">
+        <div style="display: flex; justify-content: center; margin-top: 7%">
           <vue-upload-multiple-image
             @upload-success="uploadImageSuccess"
             @edit-image="editImage"
@@ -289,16 +382,16 @@
             @before-remove="beforeRemove"
             idUpload="myIdUpload"
             idEdit="myIdEdit"
-            :max-image=15
+            :max-image="15"
             primary-text="Default"
             browse-text="Upload images"
             drag-text="Drag images"
             mark-is-primary-text="Set as default"
             popup-text="This image will be displayed as default"
-            :multiple=true
-            :show-edit=true
-            :show-delete=true
-            :show-add=true            
+            :multiple="true"
+            :show-edit="true"
+            :show-delete="true"
+            :show-add="true"
           ></vue-upload-multiple-image>
         </div>
       </v-form>
@@ -319,7 +412,7 @@
 </template>
 
 <script>
-import VueUploadMultipleImage from 'vue-upload-multiple-image'
+import VueUploadMultipleImage from "vue-upload-multiple-image";
 
 export default {
   name: "AddCottage",
@@ -327,6 +420,15 @@ export default {
     VueUploadMultipleImage,
   },
   data: () => ({
+    availabilityStartDateMenu: false,
+    availabilityStartTimeMenu: false,
+    availabilityStartDate: "",
+    availabilityStartTime: "",
+    availabilityEndDateMenu: false,
+    availabilityEndTimeMenu: false,
+    availabilityEndDate: "",
+    availabilityEndTime: "",
+
     cottageInformation: {
       name: "",
       description: "",
@@ -345,7 +447,7 @@ export default {
       cottageRules: [],
     },
 
-    countries: ['Serbia'],
+    countries: ["Serbia"],
     datePickerFormat: "dd.MM.yyyy.",
     errorMessages: "",
 
@@ -356,9 +458,6 @@ export default {
         return pattern.test(value) || "Only numbers from 1 to 10 are allowed";
       },
     ],
-
-    dialogAvailabilityStart: false,
-    dialogAvailabilityEnd: false,
 
     dialogCottageRule: false,
     dialogCottageRuleDelete: false,
@@ -388,12 +487,12 @@ export default {
         text: "Service description",
         align: "start",
         sortable: false,
-        value: "serviceDescription"
+        value: "serviceDescription",
       },
       {
         text: "Price",
         sortable: false,
-        value: "price"
+        value: "price",
       },
       { text: "Actions", align: "end", value: "actions", sortable: false },
     ],
@@ -420,7 +519,9 @@ export default {
     },
 
     formTitleCottagePriceTag() {
-      return this.editedIndexCottagePriceTag === -1 ? "New price tag" : "Edit price tag";
+      return this.editedIndexCottagePriceTag === -1
+        ? "New price tag"
+        : "Edit price tag";
     },
   },
 
@@ -445,11 +546,13 @@ export default {
     registerCottage() {
       this.cottageInformation.cottageRules = this.formatCottageRules();
       this.cottageInformation.priceList = this.formatCottagePriceTags();
+      this.cottageInformation.availabilityStart = new Date(this.availabilityStartDate + " " + this.availabilityStartTime + ":00");
+      this.cottageInformation.availabilityEnd = new Date(this.availabilityEndDate + " " + this.availabilityEndTime + ":00");
       this.axios
         .post("http://localhost:8091/cottage/add", this.cottageInformation, {
           headers: {
-                Authorization: 'Bearer ' + localStorage.getItem("token"),
-          }
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
         })
         .then((response) => {
           this.uploadCottageImages(response.data);
@@ -468,6 +571,10 @@ export default {
           this.cottageInformation.availabilityEnd = "";
           this.cottageRules = [];
           this.cottagePriceTags = [];
+          this.availabilityStartDate = "";
+          this.availabilityStartTime = "";
+          this.availabilityEndDate = "";
+          this.availabilityEndTime = "";
           console.log(er);
         });
     },
@@ -475,11 +582,17 @@ export default {
     uploadCottageImages(data) {
       this.images = this.formatCottageImages();
       this.axios
-        .post("http://localhost:8091/image/upload/" + data.cottageId.toString() + "/COTTAGE_OWNER", this.images, {
-          headers: {
-                Authorization: 'Bearer ' + localStorage.getItem("token"),
+        .post(
+          "http://localhost:8091/image/upload/" +
+            data.cottageId.toString() +
+            "/COTTAGE_OWNER",
+          this.images,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
           }
-        })
+        )
         .then((response) => {
           console.log(response.data);
           window.location.href = "http://localhost:8083/";
@@ -492,16 +605,20 @@ export default {
 
     formatCottageImages() {
       for (let i = 0; i < this.imagesFileList.length; i++) {
-        let imageInformation = this.imagesFileList[i].name + "," + this.imagesFileList[i].path;
+        let imageInformation =
+          this.imagesFileList[i].name + "," + this.imagesFileList[i].path;
         this.images.imagesInformation.push(imageInformation);
       }
 
-      return this.images
+      return this.images;
     },
 
     formatCottagePriceTags() {
       for (let i = 0; i < this.cottagePriceTags.length; i++) {
-        let formattedPriceTag = this.cottagePriceTags[i].serviceDescription + ";" + this.cottagePriceTags[i].price;
+        let formattedPriceTag =
+          this.cottagePriceTags[i].serviceDescription +
+          ";" +
+          this.cottagePriceTags[i].price;
         this.formattedCottagePriceTags.push(formattedPriceTag);
       }
 
@@ -510,7 +627,9 @@ export default {
 
     formatCottageRules() {
       for (let i = 0; i < this.cottageRules.length; i++) {
-        this.formattedCottageRules.push(this.cottageRules[i].cottageRuleName.toString());
+        this.formattedCottageRules.push(
+          this.cottageRules[i].cottageRuleName.toString()
+        );
       }
 
       return this.formattedCottageRules;
@@ -536,7 +655,10 @@ export default {
     closeCottageRule() {
       this.dialogCottageRule = false;
       this.$nextTick(() => {
-        this.editedItemCottageRule = Object.assign({}, this.defaultItemCottageRule);
+        this.editedItemCottageRule = Object.assign(
+          {},
+          this.defaultItemCottageRule
+        );
         this.editedIndexCottageRule = -1;
       });
     },
@@ -544,14 +666,20 @@ export default {
     closeCottageRuleDelete() {
       this.dialogCottageRuleDelete = false;
       this.$nextTick(() => {
-        this.editedItemCottageRule = Object.assign({}, this.defaultItemCottageRule);
+        this.editedItemCottageRule = Object.assign(
+          {},
+          this.defaultItemCottageRule
+        );
         this.editedIndexCottageRule = -1;
       });
     },
 
     saveCottageRule() {
       if (this.editedIndexCottageRule > -1) {
-        Object.assign(this.cottageRules[this.editedIndexCottageRule], this.editedItemCottageRule);
+        Object.assign(
+          this.cottageRules[this.editedIndexCottageRule],
+          this.editedItemCottageRule
+        );
       } else {
         this.cottageRules.push(this.editedItemCottageRule);
       }
@@ -578,7 +706,10 @@ export default {
     closeCottagePriceTag() {
       this.dialogCottagePriceTag = false;
       this.$nextTick(() => {
-        this.editedItemCottagePriceTag = Object.assign({}, this.defaultItemCottagePriceTag);
+        this.editedItemCottagePriceTag = Object.assign(
+          {},
+          this.defaultItemCottagePriceTag
+        );
         this.editedIndexCottagePriceTag = -1;
       });
     },
@@ -586,14 +717,20 @@ export default {
     closeCottagePriceTagDelete() {
       this.dialogCottagePriceTagDelete = false;
       this.$nextTick(() => {
-        this.editedItemCottagePriceTag = Object.assign({}, this.defaultItemCottagePriceTag);
+        this.editedItemCottagePriceTag = Object.assign(
+          {},
+          this.defaultItemCottagePriceTag
+        );
         this.editedIndexCottagePriceTag = -1;
       });
     },
 
     saveCottagePriceTag() {
       if (this.editedIndexCottagePriceTag > -1) {
-        Object.assign(this.cottagePriceTags[this.editedIndexCottagePriceTag], this.editedItemCottagePriceTag);
+        Object.assign(
+          this.cottagePriceTags[this.editedIndexCottagePriceTag],
+          this.editedItemCottagePriceTag
+        );
       } else {
         this.cottagePriceTags.push(this.editedItemCottagePriceTag);
       }
@@ -601,18 +738,18 @@ export default {
     },
 
     uploadImageSuccess(formData, index, fileList) {
-      console.log('data', formData, index, fileList)
+      console.log("data", formData, index, fileList);
       this.imagesFileList = fileList;
     },
 
     beforeRemove(index, removeCallBack, fileList) {
-      console.log(fileList)
+      console.log(fileList);
       removeCallBack();
       this.imagesFileList = fileList;
     },
 
     editImage(formData, index, fileList) {
-      console.log('edit data', formData, index, fileList);
+      console.log("edit data", formData, index, fileList);
       this.imagesFileList = fileList;
     },
 
@@ -622,7 +759,7 @@ export default {
 
     limitExceeded(amount) {
       console.log("limitExceeded data", amount);
-    }
+    },
   },
 };
 </script>

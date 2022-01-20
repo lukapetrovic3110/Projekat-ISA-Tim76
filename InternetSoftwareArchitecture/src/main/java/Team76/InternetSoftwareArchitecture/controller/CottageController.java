@@ -36,8 +36,8 @@ public class CottageController {
 
 	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")
 	@PostMapping("/add")
-	public ResponseEntity<?> add(@RequestBody AddCottageDTO addCottageDTO, UriComponentsBuilder uriComponentsBuilder) {
-		return new ResponseEntity<>(cottageService.saveCottage(addCottageDTO), HttpStatus.CREATED);
+	public ResponseEntity<Cottage> add(@RequestBody AddCottageDTO addCottageDTO, UriComponentsBuilder uriComponentsBuilder) {
+		return new ResponseEntity<Cottage>(cottageService.saveCottage(addCottageDTO), HttpStatus.CREATED);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")

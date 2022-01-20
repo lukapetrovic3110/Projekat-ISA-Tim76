@@ -111,15 +111,15 @@ public class ReservationCottageService implements IReservationCottageService {
 		
 		for (ReservationCottage reservationCottage : allCottageReservations) {
 			if (reservationStatus == null) {
-				cottageOwnerCottagesId.contains(reservationCottage.getCottage().getCottageId());
-				reservationsForCottageOwner.add(reservationCottage);
+				if (cottageOwnerCottagesId.contains(reservationCottage.getCottage().getCottageId())) {
+					reservationsForCottageOwner.add(reservationCottage);
+				}
 			} else if (reservationStatus.equals(ReservationStatus.FINISHED)) {
-				if (reservationCottage.getReservationStatus().equals(reservationStatus) && !cottageReservationIdFromCottageReservationReport.contains(reservationCottage.getReservationCottageId())) {
-					cottageOwnerCottagesId.contains(reservationCottage.getCottage().getCottageId());
+				if (reservationCottage.getReservationStatus().equals(reservationStatus) && !cottageReservationIdFromCottageReservationReport.contains(reservationCottage.getReservationCottageId()) && cottageOwnerCottagesId.contains(reservationCottage.getCottage().getCottageId())) {
 					reservationsForCottageOwner.add(reservationCottage);
 				}
 			} else {
-				if (reservationCottage.getReservationStatus().equals(reservationStatus)) {
+				if (reservationCottage.getReservationStatus().equals(reservationStatus) && cottageOwnerCottagesId.contains(reservationCottage.getCottage().getCottageId())) {
 					cottageOwnerCottagesId.contains(reservationCottage.getCottage().getCottageId());
 					reservationsForCottageOwner.add(reservationCottage);
 				}
@@ -127,8 +127,13 @@ public class ReservationCottageService implements IReservationCottageService {
 		}
 		
 		for (ReservationCottage reservationCottage : reservationsForCottageOwner) {
-			CottageReservationClientInformationDTO cottageReservationClientInformationDTO = new CottageReservationClientInformationDTO(reservationCottage.getClient().getFirstName(), reservationCottage.getClient().getLastName(), reservationCottage.getClient().getEmail(), reservationCottage.getClient().getPhoneNumber(), reservationCottage.getClient().getAddress());
-			CottageReservationInformationDTO cottageReservationInformationDTO = new CottageReservationInformationDTO(reservationCottage.getReservationCottageId(), reservationCottage.getDateAndTime(), reservationCottage.getDuration(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getPrice(), reservationCottage.getCottage().getName(), reservationCottage.getCottage().getNumberOfRooms(), reservationCottage.getCottage().getNumberOfBedsPerRoom(), cottageReservationClientInformationDTO, reservationCottage.getReservationStatus());
+			CottageReservationInformationDTO cottageReservationInformationDTO;
+			if (reservationCottage.getClient() == null) {
+				cottageReservationInformationDTO = new CottageReservationInformationDTO(reservationCottage.getReservationCottageId(), reservationCottage.getDateAndTime(), reservationCottage.getDuration(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getPrice(), reservationCottage.getCottage().getName(), reservationCottage.getCottage().getNumberOfRooms(), reservationCottage.getCottage().getNumberOfBedsPerRoom(), null, reservationCottage.getReservationStatus());
+			} else {
+				CottageReservationClientInformationDTO cottageReservationClientInformationDTO = new CottageReservationClientInformationDTO(reservationCottage.getClient().getFirstName(), reservationCottage.getClient().getLastName(), reservationCottage.getClient().getEmail(), reservationCottage.getClient().getPhoneNumber(), reservationCottage.getClient().getAddress());
+				cottageReservationInformationDTO = new CottageReservationInformationDTO(reservationCottage.getReservationCottageId(), reservationCottage.getDateAndTime(), reservationCottage.getDuration(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getPrice(), reservationCottage.getCottage().getName(), reservationCottage.getCottage().getNumberOfRooms(), reservationCottage.getCottage().getNumberOfBedsPerRoom(), cottageReservationClientInformationDTO, reservationCottage.getReservationStatus());
+			}
 			
 			reservationsForCottageOwnerDTO.add(cottageReservationInformationDTO);
 		}
@@ -220,7 +225,7 @@ public class ReservationCottageService implements IReservationCottageService {
 				calendar.setTime(reservationCottage.getDateAndTime());
 				calendar.add(Calendar.DATE, reservationCottage.getDuration());
 				if (reservationCottage.getClient() == null) {
-					cottageReservationCalendarInformationDTO = new CottageReservationCalendarInformationDTO(reservationCottage.getDateAndTime(), calendar.getTime(), reservationCottage.getCottage().getName(), "No client", "No client", "No client", reservationCottage.getReservationStatus());
+					cottageReservationCalendarInformationDTO = new CottageReservationCalendarInformationDTO(reservationCottage.getDateAndTime(), calendar.getTime(), reservationCottage.getCottage().getName(), "", "", "", reservationCottage.getReservationStatus());
 				} else {
 					cottageReservationCalendarInformationDTO = new CottageReservationCalendarInformationDTO(reservationCottage.getDateAndTime(), calendar.getTime(), reservationCottage.getCottage().getName(), reservationCottage.getClient().getFirstName(), reservationCottage.getClient().getLastName(), reservationCottage.getClient().getEmail(), reservationCottage.getReservationStatus());
 				}

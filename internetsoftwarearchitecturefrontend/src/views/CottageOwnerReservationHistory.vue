@@ -18,7 +18,9 @@
               <v-dialog v-model="dialogClientInformation" max-width="75%">
                 <v-card>
                   <v-card-title>
-                    <span class="text-h5 justify-center">Information about client</span>
+                    <span class="text-h5 justify-center"
+                      >Information about client</span
+                    >
                   </v-card-title>
 
                   <v-card-text>
@@ -26,28 +28,42 @@
                       <v-row>
                         <v-col cols="12" sm="6" md="4">
                           <v-text-field
-                            v-model="cottageReservationItem.cottageReservationClientInformationDTO.firstName"
+                            v-model="
+                              cottageReservationItem
+                                .cottageReservationClientInformationDTO
+                                .firstName
+                            "
                             label="First name"
                             readonly
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-text-field
-                            v-model="cottageReservationItem.cottageReservationClientInformationDTO.lastName"
+                            v-model="
+                              cottageReservationItem
+                                .cottageReservationClientInformationDTO.lastName
+                            "
                             label="Last name"
                             readonly
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-text-field
-                            v-model="cottageReservationItem.cottageReservationClientInformationDTO.email"
+                            v-model="
+                              cottageReservationItem
+                                .cottageReservationClientInformationDTO.email
+                            "
                             label="Email"
                             readonly
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-text-field
-                            v-model="cottageReservationItem.cottageReservationClientInformationDTO.phoneNumber"
+                            v-model="
+                              cottageReservationItem
+                                .cottageReservationClientInformationDTO
+                                .phoneNumber
+                            "
                             label="Phone number"
                             readonly
                           ></v-text-field>
@@ -74,11 +90,18 @@
             </v-toolbar>
           </template>
           <template v-slot:[`item.clientInformation`]="{ item }">
-            <v-card-actions>
+            <v-card-actions
+              v-if="item.cottageReservationClientInformationDTO !== null"
+            >
               <v-spacer></v-spacer>
               <v-btn color="blue" text @click="displayClientInformation(item)">
                 VIEW
               </v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+            <v-card-actions v-else>
+              <v-spacer></v-spacer>
+              <v-btn disabled text> NO CLIENT </v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </template>
@@ -173,12 +196,11 @@ export default {
           country: "",
           longitude: 0,
           latitude: 0,
-        }
+        },
       },
       reservationStatus: "",
     },
     formattedCottageReservationAddress: "",
-
   }),
 
   mounted() {
@@ -204,7 +226,7 @@ export default {
           this.cottageReservations.forEach((reservation) => {
             reservation.dateAndTime = new Date(
               reservation.dateAndTime
-            ).toDateString();
+            ).toLocaleString();
           });
         })
         .catch((err) => {
@@ -217,13 +239,18 @@ export default {
     displayClientInformation(item) {
       this.cottageReservationItemIndex = this.cottageReservations.indexOf(item);
       this.cottageReservationItem = Object.assign({}, item);
-      this.formattedCottageReservationAddress = this.cottageReservationItem.cottageReservationClientInformationDTO.address.street
-                                              + " "
-                                              + this.cottageReservationItem.cottageReservationClientInformationDTO.address.streetNumber
-                                              + " "
-                                              + this.cottageReservationItem.cottageReservationClientInformationDTO.address.city
-                                              + ", "
-                                              + this.cottageReservationItem.cottageReservationClientInformationDTO.address.country;
+      this.formattedCottageReservationAddress =
+        this.cottageReservationItem.cottageReservationClientInformationDTO
+          .address.street +
+        " " +
+        this.cottageReservationItem.cottageReservationClientInformationDTO
+          .address.streetNumber +
+        " " +
+        this.cottageReservationItem.cottageReservationClientInformationDTO
+          .address.city +
+        ", " +
+        this.cottageReservationItem.cottageReservationClientInformationDTO
+          .address.country;
 
       this.dialogClientInformation = true;
     },

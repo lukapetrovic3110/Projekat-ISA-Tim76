@@ -93,7 +93,7 @@
                 <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
-              <v-card-text>
+              <v-card-text v-if="selectedEvent.clientFirstName !== ''">
                 <span
                   v-html="
                     selectedEvent.clientFirstName +
@@ -105,6 +105,9 @@
                     ')'
                   "
                 ></span>
+              </v-card-text>
+              <v-card-text v-else>
+                <span>There is no client.</span>
               </v-card-text>
               <v-card-actions>
                 <v-btn text color="secondary" @click="selectedOpen = false">

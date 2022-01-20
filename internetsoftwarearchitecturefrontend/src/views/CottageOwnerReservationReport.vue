@@ -300,7 +300,7 @@ export default {
           this.cottageReservations.forEach((reservation) => {
             reservation.dateAndTime = new Date(
               reservation.dateAndTime
-            ).toDateString();
+            ).toLocaleString();
           });
         })
         .catch((err) => {
