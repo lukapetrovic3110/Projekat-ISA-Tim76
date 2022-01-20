@@ -196,6 +196,13 @@ public class ReservationCottageService implements IReservationCottageService {
 		endReservationDate.add(Calendar.DAY_OF_MONTH, reservationCottage.getDuration());
 		textMessage.append(sdf.format(endReservationDate.getTime()));
 		textMessage.append(".");
+		if (reservationCottage.getCottageAdditionalServices().size() > 0) {
+			textMessage.append("\nThe reservation include additional service");
+			for (CottageAdditionalService s : reservationCottage.getCottageAdditionalServices()) {
+				textMessage.append("\n-");
+				textMessage.append(s.getCottageAdditionalServiceType().toString().replace("_", " "));
+			}
+		}
 		if (reservationCottage.getDiscountPercentage() !=  null) {
 			textMessage.append("\nYou have received a discount ");
 			textMessage.append(reservationCottage.getDiscountPercentage());
@@ -217,7 +224,7 @@ public class ReservationCottageService implements IReservationCottageService {
 	}
 	
 	private void sendFastReservationEmail(String clientEmail, String text) {
-		emailService.sendNotificaitionAsync(clientEmail, "Successfully scheduled fast cottage reservation", text);
+		emailService.sendNotificaitionAsync(clientEmail, "Successfully scheduled fast reservation for cottage", text);
 	}
 
 

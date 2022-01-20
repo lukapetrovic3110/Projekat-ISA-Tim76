@@ -19,9 +19,11 @@ import Team76.InternetSoftwareArchitecture.dto.ShipFastReservationDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IReservationShipService;
 import Team76.InternetSoftwareArchitecture.model.Address;
 import Team76.InternetSoftwareArchitecture.model.Client;
+import Team76.InternetSoftwareArchitecture.model.FishingEquipmentForShip;
 import Team76.InternetSoftwareArchitecture.model.ReservationShip;
 import Team76.InternetSoftwareArchitecture.model.ReservationStatus;
 import Team76.InternetSoftwareArchitecture.model.Ship;
+import Team76.InternetSoftwareArchitecture.model.ShipAdditionalService;
 import Team76.InternetSoftwareArchitecture.repository.IClientRepository;
 import Team76.InternetSoftwareArchitecture.repository.IReservationShipRepository;
 import Team76.InternetSoftwareArchitecture.repository.IShipRepository;
@@ -116,6 +118,20 @@ public class ReservationShipService implements IReservationShipService {
 		endReservationDate.add(Calendar.HOUR_OF_DAY, reservationShip.getDuration());
 		textMessage.append(sdf.format(endReservationDate.getTime()));
 		textMessage.append(".");
+		if (reservationShip.getShipAdditionalServices().size() > 0) {
+			textMessage.append("\nThe reservation include additional service");
+			for (ShipAdditionalService s : reservationShip.getShipAdditionalServices()) {
+				textMessage.append("\n-");
+				textMessage.append(s.getShipAdditionalServiceType().toString().replace("_", " "));
+			}
+		}
+		if (reservationShip.getFishingEquipmentForShip().size() > 0) {
+			textMessage.append("\nThe reservation include fishing equipment");
+			for (FishingEquipmentForShip f : reservationShip.getFishingEquipmentForShip()) {
+				textMessage.append("\n-");
+				textMessage.append(f.getFishingEquipmentForShipType().toString().replace("_", " "));
+			}
+		}
 		if (reservationShip.getDiscountPercentage() !=  null) {
 			textMessage.append("\nYou have received a discount ");
 			textMessage.append(reservationShip.getDiscountPercentage());
@@ -137,7 +153,7 @@ public class ReservationShipService implements IReservationShipService {
 	}
 	
 	private void sendFastReservationEmail(String clientEmail, String text) {
-		emailService.sendNotificaitionAsync(clientEmail, "Successfully scheduled fast ship reservation", text);
+		emailService.sendNotificaitionAsync(clientEmail, "Successfully scheduled fast reservation for ship", text);
 	}
 
 	@Override

@@ -1,9 +1,11 @@
 package Team76.InternetSoftwareArchitecture.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,12 +14,17 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import Team76.InternetSoftwareArchitecture.dto.AdventureFastReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationAdventureDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IReservationAdventureService;
 import Team76.InternetSoftwareArchitecture.model.Address;
+import Team76.InternetSoftwareArchitecture.model.Adventure;
+import Team76.InternetSoftwareArchitecture.model.AdventureAdditionalService;
 import Team76.InternetSoftwareArchitecture.model.Client;
+import Team76.InternetSoftwareArchitecture.model.FishingEquipmentForAdventure;
 import Team76.InternetSoftwareArchitecture.model.ReservationAdventure;
 import Team76.InternetSoftwareArchitecture.model.ReservationStatus;
+import Team76.InternetSoftwareArchitecture.repository.IClientRepository;
 import Team76.InternetSoftwareArchitecture.repository.IReservationAdventureRepository;
 
 @Service
@@ -25,13 +32,17 @@ public class ReservationAdventureService implements IReservationAdventureService
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private IReservationAdventureRepository reservationAdventureRepository;
+	private IClientRepository clientRepository;
+	private EmailService emailService;
 	
 	@Autowired
-	public ReservationAdventureService(IReservationAdventureRepository reservationAdventureRepository) {
+	public ReservationAdventureService(IReservationAdventureRepository reservationAdventureRepository,
+			IClientRepository clientRepository, EmailService emailService) {
+		super();
 		this.reservationAdventureRepository = reservationAdventureRepository;
+		this.clientRepository = clientRepository;
+		this.emailService = emailService;
 	}
-
-
 
 	@Override
 	public List<HistoryReservationAdventureDTO> findAllHistoryReservationByClient() {
@@ -58,8 +69,92 @@ public class ReservationAdventureService implements IReservationAdventureService
 			
 		return clientScheduledReservations;
 	}
-
-
+	
+	
+	@Override
+	public List<AdventureFastReservationDTO> findAllFastReservationsForAdventure(Long adventureId) {
+		List<ReservationAdventure> adventureFastReservations = reservationAdventureRepository.findAllFastReservationsForAdventure(adventureId);
+		return adventureFastReservations.stream().map(adventureFastReservation -> new AdventureFastReservationDTO(
+				adventureFastReservation.getReservationAdventureId(),
+				adventureFastReservation.getDateAndTime(),
+				adventureFastReservation.getDuration(),
+				adventureFastReservation.getMaxNumberOfPersons(),
+				adventureFastReservation.getAdventureAdditionalService(),
+				adventureFastReservation.getFishingEquipmentForAdventure(),
+				adventureFastReservation.getPrice(),
+				adventureFastReservation.getDiscountPercentage())).collect(Collectors.toList());
+	}
+	
+	@Override
+	public Boolean scheduleFastReservation(Long fastReservationId) {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		ReservationAdventure reservationAdventure = reservationAdventureRepository.findByReservationAdventureId(fastReservationId);
+		reservationAdventure.setClient(clientRepository.findByUserId(client.getUserId()));
+		reservationAdventure.setReservationStatus(ReservationStatus.SCHEDULED);
+		reservationAdventureRepository.save(reservationAdventure);
+		Adventure adventure = reservationAdventure.getAdventure();
+		try {
+			sendFastReservationEmail(client.getEmail(), createMessage(reservationAdventure, adventure));
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
+	}
+	
+	private String createMessage(ReservationAdventure reservationAdventure, Adventure adventure) {
+		StringBuilder textMessage = new StringBuilder();
+		textMessage.append("Congrats, you have scheduled adventure - ");
+		textMessage.append(adventure.getName());
+		textMessage.append(" from ");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.M.yyyy. HH:mm:ss");
+		Date startDateAndTime = reservationAdventure.getDateAndTime();
+		Calendar startReservationDate = Calendar.getInstance();
+		startReservationDate.setTime(startDateAndTime);
+		textMessage.append(sdf.format(startReservationDate.getTime()));
+		textMessage.append(" to ");
+		Calendar endReservationDate = Calendar.getInstance();
+		endReservationDate.setTime(startDateAndTime);
+		endReservationDate.add(Calendar.HOUR_OF_DAY, reservationAdventure.getDuration());
+		textMessage.append(sdf.format(endReservationDate.getTime()));
+		textMessage.append(".");
+		if (reservationAdventure.getAdventureAdditionalService().size() > 0) {
+			textMessage.append("\nThe reservation include additional service");
+			for (AdventureAdditionalService a : reservationAdventure.getAdventureAdditionalService()) {
+				textMessage.append("\n-");
+				textMessage.append(a.getAdventureAdditionalServiceType().toString().replace("_", " "));
+			}
+		}
+		if (reservationAdventure.getFishingEquipmentForAdventure().size() > 0) {
+			textMessage.append("\nThe reservation include fishing equipment for adventure");
+			for (FishingEquipmentForAdventure f : reservationAdventure.getFishingEquipmentForAdventure()) {
+				textMessage.append("\n-");
+				textMessage.append(f.getFishingEquipmentForAdventureType().toString().replace("_", " "));
+			}
+		}
+		if (reservationAdventure.getDiscountPercentage() !=  null) {
+			textMessage.append("\nYou have received a discount ");
+			textMessage.append(reservationAdventure.getDiscountPercentage());
+			textMessage.append("%, so your bill is now ");
+			Double newPrice = reservationAdventure.getPrice() * (1 - reservationAdventure.getDiscountPercentage()/100.);
+			textMessage.append(newPrice.toString());
+			textMessage.append(" instead of ");
+			textMessage.append(reservationAdventure.getPrice().toString() + " RSD.");
+		} else {
+			textMessage.append("\nYour bill is ");
+			textMessage.append(reservationAdventure.getPrice().toString() + " RSD.");
+		}
+		textMessage.append("\nContact the fishing instructor for details, phone number: ");
+		textMessage.append(adventure.getFishingInstructor().getPhoneNumber());
+		textMessage.append(", email: ");
+		textMessage.append(adventure.getFishingInstructor().getEmail() + ".");
+		textMessage.append("\nBest regards and see you!");
+		return textMessage.toString();
+	}
+	
+	private void sendFastReservationEmail(String clientEmail, String text) {
+		emailService.sendNotificaitionAsync(clientEmail, "Successfully scheduled fast reservation for adventure", text);
+	}
+	
 	@Override
 	public Boolean cancelReservation(Long reservationId) {
 		ReservationAdventure reservationAdventure = reservationAdventureRepository.findByReservationAdventureId(reservationId);

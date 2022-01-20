@@ -181,7 +181,7 @@ INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VAL
 INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (2, 26);
 INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (2, 27);
 
----
+--- Cottage additional services
 
 INSERT INTO public.cottage_additional_service(cottage_additional_service_id, cottage_additional_service_type) VALUES (default, 'WIFI');
 INSERT INTO public.cottage_additional_service(cottage_additional_service_id, cottage_additional_service_type) VALUES (default, 'PARKING');
@@ -338,7 +338,7 @@ INSERT INTO public.revision(comment, rating, revision_status, client_id, adventu
 
 -- Wooden Cottage
 INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, discount_percentage, reservation_status, cottage_id)
-	VALUES ('2022-03-08 11:00:00', '4', '4', '26000', '20', 'WAITING', '1');
+	VALUES ('2022-04-08 11:00:00', '4', '4', '26000', '20', 'WAITING', '1');
 
 -- Wooden Cottage additional services
 
@@ -354,6 +354,42 @@ INSERT INTO public.reservation_cottage_cottage_additional_services(
 	reservation_cottage_reservation_cottage_id, cottage_additional_services_cottage_additional_service_id)
 	VALUES ('11', '3');
 	
+-- Mountain cottage Exclusive
+INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, discount_percentage, reservation_status, cottage_id)
+	VALUES ('2022-04-26 10:30:00', '4', '4', '36000', '20', 'WAITING', '3');
+
+-- Exclusive Cottage additional services
+
+INSERT INTO public.reservation_cottage_cottage_additional_services(
+	reservation_cottage_reservation_cottage_id, cottage_additional_services_cottage_additional_service_id)
+	VALUES ('12', '1');
+	
+INSERT INTO public.reservation_cottage_cottage_additional_services(
+	reservation_cottage_reservation_cottage_id, cottage_additional_services_cottage_additional_service_id)
+	VALUES ('12', '2');
+	
+	
+-- Mountain cottage Mi Casa
+INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, discount_percentage, reservation_status, cottage_id)
+	VALUES ('2022-03-20 10:30:00', '4', '2', '27000', '10', 'WAITING', '2');
+
+-- Mi Casa Cottage additional services
+
+INSERT INTO public.reservation_cottage_cottage_additional_services(
+	reservation_cottage_reservation_cottage_id, cottage_additional_services_cottage_additional_service_id)
+	VALUES ('13', '1');
+	
+INSERT INTO public.reservation_cottage_cottage_additional_services(
+	reservation_cottage_reservation_cottage_id, cottage_additional_services_cottage_additional_service_id)
+	VALUES ('13', '2');
+	
+INSERT INTO public.reservation_cottage_cottage_additional_services(
+	reservation_cottage_reservation_cottage_id, cottage_additional_services_cottage_additional_service_id)
+	VALUES ('13', '3');
+	
+		
+	
+
 -- SHIP FAST RESERVATION
 
 INSERT INTO public.ship_additional_service(ship_additional_service_id, ship_additional_service_type)
@@ -393,7 +429,7 @@ INSERT INTO public.reservation_ship_fishing_equipment_for_ship(
 
 	
 INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_persons, price, discount_percentage, reservation_status, ship_reservation_cancel_term, ship_id)
-	VALUES ('2022-03-03 12:00:00', '4', '6', '65000', '30', 'WAITING', 'FREE', '1');	
+	VALUES ('2022-03-28 12:00:00', '4', '6', '65000', '30', 'WAITING', 'FREE', '1');	
 
 INSERT INTO public.reservation_ship_ship_additional_services(
 	reservation_ship_reservation_ship_id, ship_additional_services_ship_additional_service_id)
@@ -414,3 +450,50 @@ INSERT INTO public.reservation_ship_fishing_equipment_for_ship(
 INSERT INTO public.reservation_ship_fishing_equipment_for_ship(
 	reservation_ship_reservation_ship_id, fishing_equipment_for_ship_fishing_equipment_for_ship_id)
 	VALUES ('7', '2');	
+	
+
+-- ADVENTURE FAST RESERVATION
+
+INSERT INTO public.adventure_additional_service(
+	adventure_additional_service_id, adventure_additional_service_type)
+	VALUES (default, 'INSTRUCTOR_HAS_SHIP');
+	
+INSERT INTO public.fishing_equipment_for_adventure(
+	fishing_equipment_for_adventure_id, fishing_equipment_for_adventure_type)
+	VALUES (default, 'FISHING_ROD');
+	
+INSERT INTO public.fishing_equipment_for_adventure(
+	fishing_equipment_for_adventure_id, fishing_equipment_for_adventure_type)
+	VALUES (default, 'FISHING_NET');
+	
+INSERT INTO public.reservation_adventure(adventure_reservation_cancel_term, date_and_time, duration, max_number_of_persons, price, discount_percentage, reservation_status, adventure_id)
+	VALUES ('FREE', '2022-03-10 10:00:00', '2', '2', '2800', '40', 'WAITING', '1');
+
+INSERT INTO public.reservation_adventure_adventure_additional_service(
+	reservation_adventure_reservation_adventure_id, adventure_additional_service_adventure_additional_service_id)
+	VALUES ('5', '1');
+	
+INSERT INTO public.reservation_adventure_fishing_equipment_for_adventure(
+	reservation_adventure_reservation_adventure_id, fishing_equipment_for_adventure_fishing_equipment_for_adventure)
+	VALUES ('5', '1');
+	
+INSERT INTO public.reservation_adventure_fishing_equipment_for_adventure(
+	reservation_adventure_reservation_adventure_id, fishing_equipment_for_adventure_fishing_equipment_for_adventure)
+	VALUES ('5', '2');
+	
+	
+INSERT INTO public.reservation_adventure(adventure_reservation_cancel_term, date_and_time, duration, max_number_of_persons, price, discount_percentage, reservation_status, adventure_id)
+	VALUES ('FREE', '2022-03-17 15:30:00', '3', '5', '3800', '15', 'WAITING', '2');
+	
+INSERT INTO public.reservation_adventure_fishing_equipment_for_adventure(
+	reservation_adventure_reservation_adventure_id, fishing_equipment_for_adventure_fishing_equipment_for_adventure)
+	VALUES ('6', '1');
+	
+INSERT INTO public.reservation_adventure_fishing_equipment_for_adventure(
+	reservation_adventure_reservation_adventure_id, fishing_equipment_for_adventure_fishing_equipment_for_adventure)
+	VALUES ('6', '2');
+	
+
+	
+	
+
