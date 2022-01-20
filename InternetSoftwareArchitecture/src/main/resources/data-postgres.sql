@@ -5,16 +5,16 @@ INSERT INTO public.authority (name) VALUES ('ROLE_FISHING_INSTRUCTOR');
 INSERT INTO public.authority (name) VALUES ('ROLE_SYSTEM_ADMINISTRATOR');
 
 
-INSERT INTO public.address (city, country, street, street_number) VALUES ('RandomCity', 'Serbia', 'RandomStreet', '1');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Novi Sad', 'Serbia', 'Jevrejska', '6');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Novi Sad', 'Serbia', 'Bulevar Oslobodjenja', '10');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Novi Sad', 'Serbia', 'Bulevar Oslobodjenja', '9');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Temerin', 'Serbia', 'Novosadska', '31');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Beograd', 'Serbia', 'Svetog Save', '10');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Novi Sad', 'Serbia', 'Bulevar Oslobodjenja', '99');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Beograd', 'Serbia', 'Krusedolska', '31');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Zajecar', 'Serbia', 'Kotorska', '11');
-INSERT INTO public.address (city, country, street, street_number) VALUES ('Beograd', 'Serbia', 'Karadjordjeva', '9');
+INSERT INTO public.address(city, country, street, street_number) VALUES ('RandomCity', 'Serbia', 'RandomStreet', '1');
+INSERT INTO public.address(city, country, street, street_number) VALUES ('Novi Sad', 'Serbia', 'Jevrejska', '6');
+INSERT INTO public.address(city, country, street, street_number) VALUES ('Novi Sad', 'Serbia', 'Bulevar Oslobodjenja', '10');
+INSERT INTO public.address(city, country, street, street_number) VALUES ('Novi Sad', 'Serbia', 'Bulevar Oslobodjenja', '9');
+INSERT INTO public.address(city, country, street, street_number) VALUES ('Temerin', 'Serbia', 'Novosadska', '31');
+INSERT INTO public.address(city, country, street, street_number) VALUES ('Beograd', 'Serbia', 'Svetog Save', '10');
+INSERT INTO public.address(city, country, street, street_number) VALUES ('Novi Sad', 'Serbia', 'Bulevar Oslobodjenja', '99');
+INSERT INTO public.address(city, country, street, street_number) VALUES ('Beograd', 'Serbia', 'Krusedolska', '31');
+INSERT INTO public.address(city, country, street, street_number) VALUES ('Zajecar', 'Serbia', 'Kotorska', '11');
+INSERT INTO public.address(city, country, street, street_number) VALUES ('Beograd', 'Serbia', 'Karadjordjeva', '9');
 
 -- Admin 		Password: Admin123!
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, first_login_change_password, address_id) VALUES ('SystemAdministrator', default, 'admin@email.com', true, 'Admin', 'Admin', '$2a$12$9bz1GJdLCG.Ttl/p5al5O.KZOkfhgWv.MhbivCtKvC0JXbp6vyi6W', '0615859999', 'AdbMbt4t1KLF-G0SX01WPL==', 'SYSTEM_ADMINISTRATOR', true, '1');
@@ -71,7 +71,7 @@ INSERT INTO public.image(name) VALUES ('1638982456921cottage1img5');
 INSERT INTO public.image(name) VALUES ('1638982456933cottage1img6');
 
 
-INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Bajina Basta', 'Serbia', 'Perucac', '8', '19.478483', '43.955651');
+INSERT INTO public.address(city, country, street, street_number, longitude, latitude) VALUES ('Bajina Basta', 'Serbia', 'Perucac', '8', '19.478483', '43.955651');
 
 INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_list_id)
 	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'Very nice cottage, overlooking the river. Vacation is guaranteed.', 'Wooden cottage on Drina', '2', '2', '4.0', '11', '3', '1');
@@ -90,7 +90,7 @@ INSERT INTO public.image(name) VALUES ('1638983374343cottage2img4');
 INSERT INTO public.image(name) VALUES ('1638983374352cottage2img5');
 INSERT INTO public.image(name) VALUES ('1638983374358cottage2img6');
 	
-INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Vrdnik', 'Serbia', 'Mikice Lesjaka', '20', '19.789300', '45.134670');
+INSERT INTO public.address(city, country, street, street_number, longitude, latitude) VALUES ('Vrdnik', 'Serbia', 'Mikice Lesjaka', '20', '19.789300', '45.134670');
 
 INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_list_id)
 	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'This villa has a private pool, a garden, barbecue facilities, free WiFi and free private parking.', 'Mi Casa', '3', '2', '5.0', '12', '5', '2');
@@ -106,7 +106,7 @@ INSERT INTO public.image(name) VALUES ('1638984512089cottage3img1');
 INSERT INTO public.image(name) VALUES ('1638984512234cottage3img2');
 INSERT INTO public.image(name) VALUES ('1638984512259cottage3img3');
 
-INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Bajina Basta', 'Serbia', 'Sekuliceva', '8', '19.432485', '43.890245');
+INSERT INTO public.address(city, country, street, street_number, longitude, latitude) VALUES ('Bajina Basta', 'Serbia', 'Sekuliceva', '8', '19.432485', '43.890245');
 
 INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_list_id)
 	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'Excellent cottag...', 'Mountain cottage Exclusive', '2', '2', '4.9', '13', '4', '3');
@@ -337,10 +337,11 @@ INSERT INTO public.revision(comment, rating, revision_status, client_id, adventu
 -- COTTAGE FAST RESERVATION
 
 -- Wooden Cottage
-INSERT INTO public.reservation_cottage(date_and_time, discount_percentage, duration, max_number_of_persons, price, reservation_status, cottage_id)
-	VALUES ('2022-03-08 11:00:00', '20', '4', '4', '26000', 'WAITING', '1');
+INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_persons, price, discount_percentage, reservation_status, cottage_id)
+	VALUES ('2022-03-08 11:00:00', '4', '4', '26000', '20', 'WAITING', '1');
 
 -- Wooden Cottage additional services
+
 INSERT INTO public.reservation_cottage_cottage_additional_services(
 	reservation_cottage_reservation_cottage_id, cottage_additional_services_cottage_additional_service_id)
 	VALUES ('11', '1');
@@ -353,9 +354,63 @@ INSERT INTO public.reservation_cottage_cottage_additional_services(
 	reservation_cottage_reservation_cottage_id, cottage_additional_services_cottage_additional_service_id)
 	VALUES ('11', '3');
 	
+-- SHIP FAST RESERVATION
+
+INSERT INTO public.ship_additional_service(ship_additional_service_id, ship_additional_service_type)
+	VALUES (default, 'WIFI');
+INSERT INTO public.ship_additional_service(ship_additional_service_id, ship_additional_service_type)
+	VALUES (default, 'MINIBAR');
+INSERT INTO public.ship_additional_service(ship_additional_service_id, ship_additional_service_type)
+	VALUES (default, 'PET_FRIENDLY');
+	
+INSERT INTO public.fishing_equipment_for_ship(
+	fishing_equipment_for_ship_id, fishing_equipment_for_ship_type)
+	VALUES (default, 'FISHING_ROD');
+	
+INSERT INTO public.fishing_equipment_for_ship(
+	fishing_equipment_for_ship_id, fishing_equipment_for_ship_type)
+	VALUES (default, 'FISHING_NET');
+
+INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_persons, price, discount_percentage, reservation_status, ship_reservation_cancel_term, ship_id)
+	VALUES ('2022-04-05 15:00:00', '4', '6', '60000', '10', 'WAITING', 'FREE', '2');	
+
+INSERT INTO public.reservation_ship_ship_additional_services(
+	reservation_ship_reservation_ship_id, ship_additional_services_ship_additional_service_id)
+	VALUES ('6', '1');
+
+INSERT INTO public.reservation_ship_ship_additional_services(
+	reservation_ship_reservation_ship_id, ship_additional_services_ship_additional_service_id)
+	VALUES ('6', '2');
+
+INSERT INTO public.reservation_ship_fishing_equipment_for_ship(
+	reservation_ship_reservation_ship_id, fishing_equipment_for_ship_fishing_equipment_for_ship_id)
+	VALUES ('6', '1');
 	
 
+INSERT INTO public.reservation_ship_fishing_equipment_for_ship(
+	reservation_ship_reservation_ship_id, fishing_equipment_for_ship_fishing_equipment_for_ship_id)
+	VALUES ('6', '2');	
+
 	
+INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_persons, price, discount_percentage, reservation_status, ship_reservation_cancel_term, ship_id)
+	VALUES ('2022-03-03 12:00:00', '4', '6', '65000', '30', 'WAITING', 'FREE', '1');	
+
+INSERT INTO public.reservation_ship_ship_additional_services(
+	reservation_ship_reservation_ship_id, ship_additional_services_ship_additional_service_id)
+	VALUES ('7', '1');	
 	
+INSERT INTO public.reservation_ship_ship_additional_services(
+	reservation_ship_reservation_ship_id, ship_additional_services_ship_additional_service_id)
+	VALUES ('7', '2');
+
+INSERT INTO public.reservation_ship_ship_additional_services(
+	reservation_ship_reservation_ship_id, ship_additional_services_ship_additional_service_id)
+	VALUES ('7', '3');
+
+INSERT INTO public.reservation_ship_fishing_equipment_for_ship(
+	reservation_ship_reservation_ship_id, fishing_equipment_for_ship_fishing_equipment_for_ship_id)
+	VALUES ('7', '1');
 	
-	
+INSERT INTO public.reservation_ship_fishing_equipment_for_ship(
+	reservation_ship_reservation_ship_id, fishing_equipment_for_ship_fishing_equipment_for_ship_id)
+	VALUES ('7', '2');	

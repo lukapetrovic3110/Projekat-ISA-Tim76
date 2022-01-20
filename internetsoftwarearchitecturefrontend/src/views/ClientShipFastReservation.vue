@@ -1,14 +1,14 @@
 <template>
   <div>
     <h1 id="caption">
-      Available fast reservations for {{ cottageInformation.name }}
+      Available fast reservations for {{ shipInformation.name }}
     </h1>
     <div class="pt-1">
       <v-card id="fastReservationCard" justify-center>
         <div>
           <v-data-table
-            :headers="headersCottageFastReservation"
-            :items="cottageFastReservations"
+            :headers="headersShipFastReservation"
+            :items="shipFastReservations"
             hide-default-footer
             class="elevation-1"
           >
@@ -19,7 +19,7 @@
                   Choose fast reservation
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-dialog v-model="dialogScheduleCottageFastReseravation" max-width="60%">
+                <v-dialog v-model="dialogScheduleShipFastReseravation" max-width="60%">
                   <v-card>
                     <v-card-title class="text-h6 justify-center"
                       >Are you want to schedule this reservation?</v-card-title>
@@ -28,14 +28,14 @@
                        <v-btn
                         color="success"
                         text
-                        @click="scheduleCottageFastReservation"
+                        @click="scheduleShipFastReservation"
                         >Yes</v-btn
                       >
                       <v-spacer></v-spacer>
                       <v-btn
                         color="red"
                         text
-                        @click="closeScheduledCottageFastReservation"
+                        @click="closeScheduledShipFastReservation"
                        >No</v-btn>
                       <v-spacer></v-spacer>
                     </v-card-actions>
@@ -48,7 +48,7 @@
                 <v-spacer></v-spacer>
                 <v-btn
                   color="success"
-                  @click="scheduleCottageReservation(item)"
+                  @click="scheduleShipReservation(item)"
                 >
                   Schedule
                 </v-btn>
@@ -65,40 +65,44 @@
 <script>
 export default {
   data: () => ({
-    name: "ClientCottageFastReservation",
-    cottageFastReservations: [],
-    dialogCottageReservationStartDateAndTime: false,
-    dialogScheduleCottageFastReseravation: false,
-    headersCottageFastReservation: [
+    name: "ClientShipFastReservation",
+    shipFastReservations: [],
+    dialogScheduleShipFastReseravation: false,
+    headersShipFastReservation: [
       {
         text: "Start date and time",
-        align: "center",
         value: "dateAndTime",
+        align: "center",
       },
       {
-        text: "Duration (days)",
-        align: "center",
+        text: "Duration (hours)",
         value: "duration",
+        align: "center",     
       },
       {
         text: "Max number of persons",
-        align: "center",
         value: "maxNumberOfPersons",
+        align: "center",
       },
       {
         text: "Price (RSD)",
-        align: "center",
         value: "price",
+        align: "center",
       },
       {
         text: "Discount (%)",
-        align: "center",
         value: "discountPercentage",
+        align: "center",
       },
       {
-        text: "Cottage additional services",
+        text: "Ship additional services",
+        value: "shipAdditionalServices",
         align: "center",
-        value: "cottageAdditionalServices",
+      },
+      {
+        text: "Fishing equipment",
+        value: "fishingEquipmentForShip",
+        align: "center",
       },
       {
         text: "Actions",
@@ -107,53 +111,55 @@ export default {
         sortable: false,
       },
     ],
-    cottageInformation: null,
-    cottageId: null,
-    cottageFastReservationItem: {
-      cottageFastReservationId: null,
+    shipInformation: null,
+    shipId: null,
+    shipFastReservationItem: {
+      shipFastReservationId: null,
       dateAndTime: null,
       duration: "",
       maxNumberOfPersons: "",
-      cottageAdditionalServices: [],
+      shipAdditionalServices: [],
+      fishingEquipmentForShip: [],
       price: "",
       discountPercentage: "",
     },
-    cottageFastReservationDefaultItem: {
-      cottageFastReservationId: null,
+    shipFastReservationDefaultItem: {
+      shipFastReservationId: null,
       dateAndTime: null,
       duration: "",
       maxNumberOfPersons: "",
-      cottageAdditionalServices: [],
+      shipAdditionalServices: [],
+      fishingEquipmentForShip: [],
       price: "",
       discountPercentage: "",
     },
-    cottageFastReservationItemIndex: -1,
+    shipFastReservationItemIndex: -1,
   }),
 
   watch: {
-    dialogScheduleCottageFastReseravation(val) {
-      val || this.closeScheduledCottageFastReservation();
+    dialogScheduleShipFastReseravation(val) {
+      val || this.closeScheduledShipFastReservation();
     },
   },
 
   mounted() {
-    this.cottageId = localStorage.getItem("cottageId");
-    this.findCottage();
-    this.getAllFastReservationsForCottage();
+    this.shipId = localStorage.getItem("shipId");
+    this.findShip();
+    this.getAllFastReservationsForShip();
   },
 
   methods: {
-    findCottage() {
+    findShip() {
       this.axios
-        .get("http://localhost:8091/cottage/findCottage/" + this.cottageId)
-        .then((response) => (this.cottageInformation = response.data))
+        .get("http://localhost:8091/ship/findShip/" + this.shipId)
+        .then((response) => (this.shipInformation = response.data))
         .catch((err) => console.log(err));
     },
-    getAllFastReservationsForCottage() {
+    getAllFastReservationsForShip() {
       this.axios
         .get(
-          "http://localhost:8091/reservationCottage/cottageFastReservations/" +
-            this.cottageId,
+          "http://localhost:8091/reservationShip/shipFastReservations/" +
+            this.shipId,
           {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
@@ -161,26 +167,38 @@ export default {
           }
         )
         .then((response) => {
-          this.cottageFastReservations = response.data;
-          console.log(this.cottageFastReservations);
-          this.cottageFastReservations.forEach((reservation) => {
+          this.shipFastReservations = response.data;
+          console.log(this.shipFastReservations);
+          this.shipFastReservations.forEach((reservation) => {
             let date = new Date(reservation.dateAndTime);
             reservation.dateAndTime = date.toLocaleDateString() + " " + date.toLocaleTimeString();
             let reservationAdditionalServices = [];
-            reservation.cottageAdditionalServices.forEach((element) => {
+            reservation.shipAdditionalServices.forEach((element) => {
               reservationAdditionalServices.push(
-                " " + element.cottageAdditionalServiceType.replace("_", " ")
+                " " + element.shipAdditionalServiceType.replace("_", " ")
               );
             });
-            reservation.cottageAdditionalServices =
+            reservation.shipAdditionalServices =
               reservationAdditionalServices;
             reservationAdditionalServices = [];
+            let fishingEquipmentForShip = [];
+            reservation.fishingEquipmentForShip.forEach((element) => {
+              fishingEquipmentForShip.push(
+                " " + element.fishingEquipmentForShipType.replace("_", " ")
+              );
+            });
+            reservation.fishingEquipmentForShip =
+              fishingEquipmentForShip;
+            fishingEquipmentForShip = [];
             if (reservation.discountPercentage == null) {
               reservation.discountPercentage = "No discount";
             }
-            if(reservation.cottageAdditionalServices.length == 0) {
-              reservation.cottageAdditionalServices = "No additional service";
+            if(reservation.shipAdditionalServices.length == 0) {
+              reservation.shipAdditionalServices = "No additional service";
             } 
+            if(reservation.fishingEquipmentForShip.length == 0) {
+              reservation.fishingEquipmentForShip = "No additional fishing equipment";
+            }
           });
         })
         .catch((err) => {
@@ -192,12 +210,12 @@ export default {
         });
     },
 
-    scheduleCottageFastReservation() {
+    scheduleShipFastReservation() {
       this.axios
         .post(
-          "http://localhost:8091/reservationCottage/scheduleFastReservation",
+          "http://localhost:8091/reservationShip/scheduleFastReservation",
           {
-            fastReservationId: this.cottageFastReservationItem.cottageFastReservationId,
+            fastReservationId: this.shipFastReservationItem.shipFastReservationId,
           },
           {
             headers: {
@@ -207,29 +225,29 @@ export default {
         )
         .then((response) => {
           if (response.data === true) {
-            this.cottageFastReservations.splice(this.cottageFastReservationItemIndex,1);
+              this.shipFastReservations.splice(this.shipFastReservationItemIndex,1);
             alert("The fast reservation was successfully scheduled!");
           } else {
             alert("The fast reservation cannot be scheduled because it overlaps with another!");
           }
         });
-      this.closeScheduledCottageFastReservation();
+      this.closeScheduledShipFastReservation();
     },
 
-    scheduleCottageReservation(item) {
-      this.cottageFastReservationItemIndex = this.cottageFastReservations.indexOf(item);
-      this.cottageFastReservationItem = Object.assign({}, item);
-      this.dialogScheduleCottageFastReseravation = true;
+    scheduleShipReservation(item) {
+      this.shipFastReservationItemIndex = this.shipFastReservations.indexOf(item);
+      this.shipFastReservationItem = Object.assign({}, item);
+      this.dialogScheduleShipFastReseravation = true;
     },
 
-    closeScheduledCottageFastReservation() {
-      this.dialogScheduleCottageFastReseravation = false;
+    closeScheduledShipFastReservation() {
+      this.dialogScheduleShipFastReseravation = false;
       this.$nextTick(() => {
-        this.cottageFastReservationItem = Object.assign(
+        this.shipFastReservationItem = Object.assign(
           {},
-          this.cottageFastReservationDefaultItem
+          this.shipFastReservationDefaultItem
         );
-        this.cottageFastReservationItemIndex = -1;
+        this.shipFastReservationItemIndex = -1;
       });
     },
   },

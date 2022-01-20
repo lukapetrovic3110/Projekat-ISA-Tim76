@@ -41,15 +41,10 @@ import Team76.InternetSoftwareArchitecture.repository.IReservationCottageReposit
 public class ReservationCottageService implements IReservationCottageService {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
 	private IReservationCottageRepository reservationCottageRepository;
-	
 	private ICottageRepository cottageRepository;
-	
 	private ICottageReservationReportRepository cottageReservationReportRepository;
-	
 	private IClientRepository clientRepository;
-	
 	private EmailService emailService;
 	
 	@Autowired
@@ -179,6 +174,7 @@ public class ReservationCottageService implements IReservationCottageService {
 			sendFastReservationEmail(client.getEmail(),createMessage(reservationCottage, cottage));		
 			return true;
 		} catch(Exception e) {
+			System.out.println(e.getMessage());
 			return false;
 		}
 	}
@@ -189,7 +185,7 @@ public class ReservationCottageService implements IReservationCottageService {
 		textMessage.append("You have a scheduled cottage - ");
 		textMessage.append(cottage.getName());
 		textMessage.append(" from ");
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.M.yyyy. HH:mm:ss");
 		Date startDateAndTime = reservationCottage.getDateAndTime();
 		Calendar startReservationDate = Calendar.getInstance();
 		startReservationDate.setTime(startDateAndTime);
@@ -199,14 +195,19 @@ public class ReservationCottageService implements IReservationCottageService {
 		endReservationDate.setTime(startDateAndTime);
 		endReservationDate.add(Calendar.DAY_OF_MONTH, reservationCottage.getDuration());
 		textMessage.append(sdf.format(endReservationDate.getTime()));
-		textMessage.append(".\n");
-		textMessage.append("You have received a discount ");
-		textMessage.append(reservationCottage.getDiscountPercentage());
-		textMessage.append("%, so your bill is now ");
-		Double newPrice = reservationCottage.getPrice() * (1 - reservationCottage.getDiscountPercentage()/100.);
-		textMessage.append(newPrice.toString());
-		textMessage.append(" instead of ");
-		textMessage.append(reservationCottage.getPrice().toString() + " RSD.");
+		textMessage.append(".");
+		if (reservationCottage.getDiscountPercentage() !=  null) {
+			textMessage.append("\nYou have received a discount ");
+			textMessage.append(reservationCottage.getDiscountPercentage());
+			textMessage.append("%, so your bill is now ");
+			Double newPrice = reservationCottage.getPrice() * (1 - reservationCottage.getDiscountPercentage()/100.);
+			textMessage.append(newPrice.toString());
+			textMessage.append(" instead of ");
+			textMessage.append(reservationCottage.getPrice().toString() + " RSD.");
+		} else {
+			textMessage.append("\nYour bill is ");
+			textMessage.append(reservationCottage.getPrice().toString() + " RSD.");
+		}
 		textMessage.append("\nContact the owner for details, phone number: ");
 		textMessage.append(cottage.getCottageOwner().getPhoneNumber());
 		textMessage.append(", email: ");

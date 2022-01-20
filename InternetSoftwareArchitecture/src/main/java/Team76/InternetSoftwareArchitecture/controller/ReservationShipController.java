@@ -9,10 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationShipDTO;
+import Team76.InternetSoftwareArchitecture.dto.ScheduleFastReservationDTO;
+import Team76.InternetSoftwareArchitecture.dto.ShipFastReservationDTO;
 import Team76.InternetSoftwareArchitecture.service.ReservationShipService;
 
 @CrossOrigin(origins = "http://localhost:8083")
@@ -32,5 +37,21 @@ public class ReservationShipController {
 	public ResponseEntity<List<HistoryReservationShipDTO>> findAllHistoryReservationByClient() {
 		return new ResponseEntity<List<HistoryReservationShipDTO>>(reservationShipService.findAllHistoryReservationByClient(), HttpStatus.OK);
 	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_SHIP_OWNER', 'ROLE_CLIENT')")
+	@GetMapping("/shipFastReservations/{shipId}")
+	public ResponseEntity<List<ShipFastReservationDTO>> findAllFastReservationsForShip(@PathVariable Long shipId) {
+		return new ResponseEntity<List<ShipFastReservationDTO>>(reservationShipService.findAllFastReservationsForShip(shipId), HttpStatus.OK);
+	}
 
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@PostMapping("/scheduleFastReservation")
+	public ResponseEntity<?> scheduleFastReservation(@RequestBody ScheduleFastReservationDTO scheduleFastReservationDTO) {
+		try {
+			return new ResponseEntity<Boolean>(reservationShipService.scheduleFastReservation(scheduleFastReservationDTO.getFastReservationId()), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 }
