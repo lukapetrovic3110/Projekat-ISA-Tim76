@@ -18,8 +18,8 @@ INSERT INTO public.address(city, country, street, street_number) VALUES ('Beogra
 
 -- Admin 		Password: Admin123!
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, first_login_change_password, address_id) VALUES ('SystemAdministrator', default, 'admin@email.com', true, 'Admin', 'Admin', '$2a$12$9bz1GJdLCG.Ttl/p5al5O.KZOkfhgWv.MhbivCtKvC0JXbp6vyi6W', '0615859999', 'AdbMbt4t1KLF-G0SX01WPL==', 'SYSTEM_ADMINISTRATOR', true, '1');
--- Client1		Password: Client123!     email for test: your email address 1   milan98@email.com
-INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('Client', default, 'lukait31@gmail.com', true, 'Milan', 'Zivkovic', '$2a$12$gMBetyilqUFKX9iv4UuNhOATalqMm9y/LcV44I6c/AooN.VL/geK6', '0645557771', 'G1pxvzLwtZujO+hVgIp2og==', 'CLIENT', '2');
+-- Client1		Password: Client123!     email for test: your email address 1   
+INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('Client', default, 'milan98@email.com', true, 'Milan', 'Zivkovic', '$2a$12$gMBetyilqUFKX9iv4UuNhOATalqMm9y/LcV44I6c/AooN.VL/geK6', '0645557771', 'G1pxvzLwtZujO+hVgIp2og==', 'CLIENT', '2');
 -- CottageOwner1	Password: Owner123!  email for test: your email address 2 
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, rating, address_id) VALUES ('CottageOwner', default, 'milos98@email.com', true, 'Milos', 'Milosevic', '$2a$12$1hs/7XPSREmfh70Omj.Zee5W59JnOsCN41xidlyDv1fVHmizIy.qa', '0645554048', 'h96BMRi8MSnZYO/+7RrbYQ==', 'COTTAGE_OWNER', '4.1', '3');
 -- CottageOwner2	Password: Dada123# 
@@ -181,7 +181,7 @@ INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VAL
 INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (2, 26);
 INSERT INTO public.adventure_images(adventure_adventure_id, images_image_id) VALUES (2, 27);
 
---- Cottage additional services
+-- COTTAGE ADDITIONAL SERVICES
 
 INSERT INTO public.cottage_additional_service(cottage_additional_service_id, cottage_additional_service_type) VALUES (default, 'WIFI');
 INSERT INTO public.cottage_additional_service(cottage_additional_service_id, cottage_additional_service_type) VALUES (default, 'PARKING');
@@ -341,7 +341,6 @@ INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_pe
 	VALUES ('2022-04-08 11:00:00', '4', '4', '26000', '20', 'WAITING', '1');
 
 -- Wooden Cottage additional services
-
 INSERT INTO public.reservation_cottage_cottage_additional_services(
 	reservation_cottage_reservation_cottage_id, cottage_additional_services_cottage_additional_service_id)
 	VALUES ('11', '1');
@@ -359,7 +358,6 @@ INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_pe
 	VALUES ('2022-04-26 10:30:00', '4', '4', '36000', '20', 'WAITING', '3');
 
 -- Exclusive Cottage additional services
-
 INSERT INTO public.reservation_cottage_cottage_additional_services(
 	reservation_cottage_reservation_cottage_id, cottage_additional_services_cottage_additional_service_id)
 	VALUES ('12', '1');
@@ -374,7 +372,6 @@ INSERT INTO public.reservation_cottage(date_and_time, duration, max_number_of_pe
 	VALUES ('2022-03-20 10:30:00', '4', '2', '27000', '10', 'WAITING', '2');
 
 -- Mi Casa Cottage additional services
-
 INSERT INTO public.reservation_cottage_cottage_additional_services(
 	reservation_cottage_reservation_cottage_id, cottage_additional_services_cottage_additional_service_id)
 	VALUES ('13', '1');
@@ -386,11 +383,8 @@ INSERT INTO public.reservation_cottage_cottage_additional_services(
 INSERT INTO public.reservation_cottage_cottage_additional_services(
 	reservation_cottage_reservation_cottage_id, cottage_additional_services_cottage_additional_service_id)
 	VALUES ('13', '3');
-	
-		
-	
 
--- SHIP FAST RESERVATION
+-- SHIP ADDITIONAL SERVICES
 
 INSERT INTO public.ship_additional_service(ship_additional_service_id, ship_additional_service_type)
 	VALUES (default, 'WIFI');
@@ -398,7 +392,9 @@ INSERT INTO public.ship_additional_service(ship_additional_service_id, ship_addi
 	VALUES (default, 'MINIBAR');
 INSERT INTO public.ship_additional_service(ship_additional_service_id, ship_additional_service_type)
 	VALUES (default, 'PET_FRIENDLY');
-	
+
+-- FISHING EQUIPMENT FOR SHIP
+
 INSERT INTO public.fishing_equipment_for_ship(
 	fishing_equipment_for_ship_id, fishing_equipment_for_ship_type)
 	VALUES (default, 'FISHING_ROD');
@@ -406,6 +402,8 @@ INSERT INTO public.fishing_equipment_for_ship(
 INSERT INTO public.fishing_equipment_for_ship(
 	fishing_equipment_for_ship_id, fishing_equipment_for_ship_type)
 	VALUES (default, 'FISHING_NET');
+
+-- SHIP FAST RESERVATION
 
 INSERT INTO public.reservation_ship(date_and_time, duration, max_number_of_persons, price, discount_percentage, reservation_status, ship_reservation_cancel_term, ship_id)
 	VALUES ('2022-04-05 15:00:00', '4', '6', '60000', '10', 'WAITING', 'FREE', '2');	
@@ -451,12 +449,13 @@ INSERT INTO public.reservation_ship_fishing_equipment_for_ship(
 	reservation_ship_reservation_ship_id, fishing_equipment_for_ship_fishing_equipment_for_ship_id)
 	VALUES ('7', '2');	
 	
-
--- ADVENTURE FAST RESERVATION
+-- ADVENTURE ADDITIONAL SERVICE
 
 INSERT INTO public.adventure_additional_service(
 	adventure_additional_service_id, adventure_additional_service_type)
 	VALUES (default, 'INSTRUCTOR_HAS_SHIP');
+	
+-- FISHING EQUIPMENT FOR ADVENTURE
 	
 INSERT INTO public.fishing_equipment_for_adventure(
 	fishing_equipment_for_adventure_id, fishing_equipment_for_adventure_type)
@@ -465,7 +464,9 @@ INSERT INTO public.fishing_equipment_for_adventure(
 INSERT INTO public.fishing_equipment_for_adventure(
 	fishing_equipment_for_adventure_id, fishing_equipment_for_adventure_type)
 	VALUES (default, 'FISHING_NET');
-	
+
+-- ADVENTURE FAST RESERVATION
+
 INSERT INTO public.reservation_adventure(adventure_reservation_cancel_term, date_and_time, duration, max_number_of_persons, price, discount_percentage, reservation_status, adventure_id)
 	VALUES ('FREE', '2022-03-10 10:00:00', '2', '2', '2800', '40', 'WAITING', '1');
 
