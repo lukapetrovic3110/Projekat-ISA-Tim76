@@ -1,4 +1,4 @@
-package Team76.InternetSoftwareArchitecture.service;
+	package Team76.InternetSoftwareArchitecture.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,6 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.dto.CottageFastReservationDTO;
+import Team76.InternetSoftwareArchitecture.dto.CottageReservationCalendarDTO;
+import Team76.InternetSoftwareArchitecture.dto.CottageReservationCalendarInformationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationClientInformationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationInformationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationReportDTO;
@@ -111,15 +113,15 @@ public class ReservationCottageService implements IReservationCottageService {
 		
 		for (ReservationCottage reservationCottage : allCottageReservations) {
 			if (reservationStatus == null) {
-				cottageOwnerCottagesId.contains(reservationCottage.getCottage().getCottageId());
-				reservationsForCottageOwner.add(reservationCottage);
+				if (cottageOwnerCottagesId.contains(reservationCottage.getCottage().getCottageId())) {
+					reservationsForCottageOwner.add(reservationCottage);
+				}
 			} else if (reservationStatus.equals(ReservationStatus.FINISHED)) {
-				if (reservationCottage.getReservationStatus().equals(reservationStatus) && !cottageReservationIdFromCottageReservationReport.contains(reservationCottage.getReservationCottageId())) {
-					cottageOwnerCottagesId.contains(reservationCottage.getCottage().getCottageId());
+				if (reservationCottage.getReservationStatus().equals(reservationStatus) && !cottageReservationIdFromCottageReservationReport.contains(reservationCottage.getReservationCottageId()) && cottageOwnerCottagesId.contains(reservationCottage.getCottage().getCottageId())) {
 					reservationsForCottageOwner.add(reservationCottage);
 				}
 			} else {
-				if (reservationCottage.getReservationStatus().equals(reservationStatus)) {
+				if (reservationCottage.getReservationStatus().equals(reservationStatus) && cottageOwnerCottagesId.contains(reservationCottage.getCottage().getCottageId())) {
 					cottageOwnerCottagesId.contains(reservationCottage.getCottage().getCottageId());
 					reservationsForCottageOwner.add(reservationCottage);
 				}
@@ -127,8 +129,13 @@ public class ReservationCottageService implements IReservationCottageService {
 		}
 		
 		for (ReservationCottage reservationCottage : reservationsForCottageOwner) {
-			CottageReservationClientInformationDTO cottageReservationClientInformationDTO = new CottageReservationClientInformationDTO(reservationCottage.getClient().getFirstName(), reservationCottage.getClient().getLastName(), reservationCottage.getClient().getEmail(), reservationCottage.getClient().getPhoneNumber(), reservationCottage.getClient().getAddress());
-			CottageReservationInformationDTO cottageReservationInformationDTO = new CottageReservationInformationDTO(reservationCottage.getReservationCottageId(), reservationCottage.getDateAndTime(), reservationCottage.getDuration(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getPrice(), reservationCottage.getCottage().getName(), reservationCottage.getCottage().getNumberOfRooms(), reservationCottage.getCottage().getNumberOfBedsPerRoom(), cottageReservationClientInformationDTO, reservationCottage.getReservationStatus());
+			CottageReservationInformationDTO cottageReservationInformationDTO;
+			if (reservationCottage.getClient() == null) {
+				cottageReservationInformationDTO = new CottageReservationInformationDTO(reservationCottage.getReservationCottageId(), reservationCottage.getDateAndTime(), reservationCottage.getDuration(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getPrice(), reservationCottage.getCottage().getName(), reservationCottage.getCottage().getNumberOfRooms(), reservationCottage.getCottage().getNumberOfBedsPerRoom(), null, reservationCottage.getReservationStatus());
+			} else {
+				CottageReservationClientInformationDTO cottageReservationClientInformationDTO = new CottageReservationClientInformationDTO(reservationCottage.getClient().getFirstName(), reservationCottage.getClient().getLastName(), reservationCottage.getClient().getEmail(), reservationCottage.getClient().getPhoneNumber(), reservationCottage.getClient().getAddress());
+				cottageReservationInformationDTO = new CottageReservationInformationDTO(reservationCottage.getReservationCottageId(), reservationCottage.getDateAndTime(), reservationCottage.getDuration(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getPrice(), reservationCottage.getCottage().getName(), reservationCottage.getCottage().getNumberOfRooms(), reservationCottage.getCottage().getNumberOfBedsPerRoom(), cottageReservationClientInformationDTO, reservationCottage.getReservationStatus());
+			}
 			
 			reservationsForCottageOwnerDTO.add(cottageReservationInformationDTO);
 		}
@@ -249,7 +256,7 @@ public class ReservationCottageService implements IReservationCottageService {
 			}
 		}
 		
-		return new CottageFastReservationDTO(reservationCottage.getReservationCottageId() ,reservationCottage.getDateAndTime(), reservationCottage.getDuration(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getCottageAdditionalServices(), reservationCottage.getPrice(), reservationCottage.getDiscountPercentage());
+		return new CottageFastReservationDTO(reservationCottage.getReservationCottageId(), reservationCottage.getDateAndTime(), reservationCottage.getDuration(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getCottageAdditionalServices(), reservationCottage.getPrice(), reservationCottage.getDiscountPercentage());
 	}
 	
 	private void sendCottageReservationEmail(String clientEmail, String cottageName) {
@@ -260,11 +267,40 @@ public class ReservationCottageService implements IReservationCottageService {
 
 	@Override
 	public Boolean deleteFastReservation(DeleteCottageReservationDTO deleteCottageReservationDTO) {
-		ReservationCottage reservationCottage = reservationCottageRepository.getOne(deleteCottageReservationDTO.getCottageReservationId());
+		ReservationCottage reservationCottage = reservationCottageRepository.findByReservationCottageId(deleteCottageReservationDTO.getCottageReservationId());
 		reservationCottage.setReservationStatus(ReservationStatus.CANCELLED);
 		reservationCottageRepository.save(reservationCottage);
 		
 		return true;
+	}
+
+
+	@Override
+	public CottageReservationCalendarDTO getAvailabilityCalendarInformation(Long cottageId) {
+		CottageReservationCalendarDTO cottageReservationCalendarDTO = new CottageReservationCalendarDTO();
+		cottageReservationCalendarDTO.setCottageReservations(new ArrayList<CottageReservationCalendarInformationDTO>());
+		List<ReservationCottage> cottageReservations = reservationCottageRepository.findAllReservationsForCottage(cottageId);
+		Cottage cottage = cottageRepository.getOne(cottageId);
+		cottageReservationCalendarDTO.setAvailabilityStart(cottage.getAvailabilityStart());
+		cottageReservationCalendarDTO.setAvailabilityEnd(cottage.getAvailabilityEnd());
+		
+		for (ReservationCottage reservationCottage : cottageReservations) {
+			if (reservationCottage.getReservationStatus().equals(ReservationStatus.STARTED) || reservationCottage.getReservationStatus().equals(ReservationStatus.SCHEDULED) || reservationCottage.getReservationStatus().equals(ReservationStatus.WAITING)) {
+				CottageReservationCalendarInformationDTO cottageReservationCalendarInformationDTO;
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(reservationCottage.getDateAndTime());
+				calendar.add(Calendar.DATE, reservationCottage.getDuration());
+				if (reservationCottage.getClient() == null) {
+					cottageReservationCalendarInformationDTO = new CottageReservationCalendarInformationDTO(reservationCottage.getDateAndTime(), calendar.getTime(), reservationCottage.getCottage().getName(), "", "", "", reservationCottage.getReservationStatus());
+				} else {
+					cottageReservationCalendarInformationDTO = new CottageReservationCalendarInformationDTO(reservationCottage.getDateAndTime(), calendar.getTime(), reservationCottage.getCottage().getName(), reservationCottage.getClient().getFirstName(), reservationCottage.getClient().getLastName(), reservationCottage.getClient().getEmail(), reservationCottage.getReservationStatus());
+				}
+				
+				cottageReservationCalendarDTO.getCottageReservations().add(cottageReservationCalendarInformationDTO);
+			}
+		}
+		
+		return cottageReservationCalendarDTO;
 	}
 	
 	@Scheduled(cron = "1 * * * * *") // test na svaki minut

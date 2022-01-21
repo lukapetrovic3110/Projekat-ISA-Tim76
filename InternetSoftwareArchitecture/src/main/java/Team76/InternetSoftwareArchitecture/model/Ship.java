@@ -69,6 +69,9 @@ public class Ship {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "shipOwnerId", referencedColumnName = "userId")
 	private ShipOwner shipOwner;
+	
+	@Column(name = "pricePerHour", nullable = false)	
+	private Double pricePerHour;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "priceListId", referencedColumnName = "priceListId")
@@ -84,12 +87,11 @@ public class Ship {
 	public Ship() {
 	}
 	
-	public Ship(Long shipId, String name, String description, Double rating, List<Image> images, Double length,
-			Integer engineNumber, Integer enginePower, Integer maxSpeed, Integer capacity, ShipType shipType,
-			Date availabilityStart, Date availabilityEnd, Set<NavigationEquipment> navigationEquipment,
-			ShipOwner shipOwner, PriceList priceList, Set<Rule> shipRules, Address address) {
+	public Ship(String name, String description, Double rating, List<Image> images, Double length, Integer engineNumber,
+			Integer enginePower, Integer maxSpeed, Integer capacity, ShipType shipType, Date availabilityStart,
+			Date availabilityEnd, Set<NavigationEquipment> navigationEquipment, ShipOwner shipOwner,
+			Double pricePerHour, PriceList priceList, Set<Rule> shipRules, Address address) {
 		super();
-		this.shipId = shipId;
 		this.name = name;
 		this.description = description;
 		this.rating = rating;
@@ -104,11 +106,11 @@ public class Ship {
 		this.availabilityEnd = availabilityEnd;
 		this.navigationEquipment = navigationEquipment;
 		this.shipOwner = shipOwner;
+		this.pricePerHour = pricePerHour;
 		this.priceList = priceList;
 		this.shipRules = shipRules;
 		this.address = address;
 	}
-
 
 	public Long getShipId() {
 		return shipId;
@@ -204,6 +206,14 @@ public class Ship {
 
 	public void setShipOwner(ShipOwner shipOwner) {
 		this.shipOwner = shipOwner;
+	}
+	
+	public Double getPricePerHour() {
+		return pricePerHour;
+	}
+
+	public void setPricePerHour(Double pricePerHour) {
+		this.pricePerHour = pricePerHour;
 	}
 
 	public PriceList getPriceList() {

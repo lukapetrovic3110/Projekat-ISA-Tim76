@@ -59,7 +59,7 @@ public class CottageService implements ICottageService {
 
 		Cottage cottagedb = cottageRepository.save(cottage);
 		cottageRepository.saveCottageOwnerForCottage(cottagedb.getCottageId(), addCottageDTO.getCottageOwnerId());
-
+		
 		return findById(cottagedb.getCottageId());
 	}
 

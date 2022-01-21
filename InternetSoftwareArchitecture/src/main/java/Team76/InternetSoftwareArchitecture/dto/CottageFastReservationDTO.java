@@ -87,5 +87,5 @@ public class CottageFastReservationDTO {
 	public void setDiscountPercentage(Integer discountPercentage) {
 		this.discountPercentage = discountPercentage;
 	}
-
+	
 }

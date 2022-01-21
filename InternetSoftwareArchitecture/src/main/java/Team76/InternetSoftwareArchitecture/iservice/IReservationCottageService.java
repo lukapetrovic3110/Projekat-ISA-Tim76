@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.dto.CottageFastReservationDTO;
+import Team76.InternetSoftwareArchitecture.dto.CottageReservationCalendarDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationInformationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationReportDTO;
 import Team76.InternetSoftwareArchitecture.dto.DeleteCottageReservationDTO;
@@ -30,6 +31,8 @@ public interface IReservationCottageService {
 	CottageFastReservationDTO saveFastReservation(Long cottageId, CottageFastReservationDTO cottageFastReservationDTO);
 	
 	Boolean deleteFastReservation(DeleteCottageReservationDTO deleteCottageDTO);
+	
+	CottageReservationCalendarDTO getAvailabilityCalendarInformation(Long cottageId);
 	
 	Boolean scheduleFastReservation(Long fastReservationId);
 

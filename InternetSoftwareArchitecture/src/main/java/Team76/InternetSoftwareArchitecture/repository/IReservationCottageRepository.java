@@ -1,5 +1,6 @@
 package Team76.InternetSoftwareArchitecture.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,11 @@ public interface IReservationCottageRepository extends JpaRepository<Reservation
 	
 	@Query(value = "SELECT * FROM reservation_cottage WHERE cottage_id=:cottageId and client_id IS NULL and reservation_status = 'WAITING'", nativeQuery = true)
 	List<ReservationCottage> findAllFastReservationsForCottage(Long cottageId);
+	
+	@Query(value = "SELECT * FROM reservation_cottage WHERE cottage_id=:cottageId", nativeQuery = true)
+	List<ReservationCottage> findAllReservationsForCottage(Long cottageId);
+	
+	@Query(value = "SELECT * FROM reservation_cottage WHERE date_and_time=:cottageReservationDateAndTime", nativeQuery = true)
+	ReservationCottage findByDateAndTime(Date cottageReservationDateAndTime);
+	
 }

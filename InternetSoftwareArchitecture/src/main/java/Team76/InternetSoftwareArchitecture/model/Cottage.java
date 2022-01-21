@@ -52,6 +52,9 @@ public class Cottage {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "cottageOwnerId", referencedColumnName = "userId")
 	private CottageOwner cottageOwner;
+	
+	@Column(name = "pricePerDay", nullable = false)	
+	private Double pricePerDay;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "priceListId", referencedColumnName = "priceListId")
@@ -67,11 +70,10 @@ public class Cottage {
 	public Cottage() {
 	}
 
-	public Cottage(Long cottageId, String name, String description, Double rating, List<Image> images,
-			Integer numberOfRooms, Integer numberOfBedsPerRoom, Date availabilityStart, Date availabilityEnd,
-			CottageOwner cottageOwner, PriceList priceList, Set<Rule> cottageRules, Address address) {
+	public Cottage(String name, String description, Double rating, List<Image> images, Integer numberOfRooms,
+			Integer numberOfBedsPerRoom, Date availabilityStart, Date availabilityEnd, CottageOwner cottageOwner,
+			Double pricePerDay, PriceList priceList, Set<Rule> cottageRules, Address address) {
 		super();
-		this.cottageId = cottageId;
 		this.name = name;
 		this.description = description;
 		this.rating = rating;
@@ -81,6 +83,7 @@ public class Cottage {
 		this.availabilityStart = availabilityStart;
 		this.availabilityEnd = availabilityEnd;
 		this.cottageOwner = cottageOwner;
+		this.pricePerDay = pricePerDay;
 		this.priceList = priceList;
 		this.cottageRules = cottageRules;
 		this.address = address;
@@ -164,6 +167,14 @@ public class Cottage {
 
 	public void setCottageOwner(CottageOwner cottageOwner) {
 		this.cottageOwner = cottageOwner;
+	}
+	
+	public Double getPricePerDay() {
+		return pricePerDay;
+	}
+
+	public void setPricePerDay(Double pricePerDay) {
+		this.pricePerDay = pricePerDay;
 	}
 
 	public PriceList getPriceList() {

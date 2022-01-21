@@ -49,6 +49,9 @@ public class Adventure {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "fishingInstructorId", referencedColumnName = "userId")
 	private FishingInstructor fishingInstructor;
+	
+	@Column(name = "pricePerHour", nullable = false)	
+	private Double pricePerHour;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "priceListId", referencedColumnName = "priceListId")
@@ -67,12 +70,11 @@ public class Adventure {
 	public Adventure() {
 	}
 
-	public Adventure(Long adventureId, String name, String description, Double rating, String instructorBiography,
+	public Adventure(String name, String description, Double rating, String instructorBiography,
 			Integer maxNumberOfPersons, Date availabilityStart, Date availabilityEnd,
-			FishingInstructor fishingInstructor, PriceList priceList, Set<Rule> adventureRules, Address address,
-			List<Image> images) {
+			FishingInstructor fishingInstructor, Double pricePerHour, PriceList priceList, Set<Rule> adventureRules,
+			Address address, List<Image> images) {
 		super();
-		this.adventureId = adventureId;
 		this.name = name;
 		this.description = description;
 		this.rating = rating;
@@ -81,6 +83,7 @@ public class Adventure {
 		this.availabilityStart = availabilityStart;
 		this.availabilityEnd = availabilityEnd;
 		this.fishingInstructor = fishingInstructor;
+		this.pricePerHour = pricePerHour;
 		this.priceList = priceList;
 		this.adventureRules = adventureRules;
 		this.address = address;
@@ -141,6 +144,14 @@ public class Adventure {
 
 	public void setFishingInstructor(FishingInstructor fishingInstructor) {
 		this.fishingInstructor = fishingInstructor;
+	}
+	
+	public Double getPricePerHour() {
+		return pricePerHour;
+	}
+
+	public void setPricePerHour(Double pricePerHour) {
+		this.pricePerHour = pricePerHour;
 	}
 
 	public PriceList getPriceList() {
