@@ -90,8 +90,6 @@ public class ReservationCottageController {
 		}
 	}
 	
-	
-	
 	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")
 	@PostMapping("/deleteFastReservation")
 	public ResponseEntity<Boolean> deleteFastReservation(@RequestBody DeleteCottageReservationDTO deleteCottageReservationDTO) {

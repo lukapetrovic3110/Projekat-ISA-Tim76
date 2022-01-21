@@ -267,7 +267,7 @@ public class ReservationCottageService implements IReservationCottageService {
 
 	@Override
 	public Boolean deleteFastReservation(DeleteCottageReservationDTO deleteCottageReservationDTO) {
-		ReservationCottage reservationCottage = reservationCottageRepository.findByDateAndTime(deleteCottageReservationDTO.getCottageReservationDateAndTime());
+		ReservationCottage reservationCottage = reservationCottageRepository.findByReservationCottageId(deleteCottageReservationDTO.getCottageReservationId());
 		reservationCottage.setReservationStatus(ReservationStatus.CANCELLED);
 		reservationCottageRepository.save(reservationCottage);
 		

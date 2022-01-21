@@ -191,7 +191,10 @@
             </v-toolbar>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <v-icon small @click="deleteCottageFastReservationItem(item)">
+            <v-icon small @click="deleteCottageFastReservationItem(item)" v-if="item.cottageFastReservationId !== null">
+              mdi-delete
+            </v-icon>
+            <v-icon small disabled v-else>
               mdi-delete
             </v-icon>
           </template>
@@ -363,8 +366,7 @@ export default {
             " " +
             this.cottageReservationTime +
             ":00"
-        );
-        this.cottageFastReservationItem.formattedDateAndTime = this.cottageFastReservationItem.dateAndTime.toLocaleString();
+        ).toLocaleString();
         this.cottageFastReservationItem.cottageAdditionalServices.forEach(
           (element) => {
             this.cottageAdditionalServicesRequest.push(
@@ -378,7 +380,7 @@ export default {
             "http://localhost:8091/reservationCottage/saveFastReservation/" +
               this.cottageId,
             {
-              dateAndTime: this.cottageFastReservationItem.dateAndTime,
+              dateAndTime: new Date(this.cottageFastReservationItem.dateAndTime),
               formattedDateAndTime: this.cottageFastReservationItem.formattedDateAndTime,
               duration: this.cottageFastReservationItem.duration,
               maxNumberOfPersons:
@@ -397,6 +399,8 @@ export default {
           .then((response) => {
             console.log(response.data);
             this.cottageAdditionalServicesRequest = [];
+            this.cottageId = localStorage.getItem("cottageId");
+            this.getAllFastReservationsForCottage();
           });
 
         if (this.cottageFastReservationItem.discountPercentage === "") {
@@ -424,10 +428,10 @@ export default {
     deleteCottageFastReservationItemConfirm() {
       this.axios
         .post(
-          "http://localhost:8091/reservationCottage/deleteFastReservation/",
+          "http://localhost:8091/reservationCottage/deleteFastReservation",
           {
-            cottageReservationDateAndTime:
-              this.cottageFastReservationItem.dateAndTime,
+            cottageReservationId:
+              this.cottageFastReservationItem.cottageFastReservationId,
           },
           {
             headers: {
