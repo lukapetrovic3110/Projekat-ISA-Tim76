@@ -222,9 +222,13 @@ export default {
       this.itemsPerPage = number;
     },
     displayAllCottage() {
-      this.axios.get("http://localhost:8091/cottage").then((response) => {
-        console.log(response.data);
+      this.axios.get("http://localhost:8091/cottage")
+      .then((response) => {
         this.items = response.data;
+        this.items.forEach(item => 
+        {
+          item.rating=parseFloat(item.rating).toFixed(1); 
+        });
       });
     },
     seeMoreDetails(item) {

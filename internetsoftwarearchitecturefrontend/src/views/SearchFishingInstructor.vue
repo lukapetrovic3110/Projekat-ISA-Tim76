@@ -225,9 +225,14 @@ export default {
       this.itemsPerPage = number;
     },
     displayAllAdventure() {
-      this.axios.get("http://localhost:8091/adventure").then((response) => {
-        console.log(response.data);
+      this.axios.get("http://localhost:8091/adventure")
+      .then((response) => {
         this.items = response.data;
+        console.log(this.items);
+        this.items.forEach(item => 
+        {
+          item.rating=parseFloat(item.rating).toFixed(1); 
+        });
       });
     },
     seeMoreDetails(item) {
