@@ -18,6 +18,7 @@ public class AdventureDTO {
 	private String country;
 	private Double longitude;
 	private Double latitude;
+	private Double price;
 	private Date availabilityStart;
 	private Date availabilityEnd;
 	private String instructorFirstName;
@@ -35,7 +36,7 @@ public class AdventureDTO {
 
 	public AdventureDTO(Long adventureId, String name, String description, Double rating, String instructorBiography,
 			Integer maxNumberOfPersons, String street, String streetNumber, String city, String country,
-			Double longitude, Double latitude, Date availabilityStart, Date availabilityEnd, String instructorFirstName,
+			Double longitude, Double latitude, Double price, Date availabilityStart, Date availabilityEnd, String instructorFirstName,
 			String instructorLastName, String instructorEmail, String instructorPhoneNumber, Long instructorId, List<String> adventureImages) {
 		super();
 		this.adventureId = adventureId;
@@ -50,6 +51,7 @@ public class AdventureDTO {
 		this.country = country;
 		this.longitude = longitude;
 		this.latitude = latitude;
+		this.price = price;
 		this.availabilityStart = availabilityStart;
 		this.availabilityEnd = availabilityEnd;
 		this.instructorFirstName = instructorFirstName;
@@ -90,6 +92,14 @@ public class AdventureDTO {
 
 	public void setRating(Double rating) {
 		this.rating = rating;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
 	public String getInstructorBiography() {

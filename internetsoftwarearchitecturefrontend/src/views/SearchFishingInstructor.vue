@@ -87,8 +87,15 @@
                       <div>
                         <h4 class="info--text">{{ item.rating }}</h4>
                       </div>
+                      <div id="priceDiv" class="info--text">
+                        <h3>{{ item.price }} RSD</h3>
+                      </div>
                     </v-row>
-
+                    
+                    <div class="my-3 info--text">
+                      <h3>{{ item.street }} {{ item.streetNumber }}</h3>
+                    </div>
+                    
                     <div class="my-3 info--text">
                       <h3>{{ item.city }} , {{ item.country }}</h3>
                     </div>
@@ -199,7 +206,7 @@ export default {
       page: 1,
       itemsPerPage: 3,
       sortBy: "name",
-      keys: ["name", "rating", "city", "country", "description", "instructorFirstName", "instructorLastName"],
+      keys: ["name", "rating", "price", "city", "country", "description", "instructorFirstName", "instructorLastName"],
       items: [],
     };
   },
@@ -250,6 +257,12 @@ export default {
   color: #007acc;
   text-align: center;
   font-weight: bold;
+}
+#priceDiv {
+ margin-left: 36%;
+}
+#priceDiv h2 {
+  text-align: right;
 }
 #content {
   width: 80%;

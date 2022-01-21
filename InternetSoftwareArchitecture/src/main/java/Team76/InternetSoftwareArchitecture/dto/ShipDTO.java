@@ -18,6 +18,7 @@ public class ShipDTO {
 	private Double longitude;
 	private Double latitude;
 	private Double rating;
+	private Double price;
 	private Date availabilityStart;
 	private Date availabilityEnd;
 	private Double length;
@@ -40,7 +41,7 @@ public class ShipDTO {
 	}
 
 	public ShipDTO(Long shipId, String name, String description, String street, String streetNumber, String city,
-			String country, Double longitude, Double latitude, Double rating, Double length, Integer engineNumber,
+			String country, Double longitude, Double latitude, Double rating, Double price, Double length, Integer engineNumber,
 			Integer enginePower, Integer maxSpeed, Integer capacity, ShipType shipType, String ownerFirstName,
 			String ownerLastName, String ownerEmail, String ownerPhoneNumber, List<String> shipImages,
 			Date availabilityStart, Date availabilityEnd) {
@@ -55,6 +56,7 @@ public class ShipDTO {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.rating = rating;
+		this.price = price;
 		this.length = length;
 		this.engineNumber = engineNumber;
 		this.enginePower = enginePower;
@@ -71,7 +73,7 @@ public class ShipDTO {
 	}
 
 	public ShipDTO(Long shipId, String name, String description, String street, String streetNumber, String city,
-			String country, Double longitude, Double latitude, Double rating, Date availabilityStart,
+			String country, Double longitude, Double latitude, Double rating, Double price, Date availabilityStart,
 			Date availabilityEnd, Double length, Integer engineNumber, Integer enginePower, Integer maxSpeed,
 			Integer capacity, ShipType shipType, String ownerFirstName, String ownerLastName, String ownerEmail,
 			String ownerPhoneNumber, List<String> navigationEquipment, HashMap<String, Double> priceList,
@@ -87,6 +89,7 @@ public class ShipDTO {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.rating = rating;
+		this.price = price;
 		this.availabilityStart = availabilityStart;
 		this.availabilityEnd = availabilityEnd;
 		this.length = length;
@@ -183,6 +186,14 @@ public class ShipDTO {
 
 	public void setRating(Double rating) {
 		this.rating = rating;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
 	public Double getLength() {

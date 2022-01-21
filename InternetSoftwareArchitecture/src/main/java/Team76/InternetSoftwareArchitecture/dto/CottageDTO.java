@@ -16,6 +16,7 @@ public class CottageDTO {
 	private Double longitude;
 	private Double latitude;
 	private Double rating;
+	private Double price;
 	private Date availabilityStart;
 	private Date availabilityEnd;
 	private Integer numberOfRooms;
@@ -33,9 +34,9 @@ public class CottageDTO {
 	}
 
 	public CottageDTO(Long cottageId, String name, String description, String street, String streetNumber, String city,
-			String country, Double longitude, Double latitude, Double rating, Date availabilityStart,
-			Date availabilityEnd, Integer numberOfRooms, Integer numberOfBedsPerRoom, String ownerFirstName,
-			String ownerLastName, String ownerEmail, String ownerPhoneNumber, List<String> cottageImages) {
+			String country, Double longitude, Double latitude, Double rating, Double price,
+			Date availabilityStart, Date availabilityEnd, Integer numberOfRooms, Integer numberOfBedsPerRoom,
+			String ownerFirstName, String ownerLastName, String ownerEmail, String ownerPhoneNumber,List<String> cottageImages) {
 		super();
 		this.cottageId = cottageId;
 		this.name = name;
@@ -47,6 +48,7 @@ public class CottageDTO {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.rating = rating;
+		this.price = price;
 		this.availabilityStart = availabilityStart;
 		this.availabilityEnd = availabilityEnd;
 		this.numberOfRooms = numberOfRooms;
@@ -55,6 +57,7 @@ public class CottageDTO {
 		this.ownerLastName = ownerLastName;
 		this.ownerEmail = ownerEmail;
 		this.ownerPhoneNumber = ownerPhoneNumber;
+
 		this.cottageImages = cottageImages;
 	}
 
@@ -165,6 +168,14 @@ public class CottageDTO {
 
 	public void setRating(Double rating) {
 		this.rating = rating;
+	}
+	
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
 	public Date getAvailabilityStart() {

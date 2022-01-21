@@ -186,16 +186,16 @@
                       <div>
                         <h4 class="info--text">{{ item.rating }}</h4>
                       </div>
+                       <div id="priceDiv" class="info--text" >
+                        <h3>{{ item.price }} RSD</h3>
+                      </div>
                     </v-row>
-
                     <div class="my-3 info--text">
                       <h3>{{ item.street }} {{ item.streetNumber }}</h3>
                     </div>
-
                     <div class="my-3 info--text">
                       <h2>{{ item.city }} , {{ item.country }}</h2>
                     </div>
-
                     <div class="justify-center">
                       <h4>
                         {{ item.description }}
@@ -294,9 +294,9 @@ export default {
       sortDesc: false,
       page: 1,
       itemsPerPage: 3,
+      items:[],
       sortBy: "name",
-      keys: ["name", "rating", "city", "country", "description"],
-      items: [],
+      keys: ["name", "rating", "price", "city", "country", "description"],
       dialogSearchByDate: false,
       cottageReservationDateMenu: false,
       cottageReservationDate: "",
@@ -326,12 +326,8 @@ export default {
       this.itemsPerPage = number;
     },
     displayAllCottage() {
-      this.axios.get("http://localhost:8091/cottage").then((response) => {
-        this.items = response.data;
-        this.items.forEach((item) => {
-          item.rating = parseFloat(item.rating).toFixed(1);
-        });
-      });
+      this.axios.get("http://localhost:8091/cottage")
+      .then((response) => this.items = response.data);
     },
     seeMoreDetails(item) {
       localStorage.setItem("cottageId", item.cottageId);
@@ -354,6 +350,12 @@ export default {
   color: #007acc;
   text-align: center;
   font-weight: bold;
+}
+#priceDiv {
+ margin-left: 36%;
+}
+#priceDiv h2 {
+  text-align: right;
 }
 #content {
   width: 80%;
