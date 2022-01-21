@@ -1,4 +1,4 @@
-package Team76.InternetSoftwareArchitecture.service;
+	package Team76.InternetSoftwareArchitecture.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -170,7 +170,7 @@ public class ReservationCottageService implements IReservationCottageService {
 				String minutes = calendar.get(Calendar.MINUTE) < 10 ? "0" + String.valueOf(calendar.get(Calendar.MINUTE)) : String.valueOf(calendar.get(Calendar.MINUTE));
 				String dayPart = calendar.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
 				String formattedDateAndTime = month + "/" + day + "/" + year + ", " + hours + ":" + minutes + ":00 " + dayPart;
-				cottageFastReservationsDTO.add(new CottageFastReservationDTO(cottageReservation.getReservationCottageId(), cottageReservation.getDateAndTime(), formattedDateAndTime, cottageReservation.getDuration(), cottageReservation.getMaxNumberOfPersons(), cottageReservation.getCottageAdditionalServices(), cottageReservation.getPrice(), cottageReservation.getDiscountPercentage()));
+				cottageFastReservationsDTO.add(new CottageFastReservationDTO(cottageReservation.getReservationCottageId(), cottageReservation.getDateAndTime(), "", cottageReservation.getDuration(), cottageReservation.getMaxNumberOfPersons(), cottageReservation.getCottageAdditionalServices(), cottageReservation.getPrice(), cottageReservation.getDiscountPercentage()));
 			}
 		}
 		
@@ -211,11 +211,6 @@ public class ReservationCottageService implements IReservationCottageService {
 	@Override
 	public Boolean deleteFastReservation(DeleteCottageReservationDTO deleteCottageReservationDTO) {
 		ReservationCottage reservationCottage = reservationCottageRepository.findByDateAndTime(deleteCottageReservationDTO.getCottageReservationDateAndTime());
-		System.out.println("------------------------");
-		System.out.println("------------------------");
-		System.out.println(reservationCottage.getDateAndTime());
-		System.out.println("------------------------");
-		System.out.println("------------------------");
 		reservationCottage.setReservationStatus(ReservationStatus.CANCELLED);
 		reservationCottageRepository.save(reservationCottage);
 		

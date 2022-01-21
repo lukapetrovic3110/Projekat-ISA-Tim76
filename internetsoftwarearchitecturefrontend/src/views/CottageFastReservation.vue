@@ -424,8 +424,6 @@ export default {
     },
 
     deleteCottageFastReservationItemConfirm() {
-      console.log("DELETE HERE");
-      console.log(this.cottageFastReservationItem.dateAndTime);
       this.axios
         .post(
           "http://localhost:8091/reservationCottage/deleteFastReservation/",

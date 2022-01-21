@@ -209,10 +209,10 @@ export default {
           this.reservations = response.data.cottageReservations;
           this.cottageAvailabilityStart = new Date(
             response.data.availabilityStart
-          ).toDateString();
+          ).toLocaleString();
           this.cottageAvailabilityEnd = new Date(
             response.data.availabilityEnd
-          ).toDateString();
+          ).toLocaleString();
           this.updateRange();
         })
         .catch((err) => {
