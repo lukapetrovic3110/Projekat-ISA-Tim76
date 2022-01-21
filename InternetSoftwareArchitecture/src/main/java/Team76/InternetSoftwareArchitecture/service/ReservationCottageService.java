@@ -161,7 +161,16 @@ public class ReservationCottageService implements IReservationCottageService {
 		
 		for (ReservationCottage cottageReservation : cottageReservations) {
 			if (cottageReservation.getReservationStatus().equals(ReservationStatus.WAITING)) {
-				cottageFastReservationsDTO.add(new CottageFastReservationDTO(cottageReservation.getReservationCottageId() ,cottageReservation.getDateAndTime(), cottageReservation.getDuration(), cottageReservation.getMaxNumberOfPersons(), cottageReservation.getCottageAdditionalServices(), cottageReservation.getPrice(), cottageReservation.getDiscountPercentage()));
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(cottageReservation.getDateAndTime());
+				String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+				String month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
+				String year = String.valueOf(calendar.get(Calendar.YEAR));
+				String hours = calendar.get(Calendar.HOUR) == 0 ? "12" : String.valueOf(calendar.get(Calendar.HOUR));
+				String minutes = calendar.get(Calendar.MINUTE) < 10 ? "0" + String.valueOf(calendar.get(Calendar.MINUTE)) : String.valueOf(calendar.get(Calendar.MINUTE));
+				String dayPart = calendar.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
+				String formattedDateAndTime = month + "/" + day + "/" + year + ", " + hours + ":" + minutes + ":00 " + dayPart;
+				cottageFastReservationsDTO.add(new CottageFastReservationDTO(cottageReservation.getReservationCottageId(), cottageReservation.getDateAndTime(), formattedDateAndTime, cottageReservation.getDuration(), cottageReservation.getMaxNumberOfPersons(), cottageReservation.getCottageAdditionalServices(), cottageReservation.getPrice(), cottageReservation.getDiscountPercentage()));
 			}
 		}
 		
@@ -190,7 +199,7 @@ public class ReservationCottageService implements IReservationCottageService {
 			}
 		}
 		
-		return new CottageFastReservationDTO(reservationCottage.getReservationCottageId() ,reservationCottage.getDateAndTime(), reservationCottage.getDuration(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getCottageAdditionalServices(), reservationCottage.getPrice(), reservationCottage.getDiscountPercentage());
+		return new CottageFastReservationDTO(reservationCottage.getReservationCottageId(), reservationCottage.getDateAndTime(), reservationCottage.getDateAndTime().toLocaleString(), reservationCottage.getDuration(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getCottageAdditionalServices(), reservationCottage.getPrice(), reservationCottage.getDiscountPercentage());
 	}
 	
 	private void sendCottageReservationEmail(String clientEmail, String cottageName) {
@@ -201,7 +210,12 @@ public class ReservationCottageService implements IReservationCottageService {
 
 	@Override
 	public Boolean deleteFastReservation(DeleteCottageReservationDTO deleteCottageReservationDTO) {
-		ReservationCottage reservationCottage = reservationCottageRepository.getOne(deleteCottageReservationDTO.getCottageReservationId());
+		ReservationCottage reservationCottage = reservationCottageRepository.findByDateAndTime(deleteCottageReservationDTO.getCottageReservationDateAndTime());
+		System.out.println("------------------------");
+		System.out.println("------------------------");
+		System.out.println(reservationCottage.getDateAndTime());
+		System.out.println("------------------------");
+		System.out.println("------------------------");
 		reservationCottage.setReservationStatus(ReservationStatus.CANCELLED);
 		reservationCottageRepository.save(reservationCottage);
 		

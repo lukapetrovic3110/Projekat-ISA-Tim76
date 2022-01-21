@@ -9,6 +9,7 @@ public class CottageFastReservationDTO {
 	
 	private Long cottageFastReservationId;
 	private Date dateAndTime;
+	private String formattedDateAndTime;
 	private Integer duration;
 	private Integer maxNumberOfPersons;
 	private Set<CottageAdditionalService> cottageAdditionalServices;
@@ -19,12 +20,13 @@ public class CottageFastReservationDTO {
 		
 	}
 
-	public CottageFastReservationDTO(Long cottageFastReservationId, Date dateAndTime, Integer duration,
-			Integer maxNumberOfPersons, Set<CottageAdditionalService> cottageAdditionalServices, Double price,
-			Integer discountPercentage) {
+	public CottageFastReservationDTO(Long cottageFastReservationId, Date dateAndTime, String formattedDateAndTime,
+			Integer duration, Integer maxNumberOfPersons, Set<CottageAdditionalService> cottageAdditionalServices,
+			Double price, Integer discountPercentage) {
 		super();
 		this.cottageFastReservationId = cottageFastReservationId;
 		this.dateAndTime = dateAndTime;
+		this.formattedDateAndTime = formattedDateAndTime;
 		this.duration = duration;
 		this.maxNumberOfPersons = maxNumberOfPersons;
 		this.cottageAdditionalServices = cottageAdditionalServices;
@@ -46,6 +48,14 @@ public class CottageFastReservationDTO {
 
 	public void setDateAndTime(Date dateAndTime) {
 		this.dateAndTime = dateAndTime;
+	}
+
+	public String getFormattedDateAndTime() {
+		return formattedDateAndTime;
+	}
+
+	public void setFormattedDateAndTime(String formattedDateAndTime) {
+		this.formattedDateAndTime = formattedDateAndTime;
 	}
 
 	public Integer getDuration() {
@@ -87,5 +97,5 @@ public class CottageFastReservationDTO {
 	public void setDiscountPercentage(Integer discountPercentage) {
 		this.discountPercentage = discountPercentage;
 	}
-
+	
 }

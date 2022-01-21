@@ -1,24 +1,26 @@
 package Team76.InternetSoftwareArchitecture.dto;
 
+import java.util.Date;
+
 public class DeleteCottageReservationDTO {
 
-	private Long cottageReservationId;
+	private Date cottageReservationDateAndTime;
 	
 	public DeleteCottageReservationDTO() {
 		
 	}
 
-	public DeleteCottageReservationDTO(Long cottageReservationId) {
+	public DeleteCottageReservationDTO(Date cottageReservationDateAndTime) {
 		super();
-		this.cottageReservationId = cottageReservationId;
+		this.cottageReservationDateAndTime = cottageReservationDateAndTime;
 	}
 
-	public Long getCottageReservationId() {
-		return cottageReservationId;
+	public Date getCottageReservationDateAndTime() {
+		return cottageReservationDateAndTime;
 	}
 
-	public void setCottageReservationId(Long cottageReservationId) {
-		this.cottageReservationId = cottageReservationId;
+	public void setCottageReservationDateAndTime(Date cottageReservationDateAndTime) {
+		this.cottageReservationDateAndTime = cottageReservationDateAndTime;
 	}
 	
 }

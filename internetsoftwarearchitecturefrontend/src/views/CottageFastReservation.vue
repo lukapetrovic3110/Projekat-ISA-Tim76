@@ -219,7 +219,7 @@ export default {
         text: "Start date and time",
         align: "center",
         sortable: true,
-        value: "dateAndTime",
+        value: "formattedDateAndTime",
       },
       {
         text: "Duration (days)",
@@ -258,6 +258,7 @@ export default {
     cottageFastReservationItem: {
       cottageFastReservationId: null,
       dateAndTime: "",
+      formattedDateAndTime: "",
       duration: "",
       maxNumberOfPersons: "",
       cottageAdditionalServices: [],
@@ -267,6 +268,7 @@ export default {
     cottageFastReservationDefaultItem: {
       cottageFastReservationId: null,
       dateAndTime: "",
+      formattedDateAndTime: "",
       duration: "",
       maxNumberOfPersons: "",
       cottageAdditionalServices: [],
@@ -364,6 +366,7 @@ export default {
             this.cottageReservationTime +
             ":00"
         );
+        this.cottageFastReservationItem.formattedDateAndTime = this.cottageFastReservationItem.dateAndTime.toLocaleString();
         this.cottageFastReservationItem.cottageAdditionalServices.forEach(
           (element) => {
             this.cottageAdditionalServicesRequest.push(
@@ -378,6 +381,7 @@ export default {
               this.cottageId,
             {
               dateAndTime: this.cottageFastReservationItem.dateAndTime,
+              formattedDateAndTime: this.cottageFastReservationItem.formattedDateAndTime,
               duration: this.cottageFastReservationItem.duration,
               maxNumberOfPersons:
                 this.cottageFastReservationItem.maxNumberOfPersons,
@@ -400,6 +404,7 @@ export default {
         if (this.cottageFastReservationItem.discountPercentage === "") {
           this.cottageFastReservationItem.discountPercentage = "No discount";
         }
+
         this.cottageFastReservationItem.cottageAdditionalServices.forEach(
           (element) => {
             this.formattedCottageAdditionalServices.push(
@@ -419,12 +424,14 @@ export default {
     },
 
     deleteCottageFastReservationItemConfirm() {
+      console.log("DELETE HERE");
+      console.log(this.cottageFastReservationItem.dateAndTime);
       this.axios
         .post(
           "http://localhost:8091/reservationCottage/deleteFastReservation/",
           {
-            cottageReservationId:
-              this.cottageFastReservationItem.cottageFastReservationId,
+            cottageReservationDateAndTime:
+              this.cottageFastReservationItem.dateAndTime,
           },
           {
             headers: {
