@@ -34,104 +34,141 @@
                 </template>
                 <v-card>
                   <v-card-title>
-                    <span class="text-h5">{{
-                      "New reservation"
-                    }}</span>
+                    <span class="text-h5">{{ "New reservation" }}</span>
                   </v-card-title>
 
                   <v-card-text>
                     <v-container>
-                      <v-dialog
-                        ref="dialogCottageReservationStartDateAndTime"
-                        v-model="dialogCottageReservationStartDateAndTime"
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-text-field
-                            v-model="cottageFastReservationItem.dateAndTime"
-                            label="Start date and time"
-                            prepend-icon="mdi-calendar"
-                            readonly
-                            v-bind="attrs"
-                            v-on="on"
-                          ></v-text-field>
-                        </template>
-                        <v-date-picker
-                          v-model="cottageFastReservationItem.dateAndTime"
-                          scrollable
-                        >
-                          <v-spacer></v-spacer>
-                          <v-btn
-                            text
-                            color="primary"
-                            @click="dialogCottageReservationStartDateAndTime = false"
-                            >Cancel</v-btn
-                          >
-                          <v-btn
-                            text
-                            color="primary"
-                            @click="
-                              $refs.dialogCottageReservationStartDateAndTime.save(cottageFastReservationItem.dateAndTime)
-                            "
-                            >OK</v-btn
-                          >
-                        </v-date-picker>
-                      </v-dialog>
-                      <v-text-field 
+                      <v-simple-table>
+                        <tr>
+                          <td>
+                            <v-menu
+                              v-model="cottageReservationDateMenu"
+                              :close-on-content-click="false"
+                              :nudge-right="40"
+                              transition="scale-transition"
+                              min-width="auto"
+                            >
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-text-field
+                                  v-model="cottageReservationDate"
+                                  label="Reservation start date"
+                                  prepend-icon="mdi-calendar"
+                                  readonly
+                                  v-bind="attrs"
+                                  v-on="on"
+                                ></v-text-field>
+                              </template>
+                              <v-date-picker
+                                v-model="cottageReservationDate"
+                                @input="cottageReservationDateMenu = false"
+                              ></v-date-picker>
+                            </v-menu>
+                            <v-spacer></v-spacer>
+                          </td>
+                          <td>
+                            <v-menu
+                              ref="cottageReservationTimeMenu"
+                              v-model="cottageReservationTimeMenu"
+                              :close-on-content-click="false"
+                              :nudge-right="40"
+                              transition="scale-transition"
+                              max-width="290px"
+                              min-width="290px"
+                            >
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-text-field
+                                  v-model="cottageReservationTime"
+                                  label="Reservation start time"
+                                  prepend-icon="mdi-clock-time-four-outline"
+                                  readonly
+                                  v-bind="attrs"
+                                  v-on="on"
+                                ></v-text-field>
+                              </template>
+                              <v-time-picker
+                                v-model="cottageReservationTime"
+                                full-width
+                                @click:minute="
+                                  $refs.cottageReservationTimeMenu.save(
+                                    cottageReservationTime
+                                  )
+                                "
+                              ></v-time-picker>
+                            </v-menu>
+                          </td>
+                        </tr>
+                      </v-simple-table>
+                      <v-text-field
                         v-model="cottageFastReservationItem.duration"
                         label="Duration (days)"
                         type="text"
                       >
                       </v-text-field>
-                      <v-text-field 
+                      <v-text-field
                         v-model="cottageFastReservationItem.maxNumberOfPersons"
                         label="Max number of persons"
                         type="text"
                       >
                       </v-text-field>
-                      <v-text-field 
+                      <v-text-field
                         v-model="cottageFastReservationItem.price"
                         label="Price (RSD)"
                         type="text"
                       >
                       </v-text-field>
-                      <v-text-field 
+                      <v-text-field
                         v-model="cottageFastReservationItem.discountPercentage"
                         label="Discount (%)"
                         type="text"
                       >
                       </v-text-field>
                       <v-card-text>
-                          <h2 class="text-h6 mb-2">Cottage additional services</h2>
-                          <v-chip-group v-model="cottageFastReservationItem.cottageAdditionalServices" column multiple>
-                            <v-chip filter outlined>
-                                WiFi
-                            </v-chip>
-                            <v-chip filter outlined>
-                                Parking
-                            </v-chip>
-                            <v-chip filter outlined>
-                                Pet friendly
-                            </v-chip>
-                          </v-chip-group>
+                        <h2 class="text-h6 mb-2">
+                          Cottage additional services
+                        </h2>
+                        <v-chip-group
+                          v-model="
+                            cottageFastReservationItem.cottageAdditionalServices
+                          "
+                          column
+                          multiple
+                        >
+                          <v-chip filter outlined> WiFi </v-chip>
+                          <v-chip filter outlined> Parking </v-chip>
+                          <v-chip filter outlined> Pet friendly </v-chip>
+                        </v-chip-group>
                       </v-card-text>
                     </v-container>
                   </v-card-text>
 
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="closeCottageFastReservation">
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="closeCottageFastReservation"
+                    >
                       Cancel
                     </v-btn>
-                    <v-btn color="blue darken-1" text @click="saveCottageFastReservation">
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="saveCottageFastReservation"
+                    >
                       Save
                     </v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-              <v-dialog v-model="dialogCottageFastReservationDelete" max-width="500px">
+              <v-dialog
+                v-model="dialogCottageFastReservationDelete"
+                max-width="500px"
+              >
                 <v-card>
                   <v-card-title class="text-h6"
-                    >Are you sure you want to delete this reservation?</v-card-title
+                    >Are you sure you want to delete this
+                    reservation?</v-card-title
                   >
                   <v-card-actions>
                     <v-spacer></v-spacer>
@@ -154,7 +191,10 @@
             </v-toolbar>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <v-icon small @click="deleteCottageFastReservationItem(item)">
+            <v-icon small @click="deleteCottageFastReservationItem(item)" v-if="item.cottageFastReservationId !== null">
+              mdi-delete
+            </v-icon>
+            <v-icon small disabled v-else>
               mdi-delete
             </v-icon>
           </template>
@@ -167,10 +207,14 @@
 <script>
 export default {
   data: () => ({
+    cottageReservationDateMenu: false,
+    cottageReservationTimeMenu: false,
+    cottageReservationDate: "",
+    cottageReservationTime: "",
+
     cottageFastReservations: [],
     cottageReservationAdditionalServices: [],
     dialogCottageFastReservation: false,
-    dialogCottageReservationStartDateAndTime: false,
     dialogCottageFastReservationDelete: false,
 
     headersCottageFastReservation: [
@@ -215,22 +259,22 @@ export default {
 
     cottageFastReservationItemIndex: -1,
     cottageFastReservationItem: {
-        cottageFastReservationId: null,
-        dateAndTime: "",
-        duration: "",
-        maxNumberOfPersons: "",
-        cottageAdditionalServices: [],
-        price: "",
-        discountPercentage: "",
+      cottageFastReservationId: null,
+      dateAndTime: "",
+      duration: "",
+      maxNumberOfPersons: "",
+      cottageAdditionalServices: [],
+      price: "",
+      discountPercentage: "",
     },
     cottageFastReservationDefaultItem: {
-        cottageFastReservationId: null,
-        dateAndTime: "",
-        duration: "",
-        maxNumberOfPersons: "",
-        cottageAdditionalServices: [],
-        price: "",
-        discountPercentage: "",
+      cottageFastReservationId: null,
+      dateAndTime: "",
+      duration: "",
+      maxNumberOfPersons: "",
+      cottageAdditionalServices: [],
+      price: "",
+      discountPercentage: "",
     },
     cottageAdditionalServicesRequest: [],
     formattedCottageAdditionalServices: [],
@@ -268,15 +312,20 @@ export default {
           this.cottageFastReservations = response.data;
           console.log(this.cottageFastReservations);
           this.cottageFastReservations.forEach((reservation) => {
-            reservation.dateAndTime = new Date(reservation.dateAndTime).toDateString();
+            reservation.dateAndTime = new Date(
+              reservation.dateAndTime
+            ).toLocaleString();
             let reservationAdditionalServices = [];
-            reservation.cottageAdditionalServices.forEach(element => {
-              reservationAdditionalServices.push(element.cottageAdditionalServiceType);
+            reservation.cottageAdditionalServices.forEach((element) => {
+              reservationAdditionalServices.push(
+                element.cottageAdditionalServiceType
+              );
             });
-            reservation.cottageAdditionalServices = reservationAdditionalServices;
+            reservation.cottageAdditionalServices =
+              reservationAdditionalServices;
             reservationAdditionalServices = [];
             if (reservation.discountPercentage === null) {
-              reservation.discountPercentage = "No discount"
+              reservation.discountPercentage = "No discount";
             }
           });
         })
@@ -289,17 +338,13 @@ export default {
 
     getAllAdditionalServicesForCottageReservation() {
       this.axios
-        .get(
-          "http://localhost:8091/reservationAdditionalService/",
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          }
-        )
+        .get("http://localhost:8091/reservationAdditionalService/", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
         .then((response) => {
           this.cottageReservationAdditionalServices = response.data;
-          
         })
         .catch((err) => {
           window.location.href = "http://localhost:8083/";
@@ -310,52 +355,83 @@ export default {
 
     saveCottageFastReservation() {
       if (this.cottageFastReservationItemIndex > -1) {
-        Object.assign(this.cottageFastReservations[this.cottageFastReservationItemIndex], this.cottageFastReservationItem);
+        Object.assign(
+          this.cottageFastReservations[this.cottageFastReservationItemIndex],
+          this.cottageFastReservationItem
+        );
       } else {
         this.cottageId = localStorage.getItem("cottageId");
-        this.cottageFastReservationItem.cottageAdditionalServices.forEach(element => {
-          this.cottageAdditionalServicesRequest.push(this.cottageReservationAdditionalServices[element]);
-        });
+        this.cottageFastReservationItem.dateAndTime = new Date(
+          this.cottageReservationDate +
+            " " +
+            this.cottageReservationTime +
+            ":00"
+        ).toLocaleString();
+        this.cottageFastReservationItem.cottageAdditionalServices.forEach(
+          (element) => {
+            this.cottageAdditionalServicesRequest.push(
+              this.cottageReservationAdditionalServices[element]
+            );
+          }
+        );
 
         this.axios
-        .post("http://localhost:8091/reservationCottage/saveFastReservation/" + this.cottageId,
-          {
-            dateAndTime: this.cottageFastReservationItem.dateAndTime,
-            duration: this.cottageFastReservationItem.duration,
-            maxNumberOfPersons: this.cottageFastReservationItem.maxNumberOfPersons,
-            cottageAdditionalServices: this.cottageAdditionalServicesRequest,
-            price: this.cottageFastReservationItem.price,
-            discountPercentage: this.cottageFastReservationItem.discountPercentage,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
+          .post(
+            "http://localhost:8091/reservationCottage/saveFastReservation/" +
+              this.cottageId,
+            {
+              dateAndTime: new Date(this.cottageFastReservationItem.dateAndTime),
+              formattedDateAndTime: this.cottageFastReservationItem.formattedDateAndTime,
+              duration: this.cottageFastReservationItem.duration,
+              maxNumberOfPersons:
+                this.cottageFastReservationItem.maxNumberOfPersons,
+              cottageAdditionalServices: this.cottageAdditionalServicesRequest,
+              price: this.cottageFastReservationItem.price,
+              discountPercentage:
+                this.cottageFastReservationItem.discountPercentage,
             },
-          }
-        )
-        .then((response) => {
-          console.log(response.data);
-          this.cottageAdditionalServicesRequest = [];
-        });
-        
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((response) => {
+            console.log(response.data);
+            this.cottageAdditionalServicesRequest = [];
+            this.cottageId = localStorage.getItem("cottageId");
+            this.getAllFastReservationsForCottage();
+          });
+
         if (this.cottageFastReservationItem.discountPercentage === "") {
           this.cottageFastReservationItem.discountPercentage = "No discount";
         }
-        this.cottageFastReservationItem.cottageAdditionalServices.forEach(element => {
-          this.formattedCottageAdditionalServices.push(this.cottageReservationAdditionalServices[element].cottageAdditionalServiceType);
-        });
-        this.cottageFastReservationItem.cottageAdditionalServices = this.formattedCottageAdditionalServices;
+
+        this.cottageFastReservationItem.cottageAdditionalServices.forEach(
+          (element) => {
+            this.formattedCottageAdditionalServices.push(
+              this.cottageReservationAdditionalServices[element]
+                .cottageAdditionalServiceType
+            );
+          }
+        );
+        this.cottageFastReservationItem.cottageAdditionalServices =
+          this.formattedCottageAdditionalServices;
         this.cottageFastReservations.push(this.cottageFastReservationItem);
         this.formattedCottageAdditionalServices = [];
+        this.cottageReservationDate = "";
+        this.cottageReservationTime = "";
       }
       this.closeCottageFastReservation();
     },
 
     deleteCottageFastReservationItemConfirm() {
       this.axios
-        .post("http://localhost:8091/reservationCottage/deleteFastReservation/",
+        .post(
+          "http://localhost:8091/reservationCottage/deleteFastReservation",
           {
-            cottageReservationId: this.cottageFastReservationItem.cottageFastReservationId,
+            cottageReservationId:
+              this.cottageFastReservationItem.cottageFastReservationId,
           },
           {
             headers: {
@@ -367,20 +443,29 @@ export default {
           console.log(response.data);
         });
 
-      this.cottageFastReservations.splice(this.cottageFastReservationItemIndex, 1);
+      this.cottageFastReservations.splice(
+        this.cottageFastReservationItemIndex,
+        1
+      );
       this.closeCottageFastReservationDelete();
     },
 
     deleteCottageFastReservationItem(item) {
-      this.cottageFastReservationItemIndex = this.cottageFastReservations.indexOf(item);
+      this.cottageFastReservationItemIndex =
+        this.cottageFastReservations.indexOf(item);
       this.cottageFastReservationItem = Object.assign({}, item);
       this.dialogCottageFastReservationDelete = true;
     },
 
     closeCottageFastReservation() {
       this.dialogCottageFastReservation = false;
+      this.cottageReservationDate = "";
+      this.cottageReservationTime = "";
       this.$nextTick(() => {
-        this.cottageFastReservationItem = Object.assign({}, this.cottageFastReservationDefaultItem);
+        this.cottageFastReservationItem = Object.assign(
+          {},
+          this.cottageFastReservationDefaultItem
+        );
         this.cottageFastReservationItemIndex = -1;
       });
     },
@@ -388,13 +473,14 @@ export default {
     closeCottageFastReservationDelete() {
       this.dialogCottageFastReservationDelete = false;
       this.$nextTick(() => {
-        this.cottageFastReservationItem = Object.assign({}, this.cottageFastReservationDefaultItem);
+        this.cottageFastReservationItem = Object.assign(
+          {},
+          this.cottageFastReservationDefaultItem
+        );
         this.cottageFastReservationItemIndex = -1;
       });
     },
-
   },
-
 };
 </script>
 

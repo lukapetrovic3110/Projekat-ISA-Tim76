@@ -111,6 +111,15 @@
                     Fast reservations
                     </v-btn>
                   </v-card-actions>
+                  <v-card-actions class="justify-center">
+                    <v-btn
+                      depressed
+                      color="primary"
+                      v-on:click="availabilityCalendar(item.cottageId)"
+                    >
+                    Availability calendar
+                    </v-btn>
+                  </v-card-actions>
                 </v-card>
               </v-col>
             </v-row>
@@ -225,6 +234,11 @@ export default {
     cottageFastReservation(cottageId) {
       localStorage.setItem("cottageId", cottageId);
       window.location.href = "http://localhost:8083/cottageFastReservation";
+    },
+
+    availabilityCalendar(cottageId) {
+      localStorage.setItem("cottageId", cottageId);
+      window.location.href = "http://localhost:8083/cottageAvailabilityCalendar";
     },
 
     getAllCottagesForCottageOwner() { // "http://localhost:8091/cottage/getAll/" + this.cottageOwnerId

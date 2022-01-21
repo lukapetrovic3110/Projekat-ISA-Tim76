@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import Team76.InternetSoftwareArchitecture.dto.CottageFastReservationDTO;
+import Team76.InternetSoftwareArchitecture.dto.CottageReservationCalendarDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationInformationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationReportDTO;
 import Team76.InternetSoftwareArchitecture.dto.DeleteCottageReservationDTO;
@@ -89,8 +90,6 @@ public class ReservationCottageController {
 		}
 	}
 	
-	
-	
 	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")
 	@PostMapping("/deleteFastReservation")
 	public ResponseEntity<Boolean> deleteFastReservation(@RequestBody DeleteCottageReservationDTO deleteCottageReservationDTO) {
@@ -99,6 +98,12 @@ public class ReservationCottageController {
 		} catch (Exception e) {
 			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")
+	@GetMapping("/availabilityCalendar/{id}")
+	public ResponseEntity<CottageReservationCalendarDTO> getAvailabilityCalendarInformation(@PathVariable Long id) {
+		return new ResponseEntity<CottageReservationCalendarDTO>(reservationCottageService.getAvailabilityCalendarInformation(id), HttpStatus.OK);
 	}
 	
 }

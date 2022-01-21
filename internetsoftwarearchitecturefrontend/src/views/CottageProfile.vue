@@ -108,11 +108,11 @@
             browse-text="Upload images"
             drag-text="Drag images"
             mark-is-primary-text="Set as default"
-            popup-text="This image will be displayed as default"
+            popup-text="This image will be displayed as default."
             :multiple="true"
-            :show-edit="true"
-            :show-delete="true"
-            :show-add="true"
+            :show-edit="false"
+            :show-delete="false"
+            :show-add="false"
           ></vue-upload-multiple-image>
         </div>
       </v-form>
@@ -125,7 +125,6 @@
         elevation="2"
         x-large
         raised
-        v-on:click="editCottageInformation"
         >Edit cottage information</v-btn
       >
       <v-btn
@@ -134,7 +133,6 @@
         elevation="2"
         x-large
         raised
-        v-on:click="deleteCottage"
         >Delete cottage</v-btn
       >
     </v-card-actions>
@@ -154,6 +152,9 @@ export default {
     cottageId: "",
     cottageInformation: null,
     cottageImages: [],
+    images: null,
+    searchCottageRule: "",
+    searchCottagePriceTag: "",
     errorMessages: "",
     headersCottageRule: [
       {
@@ -194,23 +195,35 @@ export default {
           this.cottageInformation = response.data;
           this.cottageInformation.availabilityStart = new Date(
             response.data.availabilityStart
-          ).toDateString();
+          ).toLocaleString();
           this.cottageInformation.availabilityEnd = new Date(
             response.data.availabilityEnd
-          ).toDateString();
+          ).toLocaleString();
+          console.log("COTTAGE INFORMATION")
           console.log(this.cottageInformation);
+          this.getCottageImages();
+        })
+        .catch((err) => console.log(err));
+    },
 
-          // TEST (mozda staviti cottage images u cottage information objekat)
-          let imageInformation = {
-            default: 1,
-            highlight: 1,
-            name: "cottage1.jpg",
-            path: "../assets/images/' + 1639156403128cottage1 + '.jpg",
-          };
-
-          this.cottageImages.push(imageInformation);
-          // TEST
-
+    getCottageImages() {
+      this.axios
+        .get("http://localhost:8091/image/getImages/cottage/" + this.cottageId, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          this.images = response.data;
+          this.images.images.forEach(image => {
+            this.cottageImages.push({
+              default: image.defaultImage,
+              highlight: image.highlight,
+              name: image.name + ".jpg",
+              path: image.path,
+            });
+          });
+          console.log("COTTAGE IMAGES");
           console.log(this.cottageImages);
         })
         .catch((err) => console.log(err));
