@@ -219,7 +219,7 @@ export default {
         text: "Start date and time",
         align: "center",
         sortable: true,
-        value: "formattedDateAndTime",
+        value: "dateAndTime",
       },
       {
         text: "Duration (days)",
@@ -258,7 +258,6 @@ export default {
     cottageFastReservationItem: {
       cottageFastReservationId: null,
       dateAndTime: "",
-      formattedDateAndTime: "",
       duration: "",
       maxNumberOfPersons: "",
       cottageAdditionalServices: [],
@@ -268,7 +267,6 @@ export default {
     cottageFastReservationDefaultItem: {
       cottageFastReservationId: null,
       dateAndTime: "",
-      formattedDateAndTime: "",
       duration: "",
       maxNumberOfPersons: "",
       cottageAdditionalServices: [],
@@ -299,7 +297,7 @@ export default {
       this.cottageId = localStorage.getItem("cottageId");
       this.axios
         .get(
-          "http://localhost:8091/reservationCottage/cottageOwnerFastReservations/" +
+          "http://localhost:8091/reservationCottage/cottageFastReservations/" +
             this.cottageId,
           {
             headers: {

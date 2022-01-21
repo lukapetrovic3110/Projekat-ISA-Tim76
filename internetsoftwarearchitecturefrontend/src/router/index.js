@@ -91,6 +91,11 @@ const routes = [
     component: () => import("../views/SystemAdministratorComplaint.vue"),
   },
   {
+    path: "/systemAdministratorRevision",
+    name: "SystemAdministratorRevision",
+    component: () => import("../views/SystemAdministratorRevision.vue"),
+  },
+  {
     path: "/changePassword",
     name: "ChangePassword",
     component: () => import("../views/ChangePassword.vue"),
@@ -131,6 +136,11 @@ const routes = [
     component: () => import("../views/CottageDetails.vue"),
   },
   {
+    path: "/clientCottageFastReservation",
+    name: "ClientCottageFastReservation",
+    component: () => import("../views/ClientCottageFastReservation.vue"),
+  },
+  {
     path: "/searchShip",
     name: "SearchShip",
     component: () => import("../views/SearchShip.vue"),
@@ -139,6 +149,11 @@ const routes = [
     path: "/shipDetails",
     name: "ShipDetails",
     component: () => import("../views/ShipDetails.vue"),
+  },
+  {
+    path: "/clientShipFastReservation",
+    name: "ClientShipFastReservation",
+    component: () => import("../views/ClientShipFastReservation.vue"),
   },
   {
     path: "/searchFishingInstructor",
@@ -159,6 +174,11 @@ const routes = [
     path: "/adventureDetails",
     name: "AdventureDetails",
     component: () => import("../views/AdventureDetails.vue"),
+  },
+  {
+    path: "/clientAdventureFastReservation",
+    name: "ClientAdventureFastReservation",
+    component: () => import("../views/ClientAdventureFastReservation.vue"),
   },
   {
     path: "/cottageOwnerReservationHistory",

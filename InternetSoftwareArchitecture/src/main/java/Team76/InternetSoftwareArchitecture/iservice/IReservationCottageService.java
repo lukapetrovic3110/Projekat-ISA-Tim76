@@ -33,5 +33,7 @@ public interface IReservationCottageService {
 	Boolean deleteFastReservation(DeleteCottageReservationDTO deleteCottageDTO);
 	
 	CottageReservationCalendarDTO getAvailabilityCalendarInformation(Long cottageId);
+	
+	Boolean scheduleFastReservation(Long fastReservationId);
 
 }

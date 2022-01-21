@@ -151,6 +151,7 @@ export default {
           { title: "Registration requests", path: "/registrationRequests" },
           { title: "Profile delete requests", path: "/profileDeleteRequests"},
           { title: "Complaint requests", path: "/systemAdministratorComplaint"},
+          { title: "Revision requests", path: "/systemAdministratorRevision"},
           { title: "Register new adminstrator", path: "/registerSystemAdministrator"},
         ];
       } else {

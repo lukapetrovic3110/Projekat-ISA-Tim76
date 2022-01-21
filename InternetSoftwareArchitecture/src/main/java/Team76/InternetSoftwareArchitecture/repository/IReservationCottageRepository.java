@@ -17,7 +17,7 @@ public interface IReservationCottageRepository extends JpaRepository<Reservation
 
 	ReservationCottage findByReservationCottageId(Long reservationId);
 	
-	@Query(value = "SELECT * FROM reservation_cottage WHERE cottage_id=:cottageId and client_id IS NULL", nativeQuery = true)
+	@Query(value = "SELECT * FROM reservation_cottage WHERE cottage_id=:cottageId and client_id IS NULL and reservation_status = 'WAITING'", nativeQuery = true)
 	List<ReservationCottage> findAllFastReservationsForCottage(Long cottageId);
 	
 	@Query(value = "SELECT * FROM reservation_cottage WHERE cottage_id=:cottageId", nativeQuery = true)

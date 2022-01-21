@@ -1,5 +1,6 @@
 	package Team76.InternetSoftwareArchitecture.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -7,8 +8,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -37,14 +42,11 @@ import Team76.InternetSoftwareArchitecture.repository.IReservationCottageReposit
 @Service
 public class ReservationCottageService implements IReservationCottageService {
 	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private IReservationCottageRepository reservationCottageRepository;
-	
 	private ICottageRepository cottageRepository;
-	
 	private ICottageReservationReportRepository cottageReservationReportRepository;
-	
 	private IClientRepository clientRepository;
-	
 	private EmailService emailService;
 	
 	@Autowired
@@ -156,25 +158,80 @@ public class ReservationCottageService implements IReservationCottageService {
 
 	@Override
 	public List<CottageFastReservationDTO> findAllFastReservationsForCottage(Long cottageId) {
-		List<ReservationCottage> cottageReservations = reservationCottageRepository.findAllFastReservationsForCottage(cottageId);
-		List<CottageFastReservationDTO> cottageFastReservationsDTO = new ArrayList<CottageFastReservationDTO>();
-		
-		for (ReservationCottage cottageReservation : cottageReservations) {
-			if (cottageReservation.getReservationStatus().equals(ReservationStatus.WAITING)) {
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(cottageReservation.getDateAndTime());
-				String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-				String month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
-				String year = String.valueOf(calendar.get(Calendar.YEAR));
-				String hours = calendar.get(Calendar.HOUR) == 0 ? "12" : String.valueOf(calendar.get(Calendar.HOUR));
-				String minutes = calendar.get(Calendar.MINUTE) < 10 ? "0" + String.valueOf(calendar.get(Calendar.MINUTE)) : String.valueOf(calendar.get(Calendar.MINUTE));
-				String dayPart = calendar.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
-				String formattedDateAndTime = month + "/" + day + "/" + year + ", " + hours + ":" + minutes + ":00 " + dayPart;
-				cottageFastReservationsDTO.add(new CottageFastReservationDTO(cottageReservation.getReservationCottageId(), cottageReservation.getDateAndTime(), "", cottageReservation.getDuration(), cottageReservation.getMaxNumberOfPersons(), cottageReservation.getCottageAdditionalServices(), cottageReservation.getPrice(), cottageReservation.getDiscountPercentage()));
+		List<ReservationCottage> cottageFastReservations = reservationCottageRepository.findAllFastReservationsForCottage(cottageId);
+		return cottageFastReservations.stream().map(cottageReservation -> new CottageFastReservationDTO(
+						cottageReservation.getReservationCottageId(),
+						cottageReservation.getDateAndTime(), 
+						cottageReservation.getDuration(), 
+						cottageReservation.getMaxNumberOfPersons(), 
+						cottageReservation.getCottageAdditionalServices(), 
+						cottageReservation.getPrice(),
+						cottageReservation.getDiscountPercentage())).collect(Collectors.toList());
+	}
+	
+	@Override
+	public Boolean scheduleFastReservation(Long fastReservationId) {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		ReservationCottage reservationCottage = reservationCottageRepository.findByReservationCottageId(fastReservationId);
+		reservationCottage.setClient(clientRepository.findByUserId(client.getUserId()));
+		reservationCottage.setReservationStatus(ReservationStatus.SCHEDULED);
+		reservationCottageRepository.save(reservationCottage);
+		Cottage cottage = reservationCottage.getCottage();
+		try {
+			sendFastReservationEmail(client.getEmail(),createMessage(reservationCottage, cottage));		
+			return true;
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+	}
+
+
+	private String createMessage(ReservationCottage reservationCottage, Cottage cottage) {
+		StringBuilder textMessage = new StringBuilder();
+		textMessage.append("You have a scheduled cottage - ");
+		textMessage.append(cottage.getName());
+		textMessage.append(" from ");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.M.yyyy. HH:mm:ss");
+		Date startDateAndTime = reservationCottage.getDateAndTime();
+		Calendar startReservationDate = Calendar.getInstance();
+		startReservationDate.setTime(startDateAndTime);
+		textMessage.append(sdf.format(startReservationDate.getTime()));
+		textMessage.append(" to ");
+		Calendar endReservationDate = Calendar.getInstance();
+		endReservationDate.setTime(startDateAndTime);
+		endReservationDate.add(Calendar.DAY_OF_MONTH, reservationCottage.getDuration());
+		textMessage.append(sdf.format(endReservationDate.getTime()));
+		textMessage.append(".");
+		if (reservationCottage.getCottageAdditionalServices().size() > 0) {
+			textMessage.append("\nThe reservation include additional service");
+			for (CottageAdditionalService s : reservationCottage.getCottageAdditionalServices()) {
+				textMessage.append("\n-");
+				textMessage.append(s.getCottageAdditionalServiceType().toString().replace("_", " "));
 			}
 		}
-		
-		return cottageFastReservationsDTO;
+		if (reservationCottage.getDiscountPercentage() !=  null) {
+			textMessage.append("\nYou have received a discount ");
+			textMessage.append(reservationCottage.getDiscountPercentage());
+			textMessage.append("%, so your bill is now ");
+			Double newPrice = reservationCottage.getPrice() * (1 - reservationCottage.getDiscountPercentage()/100.);
+			textMessage.append(newPrice.toString());
+			textMessage.append(" instead of ");
+			textMessage.append(reservationCottage.getPrice().toString() + " RSD.");
+		} else {
+			textMessage.append("\nYour bill is ");
+			textMessage.append(reservationCottage.getPrice().toString() + " RSD.");
+		}
+		textMessage.append("\nContact the owner for details, phone number: ");
+		textMessage.append(cottage.getCottageOwner().getPhoneNumber());
+		textMessage.append(", email: ");
+		textMessage.append(cottage.getCottageOwner().getEmail() + ".");
+		textMessage.append("\nBest regards and see you!");
+		return textMessage.toString();
+	}
+	
+	private void sendFastReservationEmail(String clientEmail, String text) {
+		emailService.sendNotificaitionAsync(clientEmail, "Successfully scheduled fast reservation for cottage", text);
 	}
 
 
@@ -199,7 +256,7 @@ public class ReservationCottageService implements IReservationCottageService {
 			}
 		}
 		
-		return new CottageFastReservationDTO(reservationCottage.getReservationCottageId(), reservationCottage.getDateAndTime(), reservationCottage.getDateAndTime().toLocaleString(), reservationCottage.getDuration(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getCottageAdditionalServices(), reservationCottage.getPrice(), reservationCottage.getDiscountPercentage());
+		return new CottageFastReservationDTO(reservationCottage.getReservationCottageId(), reservationCottage.getDateAndTime(), reservationCottage.getDuration(), reservationCottage.getMaxNumberOfPersons(), reservationCottage.getCottageAdditionalServices(), reservationCottage.getPrice(), reservationCottage.getDiscountPercentage());
 	}
 	
 	private void sendCottageReservationEmail(String clientEmail, String cottageName) {
@@ -244,6 +301,41 @@ public class ReservationCottageService implements IReservationCottageService {
 		}
 		
 		return cottageReservationCalendarDTO;
+	}
+	
+	@Scheduled(cron = "1 * * * * *") // test na svaki minut
+	public void checkIfReservationsFinishedOrStarted() {
+		logger.info("I'm checking to see if any cottage reservations have been finished or started in the meantime.");
+		List<ReservationCottage> allScheduledReservation = reservationCottageRepository.findByReservationStatus(ReservationStatus.SCHEDULED);
+		Date currentDate = new Date(System.currentTimeMillis());
+		for (ReservationCottage reservationCottage : allScheduledReservation) {
+			Date startReservationDate = reservationCottage.getDateAndTime();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(startReservationDate);
+			calendar.add(Calendar.DAY_OF_MONTH, reservationCottage.getDuration());
+			Date endReservationDate = calendar.getTime(); 
+			
+			
+			if(startReservationDate.getTime() <= currentDate.getTime() && currentDate.getTime() <= endReservationDate.getTime()) {
+				reservationCottage.setReservationStatus(ReservationStatus.STARTED);
+				reservationCottageRepository.save(reservationCottage);
+			}
+			
+			if(currentDate.after(endReservationDate)) {
+				reservationCottage.setReservationStatus(ReservationStatus.FINISHED);
+				reservationCottageRepository.save(reservationCottage);
+			}
+			
+		}
+		
+		List<ReservationCottage> allWaitingReservation = reservationCottageRepository.findByReservationStatus(ReservationStatus.WAITING);
+		for (ReservationCottage reservationCottage : allWaitingReservation) {
+			Date waitingReservationDate = reservationCottage.getDateAndTime();
+			if(currentDate.after(waitingReservationDate)) {
+				reservationCottage.setReservationStatus(ReservationStatus.FINISHED);
+				reservationCottageRepository.save(reservationCottage);
+			}
+		}
 	}
 	
 }

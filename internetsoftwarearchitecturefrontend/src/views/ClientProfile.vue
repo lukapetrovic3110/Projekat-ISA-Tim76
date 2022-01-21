@@ -106,10 +106,10 @@
             height="40px"
             >Change password</v-btn
           >
-          <v-dialog max-width="600" persistent>
+          <v-dialog max-width="60%" persistent>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
-                color="red darken-1"
+                color="error"
                 x-medium
                 width="200px"
                 height="40px"
@@ -121,7 +121,7 @@
             </template>
             <template v-slot:default="dialog">
               <v-card>
-                <v-toolbar color="info" dark>Delete account request</v-toolbar>
+                <v-toolbar color="info" dark x-medium>Delete account request</v-toolbar>
                 <v-spacer></v-spacer>
                 <v-card-title class="text-h4 justify-center"
                   >Enter a reason</v-card-title
@@ -135,6 +135,7 @@
                     color="info"
                     type="text"
                     :rules="[() => !!reason || 'This field is required']"
+                    hint="Please enter a reason (maximum 100 characters)"
                   />
                   <v-spacer></v-spacer>
                 </v-card-text>
@@ -226,7 +227,7 @@ export default {
         alert("The reason is long please enter up to 100 characters!");
         return false;
       } else if (this.reason.match(/[\\#$%^&*'<>/"]/g)) {
-        alert("Your reason shouldn't contain special characters.");
+        alert("The reason shouldn't contain special characters.");
         return false;
       }
       return true;

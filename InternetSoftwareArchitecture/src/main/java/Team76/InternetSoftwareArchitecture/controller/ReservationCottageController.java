@@ -21,6 +21,7 @@ import Team76.InternetSoftwareArchitecture.dto.CottageReservationInformationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationReportDTO;
 import Team76.InternetSoftwareArchitecture.dto.DeleteCottageReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationCottageDTO;
+import Team76.InternetSoftwareArchitecture.dto.ScheduleFastReservationDTO;
 import Team76.InternetSoftwareArchitecture.model.ReservationCottage;
 import Team76.InternetSoftwareArchitecture.model.ReservationStatus;
 import Team76.InternetSoftwareArchitecture.service.ReservationCottageService;
@@ -64,20 +65,32 @@ public class ReservationCottageController {
 	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")
 	@PostMapping("/report")
 	public ResponseEntity<CottageReservationReportDTO> saveReport(@RequestBody CottageReservationReportDTO cottageReservationReportDTO) {
-		return new ResponseEntity<CottageReservationReportDTO>(reservationCottageService.saveReport(cottageReservationReportDTO), HttpStatus.OK);
+		return new ResponseEntity<CottageReservationReportDTO>(reservationCottageService.saveReport(cottageReservationReportDTO), HttpStatus.CREATED);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")
-	@GetMapping("/cottageOwnerFastReservations/{id}")
-	public ResponseEntity<List<CottageFastReservationDTO>> findAllFastReservationsForCottage(@PathVariable Long id) {
-		return new ResponseEntity<List<CottageFastReservationDTO>>(reservationCottageService.findAllFastReservationsForCottage(id), HttpStatus.OK);
+	@PreAuthorize("hasAnyRole('ROLE_COTTAGE_OWNER', 'ROLE_CLIENT')")
+	@GetMapping("/cottageFastReservations/{cottageId}")
+	public ResponseEntity<List<CottageFastReservationDTO>> findAllFastReservationsForCottage(@PathVariable Long cottageId) {
+		return new ResponseEntity<List<CottageFastReservationDTO>>(reservationCottageService.findAllFastReservationsForCottage(cottageId), HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")
 	@PostMapping("/saveFastReservation/{id}")
 	public ResponseEntity<CottageFastReservationDTO> saveFastReservation(@PathVariable Long id, @RequestBody CottageFastReservationDTO cottageFastReservationDTO) {
-		return new ResponseEntity<CottageFastReservationDTO>(reservationCottageService.saveFastReservation(id, cottageFastReservationDTO), HttpStatus.OK);
+		return new ResponseEntity<CottageFastReservationDTO>(reservationCottageService.saveFastReservation(id, cottageFastReservationDTO), HttpStatus.CREATED);
 	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@PostMapping("/scheduleFastReservation")
+	public ResponseEntity<?> scheduleFastReservation(@RequestBody ScheduleFastReservationDTO scheduleFastReservationDTO) {
+		try {
+			return new ResponseEntity<Boolean>(reservationCottageService.scheduleFastReservation(scheduleFastReservationDTO.getFastReservationId()), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	
 	
 	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")
 	@PostMapping("/deleteFastReservation")
