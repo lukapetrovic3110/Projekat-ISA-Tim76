@@ -245,6 +245,11 @@ const routes = [
     name: "ShipOwnerReservationReport",
     component: () => import("../views/ShipOwnerReservationReport.vue"),
   },
+  {
+    path: "/shipOwnerReservationHistory",
+    name: "ShipOwnerReservationHistory",
+    component: () => import("../views/ShipOwnerReservationHistory.vue"),
+  },
 ];
 const router = new VueRouter({
   mode: "history",
