@@ -123,7 +123,7 @@
                           </tr>
                           <tr>
                             <v-text-field
-                              label="Duration (days)"
+                              label="Duration (hours)"
                               type="number"
                               min="1"
                               v-model="duration"

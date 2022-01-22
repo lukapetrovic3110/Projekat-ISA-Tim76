@@ -1,11 +1,13 @@
 package Team76.InternetSoftwareArchitecture.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,5 +45,10 @@ public class AdventureController {
 		return new ResponseEntity<AdventureDTO>(adventureService.getAdventureById(adventureId), HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@GetMapping("/findAvailableAdventuresForSelectedDateInterval/{startDateAndTime}/{duration}")
+	public ResponseEntity<List<AdventureDTO>> findAvailableAdventuresForSelectedDateInterval(@PathVariable Date startDateAndTime,@PathVariable Integer duration) {
+		return new ResponseEntity<List<AdventureDTO>>(adventureService.findAvailableAdventuresForSelectedDateInterval(startDateAndTime, duration), HttpStatus.OK);
+	}
 	
 }
