@@ -61,9 +61,9 @@ public class ShipController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
-	@GetMapping("/findAvailableShipsForSelectedDateInterval/{startDateAndTime}/{duration}")
-	public ResponseEntity<List<ShipDTO>> findAvailableShipsForSelectedDateInterval(@PathVariable Date startDateAndTime,@PathVariable Integer duration) {
-		return new ResponseEntity<List<ShipDTO>>(shipService.findAvailableShipsForSelectedDateInterval(startDateAndTime, duration), HttpStatus.OK);
+	@GetMapping("/findAvailableShipsForSelectedDateIntervalAndNumberOfGuests/{startDateAndTime}/{duration}/{numberOfGuests}")
+	public ResponseEntity<List<ShipDTO>> findAvailableShipsForSelectedDateIntervalAndNumberOfGuests(@PathVariable Date startDateAndTime,@PathVariable Integer duration,@PathVariable Integer numberOfGuests) {
+		return new ResponseEntity<List<ShipDTO>>(shipService.findAvailableShipsForSelectedDateIntervalAndNumberOfGuests(startDateAndTime, duration, numberOfGuests), HttpStatus.OK);
 	}
 
 

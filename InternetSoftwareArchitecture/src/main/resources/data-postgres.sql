@@ -18,7 +18,7 @@ INSERT INTO public.address(city, country, street, street_number) VALUES ('Beogra
 
 -- Admin 		Password: Admin123!
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, first_login_change_password, address_id) VALUES ('SystemAdministrator', default, 'admin@email.com', true, 'Admin', 'Admin', '$2a$12$9bz1GJdLCG.Ttl/p5al5O.KZOkfhgWv.MhbivCtKvC0JXbp6vyi6W', '0615859999', 'AdbMbt4t1KLF-G0SX01WPL==', 'SYSTEM_ADMINISTRATOR', true, '1');
--- Client1		Password: Client123!     email for test: your email address 1   
+-- Client1		Password: Client123!     email for test: your email address 1    
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('Client', default, 'milan98@email.com', true, 'Milan', 'Zivkovic', '$2a$12$gMBetyilqUFKX9iv4UuNhOATalqMm9y/LcV44I6c/AooN.VL/geK6', '0645557771', 'G1pxvzLwtZujO+hVgIp2og==', 'CLIENT', '2');
 -- CottageOwner1	Password: Owner123!  email for test: your email address 2 
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, rating, address_id) VALUES ('CottageOwner', default, 'milos98@email.com', true, 'Milos', 'Milosevic', '$2a$12$1hs/7XPSREmfh70Omj.Zee5W59JnOsCN41xidlyDv1fVHmizIy.qa', '0645554048', 'h96BMRi8MSnZYO/+7RrbYQ==', 'COTTAGE_OWNER', '4.1', '3');
@@ -72,11 +72,17 @@ INSERT INTO public.image(name) VALUES ('1638982456921cottage1img5');
 INSERT INTO public.image(name) VALUES ('1638982456933cottage1img6');
 
 
+INSERT INTO public.rule(rule_id, description) VALUES (default, 'No making loud noise');
+
 INSERT INTO public.address(city, country, street, street_number, longitude, latitude) VALUES ('Bajina Basta', 'Serbia', 'Perucac', '8', '19.478483', '43.955651');
 
 INSERT INTO public.cottage(availability_start, availability_end, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_per_day, price_list_id, status)
 	VALUES ('2021-10-31 00:00:00', '2022-05-01 00:00:00', 'Very nice cottage, overlooking the river. Vacation is guaranteed.', 'Wooden cottage on Drina', '2', '2', '4.0', '11', '3', '6500', '1', 'ACTIVE');
 
+INSERT INTO public.cottage_cottage_rules(
+	cottage_cottage_id, cottage_rules_rule_id)
+	VALUES ('1', '1');	
+	
 INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (1, 1);
 INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (1, 2);
 INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (1, 3);
@@ -96,6 +102,10 @@ INSERT INTO public.address(city, country, street, street_number, longitude, lati
 INSERT INTO public.cottage(availability_start, availability_end, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_per_day, price_list_id, status)
 	VALUES ('2021-10-20 00:00:00', '2022-12-01 00:00:00', 'This villa has a private pool, a garden, barbecue facilities, free WiFi and free private parking.', 'Mi Casa', '3', '2', '5.0', '12', '5', '6750', '2', 'ACTIVE');
 
+INSERT INTO public.cottage_cottage_rules(
+	cottage_cottage_id, cottage_rules_rule_id)
+	VALUES ('2', '1');	
+
 INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (2, 7);
 INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (2, 8);
 INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (2, 9);
@@ -111,6 +121,10 @@ INSERT INTO public.address(city, country, street, street_number, longitude, lati
 
 INSERT INTO public.cottage(availability_start, availability_end, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_per_day, price_list_id, status)
 	VALUES ('2021-12-01 00:00:00', '2022-12-01 00:00:00', 'Excellent cottag...', 'Mountain cottage Exclusive', '2', '2', '4.9', '13', '4', '9000', '3', 'ACTIVE');
+	
+INSERT INTO public.cottage_cottage_rules(
+	cottage_cottage_id, cottage_rules_rule_id)
+	VALUES ('3', '1');
 	
 INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (3, 13);
 INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (3, 14);

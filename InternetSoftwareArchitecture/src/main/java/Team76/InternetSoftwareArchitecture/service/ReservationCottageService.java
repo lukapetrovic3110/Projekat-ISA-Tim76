@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +22,8 @@ import Team76.InternetSoftwareArchitecture.dto.CottageReservationCalendarInforma
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationClientInformationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationInformationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationReportDTO;
+import Team76.InternetSoftwareArchitecture.dto.CreateReservationRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.CreateReservationResponseDTO;
 import Team76.InternetSoftwareArchitecture.dto.DeleteCottageReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationCottageDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IReservationCottageService;
@@ -176,14 +177,39 @@ public class ReservationCottageService implements IReservationCottageService {
 		reservationCottage.setClient(clientRepository.findByUserId(client.getUserId()));
 		reservationCottage.setReservationStatus(ReservationStatus.SCHEDULED);
 		reservationCottageRepository.save(reservationCottage);
-		Cottage cottage = reservationCottage.getCottage();
 		try {
-			sendFastReservationEmail(client.getEmail(),createMessage(reservationCottage, cottage));		
+			sendReservationEmail(client.getEmail(), "Successfully scheduled fast reservation for cottage", createMessage(reservationCottage, reservationCottage.getCottage()));		
 			return true;
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 			return false;
 		}
+	}
+	
+	@Override
+	public CreateReservationResponseDTO createReservation(CreateReservationRequestDTO createReservationRequestDTO) {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		ReservationCottage reservationCottage = new ReservationCottage();
+		Cottage cottage = cottageRepository.findByCottageId(createReservationRequestDTO.getId());
+		reservationCottage.setCottage(cottage);
+		reservationCottage.setClient(clientRepository.findByUserId(client.getUserId()));
+		reservationCottage.setReservationStatus(ReservationStatus.SCHEDULED);
+		reservationCottage.setDateAndTime(createReservationRequestDTO.getReservationDateAndTime());
+		reservationCottage.setDuration(createReservationRequestDTO.getDuration());
+		reservationCottage.setMaxNumberOfPersons(createReservationRequestDTO.getNumberOfGuests());
+		Double reseravationCottagePrice = cottage.getPricePerDay() * createReservationRequestDTO.getDuration();
+		reservationCottage.setPrice(reseravationCottagePrice);
+		reservationCottageRepository.save(reservationCottage);
+		StringBuilder answer = new StringBuilder();
+		answer.append("The reservation was successfully created and scheduled!");
+		CreateReservationResponseDTO createReservationResponseDTO = new CreateReservationResponseDTO(true, answer.toString());
+		try {
+			sendReservationEmail(client.getEmail(), "Successfully created and scheduled reservation for cottage", createMessage(reservationCottage, reservationCottage.getCottage()));
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return createReservationResponseDTO;
 	}
 
 
@@ -230,10 +256,10 @@ public class ReservationCottageService implements IReservationCottageService {
 		return textMessage.toString();
 	}
 	
-	private void sendFastReservationEmail(String clientEmail, String text) {
-		emailService.sendNotificaitionAsync(clientEmail, "Successfully scheduled fast reservation for cottage", text);
+	private void sendReservationEmail(String clientEmail, String caption, String text) {
+		emailService.sendNotificaitionAsync(clientEmail, caption, text);
 	}
-
+	
 
 	@Override
 	public CottageFastReservationDTO saveFastReservation(Long cottageId, CottageFastReservationDTO cottageFastReservationDTO) {
@@ -303,7 +329,7 @@ public class ReservationCottageService implements IReservationCottageService {
 		return cottageReservationCalendarDTO;
 	}
 	
-	@Scheduled(cron = "1 * * * * *") // test na svaki minut
+	/* @Scheduled(cron = "1 * * * * *") // test na svaki minut
 	public void checkIfReservationsFinishedOrStarted() {
 		logger.info("I'm checking to see if any cottage reservations have been finished or started in the meantime.");
 		List<ReservationCottage> allScheduledReservation = reservationCottageRepository.findByReservationStatus(ReservationStatus.SCHEDULED);
@@ -336,6 +362,6 @@ public class ReservationCottageService implements IReservationCottageService {
 				reservationCottageRepository.save(reservationCottage);
 			}
 		}
-	}
+	}*/
 	
 }

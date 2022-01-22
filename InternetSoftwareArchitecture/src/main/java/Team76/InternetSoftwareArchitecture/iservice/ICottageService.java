@@ -32,7 +32,9 @@ public interface ICottageService {
 	List<Cottage> all();
 	
 	List<CottageDTO> findAllCottageWithStatusActive();
+
+	List<CottageDTO> findAvailableCottagesForSelectedDateIntervalAndNumberOfGuests(Date startDateAndTime,Integer duration, Integer numberOfGuests);
+
 	
-	List<CottageDTO> findAvailableCottagesForSelectedDateInterval(Date startDateAndTime, Integer duration);
 	
 }

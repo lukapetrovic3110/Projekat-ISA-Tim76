@@ -66,7 +66,7 @@ public class AdventureService implements IAdventureService {
 	}
 
 	@Override
-	public List<AdventureDTO> findAvailableAdventuresForSelectedDateInterval(Date startDateAndTime, Integer duration) {
+	public List<AdventureDTO> findAvailableAdventuresForSelectedDateIntervalAndNumberOfGuests(Date startDateAndTime, Integer duration, Integer numberOfGuests) {
 		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Calendar startDateAndTimeCalendar = Calendar.getInstance();
 		startDateAndTimeCalendar.setTime(startDateAndTime);
@@ -126,7 +126,9 @@ public class AdventureService implements IAdventureService {
 				
 			}
 			
-			if(isAvailableAdventure) {
+			int maxNumberOfPersons = adventure.getMaxNumberOfPersons();
+			
+			if(isAvailableAdventure && numberOfGuests <= maxNumberOfPersons) {
 				List<Image> images = adventure.getImages();
 				List<String> adventureImages = new ArrayList<String>();
 				for (Image image : images) {

@@ -63,11 +63,11 @@ public class ShipService implements IShipService  {
 			ShipDTO shipDTO = new ShipDTO(ship.getShipId(), ship.getName(), ship.getDescription(),
 					ship.getAddress().getStreet(), ship.getAddress().getStreetNumber(),
 					ship.getAddress().getCity(), ship.getAddress().getCountry(),
-					ship.getAddress().getLongitude(), ship.getAddress().getLatitude(), ship.getRating(), ship.getPricePerHour(), 
-					ship.getAvailabilityStart(), ship.getAvailabilityEnd(), ship.getLength(),
+					ship.getAddress().getLongitude(), ship.getAddress().getLatitude(), ship.getRating(), ship.getPricePerHour(), ship.getLength(),
 					ship.getEngineNumber(), ship.getEnginePower(), ship.getMaxSpeed(), ship.getCapacity(),
 					ship.getShipType(), ship.getShipOwner().getFirstName(), ship.getShipOwner().getLastName(), ship.getShipOwner().getEmail(), ship.getShipOwner().getPhoneNumber(),
-					new ArrayList<String>(), new HashMap<String, Double>(), new ArrayList<String>(), shipImages);
+					shipImages, ship.getAvailabilityStart(), ship.getAvailabilityEnd(),
+					null, null);
 
 			shipDTOs.add(shipDTO);
 		}
@@ -86,7 +86,7 @@ public class ShipService implements IShipService  {
 			for (Image image : images) {
 				shipImages.add(image.getName());
 			}
-			shipDTOs.add(new ShipDTO(ship.getShipId(), ship.getName(), ship.getDescription(), ship.getAddress().getStreet(), ship.getAddress().getStreetNumber(), ship.getAddress().getCity(), ship.getAddress().getCountry(), ship.getAddress().getLongitude(), ship.getAddress().getLatitude(), ship.getRating(), ship.getPricePerHour(), ship.getLength(), ship.getEngineNumber(), ship.getEnginePower(), ship.getMaxSpeed(), ship.getCapacity(), ship.getShipType(), ship.getShipOwner().getFirstName(), ship.getShipOwner().getLastName(), ship.getShipOwner().getEmail(), ship.getShipOwner().getPhoneNumber(), shipImages, ship.getAvailabilityStart(), ship.getAvailabilityEnd()));
+			shipDTOs.add(new ShipDTO(ship.getShipId(), ship.getName(), ship.getDescription(), ship.getAddress().getStreet(), ship.getAddress().getStreetNumber(), ship.getAddress().getCity(), ship.getAddress().getCountry(), ship.getAddress().getLongitude(), ship.getAddress().getLatitude(), ship.getRating(), ship.getPricePerHour(), ship.getLength(), ship.getEngineNumber(), ship.getEnginePower(), ship.getMaxSpeed(), ship.getCapacity(), ship.getShipType(), ship.getShipOwner().getFirstName(), ship.getShipOwner().getLastName(), ship.getShipOwner().getEmail(), ship.getShipOwner().getPhoneNumber(), shipImages, ship.getAvailabilityStart(), ship.getAvailabilityEnd(), ship.getShipRules()));
 		}
 		return shipDTOs;
 	}
@@ -99,12 +99,12 @@ public class ShipService implements IShipService  {
 		for (Image image : images) {
 			shipImages.add(image.getName());
 		}
-		ShipDTO shipDTO = new ShipDTO(s.getShipId(), s.getName(), s.getDescription(), s.getAddress().getStreet(), s.getAddress().getStreetNumber(), s.getAddress().getCity(), s.getAddress().getCountry(), s.getAddress().getLongitude(), s.getAddress().getLatitude(), s.getRating(), s.getPricePerHour(), s.getLength(), s.getEngineNumber(), s.getEnginePower(), s.getMaxSpeed(), s.getCapacity(), s.getShipType(), s.getShipOwner().getFirstName(), s.getShipOwner().getLastName(), s.getShipOwner().getEmail(), s.getShipOwner().getPhoneNumber(), shipImages, s.getAvailabilityStart(), s.getAvailabilityEnd()); 
+		ShipDTO shipDTO = new ShipDTO(s.getShipId(), s.getName(), s.getDescription(), s.getAddress().getStreet(), s.getAddress().getStreetNumber(), s.getAddress().getCity(), s.getAddress().getCountry(), s.getAddress().getLongitude(), s.getAddress().getLatitude(), s.getRating(), s.getPricePerHour(), s.getLength(), s.getEngineNumber(), s.getEnginePower(), s.getMaxSpeed(), s.getCapacity(), s.getShipType(), s.getShipOwner().getFirstName(), s.getShipOwner().getLastName(), s.getShipOwner().getEmail(), s.getShipOwner().getPhoneNumber(), shipImages, s.getAvailabilityStart(), s.getAvailabilityEnd(), s.getShipRules(), s.getPriceList()); 
 		return shipDTO;
 	}
 
 	@Override
-	public List<ShipDTO> findAvailableShipsForSelectedDateInterval(Date startDateAndTime, Integer duration) {
+	public List<ShipDTO> findAvailableShipsForSelectedDateIntervalAndNumberOfGuests(Date startDateAndTime, Integer duration, Integer numberOfGuests) {
 		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Calendar startDateAndTimeCalendar = Calendar.getInstance();
 		startDateAndTimeCalendar.setTime(startDateAndTime);
@@ -142,22 +142,21 @@ public class ShipService implements IShipService  {
 				dateAndTimeReservationCalendarEnd.add(Calendar.HOUR_OF_DAY, duration);
 				Long endReservation = dateAndTimeReservationCalendarEnd.getTimeInMillis();
 				
-				// I - u sredini trajanja zakazanog pregleda
 				if (startReservation <= startDesiredReservation && endReservation >= endDesiredReservation) {
 					isAvailableShip = false;
 					break;
 				}
-				// II - okruzi vec zakazan pregled
+				
 				if (startReservation >= startDesiredReservation && endReservation <= endDesiredReservation) {
 					isAvailableShip = false;
 					break;
 				}
-				// III
+
 				if (startReservation >= startDesiredReservation && startReservation <= endDesiredReservation) {
 					isAvailableShip = false;
 					break;
 				} 
-				// IV 
+		
 				if (startDesiredReservation <= endReservation && endReservation <= endDesiredReservation) {
 					isAvailableShip = false;
 					break;
@@ -165,13 +164,15 @@ public class ShipService implements IShipService  {
 				
 			}
 			
-			if(isAvailableShip) {
+			int maxNumberOfPersons = ship.getCapacity();
+			
+			if(isAvailableShip && numberOfGuests <= maxNumberOfPersons) {
 				List<Image> images = ship.getImages();
 				List<String> shipImages = new ArrayList<String>();
 				for (Image image : images) {
 					shipImages.add(image.getName());
 				}
-				ShipDTO shipDTO = new ShipDTO(ship.getShipId(), ship.getName(), ship.getDescription(), ship.getAddress().getStreet(), ship.getAddress().getStreetNumber(), ship.getAddress().getCity(), ship.getAddress().getCountry(), ship.getAddress().getLongitude(), ship.getAddress().getLatitude(), ship.getRating(), ship.getPricePerHour(), ship.getLength(), ship.getEngineNumber(), ship.getEnginePower(), ship.getMaxSpeed(), ship.getCapacity(), ship.getShipType(), ship.getShipOwner().getFirstName(), ship.getShipOwner().getLastName(), ship.getShipOwner().getEmail(), ship.getShipOwner().getPhoneNumber(), shipImages, ship.getAvailabilityStart(), ship.getAvailabilityEnd());
+				ShipDTO shipDTO = new ShipDTO(ship.getShipId(), ship.getName(), ship.getDescription(), ship.getAddress().getStreet(), ship.getAddress().getStreetNumber(), ship.getAddress().getCity(), ship.getAddress().getCountry(), ship.getAddress().getLongitude(), ship.getAddress().getLatitude(), ship.getRating(), ship.getPricePerHour(), ship.getLength(), ship.getEngineNumber(), ship.getEnginePower(), ship.getMaxSpeed(), ship.getCapacity(), ship.getShipType(), ship.getShipOwner().getFirstName(), ship.getShipOwner().getLastName(), ship.getShipOwner().getEmail(), ship.getShipOwner().getPhoneNumber(), shipImages, ship.getAvailabilityStart(), ship.getAvailabilityEnd(), ship.getShipRules(), ship.getPriceList());
 				availableShipDTOs.add(shipDTO);
 			}
 			

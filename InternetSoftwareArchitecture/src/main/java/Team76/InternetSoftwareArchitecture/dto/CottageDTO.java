@@ -1,8 +1,12 @@
 package Team76.InternetSoftwareArchitecture.dto;
 
 import java.util.Date;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import Team76.InternetSoftwareArchitecture.model.PriceList;
+import Team76.InternetSoftwareArchitecture.model.Rule;
 
 public class CottageDTO {
 
@@ -25,10 +29,10 @@ public class CottageDTO {
 	private String ownerLastName;
 	private String ownerEmail;
 	private String ownerPhoneNumber;
-	private HashMap<String, Double> priceList = new HashMap<String, Double>();
-	private List<String> cottageRules;
+	private PriceList priceList = new PriceList();
+	private Set<Rule> cottageRules = new HashSet<Rule>();
 	private List<String> cottageImages;
-
+	
 	public CottageDTO() {
 
 	}
@@ -36,7 +40,7 @@ public class CottageDTO {
 	public CottageDTO(Long cottageId, String name, String description, String street, String streetNumber, String city,
 			String country, Double longitude, Double latitude, Double rating, Double price,
 			Date availabilityStart, Date availabilityEnd, Integer numberOfRooms, Integer numberOfBedsPerRoom,
-			String ownerFirstName, String ownerLastName, String ownerEmail, String ownerPhoneNumber,List<String> cottageImages) {
+			String ownerFirstName, String ownerLastName, String ownerEmail, String ownerPhoneNumber, Set<Rule> cottageRules, List<String> cottageImages) {
 		super();
 		this.cottageId = cottageId;
 		this.name = name;
@@ -57,15 +61,15 @@ public class CottageDTO {
 		this.ownerLastName = ownerLastName;
 		this.ownerEmail = ownerEmail;
 		this.ownerPhoneNumber = ownerPhoneNumber;
-
+		this.cottageRules = cottageRules;
 		this.cottageImages = cottageImages;
 	}
 
 	public CottageDTO(Long cottageId, String name, String description, String street, String streetNumber, String city,
-			String country, Double longitude, Double latitude, Double rating, Date availabilityStart,
+			String country, Double longitude, Double latitude, Double rating, Double price, Date availabilityStart,
 			Date availabilityEnd, Integer numberOfRooms, Integer numberOfBedsPerRoom, String ownerFirstName,
-			String ownerLastName, String ownerEmail, String ownerPhoneNumber, HashMap<String, Double> priceList,
-			List<String> cottageRules, List<String> cottageImages) {
+			String ownerLastName, String ownerEmail, String ownerPhoneNumber, PriceList priceList,
+			Set<Rule> cottageRules, List<String> cottageImages) {
 		super();
 		this.cottageId = cottageId;
 		this.name = name;
@@ -77,6 +81,7 @@ public class CottageDTO {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.rating = rating;
+		this.price = price;
 		this.availabilityStart = availabilityStart;
 		this.availabilityEnd = availabilityEnd;
 		this.numberOfRooms = numberOfRooms;
@@ -242,19 +247,19 @@ public class CottageDTO {
 		this.ownerPhoneNumber = ownerPhoneNumber;
 	}
 
-	public HashMap<String, Double> getPriceList() {
+	public PriceList getPriceList() {
 		return priceList;
 	}
 
-	public void setPriceList(HashMap<String, Double> priceList) {
+	public void setPriceList(PriceList priceList) {
 		this.priceList = priceList;
 	}
 
-	public List<String> getCottageRules() {
+	public Set<Rule> getCottageRules() {
 		return cottageRules;
 	}
 
-	public void setCottageRules(List<String> cottageRules) {
+	public void setCottageRules(Set<Rule> cottageRules) {
 		this.cottageRules = cottageRules;
 	}
 

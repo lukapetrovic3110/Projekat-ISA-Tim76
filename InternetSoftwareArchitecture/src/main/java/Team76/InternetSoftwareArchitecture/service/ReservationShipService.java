@@ -18,6 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.dto.DeleteShipReservationDTO;
+import Team76.InternetSoftwareArchitecture.dto.CreateReservationRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.CreateReservationResponseDTO;
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationShipDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipFastReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipReservationCalendarDTO;
@@ -47,8 +49,8 @@ public class ReservationShipService implements IReservationShipService {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private IReservationShipRepository reservationShipRepository;
 	private IShipReservationReportRepository shipReservationReportRepository;
-	private IClientRepository clientRepository;
 	private IShipRepository shipRepository;
+	private IClientRepository clientRepository;
 	private EmailService emailService;
 	
 	@Autowired
@@ -197,7 +199,7 @@ public class ReservationShipService implements IReservationShipService {
 		reservationShipRepository.save(reservationShip);
 		Ship ship = reservationShip.getShip();
 		try {
-			sendFastReservationEmail(client.getEmail(), createMessage(reservationShip, ship));
+			sendReservationEmail(client.getEmail(), "Successfully scheduled fast reservation for ship", createMessage(reservationShip, ship));
 			return true;
 		} catch(Exception e) {
 			return false;
@@ -254,8 +256,8 @@ public class ReservationShipService implements IReservationShipService {
 		return textMessage.toString();
 	}
 	
-	private void sendFastReservationEmail(String clientEmail, String text) {
-		emailService.sendNotificaitionAsync(clientEmail, "Successfully scheduled fast reservation for ship", text);
+	private void sendReservationEmail(String clientEmail, String caption, String text) {
+		emailService.sendNotificaitionAsync(clientEmail, caption, text);
 	}
 
 	@Override
@@ -271,6 +273,33 @@ public class ReservationShipService implements IReservationShipService {
 		reservationShip.setReservationStatus(ReservationStatus.CANCELLED);
 		reservationShipRepository.save(reservationShip);
 		return true;
+	}
+
+
+	@Override
+	public CreateReservationResponseDTO createReservation(CreateReservationRequestDTO createReservationRequestDTO) {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		ReservationShip reservationShip = new ReservationShip();
+		Ship ship = shipRepository.findByShipId(createReservationRequestDTO.getId());
+		reservationShip.setShip(ship);
+		reservationShip.setClient(clientRepository.findByUserId(client.getUserId()));
+		reservationShip.setReservationStatus(ReservationStatus.SCHEDULED);
+		reservationShip.setDateAndTime(createReservationRequestDTO.getReservationDateAndTime());
+		reservationShip.setDuration(createReservationRequestDTO.getDuration());
+		reservationShip.setMaxNumberOfPersons(createReservationRequestDTO.getNumberOfGuests());
+		Double reseravationShipPrice = ship.getPricePerHour() * createReservationRequestDTO.getDuration();
+		reservationShip.setPrice(reseravationShipPrice);
+		reservationShipRepository.save(reservationShip);
+		StringBuilder answer = new StringBuilder();
+		answer.append("The reservation was successfully created and scheduled!");
+		CreateReservationResponseDTO createReservationResponseDTO = new CreateReservationResponseDTO(true, answer.toString());
+		try {
+			sendReservationEmail(client.getEmail(), "Successfully created and scheduled reservation for ship", createMessage(reservationShip, reservationShip.getShip()));
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return createReservationResponseDTO;
 	}
 	
 	@Scheduled(cron = "1 * * * * *")
@@ -342,5 +371,4 @@ public class ReservationShipService implements IReservationShipService {
 		
 		return shipReservationCalendarDTO;
 	}
-
 }

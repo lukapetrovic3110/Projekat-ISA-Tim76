@@ -8,6 +8,8 @@ import Team76.InternetSoftwareArchitecture.dto.CottageFastReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationCalendarDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationInformationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationReportDTO;
+import Team76.InternetSoftwareArchitecture.dto.CreateReservationRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.CreateReservationResponseDTO;
 import Team76.InternetSoftwareArchitecture.dto.DeleteCottageReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationCottageDTO;
 import Team76.InternetSoftwareArchitecture.model.ReservationCottage;
@@ -35,5 +37,7 @@ public interface IReservationCottageService {
 	CottageReservationCalendarDTO getAvailabilityCalendarInformation(Long cottageId);
 	
 	Boolean scheduleFastReservation(Long fastReservationId);
+	
+	CreateReservationResponseDTO createReservation(CreateReservationRequestDTO createReservationRequestDTO);
 
 }

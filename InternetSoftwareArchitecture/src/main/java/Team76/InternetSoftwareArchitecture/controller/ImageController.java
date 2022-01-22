@@ -45,7 +45,7 @@ public class ImageController {
 		return new ResponseEntity<>(imageService.edit(imageUploadDTO, id, userType), HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_COTTAGE_OWNER', 'ROLE_SHIP_OWNER', 'ROLE_FISHING_INSTRUCTOR')")
+	@PreAuthorize("hasAnyRole('ROLE_COTTAGE_OWNER', 'ROLE_SHIP_OWNER', 'ROLE_FISHING_INSTRUCTOR', 'ROLE_CLIENT')")
 	@GetMapping("/getImages/{entity}/{id}")
 	public ResponseEntity<ImagesDTO> get(@PathVariable Long id, @PathVariable String entity) {
 		return new ResponseEntity<ImagesDTO>(imageService.getImages(id, entity), HttpStatus.OK);

@@ -15,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.dto.AdventureFastReservationDTO;
+import Team76.InternetSoftwareArchitecture.dto.CreateReservationRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.CreateReservationResponseDTO;
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationAdventureDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IReservationAdventureService;
 import Team76.InternetSoftwareArchitecture.model.Address;
@@ -24,6 +26,7 @@ import Team76.InternetSoftwareArchitecture.model.Client;
 import Team76.InternetSoftwareArchitecture.model.FishingEquipmentForAdventure;
 import Team76.InternetSoftwareArchitecture.model.ReservationAdventure;
 import Team76.InternetSoftwareArchitecture.model.ReservationStatus;
+import Team76.InternetSoftwareArchitecture.repository.IAdventureRepository;
 import Team76.InternetSoftwareArchitecture.repository.IClientRepository;
 import Team76.InternetSoftwareArchitecture.repository.IReservationAdventureRepository;
 
@@ -34,14 +37,16 @@ public class ReservationAdventureService implements IReservationAdventureService
 	private IReservationAdventureRepository reservationAdventureRepository;
 	private IClientRepository clientRepository;
 	private EmailService emailService;
+	private IAdventureRepository adventureRepository;
 	
 	@Autowired
 	public ReservationAdventureService(IReservationAdventureRepository reservationAdventureRepository,
-			IClientRepository clientRepository, EmailService emailService) {
+			IClientRepository clientRepository, EmailService emailService, IAdventureRepository adventureRepository) {
 		super();
 		this.reservationAdventureRepository = reservationAdventureRepository;
 		this.clientRepository = clientRepository;
 		this.emailService = emailService;
+		this.adventureRepository = adventureRepository;
 	}
 
 	@Override
@@ -94,7 +99,7 @@ public class ReservationAdventureService implements IReservationAdventureService
 		reservationAdventureRepository.save(reservationAdventure);
 		Adventure adventure = reservationAdventure.getAdventure();
 		try {
-			sendFastReservationEmail(client.getEmail(), createMessage(reservationAdventure, adventure));
+			sendReservationEmail(client.getEmail(), "Successfully scheduled fast reservation for adventure", createMessage(reservationAdventure, adventure));
 			return true;
 		} catch(Exception e) {
 			return false;
@@ -151,8 +156,8 @@ public class ReservationAdventureService implements IReservationAdventureService
 		return textMessage.toString();
 	}
 	
-	private void sendFastReservationEmail(String clientEmail, String text) {
-		emailService.sendNotificaitionAsync(clientEmail, "Successfully scheduled fast reservation for adventure", text);
+	private void sendReservationEmail(String clientEmail, String caption, String text) {
+		emailService.sendNotificaitionAsync(clientEmail, caption, text);
 	}
 	
 	@Override
@@ -171,9 +176,35 @@ public class ReservationAdventureService implements IReservationAdventureService
 		reservationAdventureRepository.save(reservationAdventure);
 		return true;
 	}
+
+	@Override
+	public CreateReservationResponseDTO createReservation(CreateReservationRequestDTO createReservationRequestDTO) {
+		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		ReservationAdventure reservationAdventure = new ReservationAdventure();
+		Adventure adventure = adventureRepository.findByAdventureId(createReservationRequestDTO.getId());
+		reservationAdventure.setAdventure(adventure);
+		reservationAdventure.setClient(clientRepository.findByUserId(client.getUserId()));
+		reservationAdventure.setReservationStatus(ReservationStatus.SCHEDULED);
+		reservationAdventure.setDateAndTime(createReservationRequestDTO.getReservationDateAndTime());
+		reservationAdventure.setDuration(createReservationRequestDTO.getDuration());
+		reservationAdventure.setMaxNumberOfPersons(createReservationRequestDTO.getNumberOfGuests());
+		Double reseravationAdventurePrice = adventure.getPricePerHour() * createReservationRequestDTO.getDuration();
+		reservationAdventure.setPrice(reseravationAdventurePrice);
+		reservationAdventureRepository.save(reservationAdventure);
+		StringBuilder answer = new StringBuilder();
+		answer.append("The reservation was successfully created and scheduled!");
+		CreateReservationResponseDTO createReservationResponseDTO = new CreateReservationResponseDTO(true, answer.toString());
+		try {
+			sendReservationEmail(client.getEmail(), "Successfully created and scheduled reservation for adventure", createMessage(reservationAdventure, reservationAdventure.getAdventure()));
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return createReservationResponseDTO;
+	}
 	
 	
-	@Scheduled(cron = "1 * * * * *")
+	/* @Scheduled(cron = "1 * * * * *")
 	public void checkIfReservationsFinishedOrStarted() {
 		logger.info("I'm checking to see if any adventure reservations have been finished or started in the meantime.");
 		List<ReservationAdventure> allScheduledReservation = reservationAdventureRepository.findByReservationStatus(ReservationStatus.SCHEDULED);
@@ -205,6 +236,6 @@ public class ReservationAdventureService implements IReservationAdventureService
 			}
 		}
 		
-	}
+	} */
 
 }

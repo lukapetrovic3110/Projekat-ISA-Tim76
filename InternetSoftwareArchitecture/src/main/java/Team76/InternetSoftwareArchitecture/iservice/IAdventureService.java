@@ -17,6 +17,6 @@ public interface IAdventureService {
 	
 	AdventureDTO getAdventureById(Long adventureId);
 
-	List<AdventureDTO> findAvailableAdventuresForSelectedDateInterval(Date startDateAndTime, Integer duration);
+	List<AdventureDTO> findAvailableAdventuresForSelectedDateIntervalAndNumberOfGuests(Date startDateAndTime, Integer duration, Integer numberOfGuests);
 	
 }

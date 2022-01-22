@@ -149,7 +149,7 @@ public class CottageService implements ICottageService {
 					cottage.getAvailabilityStart(), cottage.getAvailabilityEnd(), cottage.getNumberOfRooms(),
 					cottage.getNumberOfBedsPerRoom(), cottage.getCottageOwner().getFirstName(),
 					cottage.getCottageOwner().getLastName(), cottage.getCottageOwner().getEmail(),
-					cottage.getCottageOwner().getPhoneNumber(), cottageImages);
+					cottage.getCottageOwner().getPhoneNumber(), cottage.getCottageRules(), cottageImages);
 
 			cottageDTOs.add(cottageDTO);
 		}
@@ -181,7 +181,7 @@ public class CottageService implements ICottageService {
 					cottage.getAvailabilityStart(), cottage.getAvailabilityEnd(), cottage.getNumberOfRooms(),
 					cottage.getNumberOfBedsPerRoom(), cottage.getCottageOwner().getFirstName(),
 					cottage.getCottageOwner().getLastName(), cottage.getCottageOwner().getEmail(),
-					cottage.getCottageOwner().getPhoneNumber(), cottageImages);
+					cottage.getCottageOwner().getPhoneNumber(), cottage.getCottageRules(), cottageImages);
 
 			cottageDTOs.add(cottageDTO);
 		}
@@ -189,7 +189,8 @@ public class CottageService implements ICottageService {
 		return cottageDTOs;
 	}
 	
-	public List<CottageDTO> findAvailableCottagesForSelectedDateInterval(Date startDateAndTime, Integer duration) {
+	@Override
+	public List<CottageDTO> findAvailableCottagesForSelectedDateIntervalAndNumberOfGuests(Date startDateAndTime, Integer duration, Integer numberOfGuests) {
 		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Calendar startDateAndTimeCalendar = Calendar.getInstance();
 		startDateAndTimeCalendar.setTime(startDateAndTime);
@@ -250,7 +251,10 @@ public class CottageService implements ICottageService {
 				
 			}
 			
-			if(isAvailableCottage) {
+			// maximum
+			int maxNumberOfPersons = cottage.getNumberOfBedsPerRoom() * cottage.getNumberOfRooms();
+			
+			if(isAvailableCottage && numberOfGuests <= maxNumberOfPersons) {
 				List<Image> images = cottage.getImages();
 				List<String> cottageImages = new ArrayList<String>();
 				for (Image image : images) {
@@ -263,7 +267,7 @@ public class CottageService implements ICottageService {
 						cottage.getAvailabilityStart(), cottage.getAvailabilityEnd(), cottage.getNumberOfRooms(),
 						cottage.getNumberOfBedsPerRoom(), cottage.getCottageOwner().getFirstName(),
 						cottage.getCottageOwner().getLastName(), cottage.getCottageOwner().getEmail(),
-						cottage.getCottageOwner().getPhoneNumber(), cottageImages);
+						cottage.getCottageOwner().getPhoneNumber(), cottage.getCottageRules(), cottageImages);
 				availableCottageDTOs.add(cottageDTO);
 			}
 			
@@ -287,7 +291,7 @@ public class CottageService implements ICottageService {
 				c.getAvailabilityStart(), c.getAvailabilityEnd(), c.getNumberOfRooms(),
 				c.getNumberOfBedsPerRoom(), c.getCottageOwner().getFirstName(),
 				c.getCottageOwner().getLastName(), c.getCottageOwner().getEmail(),
-				c.getCottageOwner().getPhoneNumber(), cottageImages);
+				c.getCottageOwner().getPhoneNumber(), c.getPriceList(), c.getCottageRules(), cottageImages);
 
 		return cottageDTO;
 	}

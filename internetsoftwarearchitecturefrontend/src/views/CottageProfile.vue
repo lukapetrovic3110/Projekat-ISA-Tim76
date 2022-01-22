@@ -47,7 +47,7 @@
           v-bind:readonly="true"
         />
         <v-text-field
-          label="Price per day"
+          label="Price per day (RSD)"
           v-model="cottageInformation.pricePerDay"
           type="text"
           v-bind:readonly="true"

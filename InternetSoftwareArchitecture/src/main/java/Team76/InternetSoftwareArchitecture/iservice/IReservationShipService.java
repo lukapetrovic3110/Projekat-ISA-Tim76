@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.dto.DeleteShipReservationDTO;
+import Team76.InternetSoftwareArchitecture.dto.CreateReservationRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.CreateReservationResponseDTO;
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationShipDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipFastReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipReservationCalendarDTO;
@@ -36,4 +38,6 @@ public interface IReservationShipService {
 	
 	ShipReservationCalendarDTO getAvailabilityCalendarInformation(Long shipId);
 	
+	CreateReservationResponseDTO createReservation(CreateReservationRequestDTO createReservationRequestDTO);
+
 }

@@ -130,6 +130,15 @@
                             >
                             </v-text-field>
                           </tr>
+                          <tr>
+                            <v-text-field
+                              label="Number of guests"
+                              type="number"
+                              min="1"
+                              v-model="numberOfGuests"
+                            >
+                            </v-text-field>
+                          </tr>
                         </v-simple-table>
                       </v-container>
                     </v-card-text>
@@ -321,7 +330,9 @@ export default {
       .substr(0, 10),
     cottageReservationTime: null,
     duration: null,
+    numberOfGuests: null,
     client: null,
+    cottageReservationDateAndTime: null,
     isClientLogged: false,
     isSearchVisible: true,
     isResetVisible: false,
@@ -367,6 +378,9 @@ export default {
         .then((response) => {
           this.client = response.data;
           this.isClientLogged = true;
+          localStorage.setItem("cottageReservationDateAndTime", "");
+          localStorage.setItem("duration", "");
+          localStorage.setItem("numberOfGuests", "");
         });
     },
     displayAllCottage() {
@@ -388,23 +402,30 @@ export default {
       if (
         this.cottageReservationDate == null ||
         this.cottageReservationTime == null ||
-        this.duration == null
+        this.duration == null ||
+        this.numberOfGuests == null
       ) {
         alert(
           "The fields used for searching availible dates for cottages must not be empty!"
         );
       } else if (this.duration <= 0) {
-        alert("Duration must be positive number!");
-      } else {
+        alert("Enter valid duration!");
+      } else if (this.numberOfGuests <= 0) {
+        alert("Enter the correct number of guests!");
+      }
+      else {
         let strTime = this.cottageReservationTime + ":00";
-        let cottageReservationDateAndTime = new Date(
+        this.cottageReservationDateAndTime = new Date(
           this.cottageReservationDate.toString() + " " + strTime
         );
-        console.log(cottageReservationDateAndTime);
+        console.log(this.cottageReservationDateAndTime);
         console.log(this.duration);
+        console.log(this.numberOfGuests);
+        let numberOfGuests = this.numberOfGuests;
+        let duration = this.duration;
         this.axios
           .get(
-            "http://localhost:8091/cottage/findAvailableCottagesForSelectedDateInterval/" + cottageReservationDateAndTime + "/" + this.duration, 
+            "http://localhost:8091/cottage/findAvailableCottagesForSelectedDateIntervalAndNumberOfGuests/" + this.cottageReservationDateAndTime + "/" + this.duration + "/" + this.numberOfGuests, 
             {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("token"),
@@ -415,13 +436,17 @@ export default {
             console.log(response.data);
             if(response.data.length > 0) {
               this.items = response.data;
+              localStorage.setItem("numberOfGuests", numberOfGuests);
+              localStorage.setItem("cottageReservationDateAndTime", this.cottageReservationDateAndTime);
+              localStorage.setItem("duration", duration);
+              
               if (response.data.length > 1) {
-                alert("There are exist cottages available for the desired date interval, so you can choose one and schedule a reservation.");
+                alert("There are exist cottages available for the desired date interval and number of guests, so you can choose one and schedule a reservation.");
               } else {
-                alert("There is a cottage available for the desired date, so you can schedule a reservation.");
+                alert("There is a cottage available for the desired date interval and number of guests, so you can schedule a reservation.");
               }
             } else {
-              alert("There are not exist cottages available for the desired date interval."); 
+              alert("There are not exist cottages available for the desired date interval and number of guests."); 
               this.items = response.data;
             }
           });
@@ -439,11 +464,15 @@ export default {
         .toISOString()
         .substr(0, 10);
       this.duration = null;
+      this.numberOfGuests = null;
     },
     resetSearchByDate() {
       this.items = this.allActiveCottage;
       this.isResetVisible = false;
       this.isSearchVisible = true;
+      localStorage.setItem("cottageReservationDateAndTime", "");
+      localStorage.setItem("duration", "");
+      localStorage.setItem("numberOfGuests", "");
     },
   },
 };

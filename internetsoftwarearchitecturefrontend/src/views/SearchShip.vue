@@ -130,6 +130,15 @@
                             >
                             </v-text-field>
                           </tr>
+                          <tr>
+                            <v-text-field
+                              label="Number of guests"
+                              type="number"
+                              min="1"
+                              v-model="numberOfGuests"
+                            >
+                            </v-text-field>
+                          </tr>
                         </v-simple-table>
                       </v-container>
                     </v-card-text>
@@ -321,7 +330,9 @@ export default {
       .substr(0, 10),
     shipReservationTime: null,
     duration: null,
+    numberOfGuests: null,
     client: null,
+    shipReservationDateAndTime: null,
     isClientLogged: false,
     isSearchVisible: true,
     isResetVisible: false,
@@ -367,6 +378,9 @@ export default {
         .then((response) => {
           this.client = response.data;
           this.isClientLogged = true;
+          localStorage.setItem("shipReservationDateAndTime", "");
+          localStorage.setItem("duration", "");
+          localStorage.setItem("numberOfGuests", "");
         });
     },
     displayAllShip() {
@@ -388,23 +402,30 @@ export default {
       if (
         this.shipReservationDate == null ||
         this.shipReservationTime == null ||
-        this.duration == null
+        this.duration == null ||
+        this.numberOfGuests == null
       ) {
         alert(
           "The fields used for searching availible dates for ships must not be empty!"
         );
       } else if (this.duration <= 0) {
-        alert("Duration must be positive number!");
-      } else {
+        alert("Enter valid duration!");
+      } else if (this.numberOfGuests <= 0) {
+        alert("Enter the correct number of guests!");
+      }
+      else {
         let strTime = this.shipReservationTime + ":00";
-        let shipReservationDateAndTime = new Date(
+        this.shipReservationDateAndTime = new Date(
           this.shipReservationDate.toString() + " " + strTime
         );
-        console.log(shipReservationDateAndTime);
+        console.log(this.shipReservationDateAndTime);
         console.log(this.duration);
+        console.log(this.numberOfGuests);
+        let numberOfGuests = this.numberOfGuests;
+        let duration = this.duration;
         this.axios
           .get(
-            "http://localhost:8091/ship/findAvailableShipsForSelectedDateInterval/" + shipReservationDateAndTime + "/" + this.duration, 
+            "http://localhost:8091/ship/findAvailableShipsForSelectedDateIntervalAndNumberOfGuests/" + this.shipReservationDateAndTime + "/" + this.duration + "/" + this.numberOfGuests, 
             {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("token"),
@@ -415,13 +436,17 @@ export default {
             console.log(response.data);
             if(response.data.length > 0) {
               this.items = response.data;
+              localStorage.setItem("numberOfGuests", numberOfGuests);
+              localStorage.setItem("shipReservationDateAndTime", this.shipReservationDateAndTime);
+              localStorage.setItem("duration", duration);
+              
               if (response.data.length > 1) {
-                alert("There are exist ships available for the desired date interval, so you can choose one and schedule a reservation.");
+                alert("There are exist ships available for the desired date interval and number of guests, so you can choose one and schedule a reservation.");
               } else {
-                alert("There is a ship available for the desired date, so you can schedule a reservation.");
+                alert("There is a ship available for the desired date interval and number of guests, so you can schedule a reservation.");
               }
             } else {
-              alert("There are not exist ships available for the desired date interval."); 
+              alert("There are not exist ships available for the desired date interval and number of guests."); 
               this.items = response.data;
             }
           });
@@ -439,11 +464,15 @@ export default {
         .toISOString()
         .substr(0, 10);
       this.duration = null;
+      this.numberOfGuests = null;
     },
     resetSearchByDate() {
       this.items = this.allActiveShip;
       this.isResetVisible = false;
       this.isSearchVisible = true;
+      localStorage.setItem("shipReservationDateAndTime", "");
+      localStorage.setItem("duration", "");
+      localStorage.setItem("numberOfGuests", "");
     },
   },
 };
