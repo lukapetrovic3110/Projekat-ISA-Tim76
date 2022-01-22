@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationShipDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipFastReservationDTO;
+import Team76.InternetSoftwareArchitecture.dto.ShipReservationCalendarDTO;
+import Team76.InternetSoftwareArchitecture.dto.ShipReservationCalendarInformationDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IReservationShipService;
 import Team76.InternetSoftwareArchitecture.model.Address;
 import Team76.InternetSoftwareArchitecture.model.Client;
@@ -34,15 +36,16 @@ public class ReservationShipService implements IReservationShipService {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private IReservationShipRepository reservationShipRepository;
 	private IClientRepository clientRepository;
+	private IShipRepository shipRepository;
 	private EmailService emailService;
 	
 	@Autowired
-	public ReservationShipService(IReservationShipRepository reservationShipRepository, IShipRepository shipRepository,
-			IClientRepository clientRepository, EmailService emailService) {
+	public ReservationShipService(IReservationShipRepository reservationShipRepository, IClientRepository clientRepository, EmailService emailService, IShipRepository shipRepository) {
 		super();
 		this.reservationShipRepository = reservationShipRepository;
 		this.clientRepository = clientRepository;
 		this.emailService = emailService;
+		this.shipRepository = shipRepository;
 	}
 	
 	@Override
@@ -202,6 +205,34 @@ public class ReservationShipService implements IReservationShipService {
 				reservationShipRepository.save(reservationShip);
 			}
 		}
+	}
+
+	@Override
+	public ShipReservationCalendarDTO getAvailabilityCalendarInformation(Long shipId) {
+		ShipReservationCalendarDTO shipReservationCalendarDTO = new ShipReservationCalendarDTO();
+		shipReservationCalendarDTO.setShipReservations(new ArrayList<ShipReservationCalendarInformationDTO>());
+		List<ReservationShip> shipReservations = reservationShipRepository.findAllReservationsForShip(shipId);
+		Ship ship = shipRepository.getOne(shipId);
+		shipReservationCalendarDTO.setAvailabilityStart(ship.getAvailabilityStart());
+		shipReservationCalendarDTO.setAvailabilityEnd(ship.getAvailabilityEnd());
+		
+		for (ReservationShip reservationShip : shipReservations) {
+			if (reservationShip.getReservationStatus().equals(ReservationStatus.STARTED) || reservationShip.getReservationStatus().equals(ReservationStatus.SCHEDULED) || reservationShip.getReservationStatus().equals(ReservationStatus.WAITING)) {
+				ShipReservationCalendarInformationDTO shipReservationCalendarInformationDTO;
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(reservationShip.getDateAndTime());
+				calendar.add(Calendar.DATE, reservationShip.getDuration());
+				if (reservationShip.getClient() == null) {
+					shipReservationCalendarInformationDTO = new ShipReservationCalendarInformationDTO(reservationShip.getDateAndTime(), calendar.getTime(), reservationShip.getShip().getName(), "", "", "", reservationShip.getReservationStatus());
+				} else {
+					shipReservationCalendarInformationDTO = new ShipReservationCalendarInformationDTO(reservationShip.getDateAndTime(), calendar.getTime(), reservationShip.getShip().getName(), reservationShip.getClient().getFirstName(), reservationShip.getClient().getLastName(), reservationShip.getClient().getEmail(), reservationShip.getReservationStatus());
+				}
+				
+				shipReservationCalendarDTO.getShipReservations().add(shipReservationCalendarInformationDTO);
+			}
+		}
+		
+		return shipReservationCalendarDTO;
 	}
 
 }

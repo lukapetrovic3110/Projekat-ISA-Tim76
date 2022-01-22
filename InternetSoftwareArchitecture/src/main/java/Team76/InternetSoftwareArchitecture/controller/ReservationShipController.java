@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationShipDTO;
 import Team76.InternetSoftwareArchitecture.dto.ScheduleFastReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipFastReservationDTO;
+import Team76.InternetSoftwareArchitecture.dto.ShipReservationCalendarDTO;
 import Team76.InternetSoftwareArchitecture.service.ReservationShipService;
 
 @CrossOrigin(origins = "http://localhost:8083")
@@ -52,6 +53,12 @@ public class ReservationShipController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@PreAuthorize("hasRole('ROLE_SHIP_OWNER')")
+	@GetMapping("/availabilityCalendar/{id}")
+	public ResponseEntity<ShipReservationCalendarDTO> getAvailabilityCalendarInformation(@PathVariable Long id) {
+		return new ResponseEntity<ShipReservationCalendarDTO>(reservationShipService.getAvailabilityCalendarInformation(id), HttpStatus.OK);
 	}
 	
 }

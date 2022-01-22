@@ -29,7 +29,6 @@ public interface IReservationCottageRepository extends JpaRepository<Reservation
 	@Query(value = "SELECT * FROM reservation_cottage WHERE cottage_id=:cottageId and client_id=:clientId and reservation_status = 'CANCELLED'", nativeQuery = true)
 	List<ReservationCottage> findAllCanceledReservationForCottageByClientId(Long cottageId, Long clientId);
 
-	
 	@Query(value = "SELECT * FROM reservation_cottage WHERE date_and_time=:cottageReservationDateAndTime", nativeQuery = true)
 	ReservationCottage findByDateAndTime(Date cottageReservationDateAndTime);
 

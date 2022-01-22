@@ -190,7 +190,8 @@
 
 <script>
 export default {
-  name: "MyCottages",
+  name: "MyShips",
+
   data: () => ({
     ships: [],
     shipOwnerId: "",
@@ -238,9 +239,8 @@ export default {
     },
 
     availabilityCalendar(shipId) {
-        console.log(shipId);
-      //localStorage.setItem("shipId", shipId);
-      //window.location.href = "http://localhost:8083/shipAvailabilityCalendar";
+      localStorage.setItem("shipId", shipId);
+      window.location.href = "http://localhost:8083/shipAvailabilityCalendar";
     },
 
     getAllShipsForShipOwner() { 

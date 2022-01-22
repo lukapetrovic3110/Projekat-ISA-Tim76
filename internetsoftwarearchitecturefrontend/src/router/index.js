@@ -230,6 +230,11 @@ const routes = [
     name: "MyShips",
     component: () => import("../views/MyShips.vue"),
   },
+  {
+    path: "/shipAvailabilityCalendar",
+    name: "ShipAvailabilityCalendar",
+    component: () => import("../views/ShipAvailabilityCalendar.vue"),
+  },
 ];
 const router = new VueRouter({
   mode: "history",
