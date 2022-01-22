@@ -119,6 +119,21 @@
       </v-form>
     </v-card-text>
     <div></div>
+    <v-dialog v-model="dialogDeleteCottage" max-width="60%">
+      <v-card>
+        <v-spacer></v-spacer>
+        <v-card-title class="text-h5 justify-center"
+          >Are you sure you want to delete this cottage?
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green" text @click="deleteCottage">Delete</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="dialogDeleteCottage = false">Cancel</v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-card-actions>
       <v-btn
         class="mx-auto mb-10 mt-10; color:white"
@@ -135,6 +150,7 @@
         elevation="2"
         x-large
         raised
+        @click="dialogDeleteCottage = true"
         >Delete cottage</v-btn
       >
     </v-card-actions>
@@ -157,6 +173,7 @@ export default {
     images: null,
     searchCottageRule: "",
     searchCottagePriceTag: "",
+    dialogDeleteCottage: false,
     errorMessages: "",
     headersCottageRule: [
       {
@@ -229,6 +246,26 @@ export default {
           console.log(this.cottageImages);
         })
         .catch((err) => console.log(err));
+    },
+
+    deleteCottage() {
+      this.axios
+        .post(
+          "http://localhost:8091/cottage/delete",
+          {
+            cottageId: this.cottageId,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          this.dialogDeleteCottage = false;
+          window.location.href = "http://localhost:8083/myCottages";
+        });
     },
 
     markIsPrimary(index, fileList) {

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import Team76.InternetSoftwareArchitecture.dto.AddCottageDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageDTO;
+import Team76.InternetSoftwareArchitecture.dto.DeleteCottageDTO;
 import Team76.InternetSoftwareArchitecture.model.Cottage;
 import Team76.InternetSoftwareArchitecture.service.CottageService;
 
@@ -43,6 +44,16 @@ public class CottageController {
 	@PostMapping("/edit/{id}")
 	public ResponseEntity<Cottage> edit(@RequestBody AddCottageDTO addCottageDTO, @PathVariable Long id) {
 		return new ResponseEntity<Cottage>(cottageService.editCottage(addCottageDTO, id), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")
+	@PostMapping("/delete")
+	public ResponseEntity<Boolean> delete(@RequestBody DeleteCottageDTO deleteCottageDTO) {
+		try {
+			return new ResponseEntity<Boolean>(cottageService.deleteCottage(deleteCottageDTO), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")

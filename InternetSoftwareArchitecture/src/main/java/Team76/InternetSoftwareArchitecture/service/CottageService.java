@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.dto.AddCottageDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageDTO;
+import Team76.InternetSoftwareArchitecture.dto.DeleteCottageDTO;
 import Team76.InternetSoftwareArchitecture.iservice.ICottageService;
 import Team76.InternetSoftwareArchitecture.model.Cottage;
+import Team76.InternetSoftwareArchitecture.model.EntityStatus;
 import Team76.InternetSoftwareArchitecture.model.Image;
 import Team76.InternetSoftwareArchitecture.model.PriceList;
 import Team76.InternetSoftwareArchitecture.model.PriceTag;
@@ -25,7 +27,7 @@ public class CottageService implements ICottageService {
 	private ICottageRepository cottageRepository;
 
 	private IAddressRepository addressRepository;
-
+	
 	@Autowired
 	public CottageService(ICottageRepository cottageRepository, IAddressRepository addressRepository) {
 		super();
@@ -44,6 +46,7 @@ public class CottageService implements ICottageService {
 		cottage.setPricePerDay(addCottageDTO.getPricePerDay());
 		cottage.setAvailabilityStart(addCottageDTO.getAvailabilityStart());
 		cottage.setAvailabilityEnd(addCottageDTO.getAvailabilityEnd());
+		cottage.setStatus(EntityStatus.ACTIVE);
 
 		Set<PriceTag> priceTags = new HashSet<PriceTag>();
 		for (String priceTag : addCottageDTO.getPriceList()) {
@@ -75,6 +78,7 @@ public class CottageService implements ICottageService {
 		cottage.setPricePerDay(addCottageDTO.getPricePerDay());
 		cottage.setAvailabilityStart(addCottageDTO.getAvailabilityStart());
 		cottage.setAvailabilityEnd(addCottageDTO.getAvailabilityEnd());
+		cottage.setStatus(EntityStatus.ACTIVE);
 
 		Set<PriceTag> priceTags = new HashSet<PriceTag>();
 		for (String priceTag : addCottageDTO.getPriceList()) {
@@ -93,6 +97,15 @@ public class CottageService implements ICottageService {
 		cottageRepository.saveCottageOwnerForCottage(cottagedb.getCottageId(), addCottageDTO.getCottageOwnerId());
 		
 		return findById(cottagedb.getCottageId());
+	}
+	
+	@Override
+	public Boolean deleteCottage(DeleteCottageDTO deleteCottageDTO) {
+		Cottage cottage = cottageRepository.findByCottageId(deleteCottageDTO.getCottageId());
+		cottage.setStatus(EntityStatus.DELETED);
+		cottageRepository.save(cottage);
+		
+		return true;
 	}
 
 	@Override

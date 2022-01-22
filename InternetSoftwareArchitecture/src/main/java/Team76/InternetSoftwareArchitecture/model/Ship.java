@@ -83,14 +83,17 @@ public class Ship {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "addressId", referencedColumnName = "addressId")
 	private Address address;
+	
+	@Enumerated(EnumType.STRING)
+	private EntityStatus status;
 
 	public Ship() {
 	}
-	
+
 	public Ship(String name, String description, Double rating, List<Image> images, Double length, Integer engineNumber,
 			Integer enginePower, Integer maxSpeed, Integer capacity, ShipType shipType, Date availabilityStart,
 			Date availabilityEnd, Set<NavigationEquipment> navigationEquipment, ShipOwner shipOwner,
-			Double pricePerHour, PriceList priceList, Set<Rule> shipRules, Address address) {
+			Double pricePerHour, PriceList priceList, Set<Rule> shipRules, Address address, EntityStatus status) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -110,6 +113,7 @@ public class Ship {
 		this.priceList = priceList;
 		this.shipRules = shipRules;
 		this.address = address;
+		this.status = status;
 	}
 
 	public Long getShipId() {
@@ -142,6 +146,14 @@ public class Ship {
 
 	public void setRating(Double rating) {
 		this.rating = rating;
+	}
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
 	}
 
 	public Double getLength() {
@@ -192,6 +204,22 @@ public class Ship {
 		this.shipType = shipType;
 	}
 
+	public Date getAvailabilityStart() {
+		return availabilityStart;
+	}
+
+	public void setAvailabilityStart(Date availabilityStart) {
+		this.availabilityStart = availabilityStart;
+	}
+
+	public Date getAvailabilityEnd() {
+		return availabilityEnd;
+	}
+
+	public void setAvailabilityEnd(Date availabilityEnd) {
+		this.availabilityEnd = availabilityEnd;
+	}
+
 	public Set<NavigationEquipment> getNavigationEquipment() {
 		return navigationEquipment;
 	}
@@ -207,7 +235,7 @@ public class Ship {
 	public void setShipOwner(ShipOwner shipOwner) {
 		this.shipOwner = shipOwner;
 	}
-	
+
 	public Double getPricePerHour() {
 		return pricePerHour;
 	}
@@ -240,29 +268,12 @@ public class Ship {
 		this.address = address;
 	}
 
-	public Date getAvailabilityStart() {
-		return availabilityStart;
+	public EntityStatus getStatus() {
+		return status;
 	}
 
-	public void setAvailabilityStart(Date availabilityStart) {
-		this.availabilityStart = availabilityStart;
+	public void setStatus(EntityStatus status) {
+		this.status = status;
 	}
-
-	public Date getAvailabilityEnd() {
-		return availabilityEnd;
-	}
-
-	public void setAvailabilityEnd(Date availabilityEnd) {
-		this.availabilityEnd = availabilityEnd;
-	}
-
-	public List<Image> getImages() {
-		return images;
-	}
-
-	public void setImages(List<Image> images) {
-		this.images = images;
-	}
-	
 	
 }

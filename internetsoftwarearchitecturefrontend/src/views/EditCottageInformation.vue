@@ -83,7 +83,9 @@
         <v-text-field
           label="Price per day"
           v-model="cottageInformation.pricePerDay"
-          :rules="[() => !!cottageInformation.pricePerDay || 'This field is required']"
+          :rules="[
+            () => !!cottageInformation.pricePerDay || 'This field is required',
+          ]"
           :error-messages="errorMessages"
         />
         <v-simple-table>
@@ -136,7 +138,9 @@
                 <v-time-picker
                   v-model="availabilityStartTime"
                   full-width
-                  @click:minute="$refs.availabilityStartTimeMenu.save(availabilityStartTime)"
+                  @click:minute="
+                    $refs.availabilityStartTimeMenu.save(availabilityStartTime)
+                  "
                 ></v-time-picker>
               </v-menu>
             </td>
@@ -192,7 +196,9 @@
                 <v-time-picker
                   v-model="availabilityEndTime"
                   full-width
-                  @click:minute="$refs.availabilityEndTimeMenu.save(availabilityEndTime)"
+                  @click:minute="
+                    $refs.availabilityEndTimeMenu.save(availabilityEndTime)
+                  "
                 ></v-time-picker>
               </v-menu>
             </td>
@@ -448,7 +454,7 @@ export default {
     availabilityEndTimeMenu: false,
     availabilityEndDate: "",
     availabilityEndTime: "",
-
+    
     dialogCottageRule: false,
     dialogCottageRuleDelete: false,
     headersCottageRule: [
@@ -552,18 +558,38 @@ export default {
         .then((response) => {
           this.cottageInformation = response.data;
           console.log(this.cottageInformation);
-          this.availabilityStartDate = new Date(this.cottageInformation.availabilityStart - (new Date()).getTimezoneOffset() * 60000).toISOString().substr(0, 10);
-          this.availabilityStartTime = new Date(this.cottageInformation.availabilityStart - (new Date()).getTimezoneOffset() * 60000).toISOString().substr(11, 5);
-          this.availabilityEndDate = new Date(this.cottageInformation.availabilityEnd - (new Date()).getTimezoneOffset() * 60000).toISOString().substr(0, 10);
-          this.availabilityEndTime = new Date(this.cottageInformation.availabilityEnd - (new Date()).getTimezoneOffset() * 60000).toISOString().substr(11, 5);
+          this.availabilityStartDate = new Date(
+            this.cottageInformation.availabilityStart -
+              new Date().getTimezoneOffset() * 60000
+          )
+            .toISOString()
+            .substr(0, 10);
+          this.availabilityStartTime = new Date(
+            this.cottageInformation.availabilityStart -
+              new Date().getTimezoneOffset() * 60000
+          )
+            .toISOString()
+            .substr(11, 5);
+          this.availabilityEndDate = new Date(
+            this.cottageInformation.availabilityEnd -
+              new Date().getTimezoneOffset() * 60000
+          )
+            .toISOString()
+            .substr(0, 10);
+          this.availabilityEndTime = new Date(
+            this.cottageInformation.availabilityEnd -
+              new Date().getTimezoneOffset() * 60000
+          )
+            .toISOString()
+            .substr(11, 5);
 
-          this.cottageInformation.cottageRules.forEach(rule => {
+          this.cottageInformation.cottageRules.forEach((rule) => {
             this.cottageRules.push({
               description: rule.description,
             });
           });
 
-          this.cottageInformation.priceList.priceTags.forEach(priceTag => {
+          this.cottageInformation.priceList.priceTags.forEach((priceTag) => {
             this.cottagePriceTags.push({
               serviceDescription: priceTag.serviceName,
               price: priceTag.price,
@@ -577,14 +603,17 @@ export default {
 
     getCottageImages() {
       this.axios
-        .get("http://localhost:8091/image/getImages/cottage/" + this.cottageId, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
+        .get(
+          "http://localhost:8091/image/getImages/cottage/" + this.cottageId,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
         .then((response) => {
           this.cottageImages = response.data;
-          this.cottageImages.images.forEach(image => {
+          this.cottageImages.images.forEach((image) => {
             this.cottageImagesForDisplay.push({
               default: image.defaultImage,
               highlight: image.highlight,
@@ -597,32 +626,39 @@ export default {
     },
 
     editCottageInformation() {
-      console.log("OWNER");
-      console.log(this.cottageInformation.cottageOwner)
       this.cottageInformation.cottageRules = this.formatCottageRules();
       this.cottageInformation.priceList = this.formatCottagePriceTags();
-      this.cottageInformation.availabilityStart = new Date(this.availabilityStartDate + " " + this.availabilityStartTime + ":00");
-      this.cottageInformation.availabilityEnd = new Date(this.availabilityEndDate + " " + this.availabilityEndTime + ":00");
-      this.cottageInformation.cottageOwnerId = this.cottageInformation.cottageOwner.userId;
+      this.cottageInformation.availabilityStart = new Date(
+        this.availabilityStartDate + " " + this.availabilityStartTime + ":00"
+      );
+      this.cottageInformation.availabilityEnd = new Date(
+        this.availabilityEndDate + " " + this.availabilityEndTime + ":00"
+      );
+      this.cottageInformation.cottageOwnerId =
+        this.cottageInformation.cottageOwner.userId;
       this.axios
-        .post("http://localhost:8091/cottage/edit/" + this.cottageId, this.cottageInformation, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
+        .post(
+          "http://localhost:8091/cottage/edit/" + this.cottageId,
+          this.cottageInformation,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
         .then((response) => {
           this.uploadCottageImages(response.data);
         })
         .catch((er) => {
           alert("Error has occured!");
           console.log(er);
-          this.cottageRules = [],
-          this.formattedCottageRules = [],
-          this.cottagePriceTags = [],
-          this.formattedCottagePriceTags = [],
-          this.cottageImagesForDisplay = [],
-          this.imagesFileList = [],
-          this.getCottageInformation();
+          (this.cottageRules = []),
+            (this.formattedCottageRules = []),
+            (this.cottagePriceTags = []),
+            (this.formattedCottagePriceTags = []),
+            (this.cottageImagesForDisplay = []),
+            (this.imagesFileList = []),
+            this.getCottageInformation();
         });
     },
 
@@ -813,9 +849,7 @@ export default {
       console.log("limitExceeded data", amount);
     },
   },
-
 };
-
 </script>
 
 <style scoped>

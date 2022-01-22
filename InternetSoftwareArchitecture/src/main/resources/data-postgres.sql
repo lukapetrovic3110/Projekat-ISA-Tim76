@@ -48,6 +48,7 @@ INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALU
 INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALUES (9, 4);
 INSERT INTO public.user_authorities(user_user_id, authorities_authority_id) VALUES (10, 1);
 
+
 INSERT INTO public.price_tag(price, service_name) VALUES ('2200', 'rafting');
 INSERT INTO public.price_tag(price, service_name) VALUES ('3000', 'fitness center');
 INSERT INTO public.price_tag(price, service_name) VALUES ('2000', 'swimming pool');
@@ -73,8 +74,8 @@ INSERT INTO public.image(name) VALUES ('1638982456933cottage1img6');
 
 INSERT INTO public.address(city, country, street, street_number, longitude, latitude) VALUES ('Bajina Basta', 'Serbia', 'Perucac', '8', '19.478483', '43.955651');
 
-INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_per_day, price_list_id)
-	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'Very nice cottage, overlooking the river. Vacation is guaranteed.', 'Wooden cottage on Drina', '2', '2', '4.0', '11', '3', '6500', '1');
+INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_per_day, price_list_id, status)
+	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'Very nice cottage, overlooking the river. Vacation is guaranteed.', 'Wooden cottage on Drina', '2', '2', '4.0', '11', '3', '6500', '1', 'ACTIVE');
 
 INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (1, 1);
 INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (1, 2);
@@ -92,8 +93,8 @@ INSERT INTO public.image(name) VALUES ('1638983374358cottage2img6');
 	
 INSERT INTO public.address(city, country, street, street_number, longitude, latitude) VALUES ('Vrdnik', 'Serbia', 'Mikice Lesjaka', '20', '19.789300', '45.134670');
 
-INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_per_day, price_list_id)
-	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'This villa has a private pool, a garden, barbecue facilities, free WiFi and free private parking.', 'Mi Casa', '3', '2', '5.0', '12', '5', '6750', '2');
+INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_per_day, price_list_id, status)
+	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'This villa has a private pool, a garden, barbecue facilities, free WiFi and free private parking.', 'Mi Casa', '3', '2', '5.0', '12', '5', '6750', '2', 'ACTIVE');
 
 INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (2, 7);
 INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (2, 8);
@@ -108,8 +109,8 @@ INSERT INTO public.image(name) VALUES ('1638984512259cottage3img3');
 
 INSERT INTO public.address(city, country, street, street_number, longitude, latitude) VALUES ('Bajina Basta', 'Serbia', 'Sekuliceva', '8', '19.432485', '43.890245');
 
-INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_per_day, price_list_id)
-	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'Excellent cottag...', 'Mountain cottage Exclusive', '2', '2', '4.9', '13', '4', '9000', '3');
+INSERT INTO public.cottage(availability_end, availability_start, description, name, number_of_beds_per_room, number_of_rooms, rating, address_id, cottage_owner_id, price_per_day, price_list_id, status)
+	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', 'Excellent cottag...', 'Mountain cottage Exclusive', '2', '2', '4.9', '13', '4', '9000', '3', 'ACTIVE');
 	
 INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (3, 13);
 INSERT INTO public.cottage_images(cottage_cottage_id, images_image_id) VALUES (3, 14);
@@ -123,8 +124,8 @@ INSERT INTO public.image(name) VALUES ('ship1img3');
 
 INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Beograd', 'Serbia', 'Zemunski Kej', '67', '20.424374184658642', '44.826341557721506');
 
-INSERT INTO public.ship(availability_end, availability_start, capacity, description, engine_number, engine_power, length, max_speed, name, rating, ship_type, address_id, price_list_id, price_per_hour, ship_owner_id)
-	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', '6', 'Excellent cruiser, ample storage under the sun island and helm station assure that everything finds a place.', '1', '320', '8.6', '88', 'Monterey 275 SY', '4.7', 'YACHT', '14', '4', '16250', '6');
+INSERT INTO public.ship(availability_end, availability_start, capacity, description, engine_number, engine_power, length, max_speed, name, rating, ship_type, address_id, price_list_id, price_per_hour, ship_owner_id, status)
+	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', '6', 'Excellent cruiser, ample storage under the sun island and helm station assure that everything finds a place.', '1', '320', '8.6', '88', 'Monterey 275 SY', '4.7', 'YACHT', '14', '4', '16250', '6', 'ACTIVE');
 
 INSERT INTO public.ship_images(ship_ship_id, images_image_id) VALUES (1, 16);
 INSERT INTO public.ship_images(ship_ship_id, images_image_id) VALUES (1, 17);
@@ -140,8 +141,8 @@ INSERT INTO public.image(name) VALUES ('ship2img3');
 
 INSERT INTO public.address (city, country, street, street_number, longitude, latitude) VALUES ('Novi Sad', 'Serbia', 'Bulevar despota Stefana', '7', '19.83781344455965', '45.23437796115102');
 
-INSERT INTO public.ship(availability_end, availability_start, capacity, description, engine_number, engine_power, length, max_speed, name, rating, ship_type, address_id, price_list_id, price_per_hour, ship_owner_id)
-	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', '10', 'Speed boat, aggressive appearance and broken tubes. It is adorned with a deep "V" riverbed that is designed to overcome larger waves on the high seas and cross long distances on the high seas.', '2', '250', '8.5', '102', 'Advance G800', '5.0', 'SPEED_BOAT', '15', '5', '15000', '7');
+INSERT INTO public.ship(availability_end, availability_start, capacity, description, engine_number, engine_power, length, max_speed, name, rating, ship_type, address_id, price_list_id, price_per_hour, ship_owner_id, status)
+	VALUES ('2021-11-07 00:00:00', '2022-12-01 00:00:00', '10', 'Speed boat, aggressive appearance and broken tubes. It is adorned with a deep "V" riverbed that is designed to overcome larger waves on the high seas and cross long distances on the high seas.', '2', '250', '8.5', '102', 'Advance G800', '5.0', 'SPEED_BOAT', '15', '5', '15000', '7', 'ACTIVE');
 
 INSERT INTO public.ship_images(ship_ship_id, images_image_id) VALUES (2, 19);
 INSERT INTO public.ship_images(ship_ship_id, images_image_id) VALUES (2, 20);
@@ -493,8 +494,5 @@ INSERT INTO public.reservation_adventure_fishing_equipment_for_adventure(
 INSERT INTO public.reservation_adventure_fishing_equipment_for_adventure(
 	reservation_adventure_reservation_adventure_id, fishing_equipment_for_adventure_fishing_equipment_for_adventure)
 	VALUES ('6', '2');
-	
-
-	
 	
 

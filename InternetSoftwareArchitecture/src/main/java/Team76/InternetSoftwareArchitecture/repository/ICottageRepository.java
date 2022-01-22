@@ -29,7 +29,7 @@ public interface ICottageRepository extends JpaRepository<Cottage, Long> {
 	@Query(value = "UPDATE cottage SET cottage_owner_id=:cottageOwnerId WHERE cottage_id=:cottageId", nativeQuery = true)
 	void saveCottageOwnerForCottage(@Param("cottageId") Long cottageId, @Param("cottageOwnerId") Long cottageOwnerId);
 
-	@Query(value = "SELECT * FROM cottage WHERE cottage_owner_id=:cottageOwnerId", nativeQuery = true)
+	@Query(value = "SELECT * FROM cottage WHERE cottage_owner_id=:cottageOwnerId and status = 'ACTIVE'", nativeQuery = true)
 	List<Cottage> getAllCottagesForCottageOwner(Long cottageOwnerId);
 
 	@Query(value = "SELECT cottage_id FROM cottage WHERE cottage_owner_id=:cottageOwnerId", nativeQuery = true)
