@@ -1,5 +1,6 @@
 package Team76.InternetSoftwareArchitecture.iservice;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -15,5 +16,7 @@ public interface IAdventureService {
 	List<AdventureDTO> findAllAdventureWithStatusActive();
 	
 	AdventureDTO getAdventureById(Long adventureId);
+
+	List<AdventureDTO> findAvailableAdventuresForSelectedDateInterval(Date startDateAndTime, Integer duration);
 	
 }

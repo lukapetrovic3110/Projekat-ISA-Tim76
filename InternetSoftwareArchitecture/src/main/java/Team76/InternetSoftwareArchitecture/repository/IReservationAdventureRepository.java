@@ -18,4 +18,10 @@ public interface IReservationAdventureRepository extends JpaRepository<Reservati
 
 	@Query(value = "SELECT * FROM reservation_adventure WHERE adventure_id=:adventureId and client_id IS NULL and reservation_status = 'WAITING'", nativeQuery = true)
 	List<ReservationAdventure> findAllFastReservationsForAdventure(Long adventureId);
+
+	@Query(value = "SELECT * FROM reservation_adventure WHERE adventure_id=:adventureId and (reservation_status = 'STARTED' or reservation_status = 'SCHEDULED')", nativeQuery = true)
+	List<ReservationAdventure> findAllScheduledAndStartedReservationForAdventure(Long adventureId);
+
+	@Query(value = "SELECT * FROM reservation_adventure WHERE adventure_id=:adventureId and client_id=:clientId and reservation_status = 'CANCELLED'", nativeQuery = true)
+	List<ReservationAdventure> findAllCanceledReservationForAdventureByClientId(Long adventureId, Long clientId);
 }

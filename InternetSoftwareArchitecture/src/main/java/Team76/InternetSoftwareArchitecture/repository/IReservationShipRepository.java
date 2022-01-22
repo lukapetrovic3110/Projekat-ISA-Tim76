@@ -18,4 +18,10 @@ public interface IReservationShipRepository extends JpaRepository<ReservationShi
 	
 	@Query(value = "SELECT * FROM reservation_ship WHERE ship_id=:shipId and client_id IS NULL and reservation_status = 'WAITING'", nativeQuery = true)
 	List<ReservationShip> findAllFastReservationsForShip(Long shipId);
+	
+	@Query(value = "SELECT * FROM reservation_ship WHERE ship_id=:shipId and (reservation_status = 'STARTED' or reservation_status = 'SCHEDULED')", nativeQuery = true)
+	List<ReservationShip> findAllScheduledAndStartedReservationForShip(Long shipId);
+	
+	@Query(value = "SELECT * FROM reservation_ship WHERE ship_id=:shipId and client_id=:clientId and reservation_status = 'CANCELLED'", nativeQuery = true)
+	List<ReservationShip> findAllCanceledReservationForShipByClientId(Long shipId, Long clientId);
 }

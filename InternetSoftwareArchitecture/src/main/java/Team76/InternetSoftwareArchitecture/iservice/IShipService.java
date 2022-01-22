@@ -1,5 +1,6 @@
 package Team76.InternetSoftwareArchitecture.iservice;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -15,4 +16,6 @@ public interface IShipService {
 	List<ShipDTO> findAllShipWithStatusActive();
 	
 	ShipDTO getShipById(Long shipId);
+
+	List<ShipDTO> findAvailableShipsForSelectedDateInterval(Date startDateAndTime, Integer duration);
 }
