@@ -180,6 +180,10 @@ export default {
       localStorage.setItem("userId", "");
       localStorage.setItem("token", "");
       localStorage.setItem("userType", "");
+      localStorage.setItem("cottageReservationDateAndTime", "");
+      localStorage.setItem("shipReservationDateAndTime", "");
+      localStorage.setItem("duration", "");
+      localStorage.setItem("numberOfGuests", "");
       window.location.href = "/login";
     },
   },

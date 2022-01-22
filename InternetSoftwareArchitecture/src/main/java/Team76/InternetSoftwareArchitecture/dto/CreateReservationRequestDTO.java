@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class CreateReservationRequestDTO {
 	
-	private Long cottageId;
-	private Date cottageReservationDateAndTime;
+	private Long id;
+	private Date reservationDateAndTime;
 	private Integer duration;
 	private Integer numberOfGuests;
 	private Double reservationPrice;
@@ -14,30 +14,30 @@ public class CreateReservationRequestDTO {
 		
 	}
 
-	public CreateReservationRequestDTO(Long cottageId, Date cottageReservationDateAndTime, Integer duration,
-			Integer numberOfGuests, Double reservationPrice) {
+	public CreateReservationRequestDTO(Long id, Date reservationDateAndTime, Integer duration, Integer numberOfGuests,
+			Double reservationPrice) {
 		super();
-		this.cottageId = cottageId;
-		this.cottageReservationDateAndTime = cottageReservationDateAndTime;
+		this.id = id;
+		this.reservationDateAndTime = reservationDateAndTime;
 		this.duration = duration;
 		this.numberOfGuests = numberOfGuests;
 		this.reservationPrice = reservationPrice;
 	}
 
-	public Long getCottageId() {
-		return cottageId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setCottageId(Long cottageId) {
-		this.cottageId = cottageId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public Date getCottageReservationDateAndTime() {
-		return cottageReservationDateAndTime;
+	public Date getReservationDateAndTime() {
+		return reservationDateAndTime;
 	}
 
-	public void setCottageReservationDateAndTime(Date cottageReservationDateAndTime) {
-		this.cottageReservationDateAndTime = cottageReservationDateAndTime;
+	public void setReservationDateAndTime(Date reservationDateAndTime) {
+		this.reservationDateAndTime = reservationDateAndTime;
 	}
 
 	public Integer getDuration() {

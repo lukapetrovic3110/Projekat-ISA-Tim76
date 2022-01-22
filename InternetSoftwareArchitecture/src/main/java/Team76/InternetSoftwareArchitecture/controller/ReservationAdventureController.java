@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import Team76.InternetSoftwareArchitecture.dto.AdventureFastReservationDTO;
+import Team76.InternetSoftwareArchitecture.dto.CreateReservationRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.CreateReservationResponseDTO;
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationAdventureDTO;
 import Team76.InternetSoftwareArchitecture.dto.ScheduleFastReservationDTO;
 import Team76.InternetSoftwareArchitecture.service.ReservationAdventureService;
@@ -53,6 +55,17 @@ public class ReservationAdventureController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@PostMapping("/createReservation")
+	public ResponseEntity<CreateReservationResponseDTO> createReservation(@RequestBody CreateReservationRequestDTO createReservationRequestDTO) {
+		try {
+			return new ResponseEntity<CreateReservationResponseDTO>(reservationAdventureService.createReservation(createReservationRequestDTO), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<CreateReservationResponseDTO>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	
 	
 }

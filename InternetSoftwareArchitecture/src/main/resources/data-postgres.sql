@@ -18,8 +18,8 @@ INSERT INTO public.address(city, country, street, street_number) VALUES ('Beogra
 
 -- Admin 		Password: Admin123!
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, first_login_change_password, address_id) VALUES ('SystemAdministrator', default, 'admin@email.com', true, 'Admin', 'Admin', '$2a$12$9bz1GJdLCG.Ttl/p5al5O.KZOkfhgWv.MhbivCtKvC0JXbp6vyi6W', '0615859999', 'AdbMbt4t1KLF-G0SX01WPL==', 'SYSTEM_ADMINISTRATOR', true, '1');
--- Client1		Password: Client123!     email for test: your email address 1   milan98@email.com 
-INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('Client', default, 'lukait31@gmail.com', true, 'Milan', 'Zivkovic', '$2a$12$gMBetyilqUFKX9iv4UuNhOATalqMm9y/LcV44I6c/AooN.VL/geK6', '0645557771', 'G1pxvzLwtZujO+hVgIp2og==', 'CLIENT', '2');
+-- Client1		Password: Client123!     email for test: your email address 1    
+INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, address_id) VALUES ('Client', default, 'milan98@email.com', true, 'Milan', 'Zivkovic', '$2a$12$gMBetyilqUFKX9iv4UuNhOATalqMm9y/LcV44I6c/AooN.VL/geK6', '0645557771', 'G1pxvzLwtZujO+hVgIp2og==', 'CLIENT', '2');
 -- CottageOwner1	Password: Owner123!  email for test: your email address 2 
 INSERT INTO public.user (dtype, user_id, email, enabled, first_name, last_name, password, phone_number, salt, user_type, rating, address_id) VALUES ('CottageOwner', default, 'milos98@email.com', true, 'Milos', 'Milosevic', '$2a$12$1hs/7XPSREmfh70Omj.Zee5W59JnOsCN41xidlyDv1fVHmizIy.qa', '0645554048', 'h96BMRi8MSnZYO/+7RrbYQ==', 'COTTAGE_OWNER', '4.1', '3');
 -- CottageOwner2	Password: Dada123# 

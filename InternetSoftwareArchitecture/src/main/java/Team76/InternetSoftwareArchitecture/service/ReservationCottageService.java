@@ -190,11 +190,11 @@ public class ReservationCottageService implements IReservationCottageService {
 	public CreateReservationResponseDTO createReservation(CreateReservationRequestDTO createReservationRequestDTO) {
 		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		ReservationCottage reservationCottage = new ReservationCottage();
-		Cottage cottage = cottageRepository.findByCottageId(createReservationRequestDTO.getCottageId());
+		Cottage cottage = cottageRepository.findByCottageId(createReservationRequestDTO.getId());
 		reservationCottage.setCottage(cottage);
 		reservationCottage.setClient(clientRepository.findByUserId(client.getUserId()));
 		reservationCottage.setReservationStatus(ReservationStatus.SCHEDULED);
-		reservationCottage.setDateAndTime(createReservationRequestDTO.getCottageReservationDateAndTime());
+		reservationCottage.setDateAndTime(createReservationRequestDTO.getReservationDateAndTime());
 		reservationCottage.setDuration(createReservationRequestDTO.getDuration());
 		reservationCottage.setMaxNumberOfPersons(createReservationRequestDTO.getNumberOfGuests());
 		Double reseravationCottagePrice = cottage.getPricePerDay() * createReservationRequestDTO.getDuration();

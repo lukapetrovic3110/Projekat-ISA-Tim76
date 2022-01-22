@@ -378,6 +378,9 @@ export default {
         .then((response) => {
           this.client = response.data;
           this.isClientLogged = true;
+          localStorage.setItem("cottageReservationDateAndTime", "");
+          localStorage.setItem("duration", "");
+          localStorage.setItem("numberOfGuests", "");
         });
     },
     displayAllCottage() {
@@ -467,9 +470,9 @@ export default {
       this.items = this.allActiveCottage;
       this.isResetVisible = false;
       this.isSearchVisible = true;
-      localStorage.setItem("cottageReservationDateAndTime", null);
-      localStorage.setItem("duration", null);
-      localStorage.setItem("numberOfGuests", null);
+      localStorage.setItem("cottageReservationDateAndTime", "");
+      localStorage.setItem("duration", "");
+      localStorage.setItem("numberOfGuests", "");
     },
   },
 };
