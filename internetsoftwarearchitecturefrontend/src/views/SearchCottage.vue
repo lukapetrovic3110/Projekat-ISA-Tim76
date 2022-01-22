@@ -150,8 +150,11 @@
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
-                <v-btn v-if="isClientLogged" x-medium color="blue" @click="openDialogSearchByDate">
+                <v-btn v-if="isClientLogged && isSearchVisible" x-medium color="blue" @click="openDialogSearchByDate">
                   Search by date
+                </v-btn>
+                <v-btn v-if="isClientLogged && isResetVisible" x-medium color="blue" @click="resetSearchByDate">
+                  Reset search by date                
                 </v-btn>
               </template>
             </v-toolbar>
@@ -320,6 +323,9 @@ export default {
     duration: null,
     client: null,
     isClientLogged: false,
+    isSearchVisible: true,
+    isResetVisible: false,
+    allActiveCottage: [],
   }),
   mounted() {
     this.init();
@@ -366,7 +372,10 @@ export default {
     displayAllCottage() {
       this.axios
         .get("http://localhost:8091/cottage")
-        .then((response) => (this.items = response.data));
+        .then((response) => {
+          this.items = response.data;
+          this.allActiveCottage = response.data;
+        });
     },
     seeMoreDetails(item) {
       localStorage.setItem("cottageId", item.cottageId);
@@ -412,10 +421,13 @@ export default {
                 alert("There is a cottage available for the desired date, so you can schedule a reservation.");
               }
             } else {
-              alert("There are not exist cottages available for the desired date interval.");  
+              alert("There are not exist cottages available for the desired date interval."); 
+              this.items = response.data;
             }
           });
           this.closeSearchByDateDialog();
+          this.isSearchVisible = false;
+          this.isResetVisible = true;
       }
     },
     closeSearchByDateDialog() {
@@ -427,6 +439,11 @@ export default {
         .toISOString()
         .substr(0, 10);
       this.duration = null;
+    },
+    resetSearchByDate() {
+      this.items = this.allActiveCottage;
+      this.isResetVisible = false;
+      this.isSearchVisible = true;
     },
   },
 };

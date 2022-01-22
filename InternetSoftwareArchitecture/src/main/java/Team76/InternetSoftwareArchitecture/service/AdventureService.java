@@ -28,8 +28,8 @@ public class AdventureService implements IAdventureService {
 	}
 
 	@Override
-	public List<AdventureDTO> findAll() {
-		List<Adventure> adventures = all();
+	public List<AdventureDTO> findAllAdventureWithStatusActive() {
+		List<Adventure> adventures = adventureRepository.getAllAdventureWithStatusActive();
 		List<AdventureDTO> adventureDTOs = new ArrayList<AdventureDTO>();
 
 		for (Adventure adventure : adventures) {

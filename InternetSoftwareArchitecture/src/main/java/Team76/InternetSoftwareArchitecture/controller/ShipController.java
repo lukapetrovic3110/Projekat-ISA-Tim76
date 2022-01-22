@@ -34,8 +34,8 @@ public class ShipController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<ShipDTO>> findAll() {
-		return new ResponseEntity<List<ShipDTO>>(shipService.findAll(), HttpStatus.OK);
+	public ResponseEntity<List<ShipDTO>> findAllShipWithStatusActive() {
+		return new ResponseEntity<List<ShipDTO>>(shipService.findAllShipWithStatusActive(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/findShip/{shipId}")

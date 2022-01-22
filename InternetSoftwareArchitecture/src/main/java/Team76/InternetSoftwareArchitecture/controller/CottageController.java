@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import Team76.InternetSoftwareArchitecture.dto.AddCottageDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageDTO;
+import Team76.InternetSoftwareArchitecture.dto.DeleteCottageDTO;
 import Team76.InternetSoftwareArchitecture.model.Cottage;
 import Team76.InternetSoftwareArchitecture.service.CottageService;
 
@@ -37,8 +37,24 @@ public class CottageController {
 
 	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")
 	@PostMapping("/add")
-	public ResponseEntity<Cottage> add(@RequestBody AddCottageDTO addCottageDTO, UriComponentsBuilder uriComponentsBuilder) {
+	public ResponseEntity<Cottage> add(@RequestBody AddCottageDTO addCottageDTO) {
 		return new ResponseEntity<Cottage>(cottageService.saveCottage(addCottageDTO), HttpStatus.CREATED);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")
+	@PostMapping("/edit/{id}")
+	public ResponseEntity<Cottage> edit(@RequestBody AddCottageDTO addCottageDTO, @PathVariable Long id) {
+		return new ResponseEntity<Cottage>(cottageService.editCottage(addCottageDTO, id), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")
+	@PostMapping("/delete")
+	public ResponseEntity<Boolean> delete(@RequestBody DeleteCottageDTO deleteCottageDTO) {
+		try {
+			return new ResponseEntity<Boolean>(cottageService.deleteCottage(deleteCottageDTO), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")
@@ -59,8 +75,8 @@ public class CottageController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<CottageDTO>> findAll() {
-		return new ResponseEntity<List<CottageDTO>>(cottageService.findAll(), HttpStatus.OK);
+	public ResponseEntity<List<CottageDTO>> findAllCottageWithStatusActive() {
+		return new ResponseEntity<List<CottageDTO>>(cottageService.findAllCottageWithStatusActive(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/findCottage/{cottageId}")

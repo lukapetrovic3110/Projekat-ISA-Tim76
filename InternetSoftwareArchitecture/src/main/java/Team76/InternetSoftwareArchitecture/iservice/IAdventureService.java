@@ -12,7 +12,8 @@ public interface IAdventureService {
 	
 	List<Adventure> all();
 	
-	List<AdventureDTO> findAll();
+	List<AdventureDTO> findAllAdventureWithStatusActive();
 	
 	AdventureDTO getAdventureById(Long adventureId);
+	
 }

@@ -11,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Team76.InternetSoftwareArchitecture.dto.ImageDTO;
+import Team76.InternetSoftwareArchitecture.dto.ImageUploadDTO;
 import Team76.InternetSoftwareArchitecture.dto.ImagesDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IImageService;
 import Team76.InternetSoftwareArchitecture.model.Image;
+import Team76.InternetSoftwareArchitecture.model.UserType;
 import Team76.InternetSoftwareArchitecture.repository.IImageRepository;
 
 @Service
@@ -21,12 +23,77 @@ public class ImageService implements IImageService {
 
 	private IImageRepository imageRepository;
 	
+	private CottageService cottageService;
+	
 	@Autowired
-	public ImageService(IImageRepository imageRepository) {
+	public ImageService(IImageRepository imageRepository, CottageService cottageService) {
 		super();
 		this.imageRepository = imageRepository;
+		this.cottageService = cottageService;
 	}
 
+	@Override
+	public List<Image> upload(ImageUploadDTO imageUploadDTO, Long entityId, UserType userType) throws IOException {
+		List<Image> cottageImages = new ArrayList<Image>();
+		List<String> images = imageUploadDTO.getImagesInformation();
+		for (String image : images) {
+			String[] imageInfo = image.split(",");
+			
+			String newImageName = System.currentTimeMillis() + imageInfo[0];
+			File outputFile = new File("../internetsoftwarearchitecturefrontend/src/assets/images/" + newImageName);
+			byte[] decodedBytes = Base64.getDecoder().decode(imageInfo[2]);
+
+			FileUtils.writeByteArrayToFile(outputFile, decodedBytes);
+			Image imagedb = saveImage(new Image(newImageName.substring(0, newImageName.length() - 4)));
+			cottageImages.add(imagedb);
+			
+			if (userType == UserType.COTTAGE_OWNER) {
+				cottageService.saveImageForCottage(entityId, imagedb.getImageId());
+			} else if (userType == UserType.SHIP_OWNER) {
+				// Add image for ship
+			} else {
+				// Add image for fishing adventure
+			}
+		}
+		
+		return cottageImages;
+	}
+	
+	@Override
+	public List<Image> edit(ImageUploadDTO imageUploadDTO, Long entityId, UserType userType) throws IOException {
+		if (userType == UserType.COTTAGE_OWNER) {
+			cottageService.deleteImagesForCottage(entityId);
+		} else if (userType == UserType.SHIP_OWNER) {
+			// Delete images for ship
+		} else {
+			// Delete images for fishing adventure
+		}
+		
+		List<Image> cottageImages = new ArrayList<Image>();
+		List<String> images = imageUploadDTO.getImagesInformation();
+		for (String image : images) {
+			String[] imageInfo = image.split(",");
+			
+			String newImageName = System.currentTimeMillis() + imageInfo[0];
+			File outputFile = new File("../internetsoftwarearchitecturefrontend/src/assets/images/" + newImageName);
+			byte[] decodedBytes = Base64.getDecoder().decode(imageInfo[2]);
+
+			FileUtils.writeByteArrayToFile(outputFile, decodedBytes);
+			Image imagedb = saveImage(new Image(newImageName.substring(0, newImageName.length() - 4)));
+			cottageImages.add(imagedb);
+			
+			if (userType == UserType.COTTAGE_OWNER) {
+				cottageService.saveImageForCottage(entityId, imagedb.getImageId());
+			} else if (userType == UserType.SHIP_OWNER) {
+				// Add image for ship
+			} else {
+				// Add image for fishing adventure
+			}
+		}
+		
+		return cottageImages;
+	}
+	
 	@Override
 	public Image saveImage(Image image) {
 		return imageRepository.save(image);
@@ -63,5 +130,5 @@ public class ImageService implements IImageService {
 		
 		return imagesDTO;
 	}
-
+	
 }

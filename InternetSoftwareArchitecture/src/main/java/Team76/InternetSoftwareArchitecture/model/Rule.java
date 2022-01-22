@@ -14,7 +14,7 @@ public class Rule {
 	@Column(name = "ruleId", unique = true, nullable = false)
 	private Long ruleId;
 
-	@Column(name = "description", unique = true, nullable = false)
+	@Column(name = "description", nullable = false)
 	private String description;
 
 	public Rule() {

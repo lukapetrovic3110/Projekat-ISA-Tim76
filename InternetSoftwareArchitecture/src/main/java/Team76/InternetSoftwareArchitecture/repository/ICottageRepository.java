@@ -1,6 +1,5 @@
 package Team76.InternetSoftwareArchitecture.repository;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,26 +18,31 @@ public interface ICottageRepository extends JpaRepository<Cottage, Long> {
 	@Transactional
 	@Query(value = "INSERT INTO cottage_images (cottage_cottage_id, images_image_id) VALUES (:cottageId, :imageId)", nativeQuery = true)
 	void saveImageForCottage(Long cottageId, Long imageId);
+	
+	@Modifying
+	@Transactional
+	@Query(value = "DELETE FROM cottage_images WHERE cottage_cottage_id=:cottageId", nativeQuery = true)
+	void deleteImagesForCottage(Long cottageId);
 
 	@Modifying
 	@Transactional
 	@Query(value = "UPDATE cottage SET cottage_owner_id=:cottageOwnerId WHERE cottage_id=:cottageId", nativeQuery = true)
 	void saveCottageOwnerForCottage(@Param("cottageId") Long cottageId, @Param("cottageOwnerId") Long cottageOwnerId);
 
-	@Query(value = "SELECT * FROM cottage WHERE cottage_owner_id=:cottageOwnerId", nativeQuery = true)
+	@Query(value = "SELECT * FROM cottage WHERE cottage_owner_id=:cottageOwnerId and status = 'ACTIVE'", nativeQuery = true)
 	List<Cottage> getAllCottagesForCottageOwner(Long cottageOwnerId);
 
 	@Query(value = "SELECT cottage_id FROM cottage WHERE cottage_owner_id=:cottageOwnerId", nativeQuery = true)
 	List<Long> getAllCottageIdForCottageOwner(Long cottageOwnerId);
 
-	Cottage findByCottageId(Long id);
+	Cottage findByCottageId(Long cottageId);
 
 	@Modifying
 	@Transactional
 	@Query(value = "INSERT INTO user_cottage_subscriptions (client_user_id, cottage_subscriptions_cottage_id) VALUES (:userId, :cottageId)", nativeQuery = true)
 	void addNewCottageSubscriptions(Long userId, Long cottageId);
 	
-	//@Query(value = "SELECT * FROM cottage WHERE availability_start < ?1 and availability_end > ?2", nativeQuery = true)
-	//List<Cottage> getAllAvailableCottagesForDateInterval(Date startDate, Date endDate);
+	@Query(value = "SELECT * FROM cottage WHERE status = 'ACTIVE'", nativeQuery = true)
+	List<Cottage> getAllCottageWithStatusActive();
 
 }

@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -66,14 +68,17 @@ public class Adventure {
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Image> images;
+	
+	@Enumerated(EnumType.STRING)
+	private EntityStatus status;
 
 	public Adventure() {
 	}
-
+	
 	public Adventure(String name, String description, Double rating, String instructorBiography,
 			Integer maxNumberOfPersons, Date availabilityStart, Date availabilityEnd,
 			FishingInstructor fishingInstructor, Double pricePerHour, PriceList priceList, Set<Rule> adventureRules,
-			Address address, List<Image> images) {
+			Address address, List<Image> images, EntityStatus status) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -88,6 +93,7 @@ public class Adventure {
 		this.adventureRules = adventureRules;
 		this.address = address;
 		this.images = images;
+		this.status = status;
 	}
 
 	public Long getAdventureId() {
@@ -202,4 +208,12 @@ public class Adventure {
 		this.images = images;
 	}
 
+	public EntityStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(EntityStatus status) {
+		this.status = status;
+	}
+	
 }

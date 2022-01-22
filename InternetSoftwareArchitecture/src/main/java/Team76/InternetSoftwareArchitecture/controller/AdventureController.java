@@ -34,8 +34,8 @@ public class AdventureController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<AdventureDTO>> findAll() {
-		return new ResponseEntity<List<AdventureDTO>>(adventureService.findAll(), HttpStatus.OK);
+	public ResponseEntity<List<AdventureDTO>> findAllAdventureWithStatusActive() {
+		return new ResponseEntity<List<AdventureDTO>>(adventureService.findAllAdventureWithStatusActive(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/findAdventure/{adventureId}")

@@ -28,8 +28,8 @@ public class ShipService implements IShipService  {
 	}
 	
 	@Override
-	public List<ShipDTO> findAll() {
-		List<Ship> ships = all();
+	public List<ShipDTO> findAllShipWithStatusActive() {
+		List<Ship> ships = shipRepository.getAllShipWithStatusActive();
 		List<ShipDTO> shipDTOs = new ArrayList<ShipDTO>();
 		
 		for (Ship ship : ships) {

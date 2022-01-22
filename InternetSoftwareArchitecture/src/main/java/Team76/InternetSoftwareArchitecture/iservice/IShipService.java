@@ -12,7 +12,7 @@ public interface IShipService {
 	
 	List<Ship> all();
 	
-	List<ShipDTO> findAll();
+	List<ShipDTO> findAllShipWithStatusActive();
 	
 	ShipDTO getShipById(Long shipId);
 }
