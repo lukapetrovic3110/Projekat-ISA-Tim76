@@ -13,6 +13,7 @@ import Team76.InternetSoftwareArchitecture.model.UserDeleteAccount;
 public interface IUserDeleteAccountService {
 	
 	UserDeleteAccount sendDeleteClientAccountRequest(UserDeleteAccountRequestDTO userDeleteAccountDTO);
+	UserDeleteAccount sendDeleteOwnerAccountRequest(UserDeleteAccountRequestDTO userDeleteAccountDTO);
 	List<WaitingProfileDeleteRequestDTO> findProfileDeleteRequests();
 	Boolean accpetRequest(AnswerProfileDeleteRequestDTO answerProfileDeleteRequestDTO);
 	Boolean declineRequest(AnswerProfileDeleteRequestDTO answerProfileDeleteRequestDTO);

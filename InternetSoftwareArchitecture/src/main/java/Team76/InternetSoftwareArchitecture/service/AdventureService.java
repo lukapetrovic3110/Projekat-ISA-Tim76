@@ -104,22 +104,21 @@ public class AdventureService implements IAdventureService {
 				dateAndTimeReservationCalendarEnd.add(Calendar.HOUR_OF_DAY, duration);
 				Long endReservation = dateAndTimeReservationCalendarEnd.getTimeInMillis();
 				
-				// I - u sredini trajanja zakazanog pregleda
 				if (startReservation <= startDesiredReservation && endReservation >= endDesiredReservation) {
 					isAvailableAdventure = false;
 					break;
 				}
-				// II - okruzi vec zakazan pregled
+
 				if (startReservation >= startDesiredReservation && endReservation <= endDesiredReservation) {
 					isAvailableAdventure = false;
 					break;
 				}
-				// III
+				
 				if (startReservation >= startDesiredReservation && startReservation <= endDesiredReservation) {
 					isAvailableAdventure = false;
 					break;
 				} 
-				// IV 
+				
 				if (startDesiredReservation <= endReservation && endReservation <= endDesiredReservation) {
 					isAvailableAdventure = false;
 					break;

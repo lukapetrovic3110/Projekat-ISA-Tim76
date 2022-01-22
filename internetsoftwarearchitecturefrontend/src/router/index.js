@@ -200,6 +200,26 @@ const routes = [
     name: "CottageAvailabilityCalendar",
     component: () => import("../views/CottageAvailabilityCalendar.vue"),
   },
+  {
+    path: "/cottageOwnerProfile",
+    name: "CottageOwnerProfile",
+    component: () => import("../views/CottageOwnerProfile.vue"),
+  },
+  {
+    path: "/editCottageOwnerPersonalInfo",
+    name: "EditCottageOwnerPersonalInfo",
+    component: () => import("../views/EditCottageOwnerPersonalInfo.vue"),
+  },
+  {
+    path: "/shipOwnerProfile",
+    name: "ShipOwnerProfile",
+    component: () => import("../views/ShipOwnerProfile.vue"),
+  },
+  {
+    path: "/editShipOwnerPersonalInfo",
+    name: "EditShipOwnerPersonalInfo",
+    component: () => import("../views/EditShipOwnerPersonalInfo.vue"),
+  },
 ];
 const router = new VueRouter({
   mode: "history",
