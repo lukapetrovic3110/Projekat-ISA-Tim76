@@ -127,7 +127,8 @@
               </v-card>
             </v-row>
             <v-row>
-              <vue-upload-multiple-image class="images"
+              <vue-upload-multiple-image
+                class="images"
                 @mark-is-primary="markIsPrimary"
                 :data-images="cottageImagesForDisplay"
                 idUpload="myIdUpload"
@@ -183,6 +184,125 @@
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
+      <v-spacer></v-spacer>
+      <v-dialog
+        v-model="dialogSearchDesiredReservation"
+        max-width="60%"
+        persistent
+      >
+        <v-card>
+          <v-spacer></v-spacer>
+          <v-card-title class="text-h4 justify-center">
+            Search desired reservation for cottage
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-simple-table>
+                <tr>
+                  <v-menu
+                    v-model="desiredCottageReservationDateMenu"
+                    :close-on-content-click="false"
+                    :nudge-right="31"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="desiredCottageReservationDate"
+                        label="Reservation start date"
+                        prepend-icon="mdi-calendar"
+                        :allowed-dates="disablePastDates"
+                        v-bind:readonly="true"
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      v-model="desiredCottageReservationDate"
+                      :allowed-dates="disablePastDates"
+                      color="info"
+                      header-color="primary"
+                      @input="desiredCottageReservationDateMenu = false"
+                    ></v-date-picker>
+                  </v-menu>
+                  <v-spacer></v-spacer>
+                </tr>
+                <tr>
+                  <v-menu
+                    ref="desiredCottageReservationTimeMenu"
+                    v-model="desiredCottageReservationTimeMenu"
+                    :close-on-content-click="false"
+                    :nudge-right="31"
+                    :return-value.sync="desiredCottageReservationTime"
+                    transition="scale-transition"
+                    offset-y
+                    max-width="31%"
+                    min-width="20%"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="desiredCottageReservationTime"
+                        label="Reservation start time"
+                        prepend-icon="mdi-clock-time-four-outline"
+                        v-bind:readonly="true"
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-time-picker
+                      v-model="desiredCottageReservationTime"
+                      full-width
+                      color="info"
+                      header-color="primary"
+                      @click:minute="
+                        $refs.desiredCottageReservationTimeMenu.save(
+                          desiredCottageReservationTime
+                        )
+                      "
+                    ></v-time-picker>
+                  </v-menu>
+                </tr>
+                <tr>
+                  <v-text-field
+                    label="Duration (days)"
+                    type="number"
+                    min="1"
+                    v-model="desiredDuration"
+                  >
+                  </v-text-field>
+                </tr>
+                <tr>
+                  <v-text-field
+                    label="Number of guests"
+                    type="number"
+                    min="1"
+                    v-model="desiredNumberOfGuests"
+                  >
+                  </v-text-field>
+                </tr>
+              </v-simple-table>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="green"
+              text
+              @click="
+                searchDesiredReservationDateIntervalAndNumberOfGuestsForCottage
+              "
+            >
+              Search</v-btn
+            >
+            <v-spacer></v-spacer>
+            <v-btn color="red" text @click="closeSearchByDateDialog">
+              Cancel</v-btn
+            >
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </div>
   </div>
 </template>
@@ -231,11 +351,33 @@ export default {
       imagesInformation: [],
     },
     imagesFileList: [],
+
+    dialogSearchDesiredReservation: false,
+    desiredCottageReservationDateMenu: false,
+    desiredCottageReservationTimeMenu: false,
+    desiredCottageReservationDate: new Date(
+      Date.now() - new Date().getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .substr(0, 10),
+    desiredCottageReservationTime: null,
+    desiredDuration: null,
+    desiredNumberOfGuests: null,
+    client: null,
+    desiredCottageReservationDateAndTime: null,
   }),
   mounted() {
     this.getCottageInformation();
   },
   methods: {
+    disablePastDates(val) {
+      return (
+        val >=
+        new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+          .toISOString()
+          .substr(0, 10)
+      );
+    },
     getCottageInformation() {
       this.cottageId = localStorage.getItem("cottageId");
       this.axios
@@ -320,28 +462,24 @@ export default {
       window.location.href = "/clientCottageFastReservation";
     },
     createReservation() {
-      this.cottageReservationDateAndTime = localStorage.getItem(
-        "cottageReservationDateAndTime"
-      );
-      this.duration = localStorage.getItem("duration");
-      this.numberOfGuests = localStorage.getItem("numberOfGuests");
+       this.cottageReservationDateAndTime = localStorage.getItem(
+          "cottageReservationDateAndTime"
+        );
+        this.duration = localStorage.getItem("duration");
+        this.numberOfGuests = localStorage.getItem("numberOfGuests");
 
-      console.log(this.cottageReservationDateAndTime);
-      console.log(this.duration);
-      console.log(this.numberOfGuests);
-
-      if (
-        this.cottageReservationDateAndTime != null &&
-        this.duration != null &&
-        this.numberOfGuests != null
-      ) {
+      if (this.cottageReservationDateAndTime === "" || this.duration === "" || this.numberOfGuests === "")
+      {
+        console.log(this.cottageReservationDateAndTime);
+        this.dialogSearchDesiredReservation = true;
+      } else {
         this.priceReservation = this.duration * this.cottageInformation.price;
         this.axios
           .post(
             "http://localhost:8091/reservationCottage/createReservation/",
             {
-              cottageId: this.cottageId,
-              cottageReservationDateAndTime: new Date(
+              id: this.cottageId,
+              reservationDateAndTime: new Date(
                 this.cottageReservationDateAndTime.toString()
               ),
               duration: this.duration,
@@ -363,11 +501,25 @@ export default {
             }
           })
           .catch((err) => console.log(err));
+        localStorage.setItem("cottageReservationDateAndTime", null);
+        localStorage.setItem("duration", null);
+        localStorage.setItem("numberOfGuests", null);
       }
     },
     markIsPrimary(index, fileList) {
       console.log("markIsPrimary data", index, fileList);
     },
+    closeSearchByDateDialog() {
+      this.dialogSearchDesiredReservation = false;
+      this.desiredCottageReservationTime = "";
+      this.desiredCottageReservationDate = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .substr(0, 10);
+      this.desiredDuration = "";
+      this.desiredNumberOfGuests = "";
+    }
   },
 };
 </script>

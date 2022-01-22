@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import Team76.InternetSoftwareArchitecture.dto.CreateReservationRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.CreateReservationResponseDTO;
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationShipDTO;
 import Team76.InternetSoftwareArchitecture.dto.ScheduleFastReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipFastReservationDTO;
@@ -53,5 +55,16 @@ public class ReservationShipController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@PostMapping("/createReservation")
+	public ResponseEntity<CreateReservationResponseDTO> createReservation(@RequestBody CreateReservationRequestDTO createReservationRequestDTO) {
+		try {
+			return new ResponseEntity<CreateReservationResponseDTO>(reservationShipService.createReservation(createReservationRequestDTO), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<CreateReservationResponseDTO>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	
 }
