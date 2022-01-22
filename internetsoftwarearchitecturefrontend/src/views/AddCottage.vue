@@ -1,7 +1,7 @@
 <template>
   <v-card style="margin-top: 3%" width="40%" class="mx-auto">
     <v-card-title class="justify-center">
-      <h1 class="display-1 mt-20">Add new cottage</h1>
+      <h1 class="display-1 mt-20">Register new cottage</h1>
     </v-card-title>
     <v-card-text>
       <v-form class="mx-auto ml-20 mr-20">
@@ -78,6 +78,12 @@
           type="number"
           style="width: 100%"
           :rules="rules"
+          :error-messages="errorMessages"
+        />
+        <v-text-field
+          label="Price per day"
+          v-model="cottageInformation.pricePerDay"
+          :rules="[() => !!cottageInformation.pricePerDay || 'This field is required']"
           :error-messages="errorMessages"
         />
         <v-simple-table>
@@ -440,6 +446,7 @@ export default {
       },
       numberOfRooms: "",
       numberOfBedsPerRoom: "",
+      pricePerDay: "",
       cottageOwnerId: localStorage.getItem("userId"),
       availabilityStart: "",
       availabilityEnd: "",
@@ -513,6 +520,7 @@ export default {
     },
     imagesFileList: [],
   }),
+  
   computed: {
     formTitleCottageRule() {
       return this.editedIndexCottageRule === -1 ? "New rule" : "Edit rule";
@@ -537,6 +545,7 @@ export default {
     dialogCottagePriceTag(val) {
       val || this.closeCottageRule();
     },
+
     dialogCottagePriceTagDelete(val) {
       val || this.closeCottageRuleDelete();
     },
@@ -567,6 +576,7 @@ export default {
           this.cottageInformation.address.country = "";
           this.cottageInformation.numberOfRooms = "";
           this.cottageInformation.numberOfBedsPerRoom = "";
+          this.cottageInformation.pricePerDay = "";
           this.cottageInformation.availabilityStart = "";
           this.cottageInformation.availabilityEnd = "";
           this.cottageRules = [];
@@ -595,7 +605,7 @@ export default {
         )
         .then((response) => {
           console.log(response.data);
-          window.location.href = "http://localhost:8083/";
+          window.location.href = "http://localhost:8083/myCottages";
         })
         .catch((er) => {
           alert("Error has occured during image upload!");

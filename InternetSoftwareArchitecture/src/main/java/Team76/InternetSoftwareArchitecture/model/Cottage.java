@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -66,13 +68,16 @@ public class Cottage {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "addressId", referencedColumnName = "addressId")
 	private Address address;
+	
+	@Enumerated(EnumType.STRING)
+	private EntityStatus status;
 
 	public Cottage() {
 	}
 
 	public Cottage(String name, String description, Double rating, List<Image> images, Integer numberOfRooms,
 			Integer numberOfBedsPerRoom, Date availabilityStart, Date availabilityEnd, CottageOwner cottageOwner,
-			Double pricePerDay, PriceList priceList, Set<Rule> cottageRules, Address address) {
+			Double pricePerDay, PriceList priceList, Set<Rule> cottageRules, Address address, EntityStatus status) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -87,6 +92,7 @@ public class Cottage {
 		this.priceList = priceList;
 		this.cottageRules = cottageRules;
 		this.address = address;
+		this.status = status;
 	}
 
 	public Long getCottageId() {
@@ -168,7 +174,7 @@ public class Cottage {
 	public void setCottageOwner(CottageOwner cottageOwner) {
 		this.cottageOwner = cottageOwner;
 	}
-	
+
 	public Double getPricePerDay() {
 		return pricePerDay;
 	}
@@ -199,6 +205,14 @@ public class Cottage {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public EntityStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(EntityStatus status) {
+		this.status = status;
 	}
 
 }

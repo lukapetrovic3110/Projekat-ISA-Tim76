@@ -47,6 +47,12 @@
           v-bind:readonly="true"
         />
         <v-text-field
+          label="Price per day"
+          v-model="cottageInformation.pricePerDay"
+          type="text"
+          v-bind:readonly="true"
+        />
+        <v-text-field
           label="Availability start"
           v-model="cottageInformation.availabilityStart"
           v-bind:readonly="true"
@@ -56,7 +62,6 @@
           v-model="cottageInformation.availabilityEnd"
           v-bind:readonly="true"
         />
-        
         <v-card>
           <v-card-title style="color: gray">
             Cottage rules
@@ -95,11 +100,7 @@
         </v-card>
         <div style="display: flex; justify-content: center; margin-top: 7%">
           <vue-upload-multiple-image
-            @upload-success="uploadImageSuccess"
-            @edit-image="editImage"
             @mark-is-primary="markIsPrimary"
-            @limit-exceeded="limitExceeded"
-            @before-remove="beforeRemove"
             :data-images="cottageImages"
             idUpload="myIdUpload"
             idEdit="myIdEdit"
@@ -112,12 +113,27 @@
             :multiple="true"
             :show-edit="false"
             :show-delete="false"
-            :show-add="false"
+            :show-add="false" 
           ></vue-upload-multiple-image>
         </div>
       </v-form>
     </v-card-text>
     <div></div>
+    <v-dialog v-model="dialogDeleteCottage" max-width="60%">
+      <v-card>
+        <v-spacer></v-spacer>
+        <v-card-title class="text-h5 justify-center"
+          >Are you sure you want to delete this cottage?
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green" text @click="deleteCottage">Delete</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="dialogDeleteCottage = false">Cancel</v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-card-actions>
       <v-btn
         class="mx-auto mb-10 mt-10; color:white"
@@ -125,6 +141,7 @@
         elevation="2"
         x-large
         raised
+        @click="editCottageInformation"
         >Edit cottage information</v-btn
       >
       <v-btn
@@ -133,6 +150,7 @@
         elevation="2"
         x-large
         raised
+        @click="dialogDeleteCottage = true"
         >Delete cottage</v-btn
       >
     </v-card-actions>
@@ -155,6 +173,7 @@ export default {
     images: null,
     searchCottageRule: "",
     searchCottagePriceTag: "",
+    dialogDeleteCottage: false,
     errorMessages: "",
     headersCottageRule: [
       {
@@ -229,28 +248,28 @@ export default {
         .catch((err) => console.log(err));
     },
 
-    uploadImageSuccess(formData, index, fileList) {
-      console.log("data", formData, index, fileList);
-      this.imagesFileList = fileList;
-    },
-
-    beforeRemove(index, removeCallBack, fileList) {
-      console.log(fileList);
-      removeCallBack();
-      this.imagesFileList = fileList;
-    },
-
-    editImage(formData, index, fileList) {
-      console.log("edit data", formData, index, fileList);
-      this.imagesFileList = fileList;
+    deleteCottage() {
+      this.axios
+        .post(
+          "http://localhost:8091/cottage/delete",
+          {
+            cottageId: this.cottageId,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          this.dialogDeleteCottage = false;
+          window.location.href = "http://localhost:8083/myCottages";
+        });
     },
 
     markIsPrimary(index, fileList) {
       console.log("markIsPrimary data", index, fileList);
-    },
-
-    limitExceeded(amount) {
-      console.log("limitExceeded data", amount);
     },
 
     editCottageInformation() {
