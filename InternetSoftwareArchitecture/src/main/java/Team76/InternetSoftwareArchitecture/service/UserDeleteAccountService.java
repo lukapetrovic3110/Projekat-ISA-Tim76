@@ -43,6 +43,16 @@ public class UserDeleteAccountService implements IUserDeleteAccountService {
 		userDeleteAccount.setUserDeleteAccountStatus(UserDeleteAccountStatus.WAITING);
 		return userDeleteAccountRepository.save(userDeleteAccount);
 	}
+	
+	@Override
+	public UserDeleteAccount sendDeleteOwnerAccountRequest(UserDeleteAccountRequestDTO userDeleteAccountDTO) {
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDeleteAccount userDeleteAccount = new UserDeleteAccount();
+		userDeleteAccount.setReason(userDeleteAccountDTO.getReason());
+		userDeleteAccount.setUser(userRepository.findByUserId(user.getUserId()));
+		userDeleteAccount.setUserDeleteAccountStatus(UserDeleteAccountStatus.WAITING);
+		return userDeleteAccountRepository.save(userDeleteAccount);
+	}
 
 	@Override
 	public List<WaitingProfileDeleteRequestDTO> findProfileDeleteRequests() {

@@ -50,22 +50,22 @@
           :rules="[() => !!email || 'This field is required']"
         />
         <v-text-field
-          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-          :type="showPassword ? 'text' : 'password'"
+          :append-icon="showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="showPassword1 ? 'text' : 'password'"
           label="Password"
           v-model="password"
           :rules="[() => !!password || 'This field is required']"
           hint="Password must contain minimum 8 characters, 1 uppercase, 1 lowercase and 1 number and 1 special character"
-          @click:append="showPassword = !showPassword"
+          @click:append="showPassword1 = !showPassword1"
         />
         <v-text-field
-          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-          :type="showPassword ? 'text' : 'password'"
+          :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="showPassword2 ? 'text' : 'password'"
           label="Repeat Password"
           v-model="repeated_password"
           :rules="[() => !!repeated_password || 'This field is required', passwordConfirmationRule]"
           hint="Password must contain minimum 8 characters, 1 uppercase, 1 lowercase and 1 number and 1 special character"
-          @click:append="showPassword = !showPassword"
+          @click:append="showPassword2 = !showPassword2"
         />
         <v-text-field
           label="Explanation"
@@ -92,7 +92,8 @@ export default {
   name: "RegisterShipOwner",
   data: () => ({
     countries: ['Serbia'],
-    showPassword: false,
+    showPassword1: false,
+    showPassword2: false,
     email: "",
     password: "",
     firstName: "",

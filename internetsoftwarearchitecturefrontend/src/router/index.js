@@ -200,6 +200,16 @@ const routes = [
     name: "CottageAvailabilityCalendar",
     component: () => import("../views/CottageAvailabilityCalendar.vue"),
   },
+  {
+    path: "/cottageOwnerProfile",
+    name: "CottageOwnerProfile",
+    component: () => import("../views/CottageOwnerProfile.vue"),
+  },
+  {
+    path: "/editCottageOwnerPersonalInfo",
+    name: "EditCottageOwnerPersonalInfo",
+    component: () => import("../views/EditCottageOwnerPersonalInfo.vue"),
+  },
 ];
 const router = new VueRouter({
   mode: "history",

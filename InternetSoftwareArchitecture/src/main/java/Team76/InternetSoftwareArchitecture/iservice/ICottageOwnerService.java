@@ -14,4 +14,8 @@ public interface ICottageOwnerService {
 	List<CottageOwner> findAllCottageOwnersByAccountApproval(AccountApproval accountApproval, UserType userType);
 	
 	CottageOwner findByEmail(String email);
+	
+	CottageOwner findCottageOwner();
+	
+	CottageOwner update(CottageOwner cottageOwner);
 }
