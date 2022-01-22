@@ -12,6 +12,7 @@ public class AddCottageDTO {
 	private Address address;
 	private Integer numberOfRooms;
 	private Integer numberOfBedsPerRoom;
+	private Double pricePerDay;
 	private Long cottageOwnerId;
 	private Date availabilityStart;
 	private Date availabilityEnd;
@@ -23,14 +24,15 @@ public class AddCottageDTO {
 	}
 
 	public AddCottageDTO(String name, String description, Address address, Integer numberOfRooms,
-			Integer numberOfBedsPerRoom, Long cottageOwnerId, Date availabilityStart, Date availabilityEnd,
-			List<String> priceList, List<String> cottageRules) {
+			Integer numberOfBedsPerRoom, Double pricePerDay, Long cottageOwnerId, Date availabilityStart,
+			Date availabilityEnd, List<String> priceList, List<String> cottageRules) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.address = address;
 		this.numberOfRooms = numberOfRooms;
 		this.numberOfBedsPerRoom = numberOfBedsPerRoom;
+		this.pricePerDay = pricePerDay;
 		this.cottageOwnerId = cottageOwnerId;
 		this.availabilityStart = availabilityStart;
 		this.availabilityEnd = availabilityEnd;
@@ -76,6 +78,14 @@ public class AddCottageDTO {
 
 	public void setNumberOfBedsPerRoom(Integer numberOfBedsPerRoom) {
 		this.numberOfBedsPerRoom = numberOfBedsPerRoom;
+	}
+
+	public Double getPricePerDay() {
+		return pricePerDay;
+	}
+
+	public void setPricePerDay(Double pricePerDay) {
+		this.pricePerDay = pricePerDay;
 	}
 
 	public Long getCottageOwnerId() {

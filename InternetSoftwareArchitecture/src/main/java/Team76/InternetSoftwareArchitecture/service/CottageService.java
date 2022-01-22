@@ -41,6 +41,7 @@ public class CottageService implements ICottageService {
 		cottage.setAddress(addressRepository.save(addCottageDTO.getAddress()));
 		cottage.setNumberOfRooms(addCottageDTO.getNumberOfRooms());
 		cottage.setNumberOfBedsPerRoom(addCottageDTO.getNumberOfBedsPerRoom());
+		cottage.setPricePerDay(addCottageDTO.getPricePerDay());
 		cottage.setAvailabilityStart(addCottageDTO.getAvailabilityStart());
 		cottage.setAvailabilityEnd(addCottageDTO.getAvailabilityEnd());
 
@@ -62,6 +63,37 @@ public class CottageService implements ICottageService {
 		
 		return findById(cottagedb.getCottageId());
 	}
+	
+	@Override
+	public Cottage editCottage(AddCottageDTO addCottageDTO, Long cottageId) {
+		Cottage cottage = cottageRepository.findByCottageId(cottageId);
+		cottage.setName(addCottageDTO.getName());
+		cottage.setDescription(addCottageDTO.getDescription());
+		cottage.setAddress(addressRepository.save(addCottageDTO.getAddress()));
+		cottage.setNumberOfRooms(addCottageDTO.getNumberOfRooms());
+		cottage.setNumberOfBedsPerRoom(addCottageDTO.getNumberOfBedsPerRoom());
+		cottage.setPricePerDay(addCottageDTO.getPricePerDay());
+		cottage.setAvailabilityStart(addCottageDTO.getAvailabilityStart());
+		cottage.setAvailabilityEnd(addCottageDTO.getAvailabilityEnd());
+
+		Set<PriceTag> priceTags = new HashSet<PriceTag>();
+		for (String priceTag : addCottageDTO.getPriceList()) {
+			String[] priceTagInfo = priceTag.split(";");
+			priceTags.add(new PriceTag(Double.parseDouble(priceTagInfo[1]), priceTagInfo[0]));
+		}
+		cottage.setPriceList(new PriceList(priceTags));
+
+		Set<Rule> cottageRules = new HashSet<Rule>();
+		for (String cottageRule : addCottageDTO.getCottageRules()) {
+			cottageRules.add(new Rule(cottageRule));
+		}
+		cottage.setCottageRules(cottageRules);
+		
+		Cottage cottagedb = cottageRepository.save(cottage);
+		cottageRepository.saveCottageOwnerForCottage(cottagedb.getCottageId(), addCottageDTO.getCottageOwnerId());
+		
+		return findById(cottagedb.getCottageId());
+	}
 
 	@Override
 	public Cottage findById(Long id) {
@@ -71,6 +103,11 @@ public class CottageService implements ICottageService {
 	@Override
 	public void saveImageForCottage(Long cottageId, Long imageId) {
 		cottageRepository.saveImageForCottage(cottageId, imageId);
+	}
+	
+	@Override
+	public void deleteImagesForCottage(Long cottageId) {
+		cottageRepository.deleteImagesForCottage(cottageId);		
 	}
 
 	@Override

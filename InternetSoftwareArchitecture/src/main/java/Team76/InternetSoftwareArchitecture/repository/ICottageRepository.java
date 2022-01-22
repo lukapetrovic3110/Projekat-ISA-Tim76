@@ -18,6 +18,11 @@ public interface ICottageRepository extends JpaRepository<Cottage, Long> {
 	@Transactional
 	@Query(value = "INSERT INTO cottage_images (cottage_cottage_id, images_image_id) VALUES (:cottageId, :imageId)", nativeQuery = true)
 	void saveImageForCottage(Long cottageId, Long imageId);
+	
+	@Modifying
+	@Transactional
+	@Query(value = "DELETE FROM cottage_images WHERE cottage_cottage_id=:cottageId", nativeQuery = true)
+	void deleteImagesForCottage(Long cottageId);
 
 	@Modifying
 	@Transactional

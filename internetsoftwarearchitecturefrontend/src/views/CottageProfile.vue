@@ -47,6 +47,12 @@
           v-bind:readonly="true"
         />
         <v-text-field
+          label="Price per day"
+          v-model="cottageInformation.pricePerDay"
+          type="text"
+          v-bind:readonly="true"
+        />
+        <v-text-field
           label="Availability start"
           v-model="cottageInformation.availabilityStart"
           v-bind:readonly="true"
@@ -56,7 +62,6 @@
           v-model="cottageInformation.availabilityEnd"
           v-bind:readonly="true"
         />
-        
         <v-card>
           <v-card-title style="color: gray">
             Cottage rules
@@ -95,11 +100,7 @@
         </v-card>
         <div style="display: flex; justify-content: center; margin-top: 7%">
           <vue-upload-multiple-image
-            @upload-success="uploadImageSuccess"
-            @edit-image="editImage"
             @mark-is-primary="markIsPrimary"
-            @limit-exceeded="limitExceeded"
-            @before-remove="beforeRemove"
             :data-images="cottageImages"
             idUpload="myIdUpload"
             idEdit="myIdEdit"
@@ -112,7 +113,7 @@
             :multiple="true"
             :show-edit="false"
             :show-delete="false"
-            :show-add="false"
+            :show-add="false" 
           ></vue-upload-multiple-image>
         </div>
       </v-form>
@@ -125,6 +126,7 @@
         elevation="2"
         x-large
         raised
+        @click="editCottageInformation"
         >Edit cottage information</v-btn
       >
       <v-btn
@@ -229,28 +231,8 @@ export default {
         .catch((err) => console.log(err));
     },
 
-    uploadImageSuccess(formData, index, fileList) {
-      console.log("data", formData, index, fileList);
-      this.imagesFileList = fileList;
-    },
-
-    beforeRemove(index, removeCallBack, fileList) {
-      console.log(fileList);
-      removeCallBack();
-      this.imagesFileList = fileList;
-    },
-
-    editImage(formData, index, fileList) {
-      console.log("edit data", formData, index, fileList);
-      this.imagesFileList = fileList;
-    },
-
     markIsPrimary(index, fileList) {
       console.log("markIsPrimary data", index, fileList);
-    },
-
-    limitExceeded(amount) {
-      console.log("limitExceeded data", amount);
     },
 
     editCottageInformation() {

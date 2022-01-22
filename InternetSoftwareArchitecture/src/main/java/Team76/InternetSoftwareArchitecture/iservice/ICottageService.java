@@ -13,11 +13,15 @@ public interface ICottageService {
 	
 	Cottage saveCottage(AddCottageDTO addCottageDTO);
 	
+	Cottage editCottage(AddCottageDTO addCottageDTO, Long cottageId);
+	
 	Cottage findById(Long id);
 	
 	CottageDTO getCottageById(Long id);
 	
 	void saveImageForCottage(Long cottageId, Long imageId);
+	
+	void deleteImagesForCottage(Long cottageId);
 	
 	List<CottageDTO> getAllCottagesForCottageOwner(Long cottageOwnerId);
 
