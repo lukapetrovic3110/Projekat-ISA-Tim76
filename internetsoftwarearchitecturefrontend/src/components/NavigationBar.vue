@@ -145,6 +145,7 @@ export default {
           { title: "Home", path: "/" },
           { title: "My ships", path: "/myShips" },
           { title: "Register new ship", path: "/addShip" },
+          { title: "Write a report for reservation", path: "/shipOwnerReservationReport" },
         ];
       } else if (this.userType === "FISHING_INSTRUCTOR") {
         this.items = [{ title: "Home", path: "/" }];

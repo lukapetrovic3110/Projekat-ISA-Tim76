@@ -22,7 +22,10 @@ public interface IShipRepository extends JpaRepository<Ship, Long> {
 	List<Ship> getAllShipWithStatusActive();
     
     @Query(value = "SELECT * FROM ship WHERE ship_owner_id=:shipOwnerId and status = 'ACTIVE'", nativeQuery = true)
-	List<Ship> getAllCottagesForCottageOwner(Long shipOwnerId);
+	List<Ship> getAllShipsForShipOwner(Long shipOwnerId);
+    
+    @Query(value = "SELECT ship_id FROM ship WHERE ship_owner_id=:shipOwnerId", nativeQuery = true)
+	List<Long> getAllShipsIdForShipOwner(Long shipOwnerId);
 
     Ship findByShipId(Long shipId);
 }

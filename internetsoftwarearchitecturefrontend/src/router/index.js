@@ -240,6 +240,11 @@ const routes = [
     name: "ShipFastReservation",
     component: () => import("../views/ShipFastReservation.vue"),
   },
+  {
+    path: "/shipOwnerReservationReport",
+    name: "ShipOwnerReservationReport",
+    component: () => import("../views/ShipOwnerReservationReport.vue"),
+  },
 ];
 const router = new VueRouter({
   mode: "history",

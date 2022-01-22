@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import Team76.InternetSoftwareArchitecture.dto.DeleteCottageReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.DeleteShipReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationShipDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipFastReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipReservationCalendarDTO;
+import Team76.InternetSoftwareArchitecture.dto.ShipReservationInformationDTO;
+import Team76.InternetSoftwareArchitecture.dto.ShipReservationReportDTO;
 import Team76.InternetSoftwareArchitecture.model.ReservationShip;
+import Team76.InternetSoftwareArchitecture.model.ReservationStatus;
 
 @Service
 public interface IReservationShipService {
@@ -22,7 +24,11 @@ public interface IReservationShipService {
 	
 	List<ShipFastReservationDTO> findAllFastReservationsForShip(Long shipId);
 	
+	ShipReservationReportDTO saveReport(ShipReservationReportDTO shipReservationReportDTO);
+	
 	ShipFastReservationDTO saveFastReservation(Long shipId, ShipFastReservationDTO shipFastReservationDTO);
+	
+	List<ShipReservationInformationDTO> findAllReservationsForShipOwner(Long shipOwnerId, ReservationStatus reservationStatus);
 
 	Boolean scheduleFastReservation(Long fastReservationId);
 	

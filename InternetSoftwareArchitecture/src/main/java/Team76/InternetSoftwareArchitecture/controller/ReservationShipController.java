@@ -20,6 +20,9 @@ import Team76.InternetSoftwareArchitecture.dto.HistoryReservationShipDTO;
 import Team76.InternetSoftwareArchitecture.dto.ScheduleFastReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipFastReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipReservationCalendarDTO;
+import Team76.InternetSoftwareArchitecture.dto.ShipReservationInformationDTO;
+import Team76.InternetSoftwareArchitecture.dto.ShipReservationReportDTO;
+import Team76.InternetSoftwareArchitecture.model.ReservationStatus;
 import Team76.InternetSoftwareArchitecture.service.ReservationShipService;
 
 @CrossOrigin(origins = "http://localhost:8083")
@@ -47,9 +50,27 @@ public class ReservationShipController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_SHIP_OWNER')")
+	@GetMapping("/shipOwnerFinishedReservations/{id}")
+	public ResponseEntity<List<ShipReservationInformationDTO>> findAllFinishedReservationsForShipOwner(@PathVariable Long id) {
+		return new ResponseEntity<List<ShipReservationInformationDTO>>(reservationShipService.findAllReservationsForShipOwner(id, ReservationStatus.FINISHED), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_SHIP_OWNER')")
+	@PostMapping("/report")
+	public ResponseEntity<ShipReservationReportDTO> saveReport(@RequestBody ShipReservationReportDTO shipReservationReportDTO) {
+		return new ResponseEntity<ShipReservationReportDTO>(reservationShipService.saveReport(shipReservationReportDTO), HttpStatus.CREATED);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_SHIP_OWNER')")
 	@PostMapping("/saveFastReservation/{id}")
 	public ResponseEntity<ShipFastReservationDTO> saveFastReservation(@PathVariable Long id, @RequestBody ShipFastReservationDTO shipFastReservationDTO) {
 		return new ResponseEntity<ShipFastReservationDTO>(reservationShipService.saveFastReservation(id, shipFastReservationDTO), HttpStatus.CREATED);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_SHIP_OWNER')")
+	@GetMapping("/shipOwnerReservations/{id}")
+	public ResponseEntity<List<ShipReservationInformationDTO>> findAllReservationsForShipOwner(@PathVariable Long id) {
+		return new ResponseEntity<List<ShipReservationInformationDTO>>(reservationShipService.findAllReservationsForShipOwner(id, null), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ROLE_CLIENT')")

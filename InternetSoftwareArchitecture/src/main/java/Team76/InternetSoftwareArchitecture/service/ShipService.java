@@ -50,7 +50,7 @@ public class ShipService implements IShipService  {
 	
 	@Override
 	public List<ShipDTO> getAllShipsForShipOwner(Long shipOwnerId) {
-		List<Ship> shipsForShipOwner = shipRepository.getAllCottagesForCottageOwner(shipOwnerId);
+		List<Ship> shipsForShipOwner = shipRepository.getAllShipsForShipOwner(shipOwnerId);
 		ArrayList<ShipDTO> shipDTOs = new ArrayList<ShipDTO>();
 		
 		for (Ship ship : shipsForShipOwner) {
