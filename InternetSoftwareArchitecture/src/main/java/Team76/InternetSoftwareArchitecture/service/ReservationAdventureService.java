@@ -173,7 +173,7 @@ public class ReservationAdventureService implements IReservationAdventureService
 	}
 	
 	
-	@Scheduled(cron = "1 * * * * *")
+	/*@Scheduled(cron = "1 * * * * *")
 	public void checkIfReservationsFinishedOrStarted() {
 		logger.info("I'm checking to see if any adventure reservations have been finished or started in the meantime.");
 		List<ReservationAdventure> allScheduledReservation = reservationAdventureRepository.findByReservationStatus(ReservationStatus.SCHEDULED);
@@ -205,6 +205,6 @@ public class ReservationAdventureService implements IReservationAdventureService
 			}
 		}
 		
-	}
+	}*/
 
 }

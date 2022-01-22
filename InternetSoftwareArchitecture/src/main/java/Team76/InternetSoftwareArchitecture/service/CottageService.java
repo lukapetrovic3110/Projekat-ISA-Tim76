@@ -1,6 +1,7 @@
 package Team76.InternetSoftwareArchitecture.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -129,6 +130,16 @@ public class CottageService implements ICottageService {
 			cottageDTOs.add(cottageDTO);
 		}
 
+		return cottageDTOs;
+	}
+	
+	public List<CottageDTO> findAvailableCottagesForSelectedDateInterval(Date startDateAndTime, Integer duration) {
+		List<Cottage> cottages = all();
+		
+		System.out.println(startDateAndTime.toLocaleString());
+		System.out.println(duration);
+		
+		List<CottageDTO> cottageDTOs = new ArrayList<CottageDTO>();
 		return cottageDTOs;
 	}
 

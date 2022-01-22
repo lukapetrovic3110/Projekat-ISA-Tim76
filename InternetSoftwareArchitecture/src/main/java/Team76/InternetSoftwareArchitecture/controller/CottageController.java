@@ -1,5 +1,6 @@
 package Team76.InternetSoftwareArchitecture.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,12 @@ public class CottageController {
 	@GetMapping("/findCottage/{cottageId}")
 	public ResponseEntity<CottageDTO> getCottageById(@PathVariable Long cottageId) {
 		return new ResponseEntity<CottageDTO>(cottageService.getCottageById(cottageId), HttpStatus.OK);
+	}
+	
+	
+	@GetMapping("/findAvailableCottagesForSelectedDateInterval/{startDateAndTime}/{duration}")
+	public ResponseEntity<List<CottageDTO>> findAvailableCottagesForSelectedDateInterval(@PathVariable Date startDateAndTime,@PathVariable Integer duration) {
+		return new ResponseEntity<List<CottageDTO>>(cottageService.findAvailableCottagesForSelectedDateInterval(startDateAndTime, duration), HttpStatus.OK);
 	}
 
 }

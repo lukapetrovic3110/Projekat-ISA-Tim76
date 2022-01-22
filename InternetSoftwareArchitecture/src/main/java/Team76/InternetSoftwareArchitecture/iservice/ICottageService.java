@@ -1,5 +1,6 @@
 package Team76.InternetSoftwareArchitecture.iservice;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -21,8 +22,10 @@ public interface ICottageService {
 	
 	List<CottageDTO> getAllCottagesForCottageOwner(Long cottageOwnerId);
 
-	public List<Cottage> all();
+	List<Cottage> all();
 	
-	public List<CottageDTO> findAll();
+	List<CottageDTO> findAll();
+	
+	List<CottageDTO> findAvailableCottagesForSelectedDateInterval(Date startDateAndTime, Integer duration);
 	
 }

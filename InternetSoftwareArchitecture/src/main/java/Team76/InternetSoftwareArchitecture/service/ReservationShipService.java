@@ -171,7 +171,7 @@ public class ReservationShipService implements IReservationShipService {
 		return true;
 	}
 	
-	@Scheduled(cron = "1 * * * * *")
+	/*@Scheduled(cron = "1 * * * * *")
 	public void checkIfReservationsFinishedOrStarted() {
 		logger.info("I'm checking to see if any ship reservations have been finished or started in the meantime.");
 		List<ReservationShip> allScheduledReservation = reservationShipRepository.findByReservationStatus(ReservationStatus.SCHEDULED);
@@ -202,6 +202,6 @@ public class ReservationShipService implements IReservationShipService {
 				reservationShipRepository.save(reservationShip);
 			}
 		}
-	}
+	}*/
 
 }
