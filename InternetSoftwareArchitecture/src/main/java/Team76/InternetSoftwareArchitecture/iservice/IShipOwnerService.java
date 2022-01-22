@@ -14,4 +14,9 @@ public interface IShipOwnerService {
 	List<ShipOwner> findAllShipOwnersByAccountApproval(AccountApproval accountApproval, UserType userType);
 	
 	ShipOwner findByEmail(String email);
+	
+	ShipOwner findShipOwner();
+	
+	ShipOwner update(ShipOwner shipOwner);
+	
 }

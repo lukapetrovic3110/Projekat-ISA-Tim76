@@ -168,6 +168,8 @@ export default {
         window.location.href = "/clientProfile";
       else if (this.userType === "COTTAGE_OWNER")
         window.location.href = "/cottageOwnerProfile";
+      else if (this.userType === "SHIP_OWNER")
+        window.location.href = "/shipOwnerProfile";
       else if (this.userType === "SYSTEM_ADMINISTRATOR")
         window.location.href = "/systemAdministratorProfile";
       else

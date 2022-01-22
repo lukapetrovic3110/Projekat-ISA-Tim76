@@ -17,4 +17,6 @@ public interface IShipOwnerRepository extends JpaRepository<ShipOwner, Long> {
 	List<ShipOwner> findAllShipOwnersByAccountApproval(AccountApproval accountApproval, UserType userType);
 	
 	ShipOwner findByEmail(String email);
+	
+	ShipOwner findByUserId(Long userId);
 }
