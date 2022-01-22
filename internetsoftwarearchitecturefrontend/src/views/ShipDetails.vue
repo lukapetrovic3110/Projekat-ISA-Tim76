@@ -77,6 +77,47 @@
                 v-bind:readonly="true"
               />
             </v-row>
+                 <v-row>
+              <v-card class="shipAdditionalInformationCard">
+                <v-card-title class="grey lighten-3">
+                  Ship rules
+                  <v-spacer></v-spacer>
+                  <v-text-field
+                    v-model="searchShipRule"
+                    append-icon="mdi-magnify"
+                    label="Search"
+                    single-line
+                    hide-details
+                  ></v-text-field>
+                </v-card-title>
+                <v-data-table
+                  :headers="headersShipRule"
+                  :items="shipInformation.shipRules"
+                  :search="searchShipRule"
+                  x-medium
+                ></v-data-table>
+              </v-card>
+            </v-row>
+            <v-row>
+              <v-card class="shipAdditionalInformationCard">
+                <v-card-title class="grey lighten-3">
+                  Price List for additional payments
+                  <v-spacer></v-spacer>
+                  <v-text-field
+                    v-model="searchShipPriceTag"
+                    append-icon="mdi-magnify"
+                    label="Search"
+                    single-line
+                    hide-details
+                  ></v-text-field>
+                </v-card-title>
+                <v-data-table
+                  :headers="headersShipPriceTag"
+                  :items="shipInformation.priceList.priceTags"
+                  :search="searchShipPriceTag"
+                ></v-data-table>
+              </v-card>
+            </v-row>
             <v-row>
               <vue-upload-multiple-image
                 class="images"
@@ -216,7 +257,7 @@
                 </tr>
                 <tr>
                   <v-text-field
-                    label="Duration (days)"
+                    label="Duration (hours)"
                     type="number"
                     min="1"
                     v-model="desiredDuration"
@@ -294,6 +335,27 @@ export default {
     desiredNumberOfGuests: null,
     client: null,
     desiredShipReservationDateAndTime: null,
+    searchShipRule: "",
+    searchShipPriceTag: "",
+    headersShipRule: [
+      {
+        text: "Rule",
+        align: "start",
+        sortable: false,
+        value: "description",
+      },
+    ],
+    headersShipPriceTag: [
+      {
+        text: "Service description",
+        align: "start",
+        value: "serviceName",
+      },
+      {
+        text: "Price (RSD)",
+        value: "price",
+      },
+    ],
   }),
   mounted() {
     this.getShipInformation();
@@ -326,12 +388,12 @@ export default {
         .get("http://localhost:8091/ship/findShip/" + this.shipId)
         .then((response) => {
           this.shipInformation = response.data;
-          this.shipInformation.availabilityStart = new Date(
+           this.shipInformation.availabilityStart = new Date(
             response.data.availabilityStart
-          ).toDateString();
+          ).toLocaleString();
           this.shipInformation.availabilityEnd = new Date(
             response.data.availabilityEnd
-          ).toDateString();
+          ).toLocaleString();
         })
         .catch((err) => console.log(err));
     },
@@ -344,6 +406,7 @@ export default {
         })
         .then((response) => {
           this.shipImages = response.data;
+          console.log(this.shipImages);
           this.shipImages.images.forEach((image) => {
             this.shipImagesForDisplay.push({
               default: image.defaultImage,
@@ -465,5 +528,16 @@ export default {
 #shipCard {
   width: 45%;
   margin: auto;
+}
+.shipAdditionalInformationCard {
+  margin: auto;
+  margin-top: 2%;
+  width: 90%;
+}
+.images {
+  width: 60%;
+  margin-left: 36%;
+  margin-top: 3%;
+  height: 300px;
 }
 </style>
