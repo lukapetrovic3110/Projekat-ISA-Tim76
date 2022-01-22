@@ -149,7 +149,7 @@ public class CottageService implements ICottageService {
 					cottage.getAvailabilityStart(), cottage.getAvailabilityEnd(), cottage.getNumberOfRooms(),
 					cottage.getNumberOfBedsPerRoom(), cottage.getCottageOwner().getFirstName(),
 					cottage.getCottageOwner().getLastName(), cottage.getCottageOwner().getEmail(),
-					cottage.getCottageOwner().getPhoneNumber(), cottageImages);
+					cottage.getCottageOwner().getPhoneNumber(), cottage.getCottageRules(), cottageImages);
 
 			cottageDTOs.add(cottageDTO);
 		}
@@ -181,7 +181,7 @@ public class CottageService implements ICottageService {
 					cottage.getAvailabilityStart(), cottage.getAvailabilityEnd(), cottage.getNumberOfRooms(),
 					cottage.getNumberOfBedsPerRoom(), cottage.getCottageOwner().getFirstName(),
 					cottage.getCottageOwner().getLastName(), cottage.getCottageOwner().getEmail(),
-					cottage.getCottageOwner().getPhoneNumber(), cottageImages);
+					cottage.getCottageOwner().getPhoneNumber(), cottage.getCottageRules(), cottageImages);
 
 			cottageDTOs.add(cottageDTO);
 		}
@@ -267,7 +267,7 @@ public class CottageService implements ICottageService {
 						cottage.getAvailabilityStart(), cottage.getAvailabilityEnd(), cottage.getNumberOfRooms(),
 						cottage.getNumberOfBedsPerRoom(), cottage.getCottageOwner().getFirstName(),
 						cottage.getCottageOwner().getLastName(), cottage.getCottageOwner().getEmail(),
-						cottage.getCottageOwner().getPhoneNumber(), cottageImages);
+						cottage.getCottageOwner().getPhoneNumber(), cottage.getCottageRules(), cottageImages);
 				availableCottageDTOs.add(cottageDTO);
 			}
 			
@@ -291,7 +291,7 @@ public class CottageService implements ICottageService {
 				c.getAvailabilityStart(), c.getAvailabilityEnd(), c.getNumberOfRooms(),
 				c.getNumberOfBedsPerRoom(), c.getCottageOwner().getFirstName(),
 				c.getCottageOwner().getLastName(), c.getCottageOwner().getEmail(),
-				c.getCottageOwner().getPhoneNumber(), cottageImages);
+				c.getCottageOwner().getPhoneNumber(), c.getPriceList(), c.getCottageRules(), cottageImages);
 
 		return cottageDTO;
 	}

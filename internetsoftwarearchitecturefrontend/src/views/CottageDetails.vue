@@ -64,6 +64,14 @@
             <v-row>
               <v-text-field
                 class="ml-10 mr-10"
+                label="Price per day (RSD)"
+                v-model="cottageInformation.price"
+                v-bind:readonly="true"
+              />
+            </v-row>
+            <v-row>
+              <v-text-field
+                class="ml-10 mr-10"
                 label="Availability start"
                 v-model="cottageInformation.availabilityStart"
                 v-bind:readonly="true"
@@ -76,6 +84,47 @@
                 v-model="cottageInformation.availabilityEnd"
                 v-bind:readonly="true"
               />
+            </v-row>
+            <v-row>
+              <v-card class="cottageAdditionalInformationCard">
+                <v-card-title class="grey lighten-3">
+                  Cottage rules
+                  <v-spacer></v-spacer>
+                  <v-text-field
+                    v-model="searchCottageRule"
+                    append-icon="mdi-magnify"
+                    label="Search"
+                    single-line
+                    hide-details
+                  ></v-text-field>
+                </v-card-title>
+                <v-data-table
+                  :headers="headersCottageRule"
+                  :items="cottageInformation.cottageRules"
+                  :search="searchCottageRule"
+                  x-medium
+                ></v-data-table>
+              </v-card>
+            </v-row>
+            <v-row>
+              <v-card class="cottageAdditionalInformationCard">
+                <v-card-title class="grey lighten-3">
+                  Price List for additional payments
+                  <v-spacer></v-spacer>
+                  <v-text-field
+                    v-model="searchCottagePriceTag"
+                    append-icon="mdi-magnify"
+                    label="Search"
+                    single-line
+                    hide-details
+                  ></v-text-field>
+                </v-card-title>
+                <v-data-table
+                  :headers="headersCottagePriceTag"
+                  :items="cottageInformation.priceList.priceTags"
+                  :search="searchCottagePriceTag"
+                ></v-data-table>
+              </v-card>
             </v-row>
           </v-form>
         </v-card-text>
@@ -103,6 +152,17 @@
             >View available fast reservations
           </v-btn>
           <v-spacer></v-spacer>
+          <v-btn
+            v-if="isClient"
+            class="mb-10 mt-10"
+            color="info"
+            elevation="2"
+            x-large
+            raised
+            v-on:click="createReservation"
+            >Create reservation
+          </v-btn>
+          <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
     </div>
@@ -111,14 +171,38 @@
 
 <script>
 export default {
-  name: "CottageDetails",
   data: () => ({
     opacity: 0.9,
     cottageId: null,
     isClient: false,
     cottageInformation: null,
+    searchCottageRule: "",
+    searchCottagePriceTag: "",
     user: null,
     userType: null,
+    headersCottageRule: [
+      {
+        text: "Rule",
+        align: "start",
+        sortable: false,
+        value: "description",
+      },
+    ],
+    headersCottagePriceTag: [
+      {
+        text: "Service description",
+        align: "start",
+        value: "serviceName",
+      },
+      {
+        text: "Price (RSD)",
+        value: "price",
+      },
+    ],
+    cottageReservationDateAndTime: null,
+    duration: "",
+    numberOfGuests: "",
+    priceReservation: null,
   }),
   mounted() {
     this.getCottageInformation();
@@ -144,17 +228,17 @@ export default {
           this.cottageInformation = response.data;
           this.cottageInformation.availabilityStart = new Date(
             response.data.availabilityStart
-          ).toDateString();
+          ).toLocaleString();
           this.cottageInformation.availabilityEnd = new Date(
             response.data.availabilityEnd
-          ).toDateString();
+          ).toLocaleString();
         })
         .catch((err) => console.log(err));
     },
     subscribe() {
       this.axios
         .post(
-          "http://localhost:8091/client/subscribeCottage/",
+          "http://localhost:8091/client/subscribeCottage",
           {
             id: this.cottageId,
           },
@@ -182,7 +266,51 @@ export default {
     },
     viewFastReservations() {
       window.location.href = "/clientCottageFastReservation";
-    }
+    },
+    createReservation() {
+      this.cottageReservationDateAndTime = localStorage.getItem(
+        "cottageReservationDateAndTime"
+      );
+      this.duration = localStorage.getItem("duration");
+      this.numberOfGuests = localStorage.getItem("numberOfGuests");
+
+      console.log(this.cottageReservationDateAndTime);
+      console.log(this.duration);
+      console.log(this.numberOfGuests);
+
+      if (
+        this.cottageReservationDateAndTime != null &&
+        this.duration != null &&
+        this.numberOfGuests != null
+      ) {
+        this.priceReservation = this.duration * this.cottageInformation.price;
+        this.axios
+          .post(
+            "http://localhost:8091/reservationCottage/createReservation/",
+            {
+              cottageId: this.cottageId,
+              cottageReservationDateAndTime: new Date(this.cottageReservationDateAndTime.toString()),
+              duration: this.duration,
+              numberOfGuests: this.numberOfGuests,
+              reservationPrice: this.priceReservation,
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((response) => {
+            if (response.data.isCreated) {
+              alert(response.data.answer);
+              window.location.href = "/clientScheduledReservation";
+            } else {
+              alert(response.data.answer);
+            }
+          })
+          .catch((err) => console.log(err));
+      }
+    },
   },
 };
 </script>
@@ -198,5 +326,10 @@ export default {
 #cottageCard {
   width: 45%;
   margin: auto;
+}
+.cottageAdditionalInformationCard {
+  margin: auto;
+  margin-top: 2%;
+  width: 90%;
 }
 </style>

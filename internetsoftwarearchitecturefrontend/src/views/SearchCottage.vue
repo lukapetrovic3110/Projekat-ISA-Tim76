@@ -418,6 +418,8 @@ export default {
         console.log(this.cottageReservationDateAndTime);
         console.log(this.duration);
         console.log(this.numberOfGuests);
+        let numberOfGuests = this.numberOfGuests;
+        let duration = this.duration;
         this.axios
           .get(
             "http://localhost:8091/cottage/findAvailableCottagesForSelectedDateIntervalAndNumberOfGuests/" + this.cottageReservationDateAndTime + "/" + this.duration + "/" + this.numberOfGuests, 
@@ -431,6 +433,10 @@ export default {
             console.log(response.data);
             if(response.data.length > 0) {
               this.items = response.data;
+              localStorage.setItem("numberOfGuests", numberOfGuests);
+              localStorage.setItem("cottageReservationDateAndTime", this.cottageReservationDateAndTime);
+              localStorage.setItem("duration", duration);
+              
               if (response.data.length > 1) {
                 alert("There are exist cottages available for the desired date interval and number of guests, so you can choose one and schedule a reservation.");
               } else {
@@ -461,6 +467,9 @@ export default {
       this.items = this.allActiveCottage;
       this.isResetVisible = false;
       this.isSearchVisible = true;
+      localStorage.setItem("cottageReservationDateAndTime", null);
+      localStorage.setItem("duration", null);
+      localStorage.setItem("numberOfGuests", null);
     },
   },
 };

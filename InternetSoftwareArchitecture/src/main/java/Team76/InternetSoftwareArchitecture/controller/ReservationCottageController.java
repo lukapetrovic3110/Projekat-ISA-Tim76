@@ -19,6 +19,8 @@ import Team76.InternetSoftwareArchitecture.dto.CottageFastReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationCalendarDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationInformationDTO;
 import Team76.InternetSoftwareArchitecture.dto.CottageReservationReportDTO;
+import Team76.InternetSoftwareArchitecture.dto.CreateReservationRequestDTO;
+import Team76.InternetSoftwareArchitecture.dto.CreateReservationResponseDTO;
 import Team76.InternetSoftwareArchitecture.dto.DeleteCottageReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationCottageDTO;
 import Team76.InternetSoftwareArchitecture.dto.ScheduleFastReservationDTO;
@@ -89,6 +91,17 @@ public class ReservationCottageController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
+	@PostMapping("/createReservation")
+	public ResponseEntity<CreateReservationResponseDTO> createReservation(@RequestBody CreateReservationRequestDTO createReservationRequestDTO) {
+		try {
+			return new ResponseEntity<CreateReservationResponseDTO>(reservationCottageService.createReservation(createReservationRequestDTO), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<CreateReservationResponseDTO>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	
 	@PreAuthorize("hasRole('ROLE_COTTAGE_OWNER')")
 	@PostMapping("/deleteFastReservation")
