@@ -86,14 +86,19 @@ public class Ship {
 	
 	@Enumerated(EnumType.STRING)
 	private EntityStatus status;
+	
+	@Enumerated(EnumType.STRING)
+	private ShipReservationCancelTerm shipReservationCancelTerm;
 
 	public Ship() {
+		
 	}
 
 	public Ship(String name, String description, Double rating, List<Image> images, Double length, Integer engineNumber,
 			Integer enginePower, Integer maxSpeed, Integer capacity, ShipType shipType, Date availabilityStart,
 			Date availabilityEnd, Set<NavigationEquipment> navigationEquipment, ShipOwner shipOwner,
-			Double pricePerHour, PriceList priceList, Set<Rule> shipRules, Address address, EntityStatus status) {
+			Double pricePerHour, PriceList priceList, Set<Rule> shipRules, Address address, EntityStatus status,
+			ShipReservationCancelTerm shipReservationCancelTerm) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -114,6 +119,7 @@ public class Ship {
 		this.shipRules = shipRules;
 		this.address = address;
 		this.status = status;
+		this.shipReservationCancelTerm = shipReservationCancelTerm;
 	}
 
 	public Long getShipId() {
@@ -274,6 +280,14 @@ public class Ship {
 
 	public void setStatus(EntityStatus status) {
 		this.status = status;
+	}
+
+	public ShipReservationCancelTerm getShipReservationCancelTerm() {
+		return shipReservationCancelTerm;
+	}
+
+	public void setShipReservationCancelTerm(ShipReservationCancelTerm shipReservationCancelTerm) {
+		this.shipReservationCancelTerm = shipReservationCancelTerm;
 	}
 	
 }

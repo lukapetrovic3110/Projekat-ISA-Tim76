@@ -5,11 +5,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import Team76.InternetSoftwareArchitecture.dto.AddShipDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipDTO;
 import Team76.InternetSoftwareArchitecture.model.Ship;
 
 @Service
 public interface IShipService {
+	
+	Ship saveShip(AddShipDTO addShipDTO);
 	
 	List<Ship> all();
 	

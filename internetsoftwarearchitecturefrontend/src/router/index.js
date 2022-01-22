@@ -220,6 +220,11 @@ const routes = [
     name: "EditShipOwnerPersonalInfo",
     component: () => import("../views/EditShipOwnerPersonalInfo.vue"),
   },
+  {
+    path: "/addShip",
+    name: "AddShip",
+    component: () => import("../views/AddShip.vue"),
+  },
 ];
 const router = new VueRouter({
   mode: "history",

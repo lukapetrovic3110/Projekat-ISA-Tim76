@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import Team76.InternetSoftwareArchitecture.dto.AddShipDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IShipService;
 import Team76.InternetSoftwareArchitecture.model.Client;
@@ -28,6 +29,17 @@ public class ShipService implements IShipService  {
 	public ShipService(IShipRepository shipRepository, IReservationShipRepository reservaitonReservationShipRepository) {
 		this.shipRepository = shipRepository;
 		this.reservationShipRepository = reservaitonReservationShipRepository;
+	}
+	
+	@Override
+	public Ship saveShip(AddShipDTO addShipDTO) {
+		System.out.println("-----------------");
+		System.out.println("-----------------");
+		System.out.println(addShipDTO.toString());
+		System.out.println("-----------------");
+		System.out.println("-----------------");
+		
+		return new Ship();
 	}
 	
 	@Override

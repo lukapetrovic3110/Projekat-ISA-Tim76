@@ -11,9 +11,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import Team76.InternetSoftwareArchitecture.dto.AddShipDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipDTO;
 import Team76.InternetSoftwareArchitecture.model.Ship;
 import Team76.InternetSoftwareArchitecture.service.ShipService;
@@ -28,6 +31,12 @@ public class ShipController {
 	@Autowired
 	public ShipController(ShipService shipService) {
 		this.shipService = shipService;
+	}
+	
+	@PreAuthorize("hasRole('ROLE_SHIP_OWNER')")
+	@PostMapping("/add")
+	public ResponseEntity<Ship> add(@RequestBody AddShipDTO addShipDTO) {
+		return new ResponseEntity<Ship>(shipService.saveShip(addShipDTO), HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/all")

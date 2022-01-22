@@ -40,9 +40,6 @@ public class ReservationShip {
 	@Column(name = "discountPercentage", nullable = true)
 	private Integer discountPercentage;
 
-	@Enumerated(EnumType.STRING)
-	private ShipReservationCancelTerm shipReservationCancelTerm;
-
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "shipId", referencedColumnName = "shipId")
 	private Ship ship;
@@ -59,14 +56,13 @@ public class ReservationShip {
 	
 	@Enumerated(EnumType.STRING)
 	private ReservationStatus reservationStatus;
-
 	
 	public ReservationShip() {
+		
 	}
 
-	public ReservationShip(Date dateAndTime, Integer duration, Integer maxNumberOfPersons,
-			Double price, Integer discountPercentage, ShipReservationCancelTerm shipReservationCancelTerm, Ship ship,
-			Client client, Set<ShipAdditionalService> shipAdditionalServices,
+	public ReservationShip(Date dateAndTime, Integer duration, Integer maxNumberOfPersons, Double price,
+			Integer discountPercentage, Ship ship, Client client, Set<ShipAdditionalService> shipAdditionalServices,
 			Set<FishingEquipmentForShip> fishingEquipmentForShip, ReservationStatus reservationStatus) {
 		super();
 		this.dateAndTime = dateAndTime;
@@ -74,15 +70,12 @@ public class ReservationShip {
 		this.maxNumberOfPersons = maxNumberOfPersons;
 		this.price = price;
 		this.discountPercentage = discountPercentage;
-		this.shipReservationCancelTerm = shipReservationCancelTerm;
 		this.ship = ship;
 		this.client = client;
 		this.shipAdditionalServices = shipAdditionalServices;
 		this.fishingEquipmentForShip = fishingEquipmentForShip;
 		this.reservationStatus = reservationStatus;
 	}
-
-
 
 	public Long getReservationShipId() {
 		return reservationShipId;
@@ -124,20 +117,12 @@ public class ReservationShip {
 		this.price = price;
 	}
 
-	public ReservationStatus getReservationStatus() {
-		return reservationStatus;
+	public Integer getDiscountPercentage() {
+		return discountPercentage;
 	}
 
-	public void setReservationStatus(ReservationStatus reservationStatus) {
-		this.reservationStatus = reservationStatus;
-	}
-
-	public ShipReservationCancelTerm getShipReservationCancelTerm() {
-		return shipReservationCancelTerm;
-	}
-
-	public void setShipReservationCancelTerm(ShipReservationCancelTerm shipReservationCancelTerm) {
-		this.shipReservationCancelTerm = shipReservationCancelTerm;
+	public void setDiscountPercentage(Integer discountPercentage) {
+		this.discountPercentage = discountPercentage;
 	}
 
 	public Ship getShip() {
@@ -172,12 +157,12 @@ public class ReservationShip {
 		this.fishingEquipmentForShip = fishingEquipmentForShip;
 	}
 
-	public Integer getDiscountPercentage() {
-		return discountPercentage;
+	public ReservationStatus getReservationStatus() {
+		return reservationStatus;
 	}
 
-	public void setDiscountPercentage(Integer discountPercentage) {
-		this.discountPercentage = discountPercentage;
+	public void setReservationStatus(ReservationStatus reservationStatus) {
+		this.reservationStatus = reservationStatus;
 	}
 
 }
