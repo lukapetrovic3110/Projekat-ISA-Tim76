@@ -620,8 +620,6 @@ export default {
       this.shipInformation.availabilityEnd = new Date(
         this.availabilityEndDate + " " + this.availabilityEndTime + ":00"
       );
-      console.log("REQUEST OBJECT");
-      console.log(this.shipInformation);
       this.axios
         .post("http://localhost:8091/ship/add", this.shipInformation, {
           headers: {
@@ -629,7 +627,7 @@ export default {
           },
         })
         .then((response) => {
-          this.uploadCottageImages(response.data);
+          this.uploadShipImages(response.data);
         })
         .catch((er) => {
           alert("Error has occured!");
@@ -660,7 +658,7 @@ export default {
         });
     },
 
-    uploadCottageImages(data) {
+    uploadShipImages(data) {
       this.images = this.formatShipImages();
       this.axios
         .post(
@@ -676,7 +674,7 @@ export default {
         )
         .then((response) => {
           console.log(response.data);
-          window.location.href = "http://localhost:8083/myShips";
+          window.location.href = "http://localhost:8083/";
         })
         .catch((er) => {
           alert("Error has occured during image upload!");

@@ -44,6 +44,12 @@ public class ShipController {
 		return new ResponseEntity<List<Ship>>(shipService.all(), HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_SHIP_OWNER')")
+	@GetMapping("/getAll/{id}")
+	public ResponseEntity<List<ShipDTO>> getAll(@PathVariable Long id) {
+		return new ResponseEntity<List<ShipDTO>>(shipService.getAllShipsForShipOwner(id), HttpStatus.OK);
+	}
+	
 	@GetMapping
 	public ResponseEntity<List<ShipDTO>> findAllShipWithStatusActive() {
 		return new ResponseEntity<List<ShipDTO>>(shipService.findAllShipWithStatusActive(), HttpStatus.OK);

@@ -143,6 +143,7 @@ export default {
       } else if (this.userType === "SHIP_OWNER") {
         this.items = [
           { title: "Home", path: "/" },
+          { title: "My ships", path: "/myShips" },
           { title: "Register new ship", path: "/addShip" },
         ];
       } else if (this.userType === "FISHING_INSTRUCTOR") {

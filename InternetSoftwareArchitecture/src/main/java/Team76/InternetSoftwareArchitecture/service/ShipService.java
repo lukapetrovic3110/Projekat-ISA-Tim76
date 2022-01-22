@@ -3,6 +3,7 @@ package Team76.InternetSoftwareArchitecture.service;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,33 @@ public class ShipService implements IShipService  {
 	@Override
 	public List<Ship> all() {
 		return shipRepository.findAll();
+	}
+	
+	@Override
+	public List<ShipDTO> getAllShipsForShipOwner(Long shipOwnerId) {
+		List<Ship> shipsForShipOwner = shipRepository.getAllCottagesForCottageOwner(shipOwnerId);
+		ArrayList<ShipDTO> shipDTOs = new ArrayList<ShipDTO>();
+		
+		for (Ship ship : shipsForShipOwner) {
+			List<Image> images = ship.getImages();
+			List<String> shipImages = new ArrayList<String>();
+			for (Image image : images) {
+				shipImages.add(image.getName());
+			}
+			
+			ShipDTO shipDTO = new ShipDTO(ship.getShipId(), ship.getName(), ship.getDescription(),
+					ship.getAddress().getStreet(), ship.getAddress().getStreetNumber(),
+					ship.getAddress().getCity(), ship.getAddress().getCountry(),
+					ship.getAddress().getLongitude(), ship.getAddress().getLatitude(), ship.getRating(), ship.getPricePerHour(), 
+					ship.getAvailabilityStart(), ship.getAvailabilityEnd(), ship.getLength(),
+					ship.getEngineNumber(), ship.getEnginePower(), ship.getMaxSpeed(), ship.getCapacity(),
+					ship.getShipType(), ship.getShipOwner().getFirstName(), ship.getShipOwner().getLastName(), ship.getShipOwner().getEmail(), ship.getShipOwner().getPhoneNumber(),
+					new ArrayList<String>(), new HashMap<String, Double>(), new ArrayList<String>(), shipImages);
+
+			shipDTOs.add(shipDTO);
+		}
+		
+		return shipDTOs;
 	}
 	
 	@Override

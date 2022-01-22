@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 id="caption">Available cottage</h1>
+    <h1 id="caption">Available ships</h1>
     <v-card id="content" justify-center>
       <v-container fluid>
         <v-data-iterator
@@ -60,7 +60,7 @@
                   <v-img
                     height="360"
                     alt = "cottage"
-                    v-bind:src="require('../assets/images/' + item.cottageImages[0] + '.jpg')"
+                    v-bind:src="require('../assets/images/' + item.shipImages[0] + '.jpg')"
                   ></v-img>
 
                   <v-card-title>
@@ -99,14 +99,14 @@
                     <v-btn
                       depressed
                       color="primary"
-                      v-on:click="viewOrEditCottage(item.cottageId)"
+                      v-on:click="viewOrEditShip(item.shipId)"
                     >
-                    View or edit cottage
+                    View or edit ship
                     </v-btn>
                     <v-btn
                       depressed
                       color="primary"
-                      v-on:click="cottageFastReservation(item.cottageId)"
+                      v-on:click="shipFastReservation(item.shipId)"
                     >
                     Fast reservations
                     </v-btn>
@@ -115,7 +115,7 @@
                     <v-btn
                       depressed
                       color="primary"
-                      v-on:click="availabilityCalendar(item.cottageId)"
+                      v-on:click="availabilityCalendar(item.shipId)"
                     >
                     Availability calendar
                     </v-btn>
@@ -192,8 +192,8 @@
 export default {
   name: "MyCottages",
   data: () => ({
-    cottages: [],
-    cottageOwnerId: "",
+    ships: [],
+    shipOwnerId: "",
     itemsPerPageArray: [3, 6, 9],
       search: "",
       filter: {},
@@ -221,29 +221,32 @@ export default {
   },
 
   mounted() {
-    this.getAllCottagesForCottageOwner();
+    this.getAllShipsForShipOwner();
   },
 
   methods: {
-    viewOrEditCottage(cottageId) {
-      localStorage.setItem("cottageId", cottageId);
-      window.location.href = "http://localhost:8083/cottageProfile";
+    viewOrEditShip(shipId) {
+        console.log(shipId);
+      //localStorage.setItem("shipId", shipId);
+      //window.location.href = "http://localhost:8083/shipProfile";
     },
 
-    cottageFastReservation(cottageId) {
-      localStorage.setItem("cottageId", cottageId);
-      window.location.href = "http://localhost:8083/cottageFastReservation";
+    shipFastReservation(shipId) {
+        console.log(shipId);
+      //localStorage.setItem("shipId", shipId);
+      //window.location.href = "http://localhost:8083/shipFastReservation";
     },
 
-    availabilityCalendar(cottageId) {
-      localStorage.setItem("cottageId", cottageId);
-      window.location.href = "http://localhost:8083/cottageAvailabilityCalendar";
+    availabilityCalendar(shipId) {
+        console.log(shipId);
+      //localStorage.setItem("shipId", shipId);
+      //window.location.href = "http://localhost:8083/shipAvailabilityCalendar";
     },
 
-    getAllCottagesForCottageOwner() { // "http://localhost:8091/cottage/getAll/" + this.cottageOwnerId
-      this.cottageOwnerId = localStorage.getItem("userId");
+    getAllShipsForShipOwner() { 
+      this.shipOwnerId = localStorage.getItem("userId");
       this.axios
-        .get("http://localhost:8091/cottage/getAll/" + this.cottageOwnerId, {
+        .get("http://localhost:8091/ship/getAll/" + this.shipOwnerId, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },

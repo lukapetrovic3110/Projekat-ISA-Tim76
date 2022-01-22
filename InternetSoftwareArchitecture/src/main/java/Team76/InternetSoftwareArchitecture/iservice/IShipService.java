@@ -21,4 +21,7 @@ public interface IShipService {
 	ShipDTO getShipById(Long shipId);
 
 	List<ShipDTO> findAvailableShipsForSelectedDateInterval(Date startDateAndTime, Integer duration);
+	
+	List<ShipDTO> getAllShipsForShipOwner(Long shipOwnerId);
+	
 }
