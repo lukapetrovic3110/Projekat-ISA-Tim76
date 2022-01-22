@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import Team76.InternetSoftwareArchitecture.dto.DeleteShipReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationShipDTO;
 import Team76.InternetSoftwareArchitecture.dto.ScheduleFastReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipFastReservationDTO;
@@ -44,6 +45,12 @@ public class ReservationShipController {
 	public ResponseEntity<List<ShipFastReservationDTO>> findAllFastReservationsForShip(@PathVariable Long shipId) {
 		return new ResponseEntity<List<ShipFastReservationDTO>>(reservationShipService.findAllFastReservationsForShip(shipId), HttpStatus.OK);
 	}
+	
+	@PreAuthorize("hasRole('ROLE_SHIP_OWNER')")
+	@PostMapping("/saveFastReservation/{id}")
+	public ResponseEntity<ShipFastReservationDTO> saveFastReservation(@PathVariable Long id, @RequestBody ShipFastReservationDTO shipFastReservationDTO) {
+		return new ResponseEntity<ShipFastReservationDTO>(reservationShipService.saveFastReservation(id, shipFastReservationDTO), HttpStatus.CREATED);
+	}
 
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@PostMapping("/scheduleFastReservation")
@@ -52,6 +59,16 @@ public class ReservationShipController {
 			return new ResponseEntity<Boolean>(reservationShipService.scheduleFastReservation(scheduleFastReservationDTO.getFastReservationId()), HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PreAuthorize("hasRole('ROLE_SHIP_OWNER')")
+	@PostMapping("/deleteFastReservation")
+	public ResponseEntity<Boolean> deleteFastReservation(@RequestBody DeleteShipReservationDTO deleteShipReservationDTO) {
+		try {
+			return new ResponseEntity<Boolean>(reservationShipService.deleteFastReservation(deleteShipReservationDTO), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
 		}
 	}
 	

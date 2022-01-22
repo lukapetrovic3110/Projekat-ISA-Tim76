@@ -12,25 +12,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import Team76.InternetSoftwareArchitecture.dto.ShipNavigationEquipmentDTO;
-import Team76.InternetSoftwareArchitecture.service.NavigationEquipmentService;
+import Team76.InternetSoftwareArchitecture.dto.ShipAdditionalServiceDTO;
+import Team76.InternetSoftwareArchitecture.service.ShipAdditionalServiceService;
 
 @CrossOrigin(origins = "http://localhost:8083")
 @RestController
-@RequestMapping(value = "/navigationEquipment", produces = MediaType.APPLICATION_JSON_VALUE)
-public class NavigationEquipmentController {
-
-	private NavigationEquipmentService navigationEquipmentService;
+@RequestMapping(value = "/shipAdditionalService", produces = MediaType.APPLICATION_JSON_VALUE)
+public class ShipAdditionalServiceController {
+	
+	private ShipAdditionalServiceService shipAdditionalServiceService;
 
 	@Autowired
-	public NavigationEquipmentController(NavigationEquipmentService navigationEquipmentService) {
+	public ShipAdditionalServiceController(ShipAdditionalServiceService shipAdditionalServiceService) {
 		super();
-		this.navigationEquipmentService = navigationEquipmentService;
+		this.shipAdditionalServiceService = shipAdditionalServiceService;
 	}
 	
 	@PreAuthorize("hasRole('ROLE_SHIP_OWNER')")
 	@GetMapping
-	public ResponseEntity<List<ShipNavigationEquipmentDTO>> get() {
-		return new ResponseEntity<List<ShipNavigationEquipmentDTO>>(navigationEquipmentService.getAllShipNavigationEquipment(), HttpStatus.OK);
+	public ResponseEntity<List<ShipAdditionalServiceDTO>> get() {
+		return new ResponseEntity<List<ShipAdditionalServiceDTO>>(shipAdditionalServiceService.getAllShipAdditionalServices(), HttpStatus.OK);
 	}
 }

@@ -3,8 +3,8 @@
     <v-card id="tableView" justify-center>
       <div>
         <v-data-table
-          :headers="headersCottageFastReservation"
-          :items="cottageFastReservations"
+          :headers="headersShipFastReservation"
+          :items="shipFastReservations"
           hide-default-footer
           no-data-text="There are no fast reservations"
           class="elevation-1"
@@ -12,12 +12,12 @@
           <template v-slot:top>
             <v-toolbar flat>
               <v-toolbar-title style="color: gray"
-                >Cottage fast reservations</v-toolbar-title
+                >Ship fast reservations</v-toolbar-title
               >
               <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-dialog
-                v-model="dialogCottageFastReservation"
+                v-model="dialogShipFastReservation"
                 width="35%"
                 persistent
               >
@@ -43,7 +43,7 @@
                         <tr>
                           <td>
                             <v-menu
-                              v-model="cottageReservationDateMenu"
+                              v-model="shipReservationDateMenu"
                               :close-on-content-click="false"
                               :nudge-right="40"
                               transition="scale-transition"
@@ -51,7 +51,7 @@
                             >
                               <template v-slot:activator="{ on, attrs }">
                                 <v-text-field
-                                  v-model="cottageReservationDate"
+                                  v-model="shipReservationDate"
                                   label="Reservation start date"
                                   prepend-icon="mdi-calendar"
                                   readonly
@@ -60,16 +60,16 @@
                                 ></v-text-field>
                               </template>
                               <v-date-picker
-                                v-model="cottageReservationDate"
-                                @input="cottageReservationDateMenu = false"
+                                v-model="shipReservationDate"
+                                @input="shipReservationDateMenu = false"
                               ></v-date-picker>
                             </v-menu>
                             <v-spacer></v-spacer>
                           </td>
                           <td>
                             <v-menu
-                              ref="cottageReservationTimeMenu"
-                              v-model="cottageReservationTimeMenu"
+                              ref="shipReservationTimeMenu"
+                              v-model="shipReservationTimeMenu"
                               :close-on-content-click="false"
                               :nudge-right="40"
                               transition="scale-transition"
@@ -78,7 +78,7 @@
                             >
                               <template v-slot:activator="{ on, attrs }">
                                 <v-text-field
-                                  v-model="cottageReservationTime"
+                                  v-model="shipReservationTime"
                                   label="Reservation start time"
                                   prepend-icon="mdi-clock-time-four-outline"
                                   readonly
@@ -87,11 +87,11 @@
                                 ></v-text-field>
                               </template>
                               <v-time-picker
-                                v-model="cottageReservationTime"
+                                v-model="shipReservationTime"
                                 full-width
                                 @click:minute="
-                                  $refs.cottageReservationTimeMenu.save(
-                                    cottageReservationTime
+                                  $refs.shipReservationTimeMenu.save(
+                                    shipReservationTime
                                   )
                                 "
                               ></v-time-picker>
@@ -100,43 +100,58 @@
                         </tr>
                       </v-simple-table>
                       <v-text-field
-                        v-model="cottageFastReservationItem.duration"
-                        label="Duration (days)"
+                        v-model="shipFastReservationItem.duration"
+                        label="Duration (hours)"
                         type="text"
                       >
                       </v-text-field>
                       <v-text-field
-                        v-model="cottageFastReservationItem.maxNumberOfPersons"
+                        v-model="shipFastReservationItem.maxNumberOfPersons"
                         label="Max number of persons"
                         type="text"
                       >
                       </v-text-field>
                       <v-text-field
-                        v-model="cottageFastReservationItem.price"
+                        v-model="shipFastReservationItem.price"
                         label="Price (RSD)"
                         type="text"
                       >
                       </v-text-field>
                       <v-text-field
-                        v-model="cottageFastReservationItem.discountPercentage"
+                        v-model="shipFastReservationItem.discountPercentage"
                         label="Discount (%)"
                         type="text"
                       >
                       </v-text-field>
                       <v-card-text>
                         <h2 class="text-h6 mb-2">
-                          Cottage additional services
+                          Ship additional services
                         </h2>
                         <v-chip-group
                           v-model="
-                            cottageFastReservationItem.cottageAdditionalServices
+                            shipFastReservationItem.shipAdditionalServices
                           "
                           column
                           multiple
                         >
                           <v-chip filter outlined> WiFi </v-chip>
-                          <v-chip filter outlined> Parking </v-chip>
+                          <v-chip filter outlined> Minibar </v-chip>
                           <v-chip filter outlined> Pet friendly </v-chip>
+                        </v-chip-group>
+                      </v-card-text>
+                      <v-card-text>
+                        <h2 class="text-h6 mb-2">
+                          Navigation equipment
+                        </h2>
+                        <v-chip-group
+                          v-model="
+                            shipFastReservationItem.shipFishingEquipment
+                          "
+                          column
+                          multiple
+                        >
+                          <v-chip filter outlined> Fishing rod </v-chip>
+                          <v-chip filter outlined> Fishing net </v-chip>
                         </v-chip-group>
                       </v-card-text>
                     </v-container>
@@ -147,14 +162,14 @@
                     <v-btn
                       color="blue darken-1"
                       text
-                      @click="closeCottageFastReservation"
+                      @click="closeShipFastReservation"
                     >
                       Cancel
                     </v-btn>
                     <v-btn
                       color="blue darken-1"
                       text
-                      @click="saveCottageFastReservation"
+                      @click="saveShipFastReservation"
                     >
                       Save
                     </v-btn>
@@ -162,7 +177,7 @@
                 </v-card>
               </v-dialog>
               <v-dialog
-                v-model="dialogCottageFastReservationDelete"
+                v-model="dialogShipFastReservationDelete"
                 max-width="500px"
               >
                 <v-card>
@@ -175,13 +190,13 @@
                     <v-btn
                       color="blue darken-1"
                       text
-                      @click="closeCottageFastReservationDelete"
+                      @click="closeShipFastReservationDelete"
                       >Cancel</v-btn
                     >
                     <v-btn
                       color="blue darken-1"
                       text
-                      @click="deleteCottageFastReservationItemConfirm"
+                      @click="deleteShipFastReservationItemConfirm"
                       >OK</v-btn
                     >
                     <v-spacer></v-spacer>
@@ -191,7 +206,7 @@
             </v-toolbar>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <v-icon small @click="deleteCottageFastReservationItem(item)" v-if="item.cottageFastReservationId !== null">
+            <v-icon small @click="deleteShipFastReservationItem(item)" v-if="item.shipFastReservationId !== null">
               mdi-delete
             </v-icon>
             <v-icon small disabled v-else>
@@ -206,20 +221,21 @@
 
 <script>
 export default {
-  name: "CottageFastReservation",
+  name: "ShipFastReservation",
 
   data: () => ({
-    cottageReservationDateMenu: false,
-    cottageReservationTimeMenu: false,
-    cottageReservationDate: "",
-    cottageReservationTime: "",
+    shipReservationDateMenu: false,
+    shipReservationTimeMenu: false,
+    shipReservationDate: "",
+    shipReservationTime: "",
 
-    cottageFastReservations: [],
-    cottageReservationAdditionalServices: [],
-    dialogCottageFastReservation: false,
-    dialogCottageFastReservationDelete: false,
+    shipFastReservations: [],
+    shipReservationAdditionalServicesValues: [],
+    shipFishingEquipmentValues: [],
+    dialogShipFastReservation: false,
+    dialogShipFastReservationDelete: false,
 
-    headersCottageFastReservation: [
+    headersShipFastReservation: [
       {
         text: "Start date and time",
         align: "center",
@@ -227,7 +243,7 @@ export default {
         value: "dateAndTime",
       },
       {
-        text: "Duration (days)",
+        text: "Duration (hours)",
         align: "center",
         sortable: true,
         value: "duration",
@@ -239,10 +255,16 @@ export default {
         value: "maxNumberOfPersons",
       },
       {
-        text: "Cottage additional services",
+        text: "Ship additional services",
         align: "center",
         sortable: true,
-        value: "cottageAdditionalServices",
+        value: "shipAdditionalServices",
+      },
+      {
+        text: "Ship fishing equipment",
+        align: "center",
+        sortable: true,
+        value: "shipFishingEquipment",
       },
       {
         text: "Price (RSD)",
@@ -259,51 +281,56 @@ export default {
       { text: "Actions", align: "center", value: "actions", sortable: false },
     ],
 
-    cottageFastReservationItemIndex: -1,
-    cottageFastReservationItem: {
-      cottageFastReservationId: null,
+    shipFastReservationItemIndex: -1,
+    shipFastReservationItem: {
+      shipFastReservationId: null,
       dateAndTime: "",
       duration: "",
       maxNumberOfPersons: "",
-      cottageAdditionalServices: [],
+      shipAdditionalServices: [],
+      shipFishingEquipment: [],
       price: "",
       discountPercentage: "",
     },
-    cottageFastReservationDefaultItem: {
-      cottageFastReservationId: null,
+    shipFastReservationDefaultItem: {
+      shipFastReservationId: null,
       dateAndTime: "",
       duration: "",
       maxNumberOfPersons: "",
-      cottageAdditionalServices: [],
+      shipAdditionalServices: [],
+      shipFishingEquipment: [],
       price: "",
       discountPercentage: "",
     },
-    cottageAdditionalServicesRequest: [],
-    formattedCottageAdditionalServices: [],
+    shipAdditionalServicesRequest: [],
+    shipFishingEquipmentRequest: [],
+    formattedShipAdditionalServices: [],
+    formattedShipFishingEquipment: [],
   }),
 
   watch: {
-    dialogCottageFastReservation(val) {
-      val || this.closeCottageFastReservation();
+    dialogShipFastReservation(val) {
+      val || this.closeShipFastReservation();
     },
 
-    dialogCottageFastReservationDelete(val) {
-      val || this.closeCottageFastReservationDelete();
+    dialogShipFastReservationDelete(val) {
+      val || this.closeShipFastReservationDelete();
     },
   },
 
   mounted() {
-    this.getAllAdditionalServicesForCottageReservation();
-    this.getAllFastReservationsForCottage();
+    this.getAllAdditionalServicesForShipReservation();
+    this.getAllFastReservationsForShip();
+    this.getAllFishingEquipmentForShip();
   },
 
   methods: {
-    getAllFastReservationsForCottage() {
-      this.cottageId = localStorage.getItem("cottageId");
+    getAllFastReservationsForShip() {
+      this.shipId = localStorage.getItem("shipId");
       this.axios
         .get(
-          "http://localhost:8091/reservationCottage/cottageFastReservations/" +
-            this.cottageId,
+          "http://localhost:8091/reservationShip/shipFastReservations/" +
+            this.shipId,
           {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
@@ -311,21 +338,22 @@ export default {
           }
         )
         .then((response) => {
-          this.cottageFastReservations = response.data;
-          console.log(this.cottageFastReservations);
-          this.cottageFastReservations.forEach((reservation) => {
-            reservation.dateAndTime = new Date(
-              reservation.dateAndTime
-            ).toLocaleString();
+          this.shipFastReservations = response.data;
+          console.log(this.shipFastReservations);
+          this.shipFastReservations.forEach((reservation) => {
+            reservation.dateAndTime = new Date(reservation.dateAndTime).toLocaleString();
             let reservationAdditionalServices = [];
-            reservation.cottageAdditionalServices.forEach((element) => {
-              reservationAdditionalServices.push(
-                element.cottageAdditionalServiceType
-              );
+            let reservationFishingEquipment = [];
+            reservation.shipAdditionalServices.forEach((element) => {
+              reservationAdditionalServices.push(element.shipAdditionalServiceType);
             });
-            reservation.cottageAdditionalServices =
-              reservationAdditionalServices;
+            reservation.fishingEquipmentForShip.forEach((element) => {
+              reservationFishingEquipment.push(element.fishingEquipmentForShipType);
+            });
+            reservation.shipAdditionalServices = reservationAdditionalServices;
+            reservation.shipFishingEquipment = reservationFishingEquipment;
             reservationAdditionalServices = [];
+
             if (reservation.discountPercentage === null) {
               reservation.discountPercentage = "No discount";
             }
@@ -338,15 +366,15 @@ export default {
         });
     },
 
-    getAllAdditionalServicesForCottageReservation() {
+    getAllAdditionalServicesForShipReservation() {
       this.axios
-        .get("http://localhost:8091/reservationAdditionalService/", {
+        .get("http://localhost:8091/shipAdditionalService/", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         })
         .then((response) => {
-          this.cottageReservationAdditionalServices = response.data;
+          this.shipReservationAdditionalServicesValues = response.data;
         })
         .catch((err) => {
           window.location.href = "http://localhost:8083/";
@@ -355,42 +383,65 @@ export default {
         });
     },
 
-    saveCottageFastReservation() {
-      if (this.cottageFastReservationItemIndex > -1) {
+    getAllFishingEquipmentForShip() {
+        this.axios
+        .get("http://localhost:8091/fishingEquipment/", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          this.shipFishingEquipmentValues = response.data;
+        })
+        .catch((err) => {
+          window.location.href = "http://localhost:8083/";
+          alert("401 Unauthorized");
+          console.log(err);
+        });
+    },
+
+    saveShipFastReservation() {
+      if (this.shipFastReservationItemIndex > -1) {
         Object.assign(
-          this.cottageFastReservations[this.cottageFastReservationItemIndex],
-          this.cottageFastReservationItem
+          this.shipFastReservations[this.shipFastReservationItemIndex],
+          this.shipFastReservationItem
         );
       } else {
-        this.cottageId = localStorage.getItem("cottageId");
-        this.cottageFastReservationItem.dateAndTime = new Date(
-          this.cottageReservationDate +
+        this.shipId = localStorage.getItem("shipId");
+        this.shipFastReservationItem.dateAndTime = new Date(
+          this.shipReservationDate +
             " " +
-            this.cottageReservationTime +
+            this.shipReservationTime +
             ":00"
         ).toLocaleString();
-        this.cottageFastReservationItem.cottageAdditionalServices.forEach(
+        this.shipFastReservationItem.shipAdditionalServices.forEach(
           (element) => {
-            this.cottageAdditionalServicesRequest.push(
-              this.cottageReservationAdditionalServices[element]
+            this.shipAdditionalServicesRequest.push(
+              this.shipReservationAdditionalServicesValues[element]
             );
           }
         );
-
+        this.shipFastReservationItem.shipFishingEquipment.forEach(
+          (element) => {
+            this.shipFishingEquipmentRequest.push(
+              this.shipFishingEquipmentValues[element]
+            );
+          }
+        );
+        
         this.axios
           .post(
-            "http://localhost:8091/reservationCottage/saveFastReservation/" +
-              this.cottageId,
+            "http://localhost:8091/reservationShip/saveFastReservation/" +
+              this.shipId,
             {
-              dateAndTime: new Date(this.cottageFastReservationItem.dateAndTime),
-              formattedDateAndTime: this.cottageFastReservationItem.formattedDateAndTime,
-              duration: this.cottageFastReservationItem.duration,
-              maxNumberOfPersons:
-                this.cottageFastReservationItem.maxNumberOfPersons,
-              cottageAdditionalServices: this.cottageAdditionalServicesRequest,
-              price: this.cottageFastReservationItem.price,
-              discountPercentage:
-                this.cottageFastReservationItem.discountPercentage,
+              dateAndTime: new Date(this.shipFastReservationItem.dateAndTime),
+              formattedDateAndTime: this.shipFastReservationItem.formattedDateAndTime,
+              duration: this.shipFastReservationItem.duration,
+              maxNumberOfPersons: this.shipFastReservationItem.maxNumberOfPersons,
+              shipAdditionalServices: this.shipAdditionalServicesRequest,
+              fishingEquipmentForShip: this.shipFishingEquipmentRequest,
+              price: this.shipFastReservationItem.price,
+              discountPercentage: this.shipFastReservationItem.discountPercentage,
             },
             {
               headers: {
@@ -400,40 +451,50 @@ export default {
           )
           .then((response) => {
             console.log(response.data);
-            this.cottageAdditionalServicesRequest = [];
-            this.cottageId = localStorage.getItem("cottageId");
-            this.getAllFastReservationsForCottage();
+            this.shipAdditionalServicesRequest = [];
+            this.shipFishingEquipmentRequest = [];
+            this.shipId = localStorage.getItem("shipId");
+            this.getAllFastReservationsForShip();
           });
 
-        if (this.cottageFastReservationItem.discountPercentage === "") {
-          this.cottageFastReservationItem.discountPercentage = "No discount";
+        if (this.shipFastReservationItem.discountPercentage === "") {
+          this.shipFastReservationItem.discountPercentage = "No discount";
         }
 
-        this.cottageFastReservationItem.cottageAdditionalServices.forEach(
+        this.shipFastReservationItem.shipAdditionalServices.forEach(
           (element) => {
-            this.formattedCottageAdditionalServices.push(
-              this.cottageReservationAdditionalServices[element]
-                .cottageAdditionalServiceType
+            this.formattedShipAdditionalServices.push(
+              this.shipReservationAdditionalServicesValues[element]
+                .shipAdditionalServiceType
             );
           }
         );
-        this.cottageFastReservationItem.cottageAdditionalServices =
-          this.formattedCottageAdditionalServices;
-        this.cottageFastReservations.push(this.cottageFastReservationItem);
-        this.formattedCottageAdditionalServices = [];
-        this.cottageReservationDate = "";
-        this.cottageReservationTime = "";
+        this.shipFastReservationItem.shipFishingEquipment.forEach(
+          (element) => {
+            this.formattedShipFishingEquipment.push(
+              this.shipFishingEquipmentValues[element]
+                .fishingEquipmentForShipType
+            );
+          }
+        );
+        this.shipFastReservationItem.shipAdditionalServices = this.formattedShipAdditionalServices;
+        this.shipFastReservationItem.shipFishingEquipment = this.formattedShipFishingEquipment;
+        this.shipFastReservations.push(this.shipFastReservationItem);
+        this.formattedShipAdditionalServices = [];
+        this.formattedShipFishingEquipment = [];
+        this.shipReservationDate = "";
+        this.shipReservationTime = "";
       }
-      this.closeCottageFastReservation();
+      this.closeShipFastReservation();
     },
 
-    deleteCottageFastReservationItemConfirm() {
+    deleteShipFastReservationItemConfirm() {
       this.axios
         .post(
-          "http://localhost:8091/reservationCottage/deleteFastReservation",
+          "http://localhost:8091/reservationShip/deleteFastReservation",
           {
-            cottageReservationId:
-              this.cottageFastReservationItem.cottageFastReservationId,
+            shipReservationId:
+              this.shipFastReservationItem.shipFastReservationId,
           },
           {
             headers: {
@@ -445,41 +506,41 @@ export default {
           console.log(response.data);
         });
 
-      this.cottageFastReservations.splice(
-        this.cottageFastReservationItemIndex,
+      this.shipFastReservations.splice(
+        this.shipFastReservationItemIndex,
         1
       );
-      this.closeCottageFastReservationDelete();
+      this.closeShipFastReservationDelete();
     },
 
-    deleteCottageFastReservationItem(item) {
-      this.cottageFastReservationItemIndex =
-        this.cottageFastReservations.indexOf(item);
-      this.cottageFastReservationItem = Object.assign({}, item);
-      this.dialogCottageFastReservationDelete = true;
+    deleteShipFastReservationItem(item) {
+      this.shipFastReservationItemIndex =
+        this.shipFastReservations.indexOf(item);
+      this.shipFastReservationItem = Object.assign({}, item);
+      this.dialogShipFastReservationDelete = true;
     },
 
-    closeCottageFastReservation() {
-      this.dialogCottageFastReservation = false;
-      this.cottageReservationDate = "";
-      this.cottageReservationTime = "";
+    closeShipFastReservation() {
+      this.dialogShipFastReservation = false;
+      this.shipReservationDate = "";
+      this.shipReservationTime = "";
       this.$nextTick(() => {
-        this.cottageFastReservationItem = Object.assign(
+        this.shipFastReservationItem = Object.assign(
           {},
-          this.cottageFastReservationDefaultItem
+          this.shipFastReservationDefaultItem
         );
-        this.cottageFastReservationItemIndex = -1;
+        this.shipFastReservationItemIndex = -1;
       });
     },
 
-    closeCottageFastReservationDelete() {
-      this.dialogCottageFastReservationDelete = false;
+    closeShipFastReservationDelete() {
+      this.dialogShipFastReservationDelete = false;
       this.$nextTick(() => {
-        this.cottageFastReservationItem = Object.assign(
+        this.shipFastReservationItem = Object.assign(
           {},
-          this.cottageFastReservationDefaultItem
+          this.shipFastReservationDefaultItem
         );
-        this.cottageFastReservationItemIndex = -1;
+        this.shipFastReservationItemIndex = -1;
       });
     },
   },

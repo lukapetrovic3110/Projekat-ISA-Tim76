@@ -233,9 +233,8 @@ export default {
     },
 
     shipFastReservation(shipId) {
-        console.log(shipId);
-      //localStorage.setItem("shipId", shipId);
-      //window.location.href = "http://localhost:8083/shipFastReservation";
+      localStorage.setItem("shipId", shipId);
+      window.location.href = "http://localhost:8083/shipFastReservation";
     },
 
     availabilityCalendar(shipId) {

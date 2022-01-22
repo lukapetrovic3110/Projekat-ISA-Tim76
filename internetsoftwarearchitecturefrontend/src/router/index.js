@@ -235,6 +235,11 @@ const routes = [
     name: "ShipAvailabilityCalendar",
     component: () => import("../views/ShipAvailabilityCalendar.vue"),
   },
+  {
+    path: "/shipFastReservation",
+    name: "ShipFastReservation",
+    component: () => import("../views/ShipFastReservation.vue"),
+  },
 ];
 const router = new VueRouter({
   mode: "history",

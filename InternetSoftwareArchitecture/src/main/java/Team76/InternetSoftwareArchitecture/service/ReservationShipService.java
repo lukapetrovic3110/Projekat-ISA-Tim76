@@ -4,7 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import Team76.InternetSoftwareArchitecture.dto.DeleteShipReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.HistoryReservationShipDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipFastReservationDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipReservationCalendarDTO;
@@ -22,10 +25,12 @@ import Team76.InternetSoftwareArchitecture.iservice.IReservationShipService;
 import Team76.InternetSoftwareArchitecture.model.Address;
 import Team76.InternetSoftwareArchitecture.model.Client;
 import Team76.InternetSoftwareArchitecture.model.FishingEquipmentForShip;
+import Team76.InternetSoftwareArchitecture.model.FishingEquipmentForShipType;
 import Team76.InternetSoftwareArchitecture.model.ReservationShip;
 import Team76.InternetSoftwareArchitecture.model.ReservationStatus;
 import Team76.InternetSoftwareArchitecture.model.Ship;
 import Team76.InternetSoftwareArchitecture.model.ShipAdditionalService;
+import Team76.InternetSoftwareArchitecture.model.ShipAdditionalServiceType;
 import Team76.InternetSoftwareArchitecture.repository.IClientRepository;
 import Team76.InternetSoftwareArchitecture.repository.IReservationShipRepository;
 import Team76.InternetSoftwareArchitecture.repository.IShipRepository;
@@ -87,6 +92,40 @@ public class ReservationShipService implements IReservationShipService {
 				shipFastReservation.getFishingEquipmentForShip(),
 				shipFastReservation.getPrice(),
 				shipFastReservation.getDiscountPercentage())).collect(Collectors.toList());
+	}
+	
+	@Override
+	public ShipFastReservationDTO saveFastReservation(Long shipId, ShipFastReservationDTO shipFastReservationDTO) {
+		Ship ship = shipRepository.findByShipId(shipId);
+		Set<ShipAdditionalService> shipAdditionalServices = new HashSet<ShipAdditionalService>();
+		Set<FishingEquipmentForShip> fishingEquipmentForShip = new HashSet<FishingEquipmentForShip>();
+		for (ShipAdditionalService shipAdditionalService : shipFastReservationDTO.getShipAdditionalServices()) {
+			shipAdditionalServices.add(new ShipAdditionalService(ShipAdditionalServiceType.valueOf(shipAdditionalService.getShipAdditionalServiceType().toString().replace(" ", "_"))));
+		}
+		for (FishingEquipmentForShip fishingEquipment : shipFastReservationDTO.getFishingEquipmentForShip()) {
+			fishingEquipmentForShip.add(new FishingEquipmentForShip(FishingEquipmentForShipType.valueOf(fishingEquipment.getFishingEquipmentForShipType().toString().replace(" ", "_"))));
+		}
+	
+		ReservationShip fastReservationShip = new ReservationShip(shipFastReservationDTO.getDateAndTime(), shipFastReservationDTO.getDuration(), shipFastReservationDTO.getMaxNumberOfPersons(), shipFastReservationDTO.getPrice(), shipFastReservationDTO.getDiscountPercentage(), ship, null, shipAdditionalServices, fishingEquipmentForShip, ReservationStatus.WAITING);
+		ReservationShip reservationShip = reservationShipRepository.save(fastReservationShip);
+		
+		List<Long> subscribedClientIdForShip = clientRepository.getAllSubscribedClientIdForShip(shipId);
+		if (!subscribedClientIdForShip.isEmpty()) {
+			List<Client> allClients = clientRepository.findAll();
+			for (Client client : allClients) {
+				if (subscribedClientIdForShip.contains(client.getUserId())) {
+					sendShipReservationEmail(client.getEmail(), ship.getName());
+				}
+			}
+		}
+		
+		return new ShipFastReservationDTO(reservationShip.getReservationShipId(), reservationShip.getDateAndTime(), reservationShip.getDuration(), reservationShip.getMaxNumberOfPersons(), reservationShip.getShipAdditionalServices(), reservationShip.getFishingEquipmentForShip(), reservationShip.getPrice(), reservationShip.getDiscountPercentage());
+	}
+	
+	private void sendShipReservationEmail(String clientEmail, String shipName) {
+		StringBuilder text = new StringBuilder();
+		text.append("New reservation is available.");
+		emailService.sendNotificaitionAsync(clientEmail, shipName, text.toString());
 	}
 	
 	@Override
@@ -206,6 +245,15 @@ public class ReservationShipService implements IReservationShipService {
 			}
 		}
 	}
+	
+	@Override
+	public Boolean deleteFastReservation(DeleteShipReservationDTO deleteShipReservationDTO) {
+		ReservationShip reservationShip = reservationShipRepository.findByReservationShipId(deleteShipReservationDTO.getShipReservationId());
+		reservationShip.setReservationStatus(ReservationStatus.CANCELLED);
+		reservationShipRepository.save(reservationShip);
+		
+		return true;
+	}
 
 	@Override
 	public ShipReservationCalendarDTO getAvailabilityCalendarInformation(Long shipId) {
@@ -234,5 +282,5 @@ public class ReservationShipService implements IReservationShipService {
 		
 		return shipReservationCalendarDTO;
 	}
-
+	
 }
