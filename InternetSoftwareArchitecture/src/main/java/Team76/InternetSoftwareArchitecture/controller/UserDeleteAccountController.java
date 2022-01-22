@@ -49,7 +49,23 @@ public class UserDeleteAccountController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
-		
+	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_COTTAGE_OWNER', 'ROLE_SHIP_OWNER')")
+	@PostMapping("/owner")
+	public ResponseEntity<?> sendDeleteOwnerAccountRequest(@RequestBody UserDeleteAccountRequestDTO userDeleteAccountDTO) {
+		try {
+			if (userDeleteAccountDTO.getReason().trim().isEmpty())
+				throw new Exception("Please enter a reason!");
+			else if(userDeleteAccountDTO.getReason().length() > 100)
+				throw new Exception("The reason is long please enter up to 100 characters!");
+			else if(Pattern.compile("[#$%^&*'<>/]+").matcher(userDeleteAccountDTO.getReason()).find())
+				throw new Exception("The reason shouldn't contain special characters.");
+			else
+				return new ResponseEntity<UserDeleteAccount>(userDeleteAccountService.sendDeleteOwnerAccountRequest(userDeleteAccountDTO), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
