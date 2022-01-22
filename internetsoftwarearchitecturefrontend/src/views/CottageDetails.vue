@@ -470,8 +470,9 @@ export default {
 
       if (this.cottageReservationDateAndTime === "" || this.duration === "" || this.numberOfGuests === "")
       {
-        console.log(this.cottageReservationDateAndTime);
-        this.dialogSearchDesiredReservation = true;
+        alert("Please first do a search by date interval and number of guests on the previous page.");
+        window.location.href = "/searchCottage";
+        //this.dialogSearchDesiredReservation = true;
       } else {
         this.priceReservation = this.duration * this.cottageInformation.price;
         this.axios

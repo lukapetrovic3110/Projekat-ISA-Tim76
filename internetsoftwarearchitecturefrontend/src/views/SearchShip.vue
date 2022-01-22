@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 id="caption">Search ship</h1>
+    <h1 id="caption">Search ship or boat</h1>
     <v-card id="content" justify-center>
       <v-container fluid>
         <v-data-iterator
@@ -123,7 +123,7 @@
                           </tr>
                           <tr>
                             <v-text-field
-                              label="Duration (days)"
+                              label="Duration (hours)"
                               type="number"
                               min="1"
                               v-model="duration"
