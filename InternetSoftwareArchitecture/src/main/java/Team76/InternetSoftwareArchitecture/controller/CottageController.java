@@ -85,9 +85,9 @@ public class CottageController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
-	@GetMapping("/findAvailableCottagesForSelectedDateInterval/{startDateAndTime}/{duration}")
-	public ResponseEntity<List<CottageDTO>> findAvailableCottagesForSelectedDateInterval(@PathVariable Date startDateAndTime,@PathVariable Integer duration) {
-		return new ResponseEntity<List<CottageDTO>>(cottageService.findAvailableCottagesForSelectedDateInterval(startDateAndTime, duration), HttpStatus.OK);
+	@GetMapping("/findAvailableCottagesForSelectedDateIntervalAndNumberOfGuests/{startDateAndTime}/{duration}/{numberOfGuests}")
+	public ResponseEntity<List<CottageDTO>> findAvailableCottagesForSelectedDateIntervalAndNumberOfGuests(@PathVariable Date startDateAndTime,@PathVariable Integer duration, @PathVariable Integer numberOfGuests) {
+		return new ResponseEntity<List<CottageDTO>>(cottageService.findAvailableCottagesForSelectedDateIntervalAndNumberOfGuests(startDateAndTime, duration, numberOfGuests), HttpStatus.OK);
 	}
 
 }

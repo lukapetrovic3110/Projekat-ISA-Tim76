@@ -64,7 +64,7 @@ public class ShipService implements IShipService  {
 	}
 
 	@Override
-	public List<ShipDTO> findAvailableShipsForSelectedDateInterval(Date startDateAndTime, Integer duration) {
+	public List<ShipDTO> findAvailableShipsForSelectedDateIntervalAndNumberOfGuests(Date startDateAndTime, Integer duration, Integer numberOfGuests) {
 		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Calendar startDateAndTimeCalendar = Calendar.getInstance();
 		startDateAndTimeCalendar.setTime(startDateAndTime);
@@ -125,7 +125,9 @@ public class ShipService implements IShipService  {
 				
 			}
 			
-			if(isAvailableShip) {
+			int maxNumberOfPersons = ship.getCapacity();
+			
+			if(isAvailableShip && numberOfGuests <= maxNumberOfPersons) {
 				List<Image> images = ship.getImages();
 				List<String> shipImages = new ArrayList<String>();
 				for (Image image : images) {

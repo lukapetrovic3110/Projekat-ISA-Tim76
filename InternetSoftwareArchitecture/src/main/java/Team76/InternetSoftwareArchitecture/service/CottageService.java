@@ -189,7 +189,8 @@ public class CottageService implements ICottageService {
 		return cottageDTOs;
 	}
 	
-	public List<CottageDTO> findAvailableCottagesForSelectedDateInterval(Date startDateAndTime, Integer duration) {
+	@Override
+	public List<CottageDTO> findAvailableCottagesForSelectedDateIntervalAndNumberOfGuests(Date startDateAndTime, Integer duration, Integer numberOfGuests) {
 		Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Calendar startDateAndTimeCalendar = Calendar.getInstance();
 		startDateAndTimeCalendar.setTime(startDateAndTime);
@@ -250,7 +251,10 @@ public class CottageService implements ICottageService {
 				
 			}
 			
-			if(isAvailableCottage) {
+			// maximum
+			int maxNumberOfPersons = cottage.getNumberOfBedsPerRoom() * cottage.getNumberOfRooms();
+			
+			if(isAvailableCottage && numberOfGuests <= maxNumberOfPersons) {
 				List<Image> images = cottage.getImages();
 				List<String> cottageImages = new ArrayList<String>();
 				for (Image image : images) {

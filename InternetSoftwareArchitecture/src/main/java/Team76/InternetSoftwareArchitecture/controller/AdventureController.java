@@ -46,9 +46,9 @@ public class AdventureController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_CLIENT')")
-	@GetMapping("/findAvailableAdventuresForSelectedDateInterval/{startDateAndTime}/{duration}")
-	public ResponseEntity<List<AdventureDTO>> findAvailableAdventuresForSelectedDateInterval(@PathVariable Date startDateAndTime,@PathVariable Integer duration) {
-		return new ResponseEntity<List<AdventureDTO>>(adventureService.findAvailableAdventuresForSelectedDateInterval(startDateAndTime, duration), HttpStatus.OK);
+	@GetMapping("/findAvailableAdventuresForSelectedDateIntervalAndNumberOfGuests/{startDateAndTime}/{duration}/{numberOfGuests}")
+	public ResponseEntity<List<AdventureDTO>> findAvailableAdventuresForSelectedDateIntervalAndNumberOfGuests(@PathVariable Date startDateAndTime,@PathVariable Integer duration, Integer numberOfGuests) {
+		return new ResponseEntity<List<AdventureDTO>>(adventureService.findAvailableAdventuresForSelectedDateIntervalAndNumberOfGuests(startDateAndTime, duration, numberOfGuests), HttpStatus.OK);
 	}
 	
 }
