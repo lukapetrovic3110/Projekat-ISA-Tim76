@@ -126,6 +126,24 @@
                 ></v-data-table>
               </v-card>
             </v-row>
+            <v-row>
+              <vue-upload-multiple-image class="images"
+                @mark-is-primary="markIsPrimary"
+                :data-images="cottageImagesForDisplay"
+                idUpload="myIdUpload"
+                idEdit="myIdEdit"
+                :max-image="15"
+                primary-text="Default"
+                browse-text="Upload images"
+                drag-text="Drag images"
+                mark-is-primary-text="Set as default"
+                popup-text="This image will be displayed as default"
+                :multiple="true"
+                :show-edit="false"
+                :show-delete="false"
+                :show-add="false"
+              ></vue-upload-multiple-image>
+            </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions>
@@ -170,7 +188,11 @@
 </template>
 
 <script>
+import VueUploadMultipleImage from "vue-upload-multiple-image";
 export default {
+  components: {
+    VueUploadMultipleImage,
+  },
   data: () => ({
     opacity: 0.9,
     cottageId: null,
@@ -203,6 +225,12 @@ export default {
     duration: "",
     numberOfGuests: "",
     priceReservation: null,
+    cottageImages: null,
+    cottageImagesForDisplay: [],
+    images: {
+      imagesInformation: [],
+    },
+    imagesFileList: [],
   }),
   mounted() {
     this.getCottageInformation();
@@ -220,6 +248,7 @@ export default {
           this.user = response.data;
           this.userType = response.data.userType;
           if (this.userType === "CLIENT") this.isClient = true;
+          this.getCottageImages();
         });
 
       this.axios
@@ -232,6 +261,29 @@ export default {
           this.cottageInformation.availabilityEnd = new Date(
             response.data.availabilityEnd
           ).toLocaleString();
+        })
+        .catch((err) => console.log(err));
+    },
+    getCottageImages() {
+      this.axios
+        .get(
+          "http://localhost:8091/image/getImages/cottage/" + this.cottageId,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
+          this.cottageImages = response.data;
+          this.cottageImages.images.forEach((image) => {
+            this.cottageImagesForDisplay.push({
+              default: image.defaultImage,
+              highlight: image.highlight,
+              name: image.name + ".jpg",
+              path: image.path,
+            });
+          });
         })
         .catch((err) => console.log(err));
     },
@@ -289,7 +341,9 @@ export default {
             "http://localhost:8091/reservationCottage/createReservation/",
             {
               cottageId: this.cottageId,
-              cottageReservationDateAndTime: new Date(this.cottageReservationDateAndTime.toString()),
+              cottageReservationDateAndTime: new Date(
+                this.cottageReservationDateAndTime.toString()
+              ),
               duration: this.duration,
               numberOfGuests: this.numberOfGuests,
               reservationPrice: this.priceReservation,
@@ -311,6 +365,9 @@ export default {
           .catch((err) => console.log(err));
       }
     },
+    markIsPrimary(index, fileList) {
+      console.log("markIsPrimary data", index, fileList);
+    },
   },
 };
 </script>
@@ -331,5 +388,11 @@ export default {
   margin: auto;
   margin-top: 2%;
   width: 90%;
+}
+.images {
+  width: 60%;
+  margin-left: 36%;
+  margin-top: 3%;
+  height: 300px;
 }
 </style>
