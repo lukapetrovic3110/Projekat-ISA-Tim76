@@ -1,5 +1,6 @@
 package Team76.InternetSoftwareArchitecture.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,4 +37,8 @@ public interface ICottageRepository extends JpaRepository<Cottage, Long> {
 	@Transactional
 	@Query(value = "INSERT INTO user_cottage_subscriptions (client_user_id, cottage_subscriptions_cottage_id) VALUES (:userId, :cottageId)", nativeQuery = true)
 	void addNewCottageSubscriptions(Long userId, Long cottageId);
+	
+	//@Query(value = "SELECT * FROM cottage WHERE availability_start < ?1 and availability_end > ?2", nativeQuery = true)
+	//List<Cottage> getAllAvailableCottagesForDateInterval(Date startDate, Date endDate);
+
 }

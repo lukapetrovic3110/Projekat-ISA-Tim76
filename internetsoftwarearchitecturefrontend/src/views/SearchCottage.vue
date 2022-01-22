@@ -57,75 +57,78 @@
                       <v-container>
                         <v-simple-table>
                           <tr>
-                              <v-menu
-                                v-model="cottageReservationDateMenu"
-                                :close-on-content-click="false"
-                                :nudge-right="31"
-                                transition="scale-transition"
-                                offset-y
-                                min-width="auto"
-                              >
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-text-field
-                                    v-model="cottageReservationDate"
-                                    label="Reservation start date"
-                                    prepend-icon="mdi-calendar"
-                                    :allowed-dates="disablePastDates"
-                                    v-bind:readonly="true"
-                                    v-bind="attrs"
-                                    v-on="on"
-                                  ></v-text-field>
-                                </template>
-                                <v-date-picker
+                            <v-menu
+                              v-model="cottageReservationDateMenu"
+                              :close-on-content-click="false"
+                              :nudge-right="31"
+                              transition="scale-transition"
+                              offset-y
+                              min-width="auto"
+                            >
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-text-field
                                   v-model="cottageReservationDate"
+                                  label="Reservation start date"
+                                  prepend-icon="mdi-calendar"
                                   :allowed-dates="disablePastDates"
-                                  color="info"
-                                  header-color="primary"
-                                  @input="cottageReservationDateMenu = false"
-                                ></v-date-picker>
-                              </v-menu>
-                              <v-spacer></v-spacer>
-                         
+                                  v-bind:readonly="true"
+                                  v-bind="attrs"
+                                  v-on="on"
+                                ></v-text-field>
+                              </template>
+                              <v-date-picker
+                                v-model="cottageReservationDate"
+                                :allowed-dates="disablePastDates"
+                                color="info"
+                                header-color="primary"
+                                @input="cottageReservationDateMenu = false"
+                              ></v-date-picker>
+                            </v-menu>
+                            <v-spacer></v-spacer>
                           </tr>
                           <tr>
-                              <v-menu
-                                ref="cottageReservationTimeMenu"
-                                v-model="cottageReservationTimeMenu"
-                                :close-on-content-click="false"
-                                :nudge-right="31"
-                                :return-value.sync="cottageReservationTime"
-                                transition="scale-transition"
-                                offset-y
-                                max-width="31%"
-                                min-width="20%"
-                              >
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-text-field
-                                    v-model="cottageReservationTime"
-                                    label="Reservation start time"
-                                    prepend-icon="mdi-clock-time-four-outline"
-                                    v-bind:readonly="true"
-                                    v-bind="attrs"
-                                    v-on="on"
-                                  ></v-text-field>
-                                </template>
-                                <v-time-picker
+                            <v-menu
+                              ref="cottageReservationTimeMenu"
+                              v-model="cottageReservationTimeMenu"
+                              :close-on-content-click="false"
+                              :nudge-right="31"
+                              :return-value.sync="cottageReservationTime"
+                              transition="scale-transition"
+                              offset-y
+                              max-width="31%"
+                              min-width="20%"
+                            >
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-text-field
                                   v-model="cottageReservationTime"
-                                  full-width
-                                  color="info"
-                                  header-color="primary"
-                                  @click:minute="$refs.cottageReservationTimeMenu.save(cottageReservationTime)"
-                                ></v-time-picker>
-                              </v-menu>
+                                  label="Reservation start time"
+                                  prepend-icon="mdi-clock-time-four-outline"
+                                  v-bind:readonly="true"
+                                  v-bind="attrs"
+                                  v-on="on"
+                                ></v-text-field>
+                              </template>
+                              <v-time-picker
+                                v-model="cottageReservationTime"
+                                full-width
+                                color="info"
+                                header-color="primary"
+                                @click:minute="
+                                  $refs.cottageReservationTimeMenu.save(
+                                    cottageReservationTime
+                                  )
+                                "
+                              ></v-time-picker>
+                            </v-menu>
                           </tr>
                           <tr>
-                              <v-text-field
-                                label="Duration (days)"
-                                type="number"
-                                min="1"
-                                v-model="duration"
-                              >
-                        </v-text-field>
+                            <v-text-field
+                              label="Duration (days)"
+                              type="number"
+                              min="1"
+                              v-model="duration"
+                            >
+                            </v-text-field>
                           </tr>
                         </v-simple-table>
                       </v-container>
@@ -137,7 +140,7 @@
                         text
                         @click="findAvailableCottagesForSelectedDateInterval"
                       >
-                        Accept</v-btn
+                        Search</v-btn
                       >
                       <v-spacer></v-spacer>
                       <v-btn color="red" text @click="closeSearchByDateDialog">
@@ -147,7 +150,7 @@
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
-                <v-btn x-medium color="blue" @click="openDialogSearchByDate">
+                <v-btn v-if="isClientLogged" x-medium color="blue" @click="openDialogSearchByDate">
                   Search by date
                 </v-btn>
               </template>
@@ -315,8 +318,11 @@ export default {
       .substr(0, 10),
     cottageReservationTime: null,
     duration: null,
+    client: null,
+    isClientLogged: false,
   }),
   mounted() {
+    this.init();
     this.displayAllCottage();
   },
   computed: {
@@ -345,6 +351,18 @@ export default {
           .substr(0, 10)
       );
     },
+    init() {
+      this.axios
+        .get("http://localhost:8091/client", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          this.client = response.data;
+          this.isClientLogged = true;
+        });
+    },
     displayAllCottage() {
       this.axios
         .get("http://localhost:8091/cottage")
@@ -358,26 +376,57 @@ export default {
       this.dialogSearchByDate = true;
     },
     findAvailableCottagesForSelectedDateInterval() {
-      if(this.cottageReservationDate == null || this.cottageReservationTime == null || this.duration == null) {
-         alert("The fields used for searching availible dates for cottages must not be empty!");
+      if (
+        this.cottageReservationDate == null ||
+        this.cottageReservationTime == null ||
+        this.duration == null
+      ) {
+        alert(
+          "The fields used for searching availible dates for cottages must not be empty!"
+        );
       } else if (this.duration <= 0) {
         alert("Duration must be positive number!");
       } else {
-        console.log(this.cottageReservationDate);
-        console.log(this.cottageReservationTime);
-        console.log(this.duration);
         let strTime = this.cottageReservationTime + ":00";
-        let cottageReservationDateAndTime = new Date(this.cottageReservationDate.toString() + " " + strTime);
+        let cottageReservationDateAndTime = new Date(
+          this.cottageReservationDate.toString() + " " + strTime
+        );
         console.log(cottageReservationDateAndTime);
+        console.log(this.duration);
         this.axios
           .get(
-            "http://localhost:8091/cottage/findAvailableCottagesForSelectedDateInterval/" + cottageReservationDateAndTime + "/" + this.duration
+            "http://localhost:8091/cottage/findAvailableCottagesForSelectedDateInterval/" + cottageReservationDateAndTime + "/" + this.duration, 
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
           )
-          .then((response) => console.log(response.data));
+          .then((response) => {
+            console.log(response.data);
+            if(response.data.length > 0) {
+              this.items = response.data;
+              if (response.data.length > 1) {
+                alert("There are exist cottages available for the desired date interval, so you can choose one and schedule a reservation.");
+              } else {
+                alert("There is a cottage available for the desired date, so you can schedule a reservation.");
+              }
+            } else {
+              alert("There are not exist cottages available for the desired date interval.");  
+            }
+          });
+          this.closeSearchByDateDialog();
       }
     },
     closeSearchByDateDialog() {
       this.dialogSearchByDate = false;
+      this.cottageReservationTime = null;
+      this.cottageReservationDate = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .substr(0, 10);
+      this.duration = null;
     },
   },
 };

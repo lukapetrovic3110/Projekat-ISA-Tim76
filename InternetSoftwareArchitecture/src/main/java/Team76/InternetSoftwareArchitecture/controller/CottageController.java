@@ -68,7 +68,7 @@ public class CottageController {
 		return new ResponseEntity<CottageDTO>(cottageService.getCottageById(cottageId), HttpStatus.OK);
 	}
 	
-	
+	@PreAuthorize("hasRole('ROLE_CLIENT')")
 	@GetMapping("/findAvailableCottagesForSelectedDateInterval/{startDateAndTime}/{duration}")
 	public ResponseEntity<List<CottageDTO>> findAvailableCottagesForSelectedDateInterval(@PathVariable Date startDateAndTime,@PathVariable Integer duration) {
 		return new ResponseEntity<List<CottageDTO>>(cottageService.findAvailableCottagesForSelectedDateInterval(startDateAndTime, duration), HttpStatus.OK);
