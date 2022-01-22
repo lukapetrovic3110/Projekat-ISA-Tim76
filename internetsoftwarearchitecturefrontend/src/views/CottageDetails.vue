@@ -501,9 +501,9 @@ export default {
             }
           })
           .catch((err) => console.log(err));
-        localStorage.setItem("cottageReservationDateAndTime", null);
-        localStorage.setItem("duration", null);
-        localStorage.setItem("numberOfGuests", null);
+        localStorage.setItem("cottageReservationDateAndTime", "");
+        localStorage.setItem("duration", "");
+        localStorage.setItem("numberOfGuests", "");
       }
     },
     markIsPrimary(index, fileList) {

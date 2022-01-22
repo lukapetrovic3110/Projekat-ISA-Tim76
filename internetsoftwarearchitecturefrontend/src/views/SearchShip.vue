@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 id="caption">Search ship or boat</h1>
+    <h1 id="caption">Search ship</h1>
     <v-card id="content" justify-center>
       <v-container fluid>
         <v-data-iterator
@@ -123,7 +123,7 @@
                           </tr>
                           <tr>
                             <v-text-field
-                              label="Duration (hours)"
+                              label="Duration (days)"
                               type="number"
                               min="1"
                               v-model="duration"
@@ -332,6 +332,7 @@ export default {
     duration: null,
     numberOfGuests: null,
     client: null,
+    shipReservationDateAndTime: null,
     isClientLogged: false,
     isSearchVisible: true,
     isResetVisible: false,
@@ -377,6 +378,9 @@ export default {
         .then((response) => {
           this.client = response.data;
           this.isClientLogged = true;
+          localStorage.setItem("shipReservationDateAndTime", "");
+          localStorage.setItem("duration", "");
+          localStorage.setItem("numberOfGuests", "");
         });
     },
     displayAllShip() {
@@ -408,17 +412,20 @@ export default {
         alert("Enter valid duration!");
       } else if (this.numberOfGuests <= 0) {
         alert("Enter the correct number of guests!");
-      } else {
+      }
+      else {
         let strTime = this.shipReservationTime + ":00";
-        let shipReservationDateAndTime = new Date(
+        this.shipReservationDateAndTime = new Date(
           this.shipReservationDate.toString() + " " + strTime
         );
-        console.log(shipReservationDateAndTime);
+        console.log(this.shipReservationDateAndTime);
         console.log(this.duration);
         console.log(this.numberOfGuests);
+        let numberOfGuests = this.numberOfGuests;
+        let duration = this.duration;
         this.axios
           .get(
-            "http://localhost:8091/ship/findAvailableShipsForSelectedDateIntervalAndNumberOfGuests/" + shipReservationDateAndTime + "/" + this.duration + "/" + this.numberOfGuests, 
+            "http://localhost:8091/ship/findAvailableShipsForSelectedDateIntervalAndNumberOfGuests/" + this.shipReservationDateAndTime + "/" + this.duration + "/" + this.numberOfGuests, 
             {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("token"),
@@ -429,6 +436,10 @@ export default {
             console.log(response.data);
             if(response.data.length > 0) {
               this.items = response.data;
+              localStorage.setItem("numberOfGuests", numberOfGuests);
+              localStorage.setItem("shipReservationDateAndTime", this.shipReservationDateAndTime);
+              localStorage.setItem("duration", duration);
+              
               if (response.data.length > 1) {
                 alert("There are exist ships available for the desired date interval and number of guests, so you can choose one and schedule a reservation.");
               } else {
@@ -459,6 +470,9 @@ export default {
       this.items = this.allActiveShip;
       this.isResetVisible = false;
       this.isSearchVisible = true;
+      localStorage.setItem("shipReservationDateAndTime", "");
+      localStorage.setItem("duration", "");
+      localStorage.setItem("numberOfGuests", "");
     },
   },
 };
