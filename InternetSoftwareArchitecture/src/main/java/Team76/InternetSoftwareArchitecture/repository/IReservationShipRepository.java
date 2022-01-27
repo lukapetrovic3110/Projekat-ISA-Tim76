@@ -24,4 +24,8 @@ public interface IReservationShipRepository extends JpaRepository<ReservationShi
 	
 	@Query(value = "SELECT * FROM reservation_ship WHERE ship_id=:shipId and client_id=:clientId and reservation_status = 'CANCELLED'", nativeQuery = true)
 	List<ReservationShip> findAllCanceledReservationForShipByClientId(Long shipId, Long clientId);
+	
+	@Query(value = "SELECT * FROM reservation_ship WHERE ship_id=:shipId", nativeQuery = true)
+	List<ReservationShip> findAllReservationsForShip(Long shipId);
+	
 }

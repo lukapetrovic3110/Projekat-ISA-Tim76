@@ -3,12 +3,14 @@ package Team76.InternetSoftwareArchitecture.service;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import Team76.InternetSoftwareArchitecture.dto.AddShipDTO;
 import Team76.InternetSoftwareArchitecture.dto.ShipDTO;
 import Team76.InternetSoftwareArchitecture.iservice.IShipService;
 import Team76.InternetSoftwareArchitecture.model.Client;
@@ -31,8 +33,46 @@ public class ShipService implements IShipService  {
 	}
 	
 	@Override
+	public Ship saveShip(AddShipDTO addShipDTO) {
+		System.out.println("-----------------");
+		System.out.println("-----------------");
+		System.out.println(addShipDTO.toString());
+		System.out.println("-----------------");
+		System.out.println("-----------------");
+		
+		return new Ship();
+	}
+	
+	@Override
 	public List<Ship> all() {
 		return shipRepository.findAll();
+	}
+	
+	@Override
+	public List<ShipDTO> getAllShipsForShipOwner(Long shipOwnerId) {
+		List<Ship> shipsForShipOwner = shipRepository.getAllShipsForShipOwner(shipOwnerId);
+		ArrayList<ShipDTO> shipDTOs = new ArrayList<ShipDTO>();
+		
+		for (Ship ship : shipsForShipOwner) {
+			List<Image> images = ship.getImages();
+			List<String> shipImages = new ArrayList<String>();
+			for (Image image : images) {
+				shipImages.add(image.getName());
+			}
+			
+			ShipDTO shipDTO = new ShipDTO(ship.getShipId(), ship.getName(), ship.getDescription(),
+					ship.getAddress().getStreet(), ship.getAddress().getStreetNumber(),
+					ship.getAddress().getCity(), ship.getAddress().getCountry(),
+					ship.getAddress().getLongitude(), ship.getAddress().getLatitude(), ship.getRating(), ship.getPricePerHour(), ship.getLength(),
+					ship.getEngineNumber(), ship.getEnginePower(), ship.getMaxSpeed(), ship.getCapacity(),
+					ship.getShipType(), ship.getShipOwner().getFirstName(), ship.getShipOwner().getLastName(), ship.getShipOwner().getEmail(), ship.getShipOwner().getPhoneNumber(),
+					shipImages, ship.getAvailabilityStart(), ship.getAvailabilityEnd(),
+					null, null);
+
+			shipDTOs.add(shipDTO);
+		}
+		
+		return shipDTOs;
 	}
 	
 	@Override
@@ -102,22 +142,21 @@ public class ShipService implements IShipService  {
 				dateAndTimeReservationCalendarEnd.add(Calendar.HOUR_OF_DAY, duration);
 				Long endReservation = dateAndTimeReservationCalendarEnd.getTimeInMillis();
 				
-				// I - u sredini trajanja zakazanog pregleda
 				if (startReservation <= startDesiredReservation && endReservation >= endDesiredReservation) {
 					isAvailableShip = false;
 					break;
 				}
-				// II - okruzi vec zakazan pregled
+				
 				if (startReservation >= startDesiredReservation && endReservation <= endDesiredReservation) {
 					isAvailableShip = false;
 					break;
 				}
-				// III
+
 				if (startReservation >= startDesiredReservation && startReservation <= endDesiredReservation) {
 					isAvailableShip = false;
 					break;
 				} 
-				// IV 
+		
 				if (startDesiredReservation <= endReservation && endReservation <= endDesiredReservation) {
 					isAvailableShip = false;
 					break;

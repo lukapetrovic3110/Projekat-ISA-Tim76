@@ -141,7 +141,13 @@ export default {
           { title: "Write a report for reservation", path: "/cottageOwnerReservationReport" },
         ];
       } else if (this.userType === "SHIP_OWNER") {
-        this.items = [{ title: "Home", path: "/" }];
+        this.items = [
+          { title: "Home", path: "/" },
+          { title: "My ships", path: "/myShips" },
+          { title: "Register new ship", path: "/addShip" },
+          { title: "Reservation history", path: "/shipOwnerReservationHistory" },
+          { title: "Write a report for reservation", path: "/shipOwnerReservationReport" },
+        ];
       } else if (this.userType === "FISHING_INSTRUCTOR") {
         this.items = [{ title: "Home", path: "/" }];
       } else if (this.userType === "SYSTEM_ADMINISTRATOR") {

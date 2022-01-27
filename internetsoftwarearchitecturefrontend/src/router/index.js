@@ -220,6 +220,36 @@ const routes = [
     name: "EditShipOwnerPersonalInfo",
     component: () => import("../views/EditShipOwnerPersonalInfo.vue"),
   },
+  {
+    path: "/addShip",
+    name: "AddShip",
+    component: () => import("../views/AddShip.vue"),
+  },
+  {
+    path: "/myShips",
+    name: "MyShips",
+    component: () => import("../views/MyShips.vue"),
+  },
+  {
+    path: "/shipAvailabilityCalendar",
+    name: "ShipAvailabilityCalendar",
+    component: () => import("../views/ShipAvailabilityCalendar.vue"),
+  },
+  {
+    path: "/shipFastReservation",
+    name: "ShipFastReservation",
+    component: () => import("../views/ShipFastReservation.vue"),
+  },
+  {
+    path: "/shipOwnerReservationReport",
+    name: "ShipOwnerReservationReport",
+    component: () => import("../views/ShipOwnerReservationReport.vue"),
+  },
+  {
+    path: "/shipOwnerReservationHistory",
+    name: "ShipOwnerReservationHistory",
+    component: () => import("../views/ShipOwnerReservationHistory.vue"),
+  },
 ];
 const router = new VueRouter({
   mode: "history",

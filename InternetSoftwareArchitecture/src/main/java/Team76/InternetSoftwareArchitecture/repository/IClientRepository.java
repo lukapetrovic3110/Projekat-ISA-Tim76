@@ -15,5 +15,8 @@ public interface IClientRepository extends JpaRepository<Client, Long> {
 	
 	@Query(value = "SELECT client_user_id FROM user_cottage_subscriptions WHERE cottage_subscriptions_cottage_id=:cottageId", nativeQuery = true)
 	List<Long> getAllSubscribedClientIdForCottage(Long cottageId);
+	
+	@Query(value = "SELECT client_user_id FROM user_ship_subscriptions WHERE ship_subscriptions_ship_id=:shipId", nativeQuery = true)
+	List<Long> getAllSubscribedClientIdForShip(Long shipId);
 
 }
