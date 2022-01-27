@@ -301,40 +301,7 @@ public class ReservationShipService implements IReservationShipService {
 		
 		return createReservationResponseDTO;
 	}
-	
-	@Scheduled(cron = "1 * * * * *")
-	public void checkIfReservationsFinishedOrStarted() {
-		logger.info("I'm checking to see if any ship reservations have been finished or started in the meantime.");
-		List<ReservationShip> allScheduledReservation = reservationShipRepository.findByReservationStatus(ReservationStatus.SCHEDULED);
-		Date currentDate = new Date(System.currentTimeMillis());
-		for (ReservationShip reservationShip : allScheduledReservation) {
-			Date startReservationDate = reservationShip.getDateAndTime();
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(startReservationDate);
-			calendar.add(Calendar.HOUR_OF_DAY, reservationShip.getDuration());
-			Date endReservationDate = calendar.getTime(); 
-			
-			if(startReservationDate.getTime() <= currentDate.getTime() && currentDate.getTime() <= endReservationDate.getTime()) {
-				reservationShip.setReservationStatus(ReservationStatus.STARTED);
-				reservationShipRepository.save(reservationShip);
-			}
-			
-			if(currentDate.after(endReservationDate)) {
-				reservationShip.setReservationStatus(ReservationStatus.FINISHED);
-				reservationShipRepository.save(reservationShip);
-			}
-		}
-		
-		List<ReservationShip> allWaitingReservation = reservationShipRepository.findByReservationStatus(ReservationStatus.WAITING);
-		for (ReservationShip reservationShip : allWaitingReservation) {
-			Date waitingReservationDate = reservationShip.getDateAndTime();
-			if(currentDate.after(waitingReservationDate)) {
-				reservationShip.setReservationStatus(ReservationStatus.FINISHED);
-				reservationShipRepository.save(reservationShip);
-			}
-		}
-	}
-	
+
 	@Override
 	public Boolean deleteFastReservation(DeleteShipReservationDTO deleteShipReservationDTO) {
 		ReservationShip reservationShip = reservationShipRepository.findByReservationShipId(deleteShipReservationDTO.getShipReservationId());
@@ -370,5 +337,38 @@ public class ReservationShipService implements IReservationShipService {
 		}
 		
 		return shipReservationCalendarDTO;
+  }
+  
+  @Scheduled(cron = "1 * * * * *")
+	public void checkIfReservationsFinishedOrStarted() {
+		logger.info("I'm checking to see if any ship reservations have been finished or started in the meantime.");
+		List<ReservationShip> allScheduledReservation = reservationShipRepository.findByReservationStatus(ReservationStatus.SCHEDULED);
+		Date currentDate = new Date(System.currentTimeMillis());
+		for (ReservationShip reservationShip : allScheduledReservation) {
+			Date startReservationDate = reservationShip.getDateAndTime();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(startReservationDate);
+			calendar.add(Calendar.HOUR_OF_DAY, reservationShip.getDuration());
+			Date endReservationDate = calendar.getTime(); 
+			
+			if(startReservationDate.getTime() <= currentDate.getTime() && currentDate.getTime() <= endReservationDate.getTime()) {
+				reservationShip.setReservationStatus(ReservationStatus.STARTED);
+				reservationShipRepository.save(reservationShip);
+			}
+			
+			if(currentDate.after(endReservationDate)) {
+				reservationShip.setReservationStatus(ReservationStatus.FINISHED);
+				reservationShipRepository.save(reservationShip);
+			}
+		}
+		
+		List<ReservationShip> allWaitingReservation = reservationShipRepository.findByReservationStatus(ReservationStatus.WAITING);
+		for (ReservationShip reservationShip : allWaitingReservation) {
+			Date waitingReservationDate = reservationShip.getDateAndTime();
+			if(currentDate.after(waitingReservationDate)) {
+				reservationShip.setReservationStatus(ReservationStatus.FINISHED);
+				reservationShipRepository.save(reservationShip);
+			}
+		}
 	}
 }
