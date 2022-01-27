@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -329,7 +330,7 @@ public class ReservationCottageService implements IReservationCottageService {
 		return cottageReservationCalendarDTO;
 	}
 	
-	/* @Scheduled(cron = "1 * * * * *") // test na svaki minut
+	@Scheduled(cron = "1 * * * * *") // test na svaki minut
 	public void checkIfReservationsFinishedOrStarted() {
 		logger.info("I'm checking to see if any cottage reservations have been finished or started in the meantime.");
 		List<ReservationCottage> allScheduledReservation = reservationCottageRepository.findByReservationStatus(ReservationStatus.SCHEDULED);
@@ -362,6 +363,6 @@ public class ReservationCottageService implements IReservationCottageService {
 				reservationCottageRepository.save(reservationCottage);
 			}
 		}
-	}*/
+	}
 	
 }
