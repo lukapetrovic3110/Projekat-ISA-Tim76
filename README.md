@@ -5,7 +5,7 @@ FTN Novi Sad - Primenjene računarske nauke i informatika
 
 |       Student 1       |       Student 2     |
 |:----------------------:|:----------------------:|
-| [Luka Petrović](https://github.com/lukapetrovic3110) <br> <img src="https://avatars.githubusercontent.com/u/58331163?s=400&u=07ea033ef6ec9a611746bac3e8fb257f0099e261&v=4" width="240" height="240"> | [Goran Lojanica](https://github.com/goranlo99) <br> <img src="https://avatars.githubusercontent.com/u/58367748?v=4" width="240" height="240"> |
+| [Luka Petrović](https://github.com/lukapetrovic3110) <br> <img src="https://avatars.githubusercontent.com/u/58331163?s=400&u=07ea033ef6ec9a611746bac3e8fb257f0099e261&v=4" width="240" height="240"> | [Goran Lojanica](https://github.com/goranlojanica1) <br> <img src="https://avatars.githubusercontent.com/u/58367748?v=4" width="240" height="240"> |
 
 ## Tehnologije korišćene na projektu
 - Spring Boot
