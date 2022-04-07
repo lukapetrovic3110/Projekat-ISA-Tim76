@@ -157,7 +157,7 @@ public class ReservationAdventureService implements IReservationAdventureService
 	}
 	
 	private void sendReservationEmail(String clientEmail, String caption, String text) {
-		emailService.sendNotificaitionAsync(clientEmail, caption, text);
+		emailService.sendNotificationAsync(clientEmail, caption, text);
 	}
 	
 	@Override

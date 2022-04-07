@@ -90,7 +90,7 @@ public class UserDeleteAccountService implements IUserDeleteAccountService {
 		text.append("We have accepted your profile delete request.");
 		text.append("\nComment:\n");
 		text.append(answerProfileDeleteRequestDTO.getComment());
-		emailService.sendNotificaitionAsync(answerProfileDeleteRequestDTO.getEmail(), "Accepted profile delete request",
+		emailService.sendNotificationAsync(answerProfileDeleteRequestDTO.getEmail(), "Accepted profile delete request",
 				text.toString());
 
 	}
@@ -114,7 +114,7 @@ public class UserDeleteAccountService implements IUserDeleteAccountService {
 		text.append("We have declined your profile delete request.");
 		text.append("\nComment:\n");
 		text.append(answerProfileDeleteRequestDTO.getComment());
-		emailService.sendNotificaitionAsync(answerProfileDeleteRequestDTO.getEmail(), "Declined profile delete request",
+		emailService.sendNotificationAsync(answerProfileDeleteRequestDTO.getEmail(), "Declined profile delete request",
 				text.toString());
 	}
 

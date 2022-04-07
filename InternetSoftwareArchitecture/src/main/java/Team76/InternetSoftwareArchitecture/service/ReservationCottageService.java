@@ -258,7 +258,7 @@ public class ReservationCottageService implements IReservationCottageService {
 	}
 	
 	private void sendReservationEmail(String clientEmail, String caption, String text) {
-		emailService.sendNotificaitionAsync(clientEmail, caption, text);
+		emailService.sendNotificationAsync(clientEmail, caption, text);
 	}
 	
 
@@ -289,7 +289,7 @@ public class ReservationCottageService implements IReservationCottageService {
 	private void sendCottageReservationEmail(String clientEmail, String cottageName) {
 		StringBuilder text = new StringBuilder();
 		text.append("New reservation is available.");
-		emailService.sendNotificaitionAsync(clientEmail, cottageName, text.toString());
+		emailService.sendNotificationAsync(clientEmail, cottageName, text.toString());
 	}
 
 	@Override

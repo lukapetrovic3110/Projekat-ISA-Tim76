@@ -218,7 +218,7 @@ public class UserService implements IUserService {
 		StringBuilder text = new StringBuilder();
 		text.append("We have accepted your registration request.");
 		text.append("\nYou can log in by visiting http://localhost:8083/auth/login");
-		emailService.sendNotificaitionAsync(acceptRegistrationRequestDTO.getRequestEmail(), "Approved registration", text.toString());
+		emailService.sendNotificationAsync(acceptRegistrationRequestDTO.getRequestEmail(), "Approved registration", text.toString());
 	}
 
 	@Override
@@ -247,7 +247,7 @@ public class UserService implements IUserService {
 		text.append("Unfortunately, we had to decline your registration request.");
 		text.append("\nExplanation:\n");
 		text.append(declineRegistrationRequestDTO.getComment());
-		emailService.sendNotificaitionAsync(declineRegistrationRequestDTO.getRequestEmail(), "Declined registration request", text.toString());
+		emailService.sendNotificationAsync(declineRegistrationRequestDTO.getRequestEmail(), "Declined registration request", text.toString());
 	}
 	
 
@@ -282,7 +282,7 @@ public class UserService implements IUserService {
 			String subject = "Confirm registration";
 			String message = "Please confirm your registration by clicking the link below \n\n\n"
 					+ "http://localhost:8083/confirmRegistration/" + confirmationToken.getConfirmationToken();
-			emailService.sendNotificaitionAsync(recipientEmail, subject, message);
+			emailService.sendNotificationAsync(recipientEmail, subject, message);
 		} catch (Exception e) {
 			System.out.println("Error sending email: " + e.getMessage());
 		}

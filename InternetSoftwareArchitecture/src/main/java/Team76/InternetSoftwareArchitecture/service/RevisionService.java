@@ -206,7 +206,7 @@ public class RevisionService implements IRevisionService {
 	}
 	
 	private void sendAcceptedEmail(String userEmail, String revisionComment, String revisionRating, String clientName, String systemAdministratorName) {
-		emailService.sendNotificaitionAsync(userEmail, "New revision", createMessageText("You have received a new revision.", revisionComment, revisionRating, clientName, systemAdministratorName));
+		emailService.sendNotificationAsync(userEmail, "New revision", createMessageText("You have received a new revision.", revisionComment, revisionRating, clientName, systemAdministratorName));
 	}
 	
 	private String createMessageText(String captionMessageText, String revisionComment, String revisionRating, String clientName, String systemAdministratorName) {

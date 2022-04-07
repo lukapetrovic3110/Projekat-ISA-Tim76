@@ -198,51 +198,51 @@ public class ComplaintService implements IComplaintService {
 	
 	private void sendAcceptedCottageComplaintEmails(AnswerComplaintRequestDTO answerComplaintRequestDTO, String complaintComment, String systemAdministratorName) {
 		String captionFirstMessageText = "We have accepted your cottage complaint request.";
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Accepted cottage complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
+		emailService.sendNotificationAsync(answerComplaintRequestDTO.getClientEmail(), "Accepted cottage complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
 		
 		String captionSecondMessageText = "We have accepted the complaint against your cottage.";
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Cottage complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
+		emailService.sendNotificationAsync(answerComplaintRequestDTO.getUserEmail(), "Cottage complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
 	}
 	
 	private void sendAcceptedShipComplaintEmails(AnswerComplaintRequestDTO answerComplaintRequestDTO, String complaintComment, String systemAdministratorName) {
 		String captionFirstMessageText = "We have accepted your ship complaint request.";
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Accepted ship complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
+		emailService.sendNotificationAsync(answerComplaintRequestDTO.getClientEmail(), "Accepted ship complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
 		
 		String captionSecondMessageText = "We have accepted the complaint against your ship.";
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Ship complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
+		emailService.sendNotificationAsync(answerComplaintRequestDTO.getUserEmail(), "Ship complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
 	}
 	
 	private void sendAcceptedUserComplaintEmails(AnswerComplaintRequestDTO answerComplaintRequestDTO, String complaintComment, String systemAdministratorName) {
 		String captionFirstMessageText = "We have accepted your complaint request.";
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Accepted complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
+		emailService.sendNotificationAsync(answerComplaintRequestDTO.getClientEmail(), "Accepted complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
 		
 		String captionSecondMessageText = "We have accepted the complaint against you.";
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
+		emailService.sendNotificationAsync(answerComplaintRequestDTO.getUserEmail(), "Complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
 		
 	}
 	
 	private void sendDeclinedCottageComplaintEmails(AnswerComplaintRequestDTO answerComplaintRequestDTO, String complaintComment, String systemAdministratorName) {
 		String captionFirstMessageText = "We have declined your cottage complaint request.";
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Declined cottage complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
+		emailService.sendNotificationAsync(answerComplaintRequestDTO.getClientEmail(), "Declined cottage complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
 		
 		String captionSecondMessageText = "We have declined the complaint against your cottage.";
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Cottage complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
+		emailService.sendNotificationAsync(answerComplaintRequestDTO.getUserEmail(), "Cottage complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
 	}
 	
 	private void sendDeclinedShipComplaintEmails(AnswerComplaintRequestDTO answerComplaintRequestDTO, String complaintComment, String systemAdministratorName) {
 		String captionFirstMessageText = "We have declined your ship complaint request.";
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Declined ship complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
+		emailService.sendNotificationAsync(answerComplaintRequestDTO.getClientEmail(), "Declined ship complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
 		
 		String captionSecondMessageText = "We have declined the complaint against your ship.";
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Ship complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
+		emailService.sendNotificationAsync(answerComplaintRequestDTO.getUserEmail(), "Ship complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
 	}
 	
 	private void sendDeclinedUserComplaintEmails(AnswerComplaintRequestDTO answerComplaintRequestDTO, String complaintComment, String systemAdministratorName) {
 		String captionFirstMessageText = "We have declined your complaint request.";
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getClientEmail(), "Declined complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
+		emailService.sendNotificationAsync(answerComplaintRequestDTO.getClientEmail(), "Declined complaint request", createFirstMessageText(answerComplaintRequestDTO, captionFirstMessageText, complaintComment, systemAdministratorName));
 		
 		String captionSecondMessageText = "We have declined the complaint against you.";
-		emailService.sendNotificaitionAsync(answerComplaintRequestDTO.getUserEmail(), "Complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
+		emailService.sendNotificationAsync(answerComplaintRequestDTO.getUserEmail(), "Complaint", createSecondMessageText(answerComplaintRequestDTO, captionSecondMessageText, complaintComment, systemAdministratorName));
 	}
 	
 	private String createFirstMessageText(AnswerComplaintRequestDTO answerComplaintRequestDTO, String captionFirstMessageText, String complaintComment, String systemAdministratorName) {

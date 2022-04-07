@@ -19,7 +19,7 @@ public class EmailService {
 		this.env = env;
 	}
 
-	public void sendNotificaitionAsync(String emailAddress, String subject, String text) {
+	public void sendNotificationAsync(String emailAddress, String subject, String text) {
 		System.out.println(env.getProperty("spring.mail.username"));
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(emailAddress);

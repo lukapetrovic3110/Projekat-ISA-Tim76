@@ -135,7 +135,7 @@ public class ReservationShipService implements IReservationShipService {
 	private void sendShipReservationEmail(String clientEmail, String shipName) {
 		StringBuilder text = new StringBuilder();
 		text.append("New reservation is available.");
-		emailService.sendNotificaitionAsync(clientEmail, shipName, text.toString());
+		emailService.sendNotificationAsync(clientEmail, shipName, text.toString());
 	}
 	
 	@Override
@@ -257,7 +257,7 @@ public class ReservationShipService implements IReservationShipService {
 	}
 	
 	private void sendReservationEmail(String clientEmail, String caption, String text) {
-		emailService.sendNotificaitionAsync(clientEmail, caption, text);
+		emailService.sendNotificationAsync(clientEmail, caption, text);
 	}
 
 	@Override
