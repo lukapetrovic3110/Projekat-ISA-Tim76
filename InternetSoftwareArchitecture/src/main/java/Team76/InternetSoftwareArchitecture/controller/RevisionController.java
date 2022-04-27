@@ -81,7 +81,7 @@ public class RevisionController {
 	
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
 	@PutMapping("/acceptRevisionRequest")
-	public ResponseEntity<?> acceptCottageComplaintRequest(@RequestBody AcceptRevisionRequestDTO acceptRevisionRequestDTO) {
+	public ResponseEntity<?> acceptRevisionRequest(@RequestBody AcceptRevisionRequestDTO acceptRevisionRequestDTO) {
 		try {
 			return new ResponseEntity<Boolean>(revisionService.acceptRevisionRequest(acceptRevisionRequestDTO), HttpStatus.OK);
 		} catch (Exception e) {
@@ -91,7 +91,7 @@ public class RevisionController {
 	
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
 	@PutMapping("/declineRevisionRequest")
-	public ResponseEntity<?> declineCottageComplaintRequest(@RequestBody DeclineRevisionRequestDTO declineRevisionRequestDTO) {
+	public ResponseEntity<?> declineRevisionRequest(@RequestBody DeclineRevisionRequestDTO declineRevisionRequestDTO) {
 		try {
 			return new ResponseEntity<Boolean>(revisionService.declineRevisionRequest(declineRevisionRequestDTO), HttpStatus.OK);
 		} catch (Exception e) {
